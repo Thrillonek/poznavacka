@@ -8,28 +8,19 @@ function App() {
 	const [max, setMax] = useState('150');
 
 	let check = [];
-	let files;
-	let baseURI = '';
+	let files = __FILES__;
 
 	useEffect(() => {
-		if (!files) {
-			fetch(baseURI + '/files')
-				.then((res) => res.json())
-				.then((data) => {
-					const arr = data.files;
-					arr.sort((a, b) => {
-						let ai = a.split('');
-						ai = ai.filter((n) => !isNaN(n));
-						ai = ai.join('');
-						let bi = b.split('');
-						bi = bi.filter((n) => !isNaN(n));
-						bi = bi.join('');
-						return parseInt(ai) - parseInt(bi);
-					});
-					files = arr;
-					change();
-				});
-		}
+		files.sort((a, b) => {
+			let ai = a.split('');
+			ai = ai.filter((n) => !isNaN(n));
+			ai = ai.join('');
+			let bi = b.split('');
+			bi = bi.filter((n) => !isNaN(n));
+			bi = bi.join('');
+			return parseInt(ai) - parseInt(bi);
+		});
+		change();
 
 		document.querySelector('.change-btn').onclick = (e) => {
 			change();
