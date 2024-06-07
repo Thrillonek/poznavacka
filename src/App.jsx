@@ -54,7 +54,7 @@ function App() {
 	}
 
 	return (
-		<div className='w-full h-screen flex flex-col justify-between items-center bg-gray-700'>
+		<div className='w-full h-svh flex flex-col justify-between items-center bg-gray-700'>
 			<div className='h-1/2 p-2'>
 				<img className='h-full max-h-full rounded' src={encodeURI('./assets/' + text)} />
 				<p className='text-2xl text-white text-center mt-2 font-semibold'>{show && text.slice(0, -4).replace(/\d+/g, '')}</p>
