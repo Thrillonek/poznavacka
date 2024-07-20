@@ -42,9 +42,9 @@ function App() {
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 		let idx = rng(parseInt(min) - 1 || 0, parseInt(max) - 1 || files.length);
-  let mid = max // 2
+  let mid = (max - min) // 2
 		while (check.includes(idx)) {
-   let adjustment = Math.round(max /10)
+   let adjustment = Math.round((max - min) /10)
    if(mid >= idx)	 idx += adjustment
    else idx -= adjustment
 		}
