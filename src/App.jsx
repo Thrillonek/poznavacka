@@ -79,7 +79,7 @@ function App() {
 				<div className='md:hidden flex flex-col'>
 					<button className='my-1 py-1 px-2 bg-gray-500 rounded-lg change-btn'>Změnit rostlinu</button>
 					<button className='my-1 py-1 px-2 bg-gray-500 rounded-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
-						Odhalit název
+						{show ? "Skrýt" : "Odhalit"} název
 					</button>
 				</div>
 			</div>
