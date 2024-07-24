@@ -65,7 +65,7 @@ function App() {
 		<div className='w-full h-svh flex flex-col justify-between items-center bg-gray-700'>
 			<div className='h-1/2 p-2'>
 				<img onLoad={() => setIndex({number: index.number, imgLoaded: true})} className='h-full max-h-full rounded' src={encodeURI('./assets/' + text).replaceAll("+","%2b")} />
-				<p className='text-2xl text-center mt-2 font-semibold text-'+{error ? "red-400" : "white"}>{show && text.slice(0, -4).replace(/\d+/g, '') : (index.imgLoaded == true ? index.number : "Loading...")}</p>
+				<p className={'text-2xl text-center mt-2 font-semibold text-'+(error ? "red-400" : "white")}>{show && text.slice(0, -4).replace(/\d+/g, '') : (index.imgLoaded == true ? index.number : "Loading...")}</p>
 			</div>
 			<div className='h-1/2 flex flex-col justify-around items-center'>
 				<p className='font-bold text-gray-300 text-xl'>
