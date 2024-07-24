@@ -6,7 +6,7 @@ function App() {
 	const [text, setText] = useState();
 	const [min, setMin] = useState('1');
 	const [max, setMax] = useState('150');
- const [index, setIndex] = useState()
+ const [index, setIndex] = useState({ number: null, imgLoaded: false })
 
 	let check = [];
 	let files = __FILES__;
@@ -52,7 +52,7 @@ function App() {
    else idx -= adjustment
 		}
  
-  setIndex(idx+1)
+  setIndex({number:idx+1, imgLoaded: false})
 		if (check.length == 3) check.shift();
 		check.push(idx);
 
@@ -63,8 +63,8 @@ function App() {
 	return (
 		<div className='w-full h-svh flex flex-col justify-between items-center bg-gray-700'>
 			<div className='h-1/2 p-2'>
-				<img className='h-full max-h-full rounded' src={encodeURI('./assets/' + text).replaceAll("+","%2b")} />
-				<p className='text-2xl text-white text-center mt-2 font-semibold'>{show ? text.slice(0, -4).replace(/\d+/g, '') : index}</p>
+				<img onLoad={setIndex(prev => {...prev, imgLoaded: true})} className='h-full max-h-full rounded' src={encodeURI('./assets/' + text).replaceAll("+","%2b")} />
+				<p className='text-2xl text-white text-center mt-2 font-semibold'>{show ? text.slice(0, -4).replace(/\d+/g, '') : index.imgLoaded ? index.number : "Loading..."}</p>
 			</div>
 			<div className='h-1/2 flex flex-col justify-around items-center'>
 				<p className='font-bold text-gray-300 text-xl'>
