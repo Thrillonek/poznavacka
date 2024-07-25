@@ -46,7 +46,7 @@ function App() {
   if(max <= min) return setError("Dolní hranice musí být nižší než ta horní")
   if(!min || !max) return setError("Prosím vyplň obě hranice")
   if(min < 1) return setError("Dolní hranice nemůže být nižší než 1")
-  if(max > files.lengtg) setError("Horní hranice nemůže být vyšší než "+files.length)
+  if(max > files.length) return setError("Horní hranice nemůže být vyšší než "+files.length)
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
