@@ -12,6 +12,8 @@ function App() {
 	let check = [];
 	let files = __FILES__;
 
+ useEffect(() => change(), [])
+
 	useEffect(() => {
 		files.sort((a, b) => {
 			let ai = a.split('');
@@ -22,7 +24,6 @@ function App() {
 			bi = bi.join('');
 			return parseInt(ai) - parseInt(bi);
 		});
-		change();
 
 		document.querySelector('.change-btn').onclick = (e) => {
 			change();
