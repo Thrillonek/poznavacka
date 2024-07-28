@@ -10,9 +10,10 @@ function App() {
 	const [error, setError] = useState();
 
 	let check = [];
+	let prevIdx;
 	let files = __FILES__;
 
-	useEffect(() => change(), []);
+	useEffect(() => changeImg(), []);
 
 	useEffect(() => {
 		files.sort((a, b) => {
@@ -25,14 +26,9 @@ function App() {
 			return parseInt(ai) - parseInt(bi);
 		});
 
-		document.querySelector('.change-btn').onclick = (e) => {
-			change();
-			setShow(false);
-		};
-
 		document.body.onkeydown = (e) => {
 			if (e.key == 'ArrowUp') {
-				change();
+				changeImg();
 				setShow(false);
 			}
 			if (e.key == 'ArrowDown') {
@@ -41,31 +37,42 @@ function App() {
 		};
 	}, [min, max]);
 
-	function change() {
+	function changeImg(options) {
+		options?.show && setShow(options.show);
+
+		let minInt = parseInt(min);
+		let maxInt = parseInt(max);
+
 		setError(null);
-		if (max <= min) return setError('Dolní hranice musí být nižší než ta horní');
+		if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
 		if (!min || !max) return setError('Prosím vyplň obě hranice');
-		if (min < 1) return setError('Dolní hranice nemůže být nižší než 1');
-		if (max > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
+		if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
+		if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-		let idx = rng(parseInt(min) - 1 || 0, parseInt(max) - 1 || files.length);
-		let range = max - min;
-		let mid = Math.round(range / 2);
+		let idx = rng(minInt - 1 || 0, maxInt - 1 || files.length);
+		let range = maxInt - minInt + 1;
+		let mid = Math.ceil(range / 2 + minInt - 1);
+		let adjustment = mid > idx ? 1 : -1;
+
+		if (Math.round(range / 3) < check.length) check = [];
+
 		while (check.includes(idx)) {
-			if (range < 8) break;
-			let adjustment = Math.round(range / 10);
-			if (mid > idx) idx += adjustment;
-			else idx -= adjustment;
+			if (range < 3) break;
+			idx += adjustment;
 		}
 
+		if (range == 2 && idx == prevIdx) idx == minInt - 1 ? idx++ : idx--;
+
 		setIndex({ number: idx + 1, imgLoaded: false });
-		if (check.length == 3) check.shift();
+		if (range >= 3 && check.length == Math.floor(range / 3)) check.shift();
 		check.push(idx);
 
 		let name = files[idx];
 		setText(name);
+
+		prevIdx = idx;
 	}
 
 	return (
@@ -87,7 +94,9 @@ function App() {
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
 				</span>
 				<div className='flex flex-col md:hidden'>
-					<button className='bg-gray-500 my-1 px-2 py-1 rounded-lg change-btn'>Změnit rostlinu</button>
+					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 my-1 px-2 py-1 rounded-lg'>
+						Změnit rostlinu
+					</button>
 					<button className='bg-gray-500 my-1 px-2 py-1 rounded-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 						{show ? 'Skrýt' : 'Odhalit'} název
 					</button>
