@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
 
-	let check = [];
+	let forbiddenIdx = useRef([]);
 	let prevIdx;
 	let files = __FILES__;
 
@@ -56,18 +56,18 @@ function App() {
 		let mid = Math.ceil(range / 2 + minInt - 1);
 		let adjustment = mid > idx ? 1 : -1;
 
-		if (Math.round(range / 3) < check.length) check = [];
+		if (Math.floor(range / 3) < forbiddenIdx.current.length) forbiddenIdx.current = [];
 
-		while (check.includes(idx)) {
+		while (forbiddenIdx.current.includes(idx)) {
 			if (range < 3) break;
 			idx += adjustment;
 		}
 
 		if (range == 2 && idx == prevIdx) idx == minInt - 1 ? idx++ : idx--;
 
-		setIndex({ number: idx + 1, imgLoaded: false });
-		if (range >= 3 && check.length == Math.floor(range / 3)) check.shift();
-		check.push(idx);
+		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx });
+		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
+		forbiddenIdx.current.push(idx);
 
 		let name = files[idx];
 		setText(name);
@@ -77,9 +77,9 @@ function App() {
 
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-svh'>
-			<div className='p-2 h-1/2'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-full' src={encodeURI('./assets/' + text).replaceAll('+', '%2b')} />
-				<p className={'text-center mt-2 ' + (error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl')}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replace(/\d+/g, '') : index.number}</p>
+			<div className='flex flex-col items-center p-2 h-1/2'>
+				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-full' src={'./assets/' + text} />
+				<span className={'mt-2 ' + (error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl')}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replaceAll(/\d+/g, '') : index.number}</span>
 			</div>
 			<div className='flex flex-col justify-around items-center h-1/2'>
 				<p className='font-bold text-gray-300 text-xl'>
