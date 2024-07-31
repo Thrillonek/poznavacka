@@ -38,7 +38,7 @@ function App() {
 	}, [min, max]);
 
 	function changeImg(options) {
-		options?.show && setShow(options.show);
+		options?.show != undefined && setShow(options.show);
 
 		let minInt = parseInt(min);
 		let maxInt = parseInt(max);
@@ -77,7 +77,7 @@ function App() {
 
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-svh'>
-			<div className='flex flex-col items-center p-2 h-1/2'>
+			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
 				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-full' src={'./assets/' + text} />
 				<span className={'mt-2 ' + (error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl')}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replaceAll(/\d+/g, '') : index.number}</span>
 			</div>
