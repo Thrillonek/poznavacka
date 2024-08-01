@@ -9,9 +9,9 @@ function App() {
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
 	const [mode, setMode] = useState('custom');
+	const [presets, setPresets] = useState([]);
 
 	let forbiddenIdx = useRef([]);
-	let presets = useRef([]);
 	let prevIdx = useRef();
 
 	let files = __FILES__;
@@ -78,6 +78,24 @@ function App() {
 		prevIdx.current = idx;
 	}
 
+	function togglePreset(num) {
+		let presetsBuffer = [...presets];
+		let presetArray = [];
+		for (let i = num * 10 - 9; i <= num * 10; i++) {
+			presetArray.push(i);
+		}
+		let presetIdx = presets.findIndex((el) => el[9] == num * 10);
+		if (presetIdx == -1) {
+			presetsBuffer.push(presetArray);
+			setPresets(presetsBuffer);
+		} else {
+			presetsBuffer.splice(presetIdx, 1);
+			setPresets(presetsBuffer);
+		}
+		presetsBuffer.sort((a, b) => a[0] - b[0]);
+		setPresets(presetsBuffer);
+	}
+
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-svh'>
 			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
@@ -102,14 +120,13 @@ function App() {
 					</p>
 				)}
 				{mode == 'preset' && (
-					<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 rounded overflow-hidden'>
+					<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 p-px rounded overflow-hidden'>
 						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
+							let isChecked = presets?.some((p) => p[9] == num * 10);
 							return (
-								<button className='flex items-center p-3'>
-									<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>
-										<i className='text-gray-600 text-sm fa-solid fa-square-check' />
-									</span>
-									<p className='ml-1 text-gray-300'>
+								<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center p-3 ' + (isChecked && 'bg-gray-500 bg-opacity-10')}>
+									<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>{isChecked && <i className='text-gray-600 text-sm fa-solid fa-square-check' />}</span>
+									<p className={'ml-1 ' + (isChecked ? 'text-white' : 'text-gray-400')}>
 										{num - 1}1-{num}0
 									</p>
 								</button>
@@ -123,10 +140,10 @@ function App() {
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
 				</span>
 				<div className='flex md:hidden mb-8'>
-					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 px-2 py-1 rounded-lg'>
+					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 px-2 py-1 rounded-lg font-semibold'>
 						Změnit rostlinu
 					</button>
-					<button className='bg-gray-500 mx-1 px-2 py-1 rounded-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+					<button className='bg-gray-500 mx-1 px-2 py-1 rounded-lg font-semibold' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 						{show ? 'Skrýt' : 'Odhalit'} název
 					</button>
 				</div>
