@@ -11,7 +11,9 @@ function App() {
 	const [mode, setMode] = useState('custom');
 
 	let forbiddenIdx = useRef([]);
-	let prevIdx;
+	let presets = useRef([]);
+	let prevIdx = useRef();
+
 	let files = __FILES__;
 
 	useEffect(() => changeImg(), []);
@@ -64,7 +66,7 @@ function App() {
 			idx += adjustment;
 		}
 
-		if (range == 2 && idx == prevIdx) idx == minInt - 1 ? idx++ : idx--;
+		if (range == 2 && idx == prevIdx.current) idx == minInt - 1 ? idx++ : idx--;
 
 		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx });
 		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
@@ -73,7 +75,7 @@ function App() {
 		let name = files[idx];
 		setText(name);
 
-		prevIdx = idx;
+		prevIdx.current = idx;
 	}
 
 	return (
@@ -83,21 +85,39 @@ function App() {
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replaceAll(/\d+/g, '') : index.number}</div>
 			</div>
 			<div className='flex flex-col justify-between items-center w-full h-1/2'>
-				<div className='flex justify-between bg-gray-600 mt-3 px-1 py-1 rounded-full w-2/3'>
-					<button onClick={(e) => setMode('custom')} className={'border-r border-[rgb(95,105,115)] w-1/2 ' + (mode == 'custom' ? 'text-white' : 'text-gray-400')}>
+				<div className='flex justify-between bg-gray-600 mt-3 px-1 py-1 rounded-full w-2/3 md:w-1/3'>
+					<button onClick={(e) => setMode('custom')} className={'border-[rgb(95,105,115)] w-1/2 ' + (mode == 'custom' ? 'text-white' : 'text-gray-400')}>
 						Vlastní nastavení
 					</button>
-					<button onClick={(e) => setMode('preset')} className={'border-l border-[rgb(95,105,115)] w-1/2 ' + (mode == 'preset' ? 'text-white' : 'text-gray-400')}>
+					<button onClick={(e) => setMode('preset')} className={'border-l-2 border-[rgb(95,105,115)] w-1/2 ' + (mode == 'preset' ? 'text-white' : 'text-gray-400')}>
 						Předvolby
 					</button>
 				</div>
-				<p className='font-bold text-gray-300 text-xl'>
-					Rostliny od
-					<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMin(e.target.value)} value={min} />
-					do
-					<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMax(e.target.value)} value={max} />
-				</p>
-				<span className='md:block hidden text-gray-500 text-lg'>
+				{mode == 'custom' && (
+					<p className='font-bold text-gray-300 text-xl'>
+						Rostliny od
+						<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMin(e.target.value)} value={min} />
+						do
+						<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMax(e.target.value)} value={max} />
+					</p>
+				)}
+				{mode == 'preset' && (
+					<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 rounded overflow-hidden'>
+						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
+							return (
+								<button className='flex items-center p-3'>
+									<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>
+										<i className='text-gray-600 text-sm fa-solid fa-square-check' />
+									</span>
+									<p className='ml-1 text-gray-300'>
+										{num - 1}1-{num}0
+									</p>
+								</button>
+							);
+						})}
+					</div>
+				)}
+				<span className='md:block hidden mb-5 text-gray-500 text-lg'>
 					<i className='fa-arrow-up font-semibold text-gray-400 fa-solid' /> pro změnu rostliny
 					<br />
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
