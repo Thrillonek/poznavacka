@@ -8,6 +8,7 @@ function App() {
 	const [max, setMax] = useState('150');
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
+	const [mode, setMode] = useState('custom');
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx;
@@ -81,7 +82,15 @@ function App() {
 				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%]' src={'./assets/' + text} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replaceAll(/\d+/g, '') : index.number}</div>
 			</div>
-			<div className='flex flex-col justify-around items-center h-1/2'>
+			<div className='flex flex-col justify-between items-center w-full h-1/2'>
+				<div className='flex justify-between bg-gray-600 mt-3 px-1 py-1 rounded-full w-2/3'>
+					<button onClick={(e) => setMode('custom')} className={'border-r border-[rgb(95,105,115)] w-1/2 ' + (mode == 'custom' ? 'text-white' : 'text-gray-400')}>
+						Vlastní nastavení
+					</button>
+					<button onClick={(e) => setMode('preset')} className={'border-l border-[rgb(95,105,115)] w-1/2 ' + (mode == 'preset' ? 'text-white' : 'text-gray-400')}>
+						Předvolby
+					</button>
+				</div>
 				<p className='font-bold text-gray-300 text-xl'>
 					Rostliny od
 					<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMin(e.target.value)} value={min} />
@@ -93,11 +102,11 @@ function App() {
 					<br />
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
 				</span>
-				<div className='flex flex-col md:hidden'>
-					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 my-1 px-2 py-1 rounded-lg'>
+				<div className='flex md:hidden mb-8'>
+					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 px-2 py-1 rounded-lg'>
 						Změnit rostlinu
 					</button>
-					<button className='bg-gray-500 my-1 px-2 py-1 rounded-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+					<button className='bg-gray-500 mx-1 px-2 py-1 rounded-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 						{show ? 'Skrýt' : 'Odhalit'} název
 					</button>
 				</div>
