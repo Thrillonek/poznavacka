@@ -43,14 +43,18 @@ function App() {
 	function changeImg(options) {
 		options?.show != undefined && setShow(options.show);
 
-		let minInt = parseInt(min);
-		let maxInt = parseInt(max);
+		let minInt = mode == 'custom' ? parseInt(min) : 1;
+		let maxInt = mode == 'custom' ? parseInt(max) : presets.length * 10;
 
 		setError(null);
-		if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
-		if (!min || !max) return setError('Prosím vyplň obě hranice');
-		if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
-		if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
+		if (mode == 'custom') {
+			if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
+			if (!min || !max) return setError('Prosím vyplň obě hranice');
+			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
+			if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
+		} else if (mode == 'preset') {
+			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
+		}
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -68,7 +72,9 @@ function App() {
 
 		if (range == 2 && idx == prevIdx.current) idx == minInt - 1 ? idx++ : idx--;
 
-		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx });
+		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+
+		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
 		forbiddenIdx.current.push(idx);
 
@@ -81,10 +87,10 @@ function App() {
 	function togglePreset(num) {
 		let presetsBuffer = [...presets];
 		let presetArray = [];
-		for (let i = num * 10 - 9; i <= num * 10; i++) {
+		for (let i = num * 10 - 10; i <= num * 10 - 1; i++) {
 			presetArray.push(i);
 		}
-		let presetIdx = presets.findIndex((el) => el[9] == num * 10);
+		let presetIdx = presets.findIndex((el) => el[9] == num * 10 - 1);
 		if (presetIdx == -1) {
 			presetsBuffer.push(presetArray);
 			setPresets(presetsBuffer);
@@ -94,6 +100,20 @@ function App() {
 		}
 		presetsBuffer.sort((a, b) => a[0] - b[0]);
 		setPresets(presetsBuffer);
+	}
+
+	function checkAllPresets() {
+		if (presets.length !== 15) {
+			let newPresets = [];
+			for (let i = 0; i < 15; i++) {
+				let newPreset = [];
+				for (let j = 1; j <= 10; j++) {
+					newPreset.push(j + i * 10 - 1);
+				}
+				newPresets.push(newPreset);
+			}
+			setPresets(newPresets);
+		} else setPresets([]);
 	}
 
 	return (
@@ -120,18 +140,23 @@ function App() {
 					</p>
 				)}
 				{mode == 'preset' && (
-					<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 p-px rounded overflow-hidden'>
-						{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
-							let isChecked = presets?.some((p) => p[9] == num * 10);
-							return (
-								<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center p-3 ' + (isChecked && 'bg-gray-500 bg-opacity-10')}>
-									<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>{isChecked && <i className='text-gray-600 text-sm fa-solid fa-square-check' />}</span>
-									<p className={'ml-1 ' + (isChecked ? 'text-white' : 'text-gray-400')}>
-										{num - 1}1-{num}0
-									</p>
-								</button>
-							);
-						})}
+					<div className='flex flex-col items-center'>
+						<button onClick={checkAllPresets} className='bg-gray-800 bg-opacity-30 rounded-t-lg w-1/2 text-sm text-white'>
+							Zaškrtnout všechno
+						</button>
+						<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 p-px rounded overflow-hidden'>
+							{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
+								let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
+								return (
+									<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center px-3 py-[0.6rem] ' + (isChecked && 'bg-gray-500 bg-opacity-10')}>
+										<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>{isChecked && <i className='text-gray-600 text-sm fa-solid fa-square-check' />}</span>
+										<p className={'ml-1 ' + (isChecked ? 'text-white' : 'text-gray-400')}>
+											{num - 1}1-{num}0
+										</p>
+									</button>
+								);
+							})}
+						</div>
 					</div>
 				)}
 				<span className='md:block hidden mb-5 text-gray-500 text-lg'>
