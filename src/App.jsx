@@ -16,9 +16,8 @@ function App() {
 
 	let files = __FILES__;
 
-	useEffect(() => changeImg(), []);
-
 	useEffect(() => {
+		changeImg();
 		files.sort((a, b) => {
 			let ai = a.split('');
 			ai = ai.filter((n) => !isNaN(n));
@@ -28,17 +27,18 @@ function App() {
 			bi = bi.join('');
 			return parseInt(ai) - parseInt(bi);
 		});
+	}, []);
 
+	useEffect(() => {
 		document.body.onkeydown = (e) => {
 			if (e.key == 'ArrowUp') {
-				changeImg();
-				setShow(false);
+				changeImg({ show: false });
 			}
 			if (e.key == 'ArrowDown') {
 				setShow((prev) => (prev ? false : true));
 			}
 		};
-	}, [min, max]);
+	}, [min, max, presets]);
 
 	function changeImg(options) {
 		options?.show != undefined && setShow(options.show);
