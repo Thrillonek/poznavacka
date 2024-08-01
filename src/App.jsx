@@ -13,12 +13,11 @@ function App() {
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx = useRef();
-
-	let files = __FILES__;
+	let files = useRef(__FILES__);
 
 	useEffect(() => {
 		changeImg();
-		files.sort((a, b) => {
+		files.current.sort((a, b) => {
 			let ai = a.split('');
 			ai = ai.filter((n) => !isNaN(n));
 			ai = ai.join('');
@@ -48,17 +47,17 @@ function App() {
 
 		setError(null);
 		if (mode == 'custom') {
-			if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
+			if (maxInt <= minInt || (!max && minInt >= files.current?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
 			if (!min || !max) return setError('Prosím vyplň obě hranice');
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
-			if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
+			if (maxInt > files.current.length) return setError('Horní hranice nemůže být vyšší než ' + files.current.length);
 		} else if (mode == 'preset') {
 			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-		let idx = rng(minInt - 1 || 0, maxInt - 1 || files.length);
+		let idx = rng(minInt - 1 || 0, maxInt - 1 || files.current.length);
 		let range = maxInt - minInt + 1;
 		let mid = Math.ceil(range / 2 + minInt - 1);
 		let adjustment = mid > idx ? 1 : -1;
@@ -78,7 +77,7 @@ function App() {
 		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
 		forbiddenIdx.current.push(idx);
 
-		let name = files[idx];
+		let name = files.current[idx];
 		setText(name);
 
 		prevIdx.current = idx;
