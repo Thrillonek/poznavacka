@@ -16,7 +16,7 @@ export default function List() {
 					.replace('-', ' - ');
 				return (
 					<div className='flex items-center border-gray-500 p-2 border-b h-20'>
-						<img src={'./assets/img/' + file} alt='Obrázek rostliny' className='max-h-full' />
+						<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 						<span className='ml-5 font-bold text-gray-400 text-xl'>
 							{idx + 1}. {capitalize(readableFile)}
 						</span>
