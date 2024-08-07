@@ -16,15 +16,7 @@ function Quiz() {
 	let files = useRef(__FILES__);
 
 	useEffect(() => {
-		files.current.sort((a, b) => {
-			let ai = a.split('');
-			ai = ai.filter((n) => !isNaN(n));
-			ai = ai.join('');
-			let bi = b.split('');
-			bi = bi.filter((n) => !isNaN(n));
-			bi = bi.join('');
-			return parseInt(ai) - parseInt(bi);
-		});
+		files.current.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 		changeImg();
 	}, []);
 
