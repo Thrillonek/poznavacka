@@ -118,7 +118,7 @@ function App() {
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-svh'>
 			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%]' src={'./assets/' + text} />
+				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%]' src={'./assets/img/' + text} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? text.slice(0, -4).replaceAll(/\d+/g, '') : index.number}</div>
 			</div>
 			<div className='flex flex-col justify-between items-center w-full h-1/2'>
