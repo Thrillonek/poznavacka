@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 
 export default function List() {
-	const [filter, setFilter] = useState();
+	const [filter, setFilter] = useState('');
 
 	const files = useRef(__FILES__);
 
@@ -11,8 +11,8 @@ export default function List() {
 
 	return (
 		<div className='flex flex-col bg-gray-700 min-h-svh'>
-			<div className='flex items-center w-full'>
-				<label className='mx-3 text-gray-500' htmlFor='imgFilter'>
+			<div className='top-0 sticky flex items-center w-full'>
+				<label className='bg-gray-700 px-3 py-1 text-gray-400' htmlFor='imgFilter'>
 					<i className='mr-1 fa-filter fa-solid' />
 					Filtr
 				</label>
@@ -20,20 +20,22 @@ export default function List() {
 			</div>
 			{files.current
 				?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
-				.filter((f) => (filter ? f.includes(filter) : f))
 				.map((file, idx) => {
 					let readableFile = file
 						.split('.')[0]
 						.replaceAll(/[0-9+_]/g, '')
 						.replace('-', ' - ');
-					return (
-						<div className='flex items-center border-gray-500 p-2 border-b h-20'>
-							<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-							<span className='ml-5 font-bold text-gray-400 text-xl'>
-								{file.replaceAll(/[^0-9]/g, '')}. {capitalize(readableFile)}
-							</span>
-						</div>
-					);
+
+					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter))) {
+						return (
+							<div key={idx} className='flex items-center border-gray-500 p-2 border-b h-20'>
+								<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+								<span className='ml-5 font-bold text-gray-400 text-xl'>
+									{idx + 1}. {capitalize(readableFile)}
+								</span>
+							</div>
+						);
+					}
 				})}
 		</div>
 	);
