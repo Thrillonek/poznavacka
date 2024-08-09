@@ -5,7 +5,7 @@ function Quiz() {
 	const [show, setShow] = useState();
 	const [text, setText] = useState();
 	const [min, setMin] = useState('1');
-	const [max, setMax] = useState('150');
+	const [max, setMax] = useState('');
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
 	const [mode, setMode] = useState('custom');
@@ -17,6 +17,7 @@ function Quiz() {
 
 	useEffect(() => {
 		files.current.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
+		setMax(files.length);
 		changeImg();
 	}, []);
 
