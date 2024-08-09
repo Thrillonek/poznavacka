@@ -17,7 +17,7 @@ function Quiz() {
 
 	useEffect(() => {
 		files.current.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
-		setMax(files.length);
+		setMax(files.current.length);
 		changeImg();
 	}, []);
 
