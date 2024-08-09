@@ -50,7 +50,10 @@ function Quiz() {
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-		let idx = rng(minInt - 1 || 0, maxInt - 1 || files.current.length);
+		if (!minInt) minInt == 1;
+		if (!maxInt) maxInt == files.current.length + 1;
+
+		let idx = rng(minInt - 1, maxInt - 1);
 		let range = maxInt - minInt + 1;
 		let mid = Math.ceil(range / 2 + minInt - 1);
 		let adjustment = mid > idx ? 1 : -1;
