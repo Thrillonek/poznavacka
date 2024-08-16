@@ -41,7 +41,6 @@ function Quiz() {
 		setError(null);
 		if (mode == 'custom') {
 			if (maxInt <= minInt || (!max && minInt >= files.current?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
-			if (!min || !max) return setError('Prosím vyplň obě hranice');
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
 			if (maxInt > files.current.length) return setError('Horní hranice nemůže být vyšší než ' + files.current.length);
 		} else if (mode == 'preset') {
