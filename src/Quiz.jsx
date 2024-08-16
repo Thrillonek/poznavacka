@@ -35,8 +35,8 @@ function Quiz() {
 	function changeImg(options) {
 		options?.show != undefined && setShow(options.show);
 
-		let minInt = mode == 'custom' ? parseInt(min) : 1;
-		let maxInt = mode == 'custom' ? parseInt(max) : presets.length * 10;
+		let minInt = mode == 'custom' ? (parseInt(min) || 1) : 1;
+		let maxInt = mode == 'custom' ? (parseInt(max) || files.current.length) : presets.length * 10;
 
 		setError(null);
 		if (mode == 'custom') {
@@ -48,9 +48,6 @@ function Quiz() {
 		}
 
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-		if (!minInt) minInt == 1;
-		if (!maxInt) maxInt == files.current.length + 1;
 
 		let idx = rng(minInt - 1, maxInt - 1);
 		let range = maxInt - minInt + 1;
