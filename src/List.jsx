@@ -13,7 +13,7 @@ export default function List() {
 	return (
 		<div className='flex flex-col bg-gray-700 min-h-svh'>
 			{chosenFile && (
-				<div className='flex flex-col justify-around items-center fixed top-0 left-0 h-dvh bg-gray-700'>
+				<div className='flex flex-col justify-around items-center fixed top-0 left-0 h-dvh bg-gray-700 w-screen'>
 					<img src={'./assets/img/' + chosenFile} className='max-h-1/2' alt='Obrázek kytky' />
 					<span className='font-bold text-3xl text-gray-300 text-center'>
 						{capitalize(
@@ -29,13 +29,13 @@ export default function List() {
 				</div>
 			)}
 				<>
-					<div className='top-0 sticky flex items-center w-full'>
+					{!chosenFile && (<div className='top-0 sticky flex items-center w-full'>
 						<label className='bg-gray-700 px-3 py-1 text-gray-400' htmlFor='imgFilter'>
 							<i className='mr-1 fa-filter fa-solid' />
 							Filtr
 						</label>
 						<input onChange={(e) => setFilter(e.target.value)} value={filter} id='imgFilter' type='text' className='flex-grow bg-gray-600 p-1 text-gray-200 caret-gray-400 outline-none' />
-					</div>
+					</div>)}
 					{files.current
 						?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
 						.map((file, idx) => {
