@@ -11,7 +11,7 @@ export default function List() {
 	}
 
 	return (
-		<div className='flex flex-col bg-gray-700 h-svh'>
+		<div className='flex flex-col bg-gray-700 min-h-svh'>
 			{chosenFile ? (
 				<div className='flex flex-col justify-around items-center h-dvh'>
 					<img src={'./assets/img/' + chosenFile} className='max-h-1/2' alt='Obrázek kytky' />
