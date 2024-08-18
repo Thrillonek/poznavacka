@@ -63,7 +63,7 @@ function Quiz() {
 
 		if (range == 2 && idx == prevIdx.current) idx == minInt - 1 ? idx++ : idx--;
 
-		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - (Math.floor(idx / 10) * 10)];
 
 		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
