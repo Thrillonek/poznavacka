@@ -13,7 +13,7 @@ export default function List() {
 	return (
 		<div className='flex flex-col bg-gray-700 min-h-svh'>
 			{chosenFile ? (
-				<div className='flex flex-col justify-around items-center h-svh'>
+				<div className='flex flex-col justify-around items-center min-h-svh'>
 					<img src={'./assets/img/' + chosenFile} className='max-h-1/2' alt='Obrázek kytky' />
 					<span className='font-bold text-3xl text-gray-300'>
 						{capitalize(
