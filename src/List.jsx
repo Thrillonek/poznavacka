@@ -13,9 +13,9 @@ export default function List() {
 	return (
 		<div className='flex flex-col bg-gray-700 min-h-svh'>
 			{chosenFile && (
-				<div className='flex flex-col justify-around items-center fixed top-0 left-0 h-dvh'>
+				<div className='flex flex-col justify-around items-center fixed top-0 left-0 h-dvh bg-gray-700'>
 					<img src={'./assets/img/' + chosenFile} className='max-h-1/2' alt='Obrázek kytky' />
-					<span className='font-bold text-3xl text-gray-300'>
+					<span className='font-bold text-3xl text-gray-300 text-center'>
 						{capitalize(
 							chosenFile
 								.split('.')[0]
