@@ -12,8 +12,8 @@ export default function List() {
 
 	return (
 		<div className='flex flex-col bg-gray-700 min-h-svh'>
-			{chosenFile ? (
-				<div className='flex flex-col justify-around items-center h-dvh'>
+			{chosenFile && (
+				<div className='flex flex-col justify-around items-center fixed top-0 left-0 h-dvh'>
 					<img src={'./assets/img/' + chosenFile} className='max-h-1/2' alt='Obrázek kytky' />
 					<span className='font-bold text-3xl text-gray-300'>
 						{capitalize(
@@ -27,7 +27,7 @@ export default function List() {
 						Zpět
 					</button>
 				</div>
-			) : (
+			)}
 				<>
 					<div className='top-0 sticky flex items-center w-full'>
 						<label className='bg-gray-700 px-3 py-1 text-gray-400' htmlFor='imgFilter'>
@@ -56,7 +56,6 @@ export default function List() {
 							}
 						})}
 				</>
-			)}
 		</div>
 	);
 }
