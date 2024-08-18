@@ -44,7 +44,7 @@ export default function List() {
 								.replaceAll(/[0-9+_]/g, '')
 								.replace('-', ' - ');
 
-							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter))) {
+							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter.toLowerCase()))) {
 								return (
 									<div key={idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
 										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
