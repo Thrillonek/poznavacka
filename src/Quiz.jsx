@@ -35,8 +35,8 @@ function Quiz() {
 	function changeImg(options) {
 		options?.show != undefined && setShow(options.show);
 
-		let minInt = mode == 'custom' ? (parseInt(min) || 1) : 1;
-		let maxInt = mode == 'custom' ? (parseInt(max) || files.current.length) : presets.length * 10;
+		let minInt = mode == 'custom' ? parseInt(min) || 1 : 1;
+		let maxInt = mode == 'custom' ? parseInt(max) || files.current.length : presets.length * 10;
 
 		setError(null);
 		if (mode == 'custom') {
@@ -63,11 +63,12 @@ function Quiz() {
 
 		if (range == 2 && idx == prevIdx.current) idx == minInt - 1 ? idx++ : idx--;
 
-		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - (Math.floor(idx / 10) * 10)];
-
-		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
 		forbiddenIdx.current.push(idx);
+
+		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+
+		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 
 		let name = files.current[idx];
 		setText(name);
