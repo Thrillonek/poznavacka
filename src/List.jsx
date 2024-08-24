@@ -15,7 +15,7 @@ export default function List() {
 			{chosenFile && (
 				<div className='top-0 left-0 fixed flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-dvh'>
 					<div className='h-1/2'>
-						<img src={'./assets/img/' + chosenFile} className='max-h-full' alt='Obrázek kytky' />
+						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full' alt='Obrázek kytky' />
 					</div>
 					<span className='font-bold text-3xl text-center text-gray-300'>
 						{capitalize(
