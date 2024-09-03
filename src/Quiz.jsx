@@ -32,6 +32,31 @@ function Quiz() {
 		};
 	}, [min, max, presets]);
 
+	const handleChangeMinMax = (e, setState) => !isNaN(e.target.value) && e.target.value.length <= 3 && setState(e.target.value);
+
+	function generateIdx(minValue, maxValue) {
+		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+		let idx = rng(minValue - 1, maxValue - 1);
+		let range = maxValue - minValue + 1;
+		let mid = Math.ceil(range / 2 + minValue - 1);
+		let adjustment = mid > idx ? 1 : -1;
+
+		if (Math.floor(range / 3) < forbiddenIdx.current.length) forbiddenIdx.current = [];
+
+		while (forbiddenIdx.current.includes(idx)) {
+			if (range < 3) break;
+			idx += adjustment;
+		}
+
+		if (range == 2 && idx == prevIdx.current) idx == minValue - 1 ? idx++ : idx--;
+
+		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
+		forbiddenIdx.current.push(idx);
+
+		return idx;
+	}
+
 	function changeImg(options) {
 		options?.show != undefined && setShow(options.show);
 
@@ -47,24 +72,7 @@ function Quiz() {
 			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}
 
-		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-		let idx = rng(minInt - 1, maxInt - 1);
-		let range = maxInt - minInt + 1;
-		let mid = Math.ceil(range / 2 + minInt - 1);
-		let adjustment = mid > idx ? 1 : -1;
-
-		if (Math.floor(range / 3) < forbiddenIdx.current.length) forbiddenIdx.current = [];
-
-		while (forbiddenIdx.current.includes(idx)) {
-			if (range < 3) break;
-			idx += adjustment;
-		}
-
-		if (range == 2 && idx == prevIdx.current) idx == minInt - 1 ? idx++ : idx--;
-
-		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
-		forbiddenIdx.current.push(idx);
+		let idx = generateIdx(minInt, maxInt);
 
 		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
@@ -131,9 +139,9 @@ function Quiz() {
 				{mode == 'custom' && (
 					<p className='font-bold text-gray-300 text-xl'>
 						Rostliny od
-						<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMin(e.target.value)} value={min} />
+						<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 						do
-						<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => !isNaN(e.target.value) && setMax(e.target.value)} value={max} />
+						<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
 					</p>
 				)}
 				{mode == 'preset' && (
