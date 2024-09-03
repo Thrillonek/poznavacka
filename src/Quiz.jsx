@@ -128,7 +128,7 @@ function Quiz() {
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
 			<div className='flex flex-col justify-between items-center w-full h-1/2'>
-				<div className='flex justify-between bg-gray-600 mt-3 px-1 py-1 rounded-full w-2/3 md:w-1/3'>
+				<div className='flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-3 px-1 py-1 rounded-full w-2/3 md:w-1/3'>
 					<button onClick={(e) => setMode('custom')} className={'border-[rgb(95,105,115)] w-1/2 ' + (mode == 'custom' ? 'text-white' : 'text-gray-400')}>
 						Vlastní
 					</button>
@@ -146,7 +146,7 @@ function Quiz() {
 				)}
 				{mode == 'preset' && (
 					<div className='flex flex-col items-center'>
-						<button onClick={checkAllPresets} className='bg-gray-600 bg-opacity-30 rounded-t-lg w-1/2 text-sm text-white'>
+						<button onClick={checkAllPresets} className='border-gray-600 bg-gray-600 bg-opacity-30 border border-b-0 rounded-t-lg w-1/2 text-gray-300 text-sm'>
 							Zaškrtnout všechno
 						</button>
 						<div className='grid grid-cols-3 grid-rows-5 bg-gray-700 bg-opacity-30 shadow-[0_0_30px_0_rgb(0,0,0,0.3)] p-px rounded overflow-hidden'>
