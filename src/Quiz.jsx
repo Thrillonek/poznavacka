@@ -138,10 +138,10 @@ function Quiz() {
 				)}
 				{mode == 'preset' && (
 					<div className='flex flex-col items-center'>
-						<button onClick={checkAllPresets} className='bg-gray-800 bg-opacity-30 rounded-t-lg w-1/2 text-sm text-white'>
+						<button onClick={checkAllPresets} className='bg-gray-600 bg-opacity-30 rounded-t-lg w-1/2 text-sm text-white'>
 							Zaškrtnout všechno
 						</button>
-						<div className='grid grid-cols-3 grid-rows-5 bg-gray-800 bg-opacity-30 p-px rounded overflow-hidden'>
+						<div className='grid grid-cols-3 grid-rows-5 bg-gray-700 bg-opacity-30 shadow-[0_0_30px_0_rgb(0,0,0,0.3)] p-px rounded overflow-hidden'>
 							{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
 								let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
 								return (
@@ -161,11 +161,11 @@ function Quiz() {
 					<br />
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
 				</span>
-				<div className='flex md:hidden mb-8'>
-					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 px-2 py-1 rounded-lg font-semibold'>
+				<div className='flex justify-between md:hidden mb-8 w-1/2'>
+					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold'>
 						Změnit rostlinu
 					</button>
-					<button className='bg-gray-500 mx-1 px-2 py-1 rounded-lg font-semibold' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+					<button className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 						{show ? 'Skrýt' : 'Odhalit'} název
 					</button>
 				</div>
