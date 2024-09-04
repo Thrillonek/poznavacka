@@ -1,10 +1,28 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function List() {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 
 	const files = useRef(__FILES__);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(
+				(entry) => {
+					entry.target.classList.toggle('!opacity-100', entry.isIntersecting);
+					entry.target.classList.toggle('!translate-x-0', entry.isIntersecting);
+				},
+				{
+					threshold: 1,
+				}
+			);
+		});
+
+		document.querySelectorAll('.plant-list-item')?.forEach((el) => {
+			observer.observe(el);
+		});
+	}, []);
 
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
@@ -53,7 +71,7 @@ export default function List() {
 								return (
 									<div key={idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
 										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-										<span className='ml-5 font-bold text-gray-400 text-xl'>
+										<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
 											{idx + 1}. {capitalize(readableFile)}
 										</span>
 									</div>
