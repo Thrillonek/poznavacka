@@ -169,7 +169,7 @@ function Quiz() {
 					<br />
 					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
 				</span>
-				<div className='flex justify-between md:hidden mb-8 w-1/2'>
+				<div className='flex justify-between md:hidden mb-8 w-2/3'>
 					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold'>
 						Změnit rostlinu
 					</button>
