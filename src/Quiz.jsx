@@ -154,9 +154,9 @@ function Quiz() {
 								let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
 								return (
 									<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center px-3 py-[0.6rem] ' + (isChecked && 'bg-gray-500 bg-opacity-10')}>
-										<span className='flex justify-center items-center bg-gray-400 rounded w-3 h-3'>{isChecked && <i className='text-gray-600 text-sm fa-solid fa-square-check' />}</span>
+										<span className={'flex justify-center items-center bg-gray-400 rounded w-3 h-3 ' + (isChecked && '!bg-gray-600 shadow-[0_0_15px_0_rgb(0,0,0,0.2)]')}>{isChecked && <i className='text-gray-400 text-sm fa-check fa-solid scale-75' />}</span>
 										<p className={'ml-1 ' + (isChecked ? 'text-white' : 'text-gray-400')}>
-											{num - 1}1-{num}0
+											{num != 1 && num - 1}1-{num}0
 										</p>
 									</button>
 								);
