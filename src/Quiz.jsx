@@ -164,12 +164,12 @@ function Quiz() {
 						</div>
 					</div>
 				)}
-				<span className='md:block hidden mb-5 text-gray-500 text-lg'>
-					<i className='fa-arrow-up font-semibold text-gray-400 fa-solid' /> pro změnu rostliny
+				{/* <span className='md:block border-2 hidden mb-5 p-2 text-center text-gray-400 text-lg'>
+					Stiskni klávesu <i className='font-semibold text-gray-300 fa-caret-square-up fa-solid' /> pro změnu rostliny
 					<br />
-					<i className='fa-arrow-down font-semibold text-gray-400 fa-solid' /> pro název rostliny
-				</span>
-				<div className='flex justify-between md:hidden mb-8 w-2/3'>
+					a klávesu <i className='font-semibold text-gray-300 fa-caret-square-down fa-solid' /> pro název rostliny
+				</span> */}
+				<div className='flex justify-between mb-8 w-2/3 md:w-1/2 xl:w-1/3'>
 					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold'>
 						Změnit rostlinu
 					</button>
