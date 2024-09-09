@@ -7,6 +7,7 @@ export default function List() {
 	const files = useRef(__FILES__);
 
 	useEffect(() => {
+  if(chosenFile) return
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
@@ -22,7 +23,7 @@ export default function List() {
 		document.querySelectorAll('.plant-list-item')?.forEach((el) => {
 			observer.observe(el);
 		});
-	}, []);
+	}, [chosenFile]);
 
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
