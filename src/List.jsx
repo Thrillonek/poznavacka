@@ -57,7 +57,7 @@ export default function List() {
 						</label>
 						<input onChange={(e) => setFilter(e.target.value)} value={filter} id='imgFilter' type='text' className='flex-grow bg-gray-600 p-1 text-gray-200 caret-gray-400 outline-none' />
 					</div>
-				)}
+				
 				<div className='overflow-y-scroll'>
 					{files.current
 						?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
@@ -79,6 +79,7 @@ export default function List() {
 							}
 						})}
 				</div>
+    })
 			</>
 		</div>
 	);
