@@ -29,9 +29,9 @@ export default function List() {
 	}
 
 	return (
-		<div className='relative flex flex-col bg-gray-700 h-svh overflow-hidden'>
+		<div className='relative flex flex-col bg-gray-700 h-dvh overflow-hidden'>
 			{chosenFile && (
-				<div className='top-0 left-0 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-dvh'>
+				<div className='top-0 left-0 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-full'>
 					<div className='h-1/2'>
 						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full' alt='Obrázek kytky' />
 					</div>
