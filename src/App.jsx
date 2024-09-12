@@ -13,7 +13,7 @@ export default function App() {
 						<Quiz />
 						<div className='right-0 bottom-0 absolute'>
 							<button onClick={(e) => setMode('learning')} className={'relative top-10 border-gray-600 bg-gray-700 shadow-[0_0_30px_0_rgb(0,0,0,0.3)] py-1 pr-2 pl-4 border-t border-l rounded-tl-xl font-semibold text-gray-300 transition-all delay-[650ms] ' + (mode == 'quiz' && '!top-0')}>
-								List rostlin
+								Seznam rostlin
 								<i className='fa-arrow-right ml-2 fa-solid' />
 							</button>
 						</div>
