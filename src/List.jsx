@@ -49,8 +49,6 @@ export default function List() {
 					</button>
 				</div>
 			)}
-				{!chosenFile && (
-     <>
 					<div className='flex items-center w-full'>
 						<label className='bg-gray-700 px-3 py-1 text-gray-400' htmlFor='imgFilter'>
 							<i className='mr-1 fa-filter fa-solid' />
@@ -80,8 +78,6 @@ export default function List() {
 							}
 						})}
 				</div>
-</>
-    )}
 		</div>
 	);
 }
