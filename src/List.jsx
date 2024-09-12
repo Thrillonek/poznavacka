@@ -30,6 +30,47 @@ export default function List() {
 		};
 	}, [filter]);
 
+	useEffect(() => {
+		let startX, startY, changeX, changeY;
+
+		let idx = chosenFile && files.current.indexOf(chosenFile);
+
+		let handleTouchStart = (e) => {
+			startX = e.touches[0].clientX;
+			startY = e.touches[0].clientY;
+		};
+		let handleTouchMove = (e) => {
+			if (!startX) return;
+
+			let deltaX = e.touches[0].clientX;
+			let deltaY = e.touches[0].clientY;
+
+			changeX = deltaX - startX;
+			changeY = deltaY - startY;
+		};
+
+		let handleTouchEnd = (e) => {
+			if (!chosenFile) return;
+
+			if (changeX > 0) {
+				idx--;
+			} else if (changeX < 0) {
+				idx++;
+			}
+			setChosenFile(files.current[idx]);
+		};
+
+		document.addEventListener('touchstart', handleTouchStart);
+		document.addEventListener('touchmove', handleTouchMove);
+		document.addEventListener('touchend', handleTouchEnd);
+
+		return () => {
+			document.removeEventListener('touchstart', handleTouchStart);
+			document.removeEventListener('touchmove', handleTouchMove);
+			document.removeEventListener('touchend', handleTouchEnd);
+		};
+	}, [chosenFile]);
+
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
