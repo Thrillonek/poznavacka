@@ -53,9 +53,9 @@ export default function List() {
 			if (!chosenFile) return;
 
 			if (changeX > 0) {
-				idx--;
+				idx == 0 ? (idx = files.current.length - 1) : idx--;
 			} else if (changeX < 0) {
-				idx++;
+				idx == files.current.length - 1 ? (idx = 0) : idx++;
 			}
 			setChosenFile(files.current[idx]);
 		};
@@ -83,6 +83,7 @@ export default function List() {
 						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full' alt='Obrázek kytky' />
 					</div>
 					<span className='font-bold text-3xl text-center text-gray-300'>
+						{files.current.indexOf(chosenFile) + 1}.{' '}
 						{capitalize(
 							chosenFile
 								.split('.')[0]
