@@ -90,7 +90,7 @@ export default function List() {
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
 			{chosenFile && (
-				<div className='top-0 left-0 z-40 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-full'>
+				<div className='top-0 left-0 z-40 absolute flex flex-col justify-center items-center bg-gray-700 p-3 w-screen h-full'>
 					{!window.matchMedia('(pointer: coarse)').matches && (
 						<>
 							<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
@@ -102,9 +102,9 @@ export default function List() {
 						</>
 					)}
 					<div className='h-1/2'>
-						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full' alt='Obrázek kytky' />
+						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full object-contain' alt='Obrázek kytky' />
 					</div>
-					<span className='font-bold text-3xl text-center text-gray-300'>
+					<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
 						{files.current.indexOf(chosenFile) + 1}.{' '}
 						{capitalize(
 							chosenFile
@@ -113,8 +113,8 @@ export default function List() {
 								.replace('-', ' - ')
 						)}
 					</span>
-					<button onClick={(e) => setChosenFile(null)} className='text-gray-400 text-lg underline'>
-						Zpět
+					<button onClick={(e) => setChosenFile(null)} className='top-3 left-[5%] absolute text-gray-400'>
+						<i className='fa-arrow-left text-2xl fa-solid'></i>
 					</button>
 				</div>
 			)}
