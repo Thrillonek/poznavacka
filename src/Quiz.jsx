@@ -116,6 +116,11 @@ function Quiz() {
 		} else setPresets([]);
 	}
 
+	function setToTested() {
+		setMin('1');
+		setMax('35');
+	}
+
 	let readableImgName = text
 		?.split('.')[0]
 		.replaceAll(/[0-9+]/g, '')
@@ -124,7 +129,7 @@ function Quiz() {
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-dvh'>
 			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%]' src={('./assets/img/' + text).replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%] object-contain' src={('./assets/img/' + text).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
 			<div className='flex flex-col justify-between items-center w-full h-1/2'>
@@ -137,12 +142,17 @@ function Quiz() {
 					</button>
 				</div>
 				{mode == 'custom' && (
-					<p className='font-bold text-gray-300 text-xl'>
-						Rostliny od
-						<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
-						do
-						<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
-					</p>
+					<div className='flex flex-col items-center'>
+						<p className='font-bold text-gray-300 text-xl'>
+							Rostliny od
+							<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
+							do
+							<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
+						</p>
+						<button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-6 px-5 py-1 rounded-xl text-gray-300'>
+							Nastavit na momentálně zkoušenou sadu
+						</button>
+					</div>
 				)}
 				{mode == 'preset' && (
 					<div className='flex flex-col items-center'>
