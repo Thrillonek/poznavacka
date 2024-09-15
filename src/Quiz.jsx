@@ -127,7 +127,7 @@ function Quiz() {
 		.replace('-', ' - ');
 
 	return (
-		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-dvh'>
+		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-full'>
 			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
 				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%] object-contain' src={('./assets/img/' + text).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>

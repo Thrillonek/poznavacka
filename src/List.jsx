@@ -88,7 +88,7 @@ export default function List() {
 	}
 
 	return (
-		<div className='relative flex flex-col bg-gray-700 h-dvh overflow-hidden'>
+		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
 			{chosenFile && (
 				<div className='top-0 left-0 z-40 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-full'>
 					{!window.matchMedia('(pointer: coarse)').matches && (
