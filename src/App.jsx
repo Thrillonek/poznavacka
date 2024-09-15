@@ -16,12 +16,12 @@ export default function App() {
 				</div>
 			</div>
 			<div className='flex justify-around items-center border-gray-500 bg-[rgb(65,75,90)] shadow-[0_-5px_10px_-1px_rgb(0,0,0,0.3)] md:py-2 border-t w-full'>
-				<p className={'text-gray-500 text-lg md:text-xl py-1 font-semibold  ' + (mode == 'quiz' && '!text-gray-300')}>
-					<i onClick={(e) => setMode('quiz')} className='mr-3 fa-seedling fa-solid' />
+				<p onClick={(e) => setMode('quiz')} className={'text-gray-500 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && '!text-gray-300')}>
+					<i className='mr-3 fa-seedling fa-solid' />
 					<span className='max-md:hidden'>Kvíz</span>
 				</p>
-				<p className={'text-gray-500 text-lg md:text-xl py-1 font-semibold  ' + (mode == 'learning' && '!text-gray-300')}>
-					<i onClick={(e) => setMode('learning')} className='mr-3 fa-list fa-solid' />
+				<p onClick={(e) => setMode('learning')} className={'text-gray-500 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && '!text-gray-300')}>
+					<i className='mr-3 fa-list fa-solid' />
 					<span className='max-md:hidden'>Seznam rostlin</span>
 				</p>
 			</div>
