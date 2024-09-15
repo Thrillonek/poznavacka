@@ -71,6 +71,18 @@ export default function List() {
 		};
 	}, [chosenFile]);
 
+	function switchEnlargedImg(operation) {
+		let idx = chosenFile && files.current.indexOf(chosenFile);
+
+		if (operation == '+') {
+			idx == files.current.length - 1 ? (idx = 0) : idx++;
+		}
+		if (operation == '-') {
+			idx == 0 ? (idx = files.current.length - 1) : idx--;
+		}
+		setChosenFile(files.current[idx]);
+	}
+
 	function capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
@@ -78,7 +90,17 @@ export default function List() {
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-dvh overflow-hidden'>
 			{chosenFile && (
-				<div className='top-0 left-0 z-50 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-full'>
+				<div className='top-0 left-0 z-40 absolute flex flex-col justify-around items-center bg-gray-700 p-3 w-screen h-full'>
+					{!window.matchMedia('(pointer: coarse)').matches && (
+						<>
+							<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+								<i className='fa-caret-left text-3xl fa-solid'></i>
+							</div>
+							<div onClick={(e) => switchEnlargedImg('+')} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+								<i className='fa-caret-right text-3xl fa-solid'></i>
+							</div>
+						</>
+					)}
 					<div className='h-1/2'>
 						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full' alt='Obrázek kytky' />
 					</div>
