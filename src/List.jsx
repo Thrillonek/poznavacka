@@ -119,7 +119,7 @@ export default function List() {
 				</div>
 			)}
 			<div className='z-20 absolute flex items-center mt-2 w-[95%] place-self-center'>
-				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow bg-gray-600 shadow-[0_0_10px_1px_rgb(0,0,0,0.3)] px-4 py-2 rounded-full text-gray-200 caret-gray-400 outline-none' />
+				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_0_10px_1px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 			</div>
 			<div className='overflow-y-scroll'>
 				<div className='mt-12'>
