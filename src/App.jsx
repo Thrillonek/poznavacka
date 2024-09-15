@@ -3,7 +3,7 @@ import List from './List.jsx';
 import Quiz from './Quiz.jsx';
 
 export default function App() {
-	const [mode, setMode] = useState('quiz');
+	const [mode, setMode] = useState('learning');
 
 	return (
 		<div className='flex flex-col w-screen h-dvh overflow-x-hidden'>
