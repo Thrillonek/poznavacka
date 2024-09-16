@@ -52,6 +52,10 @@ export default function List() {
 		let handleTouchEnd = (e) => {
 			if (!chosenFile) return;
 
+			if (Math.abs(changeY) > Math.abs(changeX)) {
+				if (changeY > 0) setChosenFile(null);
+				return;
+			}
 			if (changeX > 0) {
 				idx == 0 ? (idx = files.current.length - 1) : idx--;
 			} else if (changeX < 0) {
@@ -89,40 +93,39 @@ export default function List() {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			{chosenFile && (
-				<div className='top-0 left-0 z-40 absolute flex flex-col justify-center items-center bg-gray-700 p-3 w-screen h-full'>
-					{!window.matchMedia('(pointer: coarse)').matches && (
-						<>
-							<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
-								<i className='fa-caret-left text-3xl fa-solid'></i>
-							</div>
-							<div onClick={(e) => switchEnlargedImg('+')} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
-								<i className='fa-caret-right text-3xl fa-solid'></i>
-							</div>
-						</>
-					)}
-					<div className='h-1/2'>
-						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full object-contain' alt='Obrázek kytky' />
-					</div>
-					<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-						{files.current.indexOf(chosenFile) + 1}.{' '}
-						{capitalize(
+			<div className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+				{!window.matchMedia('(pointer: coarse)').matches && (
+					<>
+						<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+							<i className='fa-caret-left text-3xl fa-solid'></i>
+						</div>
+						<div onClick={(e) => switchEnlargedImg('+')} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+							<i className='fa-caret-right text-3xl fa-solid'></i>
+						</div>
+					</>
+				)}
+				<div className='h-1/2'>
+					<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full object-contain' alt='Obrázek kytky' />
+				</div>
+				<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
+					{files.current.indexOf(chosenFile) + 1}.{' '}
+					{chosenFile &&
+						capitalize(
 							chosenFile
 								.split('.')[0]
 								.replaceAll(/[0-9+_]/g, '')
 								.replace('-', ' - ')
 						)}
-					</span>
-					<button onClick={(e) => setChosenFile(null)} className='top-3 left-[5%] absolute text-gray-400'>
-						<i className='fa-arrow-left text-2xl fa-solid'></i>
-					</button>
-				</div>
-			)}
+				</span>
+				<button onClick={(e) => setChosenFile(null)} className='top-3 left-[5%] absolute text-gray-400'>
+					<i className='fa-arrow-left text-2xl fa-solid'></i>
+				</button>
+			</div>
 			<div className='z-20 absolute flex items-center mt-2 w-[95%] place-self-center'>
 				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_0_10px_1px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 			</div>
 			<div className='overflow-y-scroll'>
-				<div className='mt-12'>
+				<div className='mt-14'>
 					{files.current
 						?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
 						.map((file, idx) => {
