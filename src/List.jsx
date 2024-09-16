@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function List() {
+export default function List({ setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 
@@ -40,6 +40,9 @@ export default function List() {
 
 		if (chosenFile) {
 			enlarged.style.top = `0px`;
+			setLock(true);
+		} else {
+			setLock(false);
 		}
 
 		let handleTouchStart = (e) => {
