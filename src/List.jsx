@@ -34,28 +34,42 @@ export default function List() {
 		let startX, startY, changeX, changeY;
 
 		let idx = chosenFile && files.current.indexOf(chosenFile);
+		let enlarged = document.getElementById('enlarged-img');
+
+		let locked;
+
+		if (chosenFile) {
+			enlarged.style.top = `0px`;
+		}
 
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
+			locked = true;
 		};
 		let handleTouchMove = (e) => {
 			if (!startX) return;
 
 			let deltaX = e.touches[0].clientX;
 			let deltaY = e.touches[0].clientY;
+			if (changeY > 50) locked = false;
 
 			changeX = deltaX - startX;
 			changeY = deltaY - startY;
+
+			if (!locked) enlarged.style.top = `${changeY >= 0 ? changeY : 0}px`;
 		};
 
 		let handleTouchEnd = (e) => {
 			if (!chosenFile) return;
 
-			if (Math.abs(changeY) > Math.abs(changeX)) {
-				if (changeY > 0) setChosenFile(null);
-				return;
+			if (changeY > 150) {
+				setChosenFile(null);
+			} else {
+				enlarged.style.top = `0px`;
 			}
+
+			if (!locked) return;
 			if (changeX > 0) {
 				idx == 0 ? (idx = files.current.length - 1) : idx--;
 			} else if (changeX < 0) {
@@ -93,7 +107,7 @@ export default function List() {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			<div className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
 						<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
