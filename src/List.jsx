@@ -138,31 +138,29 @@ export default function List() {
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
-			<div className='z-20 absolute flex items-center mt-2 w-[95%] place-self-center'>
-				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_0_10px_1px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
+			<div className='top-0 z-20 sticky flex items-center border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] p-3 border-b w-full place-self-center'>
+				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 			</div>
 			<div className='overflow-y-scroll'>
-				<div className='mt-14'>
-					{files.current
-						?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
-						.map((file, idx) => {
-							let readableFile = file
-								.split('.')[0]
-								.replaceAll(/[0-9+_]/g, '')
-								.replace('-', ' - ');
+				{files.current
+					?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
+					.map((file, idx) => {
+						let readableFile = file
+							.split('.')[0]
+							.replaceAll(/[0-9+_]/g, '')
+							.replace('-', ' - ');
 
-							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter.toLowerCase()))) {
-								return (
-									<div key={idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
-										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-										<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
-											{idx + 1}. {capitalize(readableFile)}
-										</span>
-									</div>
-								);
-							}
-						})}
-				</div>
+						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter.toLowerCase()))) {
+							return (
+								<div key={idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
+									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+									<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
+										{idx + 1}. {capitalize(readableFile)}
+									</span>
+								</div>
+							);
+						}
+					})}
 			</div>
 		</div>
 	);
