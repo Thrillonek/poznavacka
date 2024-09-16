@@ -31,7 +31,7 @@ export default function List() {
 	}, [filter]);
 
 	useEffect(() => {
-		let startX, startY, changeX, changeY;
+		let startX, startY, changeX, changeY, startMS;
 
 		let idx = chosenFile && files.current.indexOf(chosenFile);
 		let enlarged = document.getElementById('enlarged-img');
@@ -45,6 +45,7 @@ export default function List() {
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
+			startMS = Date.now();
 			locked = true;
 		};
 		let handleTouchMove = (e) => {
@@ -63,7 +64,9 @@ export default function List() {
 		let handleTouchEnd = (e) => {
 			if (!chosenFile) return;
 
-			if (changeY > 150) {
+			let currentMS = Date.now();
+
+			if (changeY > 200 || Math.abs(startMS - currentMS) < 100) {
 				setChosenFile(null);
 			} else {
 				enlarged.style.top = `0px`;
