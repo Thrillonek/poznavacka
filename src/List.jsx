@@ -43,11 +43,13 @@ export default function List() {
 		}
 
 		let handleTouchStart = (e) => {
+			e.preventDefault();
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
 			locked = true;
 		};
 		let handleTouchMove = (e) => {
+			e.preventDefault();
 			if (!startX) return;
 
 			let deltaX = e.touches[0].clientX;
