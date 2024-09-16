@@ -78,8 +78,8 @@ export default function List() {
 			setChosenFile(files.current[idx]);
 		};
 
-		document.addEventListener('touchstart', handleTouchStart);
-		document.addEventListener('touchmove', handleTouchMove);
+		document.addEventListener('touchstart', handleTouchStart, { passive: false });
+		document.addEventListener('touchmove', handleTouchMove, { passive: false });
 		document.addEventListener('touchend', handleTouchEnd);
 
 		return () => {
@@ -107,7 +107,7 @@ export default function List() {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full overscroll-y-contain ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
 						<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
