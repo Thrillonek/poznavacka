@@ -37,7 +37,7 @@ export default function App() {
 
 	return (
 		<div className='flex flex-col w-screen h-dvh overflow-x-hidden'>
-			<div className={'relative w-[200vw] h-full transition-transform duration-[650ms] ' + (mode == 'learning' && '-translate-x-1/2')}>
+			<div className={'relative w-[200vw] h-full transition-transform duration-500 ' + (mode == 'learning' && '-translate-x-1/2')}>
 				<div className='top-0 left-0 absolute w-screen h-full'>
 					<Quiz />
 				</div>
