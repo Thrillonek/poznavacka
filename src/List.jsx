@@ -106,6 +106,7 @@ export default function List({ setLock }) {
 		}
 
 		setChosenFile(filteredFiles[idx]);
+		if (filter) return;
 		let el = document.getElementById('plant-' + idx);
 		el.scrollIntoView({ block: 'center' });
 	}
