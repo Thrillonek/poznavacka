@@ -142,8 +142,11 @@ export default function List({ setLock }) {
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
-			<div className='top-0 z-20 sticky flex items-center border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] p-3 border-b w-full place-self-center'>
-				<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
+			<div className='top-0 z-20 sticky border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
+				<div className='relative flex justify-end items-center p-3'>
+					<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
+					{filter && <i onClick={(e) => setFilter('')} className='absolute mr-5 text-gray-500 text-lg cursor-pointer fa-solid fa-xmark' />}
+				</div>
 			</div>
 			<div className='overflow-y-scroll'>
 				{files.current
