@@ -33,7 +33,6 @@ export default function List({ setLock }) {
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
 
-		let idx = chosenFile && files.current.indexOf(chosenFile);
 		let enlarged = document.getElementById('enlarged-img');
 
 		let locked;
@@ -72,16 +71,11 @@ export default function List({ setLock }) {
 			if (changeY > 200 || Math.abs(startMS - currentMS) < 100) {
 				setChosenFile(null);
 			} else {
-				enlarged.style.top = `0px`;
+				enlarged.style.top = '0px';
 			}
 
 			if (!locked) return;
-			if (changeX > 0) {
-				idx == 0 ? (idx = files.current.length - 1) : idx--;
-			} else if (changeX < 0) {
-				idx == files.current.length - 1 ? (idx = 0) : idx++;
-			}
-			changeChosenFile(idx);
+			changeChosenFile({ left: changeX < 0, right: changeX > 0 });
 		};
 
 		document.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -93,39 +87,46 @@ export default function List({ setLock }) {
 			document.removeEventListener('touchmove', handleTouchMove);
 			document.removeEventListener('touchend', handleTouchEnd);
 		};
-	}, [chosenFile]);
+	}, [chosenFile, filter]);
 
-	function switchEnlargedImg(operation) {
+	function changeChosenFile(conditions) {
 		let idx = chosenFile && files.current.indexOf(chosenFile);
 
-		if (operation == '+') {
-			idx == files.current.length - 1 ? (idx = 0) : idx++;
-		}
-		if (operation == '-') {
-			idx == 0 ? (idx = files.current.length - 1) : idx--;
-		}
-		changeChosenFile(idx);
-	}
+		let filteredFiles = files.current;
+		setFilter('');
 
-	function changeChosenFile(idx) {
-		setChosenFile(files.current[idx]);
+		// if (filter) {
+		// 	filteredFiles = files.current.filter((f) => (/\d/.test(filter) && files.current.indexOf(f).toString().startsWith(filter)) || (isNaN(filter) && f.includes(filter.toLowerCase())));
+		// }
+
+		if (conditions.left) {
+			idx == filteredFiles.length - 1 ? (idx = 0) : idx++;
+		} else if (conditions.right) {
+			idx == 0 ? (idx = filteredFiles.length - 1) : idx--;
+		}
+
+		setChosenFile(filteredFiles[idx]);
 		let el = document.getElementById('plant-' + idx);
 		el.scrollIntoView({ block: 'center' });
 	}
 
-	function capitalize(str) {
+	function prettify(str) {
+		str = str
+			.split('.')[0]
+			.replaceAll(/[0-9+_]/g, '')
+			.replace('-', ' - ');
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			<div id='enlarged-img' className={'top-full translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
-						<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+						<div onClick={(e) => changeChosenFile({ right: '-' })} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
 							<i className='fa-caret-left text-3xl fa-solid'></i>
 						</div>
-						<div onClick={(e) => switchEnlargedImg('+')} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+						<div onClick={(e) => changeChosenFile({ left: '+' })} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
 							<i className='fa-caret-right text-3xl fa-solid'></i>
 						</div>
 					</>
@@ -134,16 +135,9 @@ export default function List({ setLock }) {
 					<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full object-contain' alt='Obrázek kytky' />
 				</div>
 				<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-					{files.current.indexOf(chosenFile) + 1}.{' '}
-					{chosenFile &&
-						capitalize(
-							chosenFile
-								.split('.')[0]
-								.replaceAll(/[0-9+_]/g, '')
-								.replace('-', ' - ')
-						)}
+					{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
 				</span>
-				<button onClick={(e) => setChosenFile(null)} className='top-3 left-[5%] absolute text-gray-400'>
+				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-gray-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
@@ -154,17 +148,12 @@ export default function List({ setLock }) {
 				{files.current
 					?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
 					.map((file, idx) => {
-						let readableFile = file
-							.split('.')[0]
-							.replaceAll(/[0-9+_]/g, '')
-							.replace('-', ' - ');
-
-						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && file.includes(filter.toLowerCase()))) {
+						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).includes(filter.toLowerCase()))) {
 							return (
 								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
 									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 									<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
-										{idx + 1}. {capitalize(readableFile)}
+										{idx + 1}. {prettify(file)}
 									</span>
 								</div>
 							);
