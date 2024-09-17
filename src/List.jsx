@@ -90,14 +90,14 @@ export default function List({ setLock }) {
 	}, [chosenFile, filter]);
 
 	function changeChosenFile(conditions) {
-		let idx = chosenFile && files.current.indexOf(chosenFile);
-
 		let filteredFiles = files.current;
-		setFilter('');
 
-		// if (filter) {
-		// 	filteredFiles = files.current.filter((f) => (/\d/.test(filter) && files.current.indexOf(f).toString().startsWith(filter)) || (isNaN(filter) && f.includes(filter.toLowerCase())));
-		// }
+		if (filter) {
+			let fileFilter = (f) => (/\d/.test(filter) && (files.current.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()));
+			filteredFiles = files.current.filter(fileFilter);
+		}
+
+		let idx = chosenFile && filteredFiles.indexOf(chosenFile);
 
 		if (conditions.left) {
 			idx == filteredFiles.length - 1 ? (idx = 0) : idx++;
@@ -149,7 +149,7 @@ export default function List({ setLock }) {
 				{files.current
 					?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
 					.map((file, idx) => {
-						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).includes(filter.toLowerCase()))) {
+						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 							return (
 								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20'>
 									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
