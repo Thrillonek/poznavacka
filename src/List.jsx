@@ -81,9 +81,7 @@ export default function List({ setLock }) {
 			} else if (changeX < 0) {
 				idx == files.current.length - 1 ? (idx = 0) : idx++;
 			}
-			let el = document.getElementById('plant-' + idx);
-			el.scrollIntoView({ block: 'center' });
-			setChosenFile(files.current[idx]);
+			changeChosenFile(idx);
 		};
 
 		document.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -106,6 +104,10 @@ export default function List({ setLock }) {
 		if (operation == '-') {
 			idx == 0 ? (idx = files.current.length - 1) : idx--;
 		}
+		changeChosenFile(idx);
+	}
+
+	function changeChosenFile(idx) {
 		setChosenFile(files.current[idx]);
 		let el = document.getElementById('plant-' + idx);
 		el.scrollIntoView({ block: 'center' });
@@ -117,7 +119,7 @@ export default function List({ setLock }) {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'top-full translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
 						<div onClick={(e) => switchEnlargedImg('-')} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
