@@ -127,11 +127,11 @@ export default function List({ setLock }) {
 					</>
 				)}
 				<div className='w-full h-[60%] overflow-hidden'>
-					<div id='enlarged-img-slider' className='relative h-full transition-[left]' style={{ left: `-${files.current.indexOf(chosenFile) * 100}%` }}>
+					<div id='enlarged-img-slider' className={'relative h-full ' + (chosenFile && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
 						{files.current.map((file, idx) => {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (
-									<div className='top-0 absolute flex flex-col justify-between items-center w-full h-full' style={{ left: `${idx * 100}%` }}>
+									<div className='top-0 absolute flex flex-col justify-between items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
 										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
 										<span className='font-bold text-3xl text-center text-gray-300'>
 											{idx + 1}. {prettify(file)}
