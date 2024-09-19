@@ -132,12 +132,12 @@ export default function List({ setLock }) {
 						</div>
 					</>
 				)}
-				<div className='h-1/2'>
-					<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-full object-contain' alt='Obrázek kytky' />
+				<div className='flex flex-col justify-between items-center h-[60%]'>
+					<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
+					<span className='font-bold text-3xl text-center text-gray-300'>
+						{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
+					</span>
 				</div>
-				<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-					{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
-				</span>
 				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-gray-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
