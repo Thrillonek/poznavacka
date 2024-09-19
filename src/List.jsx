@@ -132,11 +132,13 @@ export default function List({ setLock }) {
 						</div>
 					</>
 				)}
-				<div className='flex flex-col justify-between items-center h-[60%]'>
-					<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
-					<span className='font-bold text-3xl text-center text-gray-300'>
-						{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
-					</span>
+				<div className='h-[60%] overflow-hidden'>
+					<div className='flex flex-col justify-between items-center h-full'>
+						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
+						<span className='font-bold text-3xl text-center text-gray-300'>
+							{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
+						</span>
+					</div>
 				</div>
 				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-gray-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
