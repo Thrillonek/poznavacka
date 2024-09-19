@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-export default function List({ setLock }) {
+export default function List({ lock, setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 
@@ -127,7 +127,7 @@ export default function List({ setLock }) {
 					</>
 				)}
 				<div className='w-full h-[60%] overflow-hidden'>
-					<div id='enlarged-img-slider' className={'relative h-full ' + (chosenFile && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
+					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
 						{files.current.map((file, idx) => {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (

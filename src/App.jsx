@@ -48,7 +48,7 @@ export default function App() {
 					<Quiz />
 				</div>
 				<div className='top-0 left-[100vw] absolute w-screen h-full'>
-					<List setLock={setLock} />
+					<List setLock={setLock} lock={lock} />
 				</div>
 			</div>
 			<div className='flex justify-around items-center border-gray-500 bg-[rgb(65,75,90)] shadow-[0_-5px_10px_-1px_rgb(0,0,0,0.3)] md:py-2 border-t w-full'>
