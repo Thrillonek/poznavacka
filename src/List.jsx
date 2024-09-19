@@ -5,6 +5,7 @@ export default function List({ setLock }) {
 	const [chosenFile, setChosenFile] = useState();
 
 	const files = useRef(__FILES__);
+	const filteredFiles = filter ? files.current.filter((f) => (/\d/.test(filter) && (files.current.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files.current;
 
 	useEffect(() => {
 		const observer = new IntersectionObserver((entries) => {
@@ -90,13 +91,6 @@ export default function List({ setLock }) {
 	}, [chosenFile, filter]);
 
 	function changeChosenFile(conditions) {
-		let filteredFiles = files.current;
-
-		if (filter) {
-			let fileFilter = (f) => (/\d/.test(filter) && (files.current.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()));
-			filteredFiles = files.current.filter(fileFilter);
-		}
-
 		let idx = chosenFile && filteredFiles.indexOf(chosenFile);
 
 		if (conditions.left) {
