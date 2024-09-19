@@ -7,16 +7,19 @@ export default function App() {
 	const [lock, setLock] = useState(false);
 
 	useEffect(() => {
-		let startX, changeX;
+		let startX, changeX, startMS;
 
-		let handleTouchStart = (e) => (startX = e.touches[0].clientX);
+		let handleTouchStart = (e) => {
+			startX = e.touches[0].clientX;
+			startMS = Date.now();
+		};
 		let handleTouchMove = (e) => {
 			if (!startX) return;
 			let deltaX = e.touches[0].clientX;
 			changeX = deltaX - startX;
 		};
 		let handleTouchEnd = (e) => {
-			if (Math.abs(changeX) < 100 || lock) return;
+			if (Date.now() - startMS > 500 || lock) return;
 			if (changeX > 0 && mode == 'learning') {
 				setMode('quiz');
 			} else if (changeX < 0 && mode == 'quiz') {
