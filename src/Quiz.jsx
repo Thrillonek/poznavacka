@@ -118,7 +118,7 @@ function Quiz() {
 
 	function setToTested() {
 		setMin('1');
-		setMax('35');
+		setMax('44');
 	}
 
 	let readableImgName = text
