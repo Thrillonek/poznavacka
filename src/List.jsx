@@ -132,12 +132,20 @@ export default function List({ setLock }) {
 						</div>
 					</>
 				)}
-				<div className='h-[60%] overflow-hidden'>
-					<div className='flex flex-col justify-between items-center h-full'>
-						<img src={('./assets/img/' + chosenFile).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
-						<span className='font-bold text-3xl text-center text-gray-300'>
-							{files.current.indexOf(chosenFile) + 1}. {chosenFile && prettify(chosenFile)}
-						</span>
+				<div className='w-full h-[60%] overflow-hidden'>
+					<div id='enlarged-img-slider' className='relative h-full transition-[left]' style={{ left: `-${files.current.indexOf(chosenFile) * 100}%` }}>
+						{files.current.map((file, idx) => {
+							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
+								return (
+									<div className='top-0 absolute flex flex-col justify-between items-center w-full h-full' style={{ left: `${idx * 100}%` }}>
+										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
+										<span className='font-bold text-3xl text-center text-gray-300'>
+											{idx + 1}. {prettify(file)}
+										</span>
+									</div>
+								);
+							}
+						})}
 					</div>
 				</div>
 				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-gray-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
