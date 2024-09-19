@@ -151,20 +151,18 @@ export default function List({ setLock }) {
 				</div>
 			</div>
 			<div className='overflow-y-scroll'>
-				{files.current
-					?.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')))
-					.map((file, idx) => {
-						if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
-							return (
-								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
-									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-									<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
-										{idx + 1}. {prettify(file)}
-									</span>
-								</div>
-							);
-						}
-					})}
+				{files.current.map((file, idx) => {
+					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
+						return (
+							<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
+								<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+								<span className='opacity-0 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-32 duration-[400ms] plant-list-item'>
+									{idx + 1}. {prettify(file)}
+								</span>
+							</div>
+						);
+					}
+				})}
 			</div>
 		</div>
 	);

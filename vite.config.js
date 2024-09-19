@@ -3,7 +3,7 @@ import fs from 'fs';
 import { defineConfig } from 'vite';
 
 const path = './public/assets/img';
-const files = fs.readdirSync(path);
+const files = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 
 // https://vitejs.dev/config/
 export default defineConfig({

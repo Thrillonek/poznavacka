@@ -16,7 +16,6 @@ function Quiz() {
 	let files = useRef(__FILES__);
 
 	useEffect(() => {
-		files.current.sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 		setMax(files.current.length);
 		changeImg();
 	}, []);
