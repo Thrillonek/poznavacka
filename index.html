@@ -6,9 +6,43 @@
 		<link rel="icon" type="image/png" href="/assets/icon.png" />
 		<script src="https://kit.fontawesome.com/58f533b0e1.js" crossorigin="anonymous"></script>
 		<title>Poznávačka Tool</title>
+		<style>
+			.unloaded-bg {
+				display: flex;
+				flex-direction: column;
+				position: fixed;
+				top: 0;
+				left: 0;
+				justify-content: center;
+				align-items: center;
+				width: 100vw;
+				text-align: center;
+				background-color: #374151;
+				z-index: -1000;
+				height: 100dvh;
+			}
+			.unloaded-title {
+				font-size: 3.5rem;
+				font-weight: bold;
+				line-height: 1.5;
+				color: #8791a1;
+				font-family: 'Playwrite DE Grund', cursive, Arial, Helvetica, sans-serif;
+			}
+			.unloaded-loading {
+				font-size: 2.5rem;
+				margin-top: 3rem;
+				font-weight: bold;
+				line-height: 1.5;
+				color: #576171;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="root"></div>
 		<script type="module" src="/src/main.jsx"></script>
+		<div class="unloaded-bg">
+			<h1 class="unloaded-title">Poznávačka<br />Tool</h1>
+			<p class="unloaded-loading">Načítání...</p>
+		</div>
 	</body>
 </html>
