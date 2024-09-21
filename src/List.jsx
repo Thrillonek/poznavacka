@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { files } from './utilities.js';
 
 export default function List({ lock, setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 
-	const files = useRef(__FILES__);
-	const filteredFiles = filter ? files.current.filter((f) => (/\d/.test(filter) && (files.current.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files.current;
+	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
 	useEffect(() => {
 		const observer = new IntersectionObserver((entries) => {
@@ -128,7 +128,7 @@ export default function List({ lock, setLock }) {
 				)}
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
-						{files.current.map((file, idx) => {
+						{files.map((file, idx) => {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (
 									<div className='top-0 absolute flex flex-col justify-between items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
@@ -153,7 +153,7 @@ export default function List({ lock, setLock }) {
 				</div>
 			</div>
 			<div className='overflow-y-scroll'>
-				{files.current.map((file, idx) => {
+				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
 							<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>

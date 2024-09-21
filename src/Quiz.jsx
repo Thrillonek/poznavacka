@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Quiz.css';
+import { files } from './utilities.js';
 
 function Quiz() {
 	const [show, setShow] = useState();
@@ -13,10 +14,9 @@ function Quiz() {
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx = useRef();
-	let files = useRef(__FILES__);
 
 	useEffect(() => {
-		setMax(files.current.length);
+		setMax(files.length);
 		changeImg();
 	}, []);
 
@@ -60,13 +60,13 @@ function Quiz() {
 		options?.show != undefined && setShow(options.show);
 
 		let minInt = mode == 'custom' ? parseInt(min) || 1 : 1;
-		let maxInt = mode == 'custom' ? parseInt(max) || files.current.length : presets.length * 10;
+		let maxInt = mode == 'custom' ? parseInt(max) || files.length : presets.length * 10;
 
 		setError(null);
 		if (mode == 'custom') {
-			if (maxInt <= minInt || (!max && minInt >= files.current?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
+			if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
-			if (maxInt > files.current.length) return setError('Horní hranice nemůže být vyšší než ' + files.current.length);
+			if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 		} else if (mode == 'preset') {
 			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}
@@ -77,7 +77,7 @@ function Quiz() {
 
 		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 
-		let name = files.current[idx];
+		let name = files[idx];
 		setText(name);
 
 		prevIdx.current = idx;

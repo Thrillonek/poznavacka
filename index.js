@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/files', (req, res) => {
-	const files = fs.readdirSync(path);
+	const files = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 	res.json({ files: files });
 });
 
