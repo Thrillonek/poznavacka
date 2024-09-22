@@ -161,7 +161,7 @@ export default function List({ lock, setLock }) {
 					<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					{filter && <i onClick={(e) => setFilter('')} className='absolute mr-5 text-gray-500 text-lg cursor-pointer fa-solid fa-xmark' />}
 				</div>
-				<div className='flex items-center p-1' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
+				<div className='flex items-center p-1 cursor-pointer' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
 					<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
 					<p className='ml-2 text-[rgb(133,144,155)]'>Ukázat oddělení</p>
 				</div>
