@@ -5,6 +5,7 @@ export default function List({ lock, setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
+	const [showCategories, setShowCategories] = useState();
 
 	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
@@ -160,17 +161,24 @@ export default function List({ lock, setLock }) {
 					<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					{filter && <i onClick={(e) => setFilter('')} className='absolute mr-5 text-gray-500 text-lg cursor-pointer fa-solid fa-xmark' />}
 				</div>
+				<div className='flex items-center p-1' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
+					<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
+					<p className='ml-2 text-[rgb(133,144,155)]'>Ukázat oddělení</p>
+				</div>
 			</div>
 			<div className='overflow-y-scroll'>
 				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
-							<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
-								<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-								<span className='opacity-50 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-24 duration-500 plant-list-item ease-out'>
-									{idx + 1}. {prettify(file)}
-								</span>
-							</div>
+							<>
+								{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
+								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
+									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+									<span className='opacity-50 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-24 duration-500 plant-list-item ease-out'>
+										{idx + 1}. {prettify(file)}
+									</span>
+								</div>
+							</>
 						);
 					}
 				})}
