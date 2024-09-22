@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { files } from './utilities.js';
+import { categories, files } from './utilities.js';
 
 export default function List({ lock, setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
+	const [category, setCategory] = useState();
 
 	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
@@ -41,6 +42,13 @@ export default function List({ lock, setLock }) {
 		if (chosenFile) {
 			enlarged.style.top = `0px`;
 			setLock(true);
+			let newCategory;
+			for (const [key, val] of Object.entries(categories)) {
+				if (files.indexOf(chosenFile) >= key - 1) {
+					newCategory = val;
+				} else break;
+			}
+			setCategory(newCategory);
 		} else {
 			setLock(false);
 		}
@@ -126,14 +134,15 @@ export default function List({ lock, setLock }) {
 						</div>
 					</>
 				)}
+				<div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-4xl text-gray-400'>{category}</div>
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
 						{files.map((file, idx) => {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (
-									<div className='top-0 absolute flex flex-col justify-between items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
+									<div className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
 										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
-										<span className='font-bold text-3xl text-center text-gray-300'>
+										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
 											{idx + 1}. {prettify(file)}
 										</span>
 									</div>
