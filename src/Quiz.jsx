@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './Quiz.css';
 import { plants, shrooms } from './utilities.js';
 
-function Quiz() {
+function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
 	const [text, setText] = useState();
 	const [min, setMin] = useState('1');
@@ -12,8 +12,7 @@ function Quiz() {
 	const [mode, setMode] = useState('custom');
 	const [presets, setPresets] = useState([]);
 
-	let files = plants;
-	let poznavacka = 'rostliny';
+	let files = poznavacka == 'rostliny' ? plants : poznavacka == 'houby' ? shrooms : [];
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx = useRef();
@@ -146,14 +145,16 @@ function Quiz() {
 				{mode == 'custom' && (
 					<div className='flex flex-col items-center'>
 						<p className='font-bold text-gray-300 text-xl'>
-							Rostliny od
+							{poznavacka.charAt(0).toUpperCase() + poznavacka.slice(1)} od
 							<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 							do
 							<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
 						</p>
-						<button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-6 px-5 py-1 rounded-xl text-gray-300'>
-							Nastavit na momentálně zkoušenou sadu
-						</button>
+						{poznavacka == 'rostliny' && (
+							<button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-6 px-5 py-1 rounded-xl text-gray-300'>
+								Nastavit na momentálně zkoušenou sadu
+							</button>
+						)}
 					</div>
 				)}
 				{mode == 'preset' && (
