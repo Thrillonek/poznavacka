@@ -1,4 +1,5 @@
-let files = __FILES__;
+let plants = __ROSTLINY__;
+let shrooms = __HOUBY__;
 const categories = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
@@ -47,4 +48,4 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, files };
+export { categories, plants, shrooms };

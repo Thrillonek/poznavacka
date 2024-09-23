@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, files } from './utilities.js';
+import { categories, plants, shrooms } from './utilities.js';
 
 export default function List({ lock, setLock }) {
 	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
+
+	let files = plants;
+	let poznavacka = 'rostliny';
 
 	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
@@ -142,7 +145,7 @@ export default function List({ lock, setLock }) {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (
 									<div className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
-										<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} className='max-h-[85%] object-contain' alt='Obrázek kytky' />
+										<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
 										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
 											{idx + 1}. {prettify(file)}
 										</span>
@@ -173,7 +176,7 @@ export default function List({ lock, setLock }) {
 							<>
 								{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
 								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
-									<img src={('./assets/img/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 									<span className='opacity-50 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-24 duration-500 plant-list-item ease-out'>
 										{idx + 1}. {prettify(file)}
 									</span>

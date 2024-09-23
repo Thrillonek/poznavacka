@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { files } from './utilities.js';
+import { plants, shrooms } from './utilities.js';
 
 function Quiz() {
 	const [show, setShow] = useState();
@@ -11,6 +11,9 @@ function Quiz() {
 	const [error, setError] = useState();
 	const [mode, setMode] = useState('custom');
 	const [presets, setPresets] = useState([]);
+
+	let files = plants;
+	let poznavacka = 'rostliny';
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx = useRef();
@@ -128,7 +131,7 @@ function Quiz() {
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-full'>
 			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%] object-contain' src={('./assets/img/' + text).replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
 			<div className='flex flex-col justify-between items-center w-full h-1/2'>
