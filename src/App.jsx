@@ -10,6 +10,7 @@ export default function App() {
 		axios
 			.get('/api/index')
 			.then((res) => {
+				console.log(res.data);
 				if (res.data.session) {
 					setPoznavacka(res.data.session);
 					setShowingContent(true);
