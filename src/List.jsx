@@ -137,7 +137,7 @@ export default function List({ lock, setLock, poznavacka }) {
 						</div>
 					</>
 				)}
-				<div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-4xl text-gray-400'>{category}</div>
+				{poznavacka == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-4xl text-gray-400'>{category}</div>}
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
 						{files.map((file, idx) => {
@@ -170,7 +170,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				)}
 			</div>
-			<div className='overflow-y-scroll'>
+			<div className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
