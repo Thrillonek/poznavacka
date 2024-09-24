@@ -52,12 +52,12 @@ export default function App() {
 					<Home poznavacka={poznavacka} />
 				</div>
 			</div>
-			<div className='px-10 w-full'>
+			<div className='flex flex-col px-10 w-full'>
 				<h1 className='mt-10 mb-5 font-bold text-3xl text-gray-400'>Vyber poznávačku:</h1>
-				<button onClick={(e) => showContent('rostliny')} className='bg-gray-600 m-5 py-10 rounded-xl w-[90%] font-bold text-5xl text-gray-300'>
+				<button onClick={(e) => showContent('rostliny')} className='bg-gray-600 m-5 py-10 rounded-xl w-[90%] font-bold text-5xl text-gray-300 self-center'>
 					Rostliny
 				</button>
-				<button onClick={(e) => showContent('houby')} className='bg-gray-600 m-5 py-10 rounded-xl w-[90%] font-bold text-5xl text-gray-300'>
+				<button onClick={(e) => showContent('houby')} className='bg-gray-600 m-5 py-10 rounded-xl w-[90%] font-bold text-5xl text-gray-300 self-center'>
 					Houby
 				</button>
 			</div>
