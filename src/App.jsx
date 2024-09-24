@@ -7,22 +7,25 @@ export default function App() {
 	const [showingContent, setShowingContent] = useState();
 
 	useEffect(() => {
-		axios.get('/api/index.php').then((res) => {
-			if (res.data.session) {
-				setPoznavacka(res.data.session);
-				setShowingContent(true);
-			} else if (res.data.error) console.error(data.error);
-		});
+		axios
+			.get('/api/index')
+			.then((res) => {
+				if (res.data.session) {
+					setPoznavacka(res.data.session);
+					setShowingContent(true);
+				} else if (res.data.error) console.error(data.error);
+			})
+			.catch((err) => console.error(err.response.data.message));
 	}, []);
 
 	useEffect(() => {
 		let data = poznavacka;
 		if (!showingContent) data = '';
 		axios
-			.post('/api/index.php', {
+			.post('/api/index', {
 				poznavacka: data,
 			})
-			.then((res) => {});
+			.catch((err) => console.error(err.response.data.message));
 	}, [poznavacka, showingContent]);
 
 	function showContent(pozn) {
