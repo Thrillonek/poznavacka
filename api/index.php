@@ -1,9 +1,11 @@
 <?php
   $method = $_SERVER['REQUEST_METHOD'];
   if($method == 'GET') {
+    session_set_cookie_params(1000*60*60*24*30);
+    session_start();
     if(isset($_SESSION) && isset($_SESSION['poznavacka'])) {
       http_response_code(200);
-      echo json_encode(array('session'=>$SESSION['poznavacka']));
+      echo json_encode(array('session'=>$_SESSION['poznavacka']));
     } else {
       http_response_code(404);
       echo json_encode(array('error'=>'No data available in session.'));
