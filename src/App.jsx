@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Home from './Home.jsx';
 
 export default function App() {
-	const [poznavacka, setPoznavacka] = useState('rostliny');
+	const [poznavacka, setPoznavacka] = useState();
 	const [showingContent, setShowingContent] = useState();
 
 	useEffect(() => {
@@ -14,7 +14,9 @@ export default function App() {
 				if (res.data.session) {
 					setPoznavacka(res.data.session);
 					setShowingContent(true);
-				} else if (res.data.error) console.error(data.error);
+				} else {
+					setPoznavacka('rostliny');
+				}
 			})
 			.catch((err) => console.error(err.response.data.error));
 	}, []);
@@ -34,6 +36,7 @@ export default function App() {
 		setShowingContent(true);
 	}
 
+	if (!poznavacka) return;
 	return (
 		<div className='relative flex flex-col items-center bg-gray-700 w-screen h-dvh overflow-y-hidden'>
 			<div className={'absolute h-full w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
