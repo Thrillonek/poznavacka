@@ -12,8 +12,9 @@
   if($method == 'POST') {
     session_set_cookie_params(1000*60*60*24*30);
     session_start();
-    if(isset($_POST['poznavacka'])) {
-      $_SESSION['poznavacka'] = json_decode($_POST['poznavacka']);
+    $post = json_decode(file_get_contents('php://input'), true);
+    if(isset($post['poznavacka'])) {
+      $_SESSION['poznavacka'] = $post['poznavacka'];
       http_response_code(200);
     } else {
       http_response_code(400);

@@ -15,7 +15,7 @@ export default function App() {
 					setShowingContent(true);
 				} else if (res.data.error) console.error(data.error);
 			})
-			.catch((err) => console.error(err.response.data.message));
+			.catch((err) => console.error(err.response));
 	}, []);
 
 	useEffect(() => {
