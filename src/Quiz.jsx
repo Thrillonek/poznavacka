@@ -19,8 +19,8 @@ function Quiz({ poznavacka }) {
 
 	useEffect(() => {
 		setMax(files.length);
-		changeImg();
-	}, []);
+		changeImg({ firstChange: true });
+	}, [poznavacka]);
 
 	useEffect(() => {
 		document.body.onkeydown = (e) => {
@@ -68,7 +68,7 @@ function Quiz({ poznavacka }) {
 		if (mode == 'custom') {
 			if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
-			if (maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
+			if (!options.firstChange && maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 		} else if (mode == 'preset') {
 			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}

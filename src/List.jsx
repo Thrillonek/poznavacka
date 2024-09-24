@@ -12,6 +12,8 @@ export default function List({ lock, setLock, poznavacka }) {
 	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
 	useEffect(() => {
+		document.getElementById('list').scrollTop = 0;
+		if (!filter) setChosenFile();
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
@@ -33,7 +35,7 @@ export default function List({ lock, setLock, poznavacka }) {
 				observer.unobserve(el);
 			});
 		};
-	}, [filter]);
+	}, [filter, poznavacka]);
 
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
@@ -170,7 +172,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				)}
 			</div>
-			<div className='custom-scrollbar overflow-y-scroll'>
+			<div id='list' className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
