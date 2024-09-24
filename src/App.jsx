@@ -7,7 +7,7 @@ export default function App() {
 	const [showingContent, setShowingContent] = useState();
 
 	useEffect(() => {
-		axios.get('/api/session.php').then((res) => {
+		axios.get('/api/index.php').then((res) => {
 			if (res.data.session) {
 				setPoznavacka(res.data.session);
 				setShowingContent(true);
@@ -19,8 +19,8 @@ export default function App() {
 		let data = poznavacka;
 		if (!showingContent) data = '';
 		axios
-			.post('/api/session.php', {
-				data,
+			.post('/api/index.php', {
+				poznavacka: data,
 			})
 			.then((res) => {});
 	}, [poznavacka, showingContent]);
