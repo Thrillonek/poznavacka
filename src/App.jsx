@@ -18,7 +18,10 @@ export default function App() {
 					setPoznavacka('rostliny');
 				}
 			})
-			.catch((err) => console.error(err.response.data.error));
+			.catch((err) => {
+				setPoznavacka('rostliny');
+				console.error(err.response.data.error);
+			});
 	}, []);
 
 	useEffect(() => {
