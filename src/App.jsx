@@ -1,9 +1,29 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import Home from './Home.jsx';
 
 export default function App() {
 	const [poznavacka, setPoznavacka] = useState('rostliny');
 	const [showingContent, setShowingContent] = useState();
+
+	useEffect(() => {
+		axios.get('/api/session.php').then((res) => {
+			if (res.data.session) {
+				setPoznavacka(res.data.session);
+				setShowingContent(true);
+			} else if (res.data.error) console.error(data.error);
+		});
+	}, []);
+
+	useEffect(() => {
+		let data = poznavacka;
+		if (!showingContent) data = '';
+		axios
+			.post('/api/session.php', {
+				data,
+			})
+			.then((res) => {});
+	}, [poznavacka, showingContent]);
 
 	function showContent(pozn) {
 		setPoznavacka(pozn);

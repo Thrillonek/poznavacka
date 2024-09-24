@@ -143,7 +143,7 @@ export default function List({ lock, setLock, poznavacka }) {
 						{files.map((file, idx) => {
 							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 								return (
-									<div className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
+									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
 										<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
 										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
 											{idx + 1}. {prettify(file)}
@@ -174,15 +174,15 @@ export default function List({ lock, setLock, poznavacka }) {
 				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
-							<>
+							<div key={idx}>
 								{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
-								<div key={idx} id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
+								<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
 									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 									<span className='opacity-50 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-24 duration-500 plant-list-item ease-out'>
 										{idx + 1}. {prettify(file)}
 									</span>
 								</div>
-							</>
+							</div>
 						);
 					}
 				})}
