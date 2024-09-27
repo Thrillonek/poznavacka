@@ -19,3 +19,9 @@ body {
 .custom-scrollbar::-webkit-scrollbar-track {
 	background-color: rgb(90, 100, 110);
 }
+
+@media (pointer: coarse) {
+ ::-webkit-scrollbar {
+  display: none;
+ }
+}
