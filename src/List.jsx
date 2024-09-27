@@ -12,7 +12,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
 	useEffect(() => {
-  if(poznavacka != "rostliny") setShowCategories()
+  if(poznavacka != "rostliny") setShowCategories(false)
 		document.getElementById('list').scrollTop = 0;
 		if (!filter) setChosenFile();
 		const observer = new IntersectionObserver((entries) => {
