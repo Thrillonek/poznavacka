@@ -181,7 +181,7 @@ export default function List({ lock, setLock, poznavacka }) {
 								{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
 								<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
 									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-									<span className='opacity-50 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-24 duration-500 plant-list-item ease-out'>
+									<span className='opacity-70 ml-5 font-bold text-gray-400 text-xl transition-all -translate-x-12 duration-500 plant-list-item ease-out'>
 										{idx + 1}. {prettify(file)}
 									</span>
 								</div>
