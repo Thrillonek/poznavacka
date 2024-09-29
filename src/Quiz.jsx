@@ -16,8 +16,15 @@ function Quiz({ poznavacka }) {
 
 	let forbiddenIdx = useRef([]);
 	let prevIdx = useRef();
+	let presetLength = useRef();
 
 	useEffect(() => {
+		if (poznavacka) {
+			presetLength.current = [];
+			for (let i = 1; i <= Math.floor(files.length / 10); i++) {
+				presetLength.current.push(i);
+			}
+		}
 		setMax(files.length);
 		changeImg({ firstChange: true });
 	}, [poznavacka]);
@@ -70,7 +77,7 @@ function Quiz({ poznavacka }) {
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
 			if (!options.firstChange && maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 		} else if (mode == 'preset') {
-			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
+			if (!options.firstChange && presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}
 
 		let idx = generateIdx(minInt, maxInt);
@@ -104,9 +111,9 @@ function Quiz({ poznavacka }) {
 	}
 
 	function checkAllPresets() {
-		if (presets.length !== 15) {
+		if (presets.length !== Math.round(files.length)) {
 			let newPresets = [];
-			for (let i = 0; i < 15; i++) {
+			for (let i = 0; i < Math.round(files.length); i++) {
 				let newPreset = [];
 				for (let j = 1; j <= 10; j++) {
 					newPreset.push(j + i * 10 - 1);
@@ -118,6 +125,7 @@ function Quiz({ poznavacka }) {
 	}
 
 	function setToTested() {
+		if (poznavacka == 'houby') return;
 		setMin('1');
 		setMax('70');
 	}
@@ -128,42 +136,46 @@ function Quiz({ poznavacka }) {
 		.replace('-', ' - ');
 
 	return (
-		<div className='flex flex-col justify-between items-center bg-gray-700 w-full h-full'>
-			<div className='flex flex-col justify-between items-center p-2 h-1/2'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='rounded h-full max-h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
+		<div className='flex flex-col justify-between items-center bg-gray-700 py-5 w-full h-full'>
+			<button onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 right-6 absolute px-3 py-2'>
+				<i className='text-3xl text-gray-400 fa-gear fa-solid'></i>
+			</button>
+			<div className='flex flex-col justify-between items-center mt-16 px-2 w-full h-2/3'>
+				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
-			<div className='flex flex-col justify-between items-center w-full h-1/2'>
-				<div className='flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-3 px-1 py-1 rounded-full w-2/3 md:w-1/3'>
-					<button onClick={(e) => setMode('custom')} className={'border-[rgb(95,105,115)] w-1/2 ' + (mode == 'custom' ? 'text-white' : 'text-gray-400')}>
+			<div className='top-1/2 absolute flex flex-col justify-between items-center border-gray-500 bg-gray-700 shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] h-[95%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
+				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
+					<i className='text-2xl text-gray-300 fa-solid fa-xmark'></i>
+				</button>
+				<div className='flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-16 p-1 rounded-lg w-3/4 max-[400px]:w-full md:w-1/2'>
+					<button onClick={(e) => setMode('custom')} className={'w-1/2 text-gray-400 rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold bg-blue-500')}>
 						Vlastní
 					</button>
-					<button onClick={(e) => setMode('preset')} className={'border-l-2 border-[rgb(95,105,115)] w-1/2 ' + (mode == 'preset' ? 'text-white' : 'text-gray-400')}>
+					<button onClick={(e) => setMode('preset')} className={'w-1/2 text-gray-400 rounded ' + (mode == 'preset' && '!text-gray-100 font-semibold bg-blue-500')}>
 						Předvolby
 					</button>
 				</div>
 				{mode == 'custom' && (
-					<div className='flex flex-col items-center'>
+					<div className='flex flex-col justify-center items-center h-2/3'>
 						<p className='font-bold text-gray-300 text-xl'>
 							{poznavacka.charAt(0).toUpperCase() + poznavacka.slice(1)} od
 							<input className='bg-gray-600 mx-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 							do
 							<input className='bg-gray-600 ml-1 p-1 rounded w-12 text-gray-400 caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
 						</p>
-						{poznavacka == 'rostliny' && (
-							<button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-6 px-5 py-1 rounded-xl text-gray-300'>
-								Nastavit na momentálně zkoušenou sadu
-							</button>
-						)}
+						<button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-10 px-5 py-1 rounded-xl text-gray-300'>
+							Nastavit na momentálně zkoušenou sadu
+						</button>
 					</div>
 				)}
 				{mode == 'preset' && (
 					<div className='flex flex-col items-center'>
-						<button onClick={checkAllPresets} className='border-gray-600 bg-gray-600 bg-opacity-30 border border-b-0 rounded-t-lg w-1/2 text-gray-300 text-sm'>
+						<button onClick={checkAllPresets} className='border-gray-600 bg-gray-600 bg-opacity-30 px-2 py-1 border border-b-0 rounded-t-lg text-gray-300'>
 							Zaškrtnout všechno
 						</button>
-						<div className='grid grid-cols-3 grid-rows-5 bg-gray-700 bg-opacity-30 shadow-[0_0_30px_0_rgb(0,0,0,0.3)] p-px rounded overflow-hidden'>
-							{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((num) => {
+						<div className='grid grid-cols-3 bg-gray-700 shadow-[0_0_10px_5px_rgb(0,0,0,0.3)] p-px rounded overflow-hidden'>
+							{presetLength.current.map((num) => {
 								let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
 								return (
 									<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center px-3 py-[0.6rem] ' + (isChecked && 'bg-gray-500 bg-opacity-10')}>
@@ -177,19 +189,19 @@ function Quiz({ poznavacka }) {
 						</div>
 					</div>
 				)}
-				{/* <span className='md:block border-2 hidden mb-5 p-2 text-center text-gray-400 text-lg'>
+				<span className='md:block border-2 hidden mb-5 p-2 rounded text-center text-gray-400 text-lg'>
 					Stiskni klávesu <i className='font-semibold text-gray-300 fa-caret-square-up fa-solid' /> pro změnu rostliny
 					<br />
 					a klávesu <i className='font-semibold text-gray-300 fa-caret-square-down fa-solid' /> pro název rostliny
-				</span> */}
-				<div className='flex justify-between mb-8 w-2/3 md:w-1/2 xl:w-1/3'>
-					<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold'>
-						Změnit rostlinu
-					</button>
-					<button className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold' onClick={(e) => setShow((prev) => (prev ? false : true))}>
-						{show ? 'Skrýt' : 'Odhalit'} název
-					</button>
-				</div>
+				</span>
+			</div>
+			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
+				<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300'>
+					Změnit rostlinu
+				</button>
+				<button className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+					{show ? 'Skrýt' : 'Odhalit'} název
+				</button>
 			</div>
 		</div>
 	);

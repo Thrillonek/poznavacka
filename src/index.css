@@ -21,7 +21,11 @@ body {
 }
 
 @media (pointer: coarse) {
- ::-webkit-scrollbar {
-  display: none;
- }
+	::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+:root {
+	--settings-scale: 0;
 }
