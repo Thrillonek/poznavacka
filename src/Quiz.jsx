@@ -150,11 +150,12 @@ function Quiz({ poznavacka }) {
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
 					<i className='text-2xl text-gray-300 fa-solid fa-xmark'></i>
 				</button>
-				<div className='flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-16 p-1 rounded-lg w-3/4 max-[400px]:w-full md:w-1/2'>
-					<button onClick={(e) => setMode('custom')} className={'w-1/2 text-gray-400 rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold bg-blue-500')}>
+				<div className='relative flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-16 p-1 rounded-lg w-3/4 max-[400px]:w-full md:w-1/2'>
+					<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (mode == 'preset' && 'translate-x-[calc(100%+.5rem)]')} />
+					<button onClick={(e) => setMode('custom')} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold')}>
 						Vlastní
 					</button>
-					<button onClick={(e) => setMode('preset')} className={'w-1/2 text-gray-400 rounded ' + (mode == 'preset' && '!text-gray-100 font-semibold bg-blue-500')}>
+					<button onClick={(e) => setMode('preset')} className={'w-1/2 z-10 text-gray-400 rounded ' + (mode == 'preset' && '!text-gray-100 font-semibold')}>
 						Předvolby
 					</button>
 				</div>
