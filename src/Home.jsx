@@ -9,6 +9,8 @@ export default function Home({ poznavacka }) {
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
 
+		if (mode == 'learning') document.querySelector(':root').style.setProperty('--settings-scale', 0);
+
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;

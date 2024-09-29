@@ -27,6 +27,8 @@ function Quiz({ poznavacka }) {
 		}
 		setMax(files.length);
 		changeImg({ firstChange: true });
+
+		return () => document.querySelector(':root').style.setProperty('--settings-scale', 0);
 	}, [poznavacka]);
 
 	useEffect(() => {
@@ -77,7 +79,7 @@ function Quiz({ poznavacka }) {
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
 			if (!options.firstChange && maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 		} else if (mode == 'preset') {
-			if (!options.firstChange && presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
+			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
 		}
 
 		let idx = generateIdx(minInt, maxInt);
@@ -189,7 +191,9 @@ function Quiz({ poznavacka }) {
 						</div>
 					</div>
 				)}
-				<span className='md:block border-2 hidden mb-5 p-2 rounded text-center text-gray-400 text-lg'>
+				<span className='mb-5 p-2 text-center text-gray-400 text-lg phone-invisible'>
+					<h2 className='font-semibold text-gray-200 text-lg'>TIP:</h2>
+					<br />
 					Stiskni klávesu <i className='font-semibold text-gray-300 fa-caret-square-up fa-solid' /> pro změnu rostliny
 					<br />
 					a klávesu <i className='font-semibold text-gray-300 fa-caret-square-down fa-solid' /> pro název rostliny

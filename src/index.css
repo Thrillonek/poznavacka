@@ -24,6 +24,10 @@ body {
 	::-webkit-scrollbar {
 		display: none;
 	}
+
+	.phone-invisible {
+		display: none;
+	}
 }
 
 :root {
