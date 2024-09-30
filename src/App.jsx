@@ -39,7 +39,6 @@ export default function App() {
 		setShowingContent(true);
 	}
 
-	if (!poznavacka) return;
 	return (
 		<div className='relative flex flex-col items-center bg-gray-700 w-screen h-dvh overflow-y-hidden'>
 			<div className={'absolute h-full w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
