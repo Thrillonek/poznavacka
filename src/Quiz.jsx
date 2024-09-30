@@ -139,8 +139,8 @@ function Quiz({ poznavacka }) {
 
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 py-5 w-full h-full'>
-			<button onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 right-6 absolute px-3 py-2'>
-				<i className='text-3xl text-gray-400 fa-gear fa-solid'></i>
+			<button onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
+				<i className='text-3xl text-gray-400 max-sm:text-2xl fa-gear fa-solid'></i>
 			</button>
 			<div className='flex flex-col justify-end items-center mt-16 px-2 w-full h-2/3'>
 				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
