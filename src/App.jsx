@@ -7,6 +7,7 @@ export default function App() {
 	const [showingContent, setShowingContent] = useState();
 
 	useEffect(() => {
+		console.log('loading');
 		axios
 			.get('/api/index')
 			.then((res) => {
