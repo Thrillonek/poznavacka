@@ -115,7 +115,7 @@ function Quiz({ poznavacka }) {
 	function checkAllPresets() {
 		if (presets.length !== Math.round(files.length /10)) {
 			let newPresets = [];
-			for (let i = 0; i < Math.round(files.length/1/); i++) {
+			for (let i = 0; i < Math.round(files.length/10); i++) {
 				let newPreset = [];
 				for (let j = 1; j <= 10; j++) {
 					newPreset.push(j + i * 10 - 1);
