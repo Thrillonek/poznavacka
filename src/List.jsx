@@ -2,15 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { categories, plants, shrooms } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
-	const [filter, setFilter] = useState('');
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
+	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 
 	let files = poznavacka == 'rostliny' ? plants : poznavacka == 'houby' ? shrooms : [];
-
-	const filteredFiles = filter ? files.filter((f) => (/\d/.test(filter) && (files.indexOf(f) + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(f).toLowerCase().includes(filter.toLowerCase()))) : files;
 
 	useEffect(() => {
 		if (poznavacka != 'rostliny') setShowCategories(false);
@@ -37,7 +35,7 @@ export default function List({ lock, setLock, poznavacka }) {
 				observer.unobserve(el);
 			});
 		};
-	}, [filter, poznavacka]);
+	}, [poznavacka]);
 
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
@@ -103,25 +101,40 @@ export default function List({ lock, setLock, poznavacka }) {
 			document.removeEventListener('touchmove', handleTouchMove);
 			document.removeEventListener('touchend', handleTouchEnd);
 		};
-	}, [chosenFile, filter]);
+	}, [chosenFile]);
 
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
 	}
 
 	function changeChosenFile(conditions) {
-		let idx = chosenFile && filteredFiles.indexOf(chosenFile);
+		let idx = chosenFile && files.indexOf(chosenFile);
 
 		if (conditions.left) {
-			idx == filteredFiles.length - 1 ? (idx = 0) : idx++;
+			idx == files.length - 1 ? (idx = 0) : idx++;
 		} else if (conditions.right) {
-			idx == 0 ? (idx = filteredFiles.length - 1) : idx--;
+			idx == 0 ? (idx = files.length - 1) : idx--;
 		}
 
-		setChosenFile(filteredFiles[idx]);
+		setChosenFile(files[idx]);
 		if (filter) return;
 		let el = document.getElementById('plant-' + idx);
 		el.scrollIntoView({ block: 'center' });
+	}
+
+	function scrollToPlant(e) {
+		e.preventDefault();
+		if (!filter) return;
+		const list = document.getElementById('list');
+		let searchTerm = filter;
+		if (/\D/.test(filter)) {
+			let plant = files.find((f) => prettify(f).toLowerCase().startsWith(filter));
+			if (!plant) return;
+			searchTerm = files.indexOf(plant) + 1;
+		}
+		const rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
+		list.scrollTo({ top: rect.top + list.scrollTop - 210 });
+		// if (((isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase())))
 	}
 
 	function prettify(str) {
@@ -147,18 +160,16 @@ export default function List({ lock, setLock, poznavacka }) {
 				)}
 				{poznavacka == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-4xl text-gray-400'>{category}</div>}
 				<div className='w-full h-[60%] overflow-hidden'>
-					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${filteredFiles.indexOf(chosenFile) * 100}%` }}>
+					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files.map((file, idx) => {
-							if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
-								return (
-									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${filteredFiles.indexOf(file) * 100}%` }}>
-										<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
-										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-											{idx + 1}. {prettify(file)}
-										</span>
-									</div>
-								);
-							}
+							return (
+								<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
+									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
+									<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
+										{idx + 1}. {prettify(file)}
+									</span>
+								</div>
+							);
 						})}
 					</div>
 				</div>
@@ -167,10 +178,15 @@ export default function List({ lock, setLock, poznavacka }) {
 				</button>
 			</div>
 			<div className='top-0 z-20 sticky border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
-				<div className='relative flex justify-end items-center p-3'>
-					<input onChange={(e) => setFilter(e.target.value)} placeholder='Hledat název/číslo rostliny' value={filter} id='imgFilter' type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
-					{filter && <i onClick={(e) => setFilter('')} className='absolute mr-5 text-gray-500 text-lg cursor-pointer fa-solid fa-xmark' />}
-				</div>
+				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
+					<input placeholder='Hledat název/číslo rostliny' onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
+					<div className='absolute mr-5 text-gray-500'>
+						{filter && <i onClick={(e) => setFilter('')} className='mr-3 text-lg cursor-pointer fa-solid fa-xmark' />}
+						<button>
+							<i className='text-gray-400 fa-magnifying-glass fa-solid' />
+						</button>
+					</div>
+				</form>
 				{poznavacka == 'rostliny' && (
 					<div className='flex items-center p-1 cursor-pointer' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
 						<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
@@ -180,22 +196,20 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
-					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
-						return (
-							<div key={idx}>
-								{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
-								<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
-									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-									<span className='ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out'>
-										{idx + 1}. {prettify(file)}
-									</span>
-								</div>
+					return (
+						<div key={idx}>
+							{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
+							<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
+								<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+								<span className='ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out'>
+									{idx + 1}. {prettify(file)}
+								</span>
 							</div>
-						);
-					}
+						</div>
+					);
 				})}
 			</div>
-			<button style={{ opacity: scrollY < 100 && '0' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 bottom-2 absolute opacity-100 px-1 transition-opacity duration-300'>
+			<button style={{ opacity: scrollY < 100 && '0' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-100 px-1 transition-opacity duration-300 outline-none'>
 				<i className='text-[1.6rem] text-gray-300 fa-angles-up fa-solid'></i>
 			</button>
 		</div>
