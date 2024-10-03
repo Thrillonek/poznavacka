@@ -6,6 +6,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
+	const [scrollY, setScrollY] = useState();
 
 	let files = poznavacka == 'rostliny' ? plants : poznavacka == 'houby' ? shrooms : [];
 
@@ -104,6 +105,10 @@ export default function List({ lock, setLock, poznavacka }) {
 		};
 	}, [chosenFile, filter]);
 
+	function handleScroll(e) {
+		setScrollY(e.target.scrollTop);
+	}
+
 	function changeChosenFile(conditions) {
 		let idx = chosenFile && filteredFiles.indexOf(chosenFile);
 
@@ -173,7 +178,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				)}
 			</div>
-			<div id='list' className='custom-scrollbar overflow-y-scroll'>
+			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
 					if (!filter || (/\d/.test(filter) && (idx + 1).toString().startsWith(filter)) || (isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase()))) {
 						return (
@@ -190,6 +195,9 @@ export default function List({ lock, setLock, poznavacka }) {
 					}
 				})}
 			</div>
+			<button style={{ opacity: scrollY < 100 && '0' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 bottom-2 absolute opacity-100 px-1 transition-opacity duration-300'>
+				<i className='text-[1.6rem] text-gray-300 fa-angles-up fa-solid'></i>
+			</button>
 		</div>
 	);
 }
