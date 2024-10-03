@@ -209,7 +209,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					);
 				})}
 			</div>
-			<button style={{ opacity: scrollY < 100 && '0' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-100 px-1 transition-opacity duration-300 outline-none'>
+			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-0 px-1 transition-opacity duration-300 outline-none'>
 				<i className='text-[1.6rem] text-gray-300 fa-angles-up fa-solid'></i>
 			</button>
 		</div>
