@@ -128,13 +128,12 @@ export default function List({ lock, setLock, poznavacka }) {
 		const list = document.getElementById('list');
 		let searchTerm = filter;
 		if (/\D/.test(filter)) {
-			let plant = files.find((f) => prettify(f).toLowerCase().startsWith(filter));
+			let plant = files.find((f) => prettify(f).toLowerCase().startsWith(filter.toLowerCase()));
 			if (!plant) return;
 			searchTerm = files.indexOf(plant) + 1;
 		}
 		const rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
 		list.scrollTo({ top: rect.top + list.scrollTop - 210 });
-		// if (((isNaN(filter) && prettify(file).toLowerCase().includes(filter.toLowerCase())))
 	}
 
 	function prettify(str) {
