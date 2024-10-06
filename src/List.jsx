@@ -10,6 +10,8 @@ export default function List({ lock, setLock, poznavacka }) {
 
 	let files = poznavacka == 'rostliny' ? plants : poznavacka == 'houby' ? shrooms : [];
 
+	window.onkeydown = handleKeyDown;
+
 	useEffect(() => {
 		if (poznavacka != 'rostliny') setShowCategories(false);
 		document.getElementById('list').scrollTop = 0;
@@ -89,7 +91,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			}
 
 			if (!locked) return;
-			changeChosenFile({ left: changeX < 0, right: changeX > 0 });
+			changeChosenFile({ left: changeX > 0, right: changeX < 0 });
 		};
 
 		document.addEventListener('touchstart', handleTouchStart, { passive: false });
@@ -103,6 +105,14 @@ export default function List({ lock, setLock, poznavacka }) {
 		};
 	}, [chosenFile]);
 
+	function handleKeyDown(e) {
+		if (e.key == 'ArrowRight') {
+			changeChosenFile({ right: true });
+		} else if (e.key == 'ArrowLeft') {
+			changeChosenFile({ left: true });
+		}
+	}
+
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
 	}
@@ -110,16 +120,16 @@ export default function List({ lock, setLock, poznavacka }) {
 	function changeChosenFile(conditions) {
 		let idx = chosenFile && files.indexOf(chosenFile);
 
-		if (conditions.left) {
+		if (conditions.right) {
 			idx == files.length - 1 ? (idx = 0) : idx++;
-		} else if (conditions.right) {
+		} else if (conditions.left) {
 			idx == 0 ? (idx = files.length - 1) : idx--;
 		}
 
 		setChosenFile(files[idx]);
-		if (filter) return;
-		let el = document.getElementById('plant-' + idx);
-		el.scrollIntoView({ block: 'center' });
+		// if (filter) return;
+		// let el = document.getElementById('plant-' + idx);
+		// el.scrollIntoView({ block: 'center' });
 	}
 
 	function scrollToPlant(e) {
@@ -152,13 +162,13 @@ export default function List({ lock, setLock, poznavacka }) {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
-			<div id='enlarged-img' className={'top-0 translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
-						<div onClick={(e) => changeChosenFile({ right: '-' })} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+						<div onClick={(e) => changeChosenFile({ left: '-' })} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
 							<i className='fa-caret-left text-3xl fa-solid'></i>
 						</div>
-						<div onClick={(e) => changeChosenFile({ left: '+' })} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
+						<div onClick={(e) => changeChosenFile({ right: '+' })} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
 							<i className='fa-caret-right text-3xl fa-solid'></i>
 						</div>
 					</>
