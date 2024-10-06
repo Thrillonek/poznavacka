@@ -127,16 +127,18 @@ export default function List({ lock, setLock, poznavacka }) {
 		}
 
 		setChosenFile(files[idx]);
-		// if (filter) return;
-		// let el = document.getElementById('plant-' + idx);
-		// el.scrollIntoView({ block: 'center' });
+		if (filter) return;
+		let rect = document.getElementById('plant-' + idx).getBoundingClientRect();
+		let list = document.getElementById('list');
+		let listRect = list.getBoundingClientRect();
+		list.scrollTop += rect.top - listRect.top - listRect.height / 2;
 	}
 
 	function scrollToPlant(e) {
 		e.preventDefault();
 		if (!filter) return;
 		const list = document.getElementById('list');
-		let searchTerm = filter;
+		let searchTerm = parseInt(filter) - 1;
 		if (/\D/.test(filter)) {
 			let plant = files.find((f) => {
 				let check = false;
@@ -149,7 +151,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			searchTerm = files.indexOf(plant) + 1;
 		}
 		const rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
-		list.scrollTo({ top: rect.top + list.scrollTop - 210 });
+		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
 	function prettify(str) {
