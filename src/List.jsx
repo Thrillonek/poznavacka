@@ -128,7 +128,13 @@ export default function List({ lock, setLock, poznavacka }) {
 		const list = document.getElementById('list');
 		let searchTerm = filter;
 		if (/\D/.test(filter)) {
-			let plant = files.find((f) => prettify(f).toLowerCase().startsWith(filter.toLowerCase()));
+			let plant = files.find((f) => {
+				let check = false;
+				for (const i of prettify(f).toLowerCase().split(' ')) {
+					if (i.startsWith(filter.toLowerCase())) check = true;
+				}
+				return check;
+			});
 			if (!plant) return;
 			searchTerm = files.indexOf(plant) + 1;
 		}
@@ -180,7 +186,7 @@ export default function List({ lock, setLock, poznavacka }) {
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
 					<input placeholder='Hledat název/číslo rostliny' onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					<div className='absolute mr-5 text-gray-500'>
-						{filter && <i onClick={(e) => setFilter('')} className='mr-3 text-lg cursor-pointer fa-solid fa-xmark' />}
+						{filter && <i onClick={(e) => setFilter('')} className='mr-4 text-lg cursor-pointer fa-solid fa-xmark' />}
 						<button>
 							<i className='text-gray-400 fa-magnifying-glass fa-solid' />
 						</button>
@@ -195,12 +201,17 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
+					let isSearched =
+						filter &&
+						prettify(file)
+							.split(' ')
+							.some((f) => f.startsWith(filter));
 					return (
 						<div key={idx}>
 							{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
 							<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
 								<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-								<span className='ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out'>
+								<span className={'ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-gray-200')}>
 									{idx + 1}. {prettify(file)}
 								</span>
 							</div>
