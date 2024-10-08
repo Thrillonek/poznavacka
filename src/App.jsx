@@ -1,13 +1,16 @@
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import Home from './Home.jsx';
 
 export default function App() {
 	const [poznavacka, setPoznavacka] = useState();
 	const [showingContent, setShowingContent] = useState();
 
+	const [cookies, setCookie, removeCookie] = useCookies();
+
 	useEffect(() => {
-		console.log('loading');
+		if (cookies.poznavacka) setPoznavacka(cookies.poznavacka);
 		axios
 			.get('/api/index')
 			.then((res) => {
