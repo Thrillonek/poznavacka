@@ -5,6 +5,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
+	const [browseCategories, setBrowseCategories] = useState();
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 
@@ -105,6 +106,10 @@ export default function List({ lock, setLock, poznavacka }) {
 		};
 	}, [chosenFile]);
 
+	useEffect(() => {
+		if (!showCategories) setBrowseCategories(false);
+	}, [showCategories]);
+
 	function handleKeyDown(e) {
 		if (e.key == 'ArrowRight') {
 			changeChosenFile({ right: true });
@@ -127,7 +132,6 @@ export default function List({ lock, setLock, poznavacka }) {
 		}
 
 		setChosenFile(files[idx]);
-		if (filter) return;
 		let rect = document.getElementById('plant-' + idx).getBoundingClientRect();
 		let list = document.getElementById('list');
 		let listRect = list.getBoundingClientRect();
@@ -148,9 +152,19 @@ export default function List({ lock, setLock, poznavacka }) {
 				return check;
 			});
 			if (!plant) return;
-			searchTerm = files.indexOf(plant) + 1;
+			searchTerm = files.indexOf(plant);
 		}
-		const rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
+		let rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
+
+		if (browseCategories) {
+			for (const [key, val] of Object.entries(categories)) {
+				if (val.toLowerCase().startsWith(filter.toLowerCase())) {
+					searchTerm = val;
+					break;
+				}
+			}
+			rect = document.getElementById('cat-' + searchTerm).getBoundingClientRect();
+		}
 		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
@@ -196,7 +210,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 			<div className='top-0 z-20 sticky border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
-					<input placeholder='Hledat název/číslo rostliny' onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
+					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo rostliny')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					<div className='absolute mr-5 text-gray-500'>
 						{filter && <i onClick={(e) => setFilter('')} className='mr-4 text-lg cursor-pointer fa-solid fa-xmark' />}
 						<button>
@@ -205,9 +219,17 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				</form>
 				{poznavacka == 'rostliny' && (
-					<div className='flex items-center p-1 cursor-pointer' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
-						<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
-						<p className='ml-2 text-[rgb(133,144,155)]'>Ukázat oddělení</p>
+					<div className='flex justify-between items-center p-1 cursor-pointer'>
+						<div className='flex items-center w-1/2' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
+							<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
+							<p className='ml-2 text-[rgb(133,144,155)]'>Ukázat oddělení</p>
+						</div>
+						{showCategories && (
+							<div className='flex items-center w-1/2' onClick={(e) => setBrowseCategories((prev) => (prev ? false : true))}>
+								<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (browseCategories && 'bg-gray-500')}>{browseCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
+								<p className='ml-2 text-[rgb(133,144,155)]'>Hledat v odděleních</p>
+							</div>
+						)}
 					</div>
 				)}
 			</div>
@@ -215,13 +237,18 @@ export default function List({ lock, setLock, poznavacka }) {
 				{files.map((file, idx) => {
 					let isSearched =
 						filter &&
+						!browseCategories &&
 						prettify(file)
 							.split(' ')
-							.some((f) => f.startsWith(filter));
+							.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
 					return (
-						<div key={idx}>
-							{categories[idx + 1] && showCategories && !filter && <div className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>{categories[idx + 1]}</div>}
-							<div id={'plant-' + idx} onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
+						<div id={'plant-' + idx} key={idx}>
+							{categories[idx + 1] && showCategories && (
+								<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>
+									{categories[idx + 1]}
+								</div>
+							)}
+							<div onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
 								<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 								<span className={'ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-gray-200')}>
 									{idx + 1}. {prettify(file)}
