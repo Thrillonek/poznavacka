@@ -10,21 +10,12 @@ export default function App() {
 	const [cookies, setCookie, removeCookie] = useCookies();
 
 	useEffect(() => {
-		if (cookies.poznavacka) setPoznavacka(cookies.poznavacka);
-		axios
-			.get('/api/index')
-			.then((res) => {
-				if (res.data.session) {
-					setPoznavacka(res.data.session);
-					setShowingContent(true);
-				} else {
-					setPoznavacka('rostliny');
-				}
-			})
-			.catch((err) => {
-				setPoznavacka('rostliny');
-				console.error(err.response.data.error);
-			});
+		if (cookies.poznavacka) {
+			setPoznavacka(cookies.poznavacka);
+			setShowingContent(true);
+		} else {
+			setPoznavacka('rostliny');
+		}
 	}, []);
 
 	useEffect(() => {
