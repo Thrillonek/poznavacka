@@ -242,7 +242,7 @@ export default function List({ lock, setLock, poznavacka }) {
 							.split(' ')
 							.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
 
-					if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 120)) return;
+					if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
 					return (
 						<div id={'plant-' + idx} key={idx}>
 							{categories[idx + 1] && showCategories && (
