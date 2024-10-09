@@ -241,6 +241,8 @@ export default function List({ lock, setLock, poznavacka }) {
 						prettify(file)
 							.split(' ')
 							.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
+
+					if (filter == '7p' && (idx + 1) % 7 !== 0) return;
 					return (
 						<div id={'plant-' + idx} key={idx}>
 							{categories[idx + 1] && showCategories && (
