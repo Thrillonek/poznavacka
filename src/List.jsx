@@ -251,7 +251,7 @@ export default function List({ lock, setLock, poznavacka }) {
 								</div>
 							)}
 							<div onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
-								<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+								<img key={poznavacka + idx} src={`./assets/${poznavacka}/${file}`.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 								<span className={'ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-gray-200')}>
 									{idx + 1}. {prettify(file)}
 								</span>
