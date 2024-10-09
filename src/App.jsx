@@ -1,17 +1,16 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import Home from './Home.jsx';
 
 export default function App() {
 	const [poznavacka, setPoznavacka] = useState();
 	const [showingContent, setShowingContent] = useState();
 
-	const [cookies, setCookie, removeCookie] = useCookies();
-
 	useEffect(() => {
-		if (cookies.poznavacka) {
-			setPoznavacka(cookies.poznavacka);
+		const cookie = Cookies.get('poznavacka');
+		if (cookie) {
+			setPoznavacka(cookie);
 			setShowingContent(true);
 		} else {
 			setPoznavacka('rostliny');
@@ -21,11 +20,7 @@ export default function App() {
 	useEffect(() => {
 		let data = poznavacka;
 		if (!showingContent) data = '';
-		axios
-			.post('/api/index', {
-				poznavacka: data,
-			})
-			.catch((err) => console.error(err.response.data.message));
+		Cookies.set('poznavacka', data);
 	}, [poznavacka, showingContent]);
 
 	function showContent(pozn) {
