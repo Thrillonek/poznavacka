@@ -212,8 +212,8 @@ export default function List({ lock, setLock, poznavacka }) {
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
 					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo rostliny')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					<div className='absolute mr-5 text-gray-500'>
-						{filter && <i onClick={(e) => setFilter('')} className='mr-4 text-lg cursor-pointer fa-solid fa-xmark' />}
-						<button>
+						{filter && <i onClick={(e) => setFilter('')} className='text-lg cursor-pointer fa-solid fa-xmark' />}
+						<button className='ml-4 phone-invisible'>
 							<i className='text-gray-400 fa-magnifying-glass fa-solid' />
 						</button>
 					</div>
