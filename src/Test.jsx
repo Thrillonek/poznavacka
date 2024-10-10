@@ -5,13 +5,21 @@ function Test() {
 	const [plant, setPlant] = useState();
 	const [count, setCount] = useState(0);
 
+ let bomba = false;
+
 	const arr = useRef([]);
 
 	useEffect(() => {
 		if (arr.current.length > 0) return;
+  if(!bomba){
+   for (let i = 1; i <= 151; i++) {
+			arr.current.push(i- 1);
+		}
+} else {
 		for (let i = 1; i <= 20; i++) {
 			arr.current.push(i * 7 - 1);
 		}
+}
 	}, [arr.current]);
 
 	function reset() {
