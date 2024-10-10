@@ -27,6 +27,7 @@ function Test() {
 	function reset() {
 		arr.current = [];
 		setCount(0);
+  setEnd(false)
 		setPlant();
 	}
 
@@ -53,9 +54,9 @@ function Test() {
 			)}
 			{plant && (
 				<div className='flex flex-col items-center w-full'>
-					<button onClick={changePlant} className='flex justify-center items-center bg-blue-500 p-3 rounded-xl w-1/2 font-bold text-lg text-white'>
+					{!end && <button onClick={changePlant} className='flex justify-center items-center bg-blue-500 p-3 rounded-xl w-1/2 font-bold text-lg text-white'>
 						Další
-					</button>
+					</button> }
 					<p onClick={reset} className='mt-4 text-white hover:text-red-400 cursor-pointer'>
 						Resetovat
 					</p>
