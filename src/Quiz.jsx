@@ -202,7 +202,7 @@ function Quiz({ poznavacka }) {
 			</div>
 			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
 				<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300'>
-					Změnit rostlinu
+					Změnit
 				</button>
 				<button className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? 'Skrýt' : 'Odhalit'} název
