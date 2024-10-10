@@ -41,7 +41,7 @@ function Test() {
 	return (
 		<div className='flex flex-col justify-between items-center bg-gray-700 p-5 w-full h-full'>
 			<h1 className='font-bold text-3xl text-center text-white'>Krytosemenné rostliny poznávačka</h1>
-			{plant ? (
+			{plant && !end ? (
 				<div className='flex flex-col items-center h-1/2'>
 					<h2 className='mb-4 py-2 font-bold text-2xl text-white'>{count}</h2>
 					<img src={('./assets/rostliny/' + plant).replace(' ', '%20').replace('+', '%2b')} className='h-[90%]' alt='obrázek rostliny' />
