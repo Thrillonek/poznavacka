@@ -47,7 +47,7 @@ function Test() {
 					<img src={('./assets/rostliny/' + plant).replace(' ', '%20').replace('+', '%2b')} className='h-[90%]' alt='obrázek rostliny' />
 				</div>
 			) : (
-				<h1 onClick={e=> !end && changePlant} className='top-1/2 absolute p-8 font-bold text-5xl text-white tracking-widest cursor-pointer'>
+				<h1 onClick={e=> !end && changePlant()} className='top-1/2 absolute p-8 font-bold text-5xl text-white tracking-widest cursor-pointer'>
 					{end ? "KONEC" : "ZAČÍT"}
 				</h1>
 			)}
