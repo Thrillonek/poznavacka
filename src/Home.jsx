@@ -24,7 +24,7 @@ export default function Home({ poznavacka }) {
 			changeY = deltaY - startY;
 		};
 		let handleTouchEnd = (e) => {
-			if (Date.now() - startMS > 500 || Math.abs(changeY) >= Math.abs(changeX) || lock) return;
+			if (Date.now() - startMS > 500 || Math.abs(changeY) >= Math.abs(changeX) || Math.abs(changeX) < 100 || lock) return;
 			if (changeX > 0 && mode == 'learning') {
 				setMode('quiz');
 			} else if (changeX < 0 && mode == 'quiz') {
