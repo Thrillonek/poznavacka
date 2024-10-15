@@ -79,12 +79,15 @@ function Quiz({ poznavacka }) {
 			if (minInt < 1) return setError('Dolní hranice nemůže být nižší než 1');
 			if (!options.firstChange && maxInt > files.length) return setError('Horní hranice nemůže být vyšší než ' + files.length);
 		} else if (mode == 'preset') {
-			if (presets.length == 0) return setError('Zvol aspoň jednu předvolbu');
+			if (presets.length == 0) {
+				minInt = 1;
+				maxInt = files.length;
+			}
 		}
 
 		let idx = generateIdx(minInt, maxInt);
 
-		if (mode == 'preset') idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
 		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
 
