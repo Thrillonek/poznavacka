@@ -204,10 +204,10 @@ function Quiz({ poznavacka }) {
 				</span>
 			</div>
 			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
-				<button onClick={(e) => changeImg({ show: false })} className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300'>
+				<button onClick={(e) => changeImg({ show: false })} className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg'>
 					Změnit
 				</button>
-				<button className='bg-gray-500 mx-1 py-1 rounded-lg w-[45%] font-semibold text-gray-300' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+				<button className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? 'Skrýt' : 'Odhalit'} název
 				</button>
 			</div>
