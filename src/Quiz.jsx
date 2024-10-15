@@ -136,7 +136,7 @@ function Quiz({ poznavacka }) {
 	}
 
 	let readableImgName = text
-		?.split('.')[0]
+		?.substring(0, text.lastIndexOf('.'))
 		.replaceAll(/[0-9+]/g, '')
 		.replace('-', ' - ');
 

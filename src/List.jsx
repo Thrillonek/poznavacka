@@ -170,7 +170,7 @@ export default function List({ lock, setLock, poznavacka }) {
 
 	function prettify(str) {
 		str = str
-			.split('.')[0]
+			.substring(0, str.lastIndexOf('.'))
 			.replaceAll(/[0-9+_]/g, '')
 			.replace('-', ' - ');
 		return str.charAt(0).toUpperCase() + str.slice(1);
