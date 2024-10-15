@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, plants, shrooms } from './utilities.js';
+import { categories, set } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -9,7 +9,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 
-	let files = poznavacka == 'rostliny' ? plants : poznavacka == 'houby' ? shrooms : [];
+	let files = set[poznavacka];
 
 	window.onkeydown = handleKeyDown;
 
@@ -178,6 +178,7 @@ export default function List({ lock, setLock, poznavacka }) {
 
 	return (
 		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
+			{/* Enlarged image carousel */}
 			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
@@ -208,6 +209,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
+			{/* Search/controls bar */}
 			<div className='top-0 z-20 sticky border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
 					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo rostliny')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
@@ -233,6 +235,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				)}
 			</div>
+			{/* List */}
 			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
 				{files.map((file, idx) => {
 					let isSearched =
@@ -260,6 +263,8 @@ export default function List({ lock, setLock, poznavacka }) {
 					);
 				})}
 			</div>
+
+			{/* Scroll Up Button */}
 			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-0 px-1 transition-opacity duration-300 outline-none'>
 				<i className='text-[1.6rem] text-gray-300 fa-angles-up fa-solid'></i>
 			</button>

@@ -1,5 +1,8 @@
-let plants = __ROSTLINY__;
-let shrooms = __HOUBY__;
+let set = {
+	rostliny: __ROSTLINY__,
+	houby: __HOUBY__,
+	prvoci: __PRVOCI__,
+};
 const categories = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
@@ -48,4 +51,4 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, plants, shrooms };
+export { categories, set };

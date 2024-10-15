@@ -7,6 +7,8 @@ let path = './public/assets/rostliny';
 const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 path = './public/assets/houby';
 const houby = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
+path = './public/assets/prvoci';
+const prvoci = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,5 +16,6 @@ export default defineConfig({
 	define: {
 		__ROSTLINY__: JSON.stringify(rostliny),
 		__HOUBY__: JSON.stringify(houby),
+		__PRVOCI__: JSON.stringify(prvoci),
 	},
 });
