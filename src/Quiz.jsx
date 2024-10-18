@@ -74,8 +74,6 @@ function Quiz({ poznavacka }) {
 		options.prevmin = minVal;
 		options.prevmax = maxVal;
 
-		console.log(options.first, options.recent, result);
-
 		return result;
 	}
 
