@@ -14,8 +14,7 @@ function Quiz({ poznavacka }) {
 
 	let files = set[poznavacka];
 
-	let forbiddenIdx = useRef([]);
-	let prevIdx = useRef();
+	let fileOptions = useRef({ first: [], second: [], recent: [], change: false });
 	let presetLength = useRef();
 
 	useEffect(() => {
@@ -40,31 +39,44 @@ function Quiz({ poznavacka }) {
 				setShow((prev) => (prev ? false : true));
 			}
 		};
+
+		fileOptions.current.change = true;
 	}, [min, max, presets]);
 
 	const handleChangeMinMax = (e, setState) => !isNaN(e.target.value) && e.target.value.length <= 3 && setState(e.target.value);
 
-	function generateIdx(minValue, maxValue) {
+	function generateIdx(minVal, maxVal) {
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+		let options = fileOptions.current;
 
-		let idx = rng(minValue - 1, maxValue - 1);
-		let range = maxValue - minValue + 1;
-		let mid = Math.ceil(range / 2 + minValue - 1);
-		let adjustment = mid > idx ? 1 : -1;
+		let range = maxVal - minVal + 1;
 
-		if (Math.floor(range / 3) < forbiddenIdx.current.length) forbiddenIdx.current = [];
-
-		while (forbiddenIdx.current.includes(idx)) {
-			if (range < 3) break;
-			idx += adjustment;
+		if (options.change) {
+			options.recent = [];
+			options.first = [];
+			for (let i = 0; i < range; i++) {
+				options.first.push(i);
+			}
+			options.change = false;
 		}
 
-		if (range == 2 && idx == prevIdx.current) idx == minValue - 1 ? idx++ : idx--;
+		let idx = rng(minVal - 1, options.first.length - 1);
+		let result = options.first[idx];
 
-		if (range >= 3 && forbiddenIdx.current.length >= Math.floor(range / 3)) forbiddenIdx.current.shift();
-		forbiddenIdx.current.push(idx);
+		if (Math.round(range / 3) <= options.recent.length) {
+			options.first.push(options.recent[0]);
+			options.recent.shift();
+		}
 
-		return idx;
+		options.recent.push(options.first[idx]);
+		options.first.splice(idx, 1);
+
+		options.prevmin = minVal;
+		options.prevmax = maxVal;
+
+		console.log(options.first, options.recent, result);
+
+		return result;
 	}
 
 	function changeImg(options) {
@@ -89,12 +101,10 @@ function Quiz({ poznavacka }) {
 
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
-		setIndex({ number: idx + 1, imgLoaded: idx == prevIdx.current });
+		setIndex({ number: idx + 1, imgLoaded: false });
 
 		let name = files[idx];
 		setText(name);
-
-		prevIdx.current = idx;
 	}
 
 	function togglePreset(num) {
@@ -204,10 +214,10 @@ function Quiz({ poznavacka }) {
 				</span>
 			</div>
 			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
-				<button onClick={(e) => changeImg({ show: false })} className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg'>
+				<button onClick={(e) => changeImg({ show: false })} className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg outline-none'>
 					Změnit
 				</button>
-				<button className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+				<button className='bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-gray-300 text-lg outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? 'Skrýt' : 'Odhalit'} název
 				</button>
 			</div>
