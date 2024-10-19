@@ -26,6 +26,7 @@ function Quiz({ poznavacka }) {
 		}
 		setMax(files.length);
 		changeImg({ firstChange: true });
+		fileOptions.current.change = true;
 
 		return () => document.querySelector(':root').style.setProperty('--settings-scale', 0);
 	}, [poznavacka]);
@@ -69,13 +70,13 @@ function Quiz({ poznavacka }) {
 			options.recent.shift();
 		}
 
-		if (Math.floor(range / 3) <= options.second.length) {
+		if (Math.round(range / 3) <= options.second.length) {
 			options.first.push(options.second[0]);
 			options.second.shift();
 		}
 
 		if (options.second.length > 0 && Math.random() * 4 > 3) {
-			let idx = rng(minVal - 1, options.second.length - 1);
+			idx = rng(minVal - 1, options.second.length - 1);
 			result = options.second[idx];
 			options.recent.push(options.second[idx]);
 			options.second.splice(idx, 1);
