@@ -61,7 +61,7 @@ export default function Home({ poznavacka }) {
 					</p>
 					<p onClick={(e) => setMode('learning')} className={'text-gray-500 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && '!text-gray-300')}>
 						<i className='mr-3 fa-list fa-solid' />
-						<span className='max-md:hidden'>Seznam rostlin</span>
+						<span className='max-md:hidden'>Seznam</span>
 					</p>
 				</div>
 			)}
