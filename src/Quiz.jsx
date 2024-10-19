@@ -14,7 +14,7 @@ function Quiz({ poznavacka }) {
 
 	let files = set[poznavacka];
 
-	let fileOptions = useRef({ first: [], second: [], recent: [], change: false });
+	let fileOptions = useRef({ first: [], second: [], recent: [], change: true });
 	let presetLength = useRef();
 
 	useEffect(() => {
@@ -54,6 +54,7 @@ function Quiz({ poznavacka }) {
 		if (options.change) {
 			options.recent = [];
 			options.first = [];
+			options.second = [];
 			for (let i = 0; i < range; i++) {
 				options.first.push(i);
 			}
@@ -64,15 +65,24 @@ function Quiz({ poznavacka }) {
 		let result = options.first[idx];
 
 		if (Math.round(range / 3) <= options.recent.length) {
-			options.first.push(options.recent[0]);
+			options.second.push(options.recent[0]);
 			options.recent.shift();
 		}
 
-		options.recent.push(options.first[idx]);
-		options.first.splice(idx, 1);
+		if (Math.floor(range / 3) <= options.second.length) {
+			options.first.push(options.second[0]);
+			options.second.shift();
+		}
 
-		options.prevmin = minVal;
-		options.prevmax = maxVal;
+		if (options.second.length > 0 && Math.random() * 4 > 3) {
+			let idx = rng(minVal - 1, options.second.length - 1);
+			result = options.second[idx];
+			options.recent.push(options.second[idx]);
+			options.second.splice(idx, 1);
+		} else {
+			options.recent.push(options.first[idx]);
+			options.first.splice(idx, 1);
+		}
 
 		return result;
 	}
