@@ -74,8 +74,8 @@ export default function App() {
 									<img id='jumpscare' className='h-min scale-0' src='https://gkh.cz/wp-content/uploads/2022/05/jac.jpg' alt='JANEC' />
 								</div>
 								<div className={'absolute h-full z-10 w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
-									<div onClick={(e) => setShowingContent(false)} className='border-gray-500 bg-[rgb(45,55,71)] p-1 border-b w-full text-gray-400'>
-										<span className='ml-2 cursor-pointer'>
+									<div onClick={(e) => setShowingContent(false)} className='border-gray-500 bg-[rgb(45,55,71)] p-1 border-b w-full text-gray-400 cursor-pointer'>
+										<span className='ml-2'>
 											<i className='fa-arrow-left mr-1 fa-solid'></i>Zpět na výběr
 										</span>
 									</div>
