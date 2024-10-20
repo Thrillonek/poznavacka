@@ -11,6 +11,13 @@ export default function App() {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
+		let interval = setInterval(() => {
+			let num = Math.floor(Math.random() * 1000) + 1;
+			if (num == 500) {
+				document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
+				clearInterval(interval);
+			}
+		}, 3 * 1000);
 		const cookie = Cookies.get('poznavacka');
 		if (cookie) {
 			setPoznavacka(cookie);
@@ -34,6 +41,8 @@ export default function App() {
 				setPoznavacka('rostliny');
 				console.error(err.response.data.error);
 			});
+
+		return () => clearInterval(interval);
 	}, []);
 
 	useEffect(() => {
@@ -61,6 +70,9 @@ export default function App() {
 						path=''
 						element={
 							<>
+								<div style={{ pointerEvents: 'none' }} className='z-30 fixed flex justify-center items-center w-full h-full'>
+									<img id='jumpscare' className='h-min scale-0' src='https://gkh.cz/wp-content/uploads/2022/05/jac.jpg' alt='JANEC' />
+								</div>
 								<div className={'absolute h-full z-10 w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
 									<div onClick={(e) => setShowingContent(false)} className='border-gray-500 bg-[rgb(45,55,71)] p-1 border-b w-full text-gray-400'>
 										<span className='ml-2 cursor-pointer'>

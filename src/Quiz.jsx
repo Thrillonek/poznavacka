@@ -94,6 +94,10 @@ function Quiz({ poznavacka }) {
 		let minInt = mode == 'custom' ? parseInt(min) || 1 : 1;
 		let maxInt = mode == 'custom' ? parseInt(max) || files.length : presets.length * 10;
 
+		if (minInt == 69 && maxInt == 172) {
+			document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
+		}
+
 		setError(null);
 		if (mode == 'custom') {
 			if (maxInt <= minInt || (!max && minInt >= files?.length) || (!min && maxInt < 1)) return setError('Dolní hranice musí být nižší než ta horní');
