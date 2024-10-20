@@ -65,7 +65,7 @@ function Quiz({ poznavacka }) {
 		let idx = rng(minVal - 1, options.first.length - 1);
 		let result = options.first[idx];
 
-		if (Math.round(range / 3) <= options.recent.length) {
+		if (Math.round(range / 2.5) <= options.recent.length) {
 			options.second.push(options.recent[0]);
 			options.recent.shift();
 		}
@@ -84,6 +84,8 @@ function Quiz({ poznavacka }) {
 			options.recent.push(options.first[idx]);
 			options.first.splice(idx, 1);
 		}
+
+		console.log(options.first, options.second, options.recent);
 
 		return result;
 	}
