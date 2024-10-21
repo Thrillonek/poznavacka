@@ -54,12 +54,12 @@ export default function Home({ poznavacka }) {
 				</div>
 			</div>
 			{!lock && (
-				<div className='flex justify-around items-center border-gray-500 bg-[rgb(65,75,90)] shadow-[0_-5px_10px_-1px_rgb(0,0,0,0.3)] md:py-2 border-t w-full'>
-					<p onClick={(e) => setMode('quiz')} className={'text-gray-500 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && '!text-gray-300')}>
+				<div className='flex justify-around items-center border-white bg-white bg-opacity-5 shadow-[0_-5px_10px_-1px_rgb(0,0,0,0.3)] md:py-2 border-t border-opacity-30 w-full'>
+					<p onClick={(e) => setMode('quiz')} className={'text-white text-opacity-30 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && '!text-opacity-80')}>
 						<i className='mr-3 fa-seedling fa-solid' />
 						<span className='max-md:hidden'>Kvíz</span>
 					</p>
-					<p onClick={(e) => setMode('learning')} className={'text-gray-500 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && '!text-gray-300')}>
+					<p onClick={(e) => setMode('learning')} className={'text-white text-opacity-30 text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && '!text-opacity-80')}>
 						<i className='mr-3 fa-list fa-solid' />
 						<span className='max-md:hidden'>Seznam</span>
 					</p>

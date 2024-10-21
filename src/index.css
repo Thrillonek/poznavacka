@@ -6,6 +6,11 @@
 
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+	--bg-main: rgb(55 65 81);
+	--bg-bright: rgb(75 80 95);
+	--text-main: rgb(156 163 175);
+	--text-bright: rgb(200 205 220);
 }
 
 body {

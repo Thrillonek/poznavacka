@@ -177,9 +177,9 @@ export default function List({ lock, setLock, poznavacka }) {
 	}
 
 	return (
-		<div className='relative flex flex-col bg-gray-700 h-full overflow-hidden'>
+		<div className='relative flex flex-col bg-[--bg-main] h-full overflow-hidden'>
 			{/* Enlarged image carousel */}
-			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-gray-700 p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-[--bg-main] p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<>
 						<div onClick={(e) => changeChosenFile({ left: '-' })} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
@@ -190,7 +190,7 @@ export default function List({ lock, setLock, poznavacka }) {
 						</div>
 					</>
 				)}
-				{poznavacka == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-4xl text-gray-400'>{category}</div>}
+				{poznavacka == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>}
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files.map((file, idx) => {
@@ -205,12 +205,12 @@ export default function List({ lock, setLock, poznavacka }) {
 						})}
 					</div>
 				</div>
-				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-gray-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
+				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-[--text-main] ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
 			{/* Search/controls bar */}
-			<div className='top-0 z-20 sticky border-gray-500 bg-[rgb(52,62,80)] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
+			<div className='top-0 z-20 sticky border-white bg-black bg-opacity-5 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b border-opacity-30 w-full place-self-center'>
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
 					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow border-gray-500 bg-gray-600 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border rounded-full text-gray-200 caret-gray-400 outline-none' />
 					<div className='absolute mr-5 text-gray-500'>
@@ -223,13 +223,13 @@ export default function List({ lock, setLock, poznavacka }) {
 				{poznavacka == 'rostliny' && (
 					<div className='flex justify-between items-center p-1 cursor-pointer'>
 						<div className='flex items-center w-1/2' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
-							<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
-							<p className='ml-2 text-[rgb(133,144,155)]'>Ukázat oddělení</p>
+							<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
+							<p className='ml-2 text-white text-opacity-35'>Ukázat oddělení</p>
 						</div>
 						{showCategories && (
 							<div className='flex items-center w-1/2' onClick={(e) => setBrowseCategories((prev) => (prev ? false : true))}>
-								<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (browseCategories && 'bg-gray-500')}>{browseCategories && <i className='text-gray-300 text-xs fa-check fa-solid'></i>}</div>
-								<p className='ml-2 text-[rgb(133,144,155)]'>Hledat v odděleních</p>
+								<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (browseCategories && 'bg-gray-500')}>{browseCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
+								<p className='ml-2 text-white text-opacity-35'>Hledat v odděleních</p>
 							</div>
 						)}
 					</div>
@@ -249,13 +249,13 @@ export default function List({ lock, setLock, poznavacka }) {
 					return (
 						<div id={'plant-' + idx} key={idx}>
 							{categories[idx + 1] && showCategories && (
-								<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[rgb(117,124,138)]'>
+								<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-white text-opacity-30'>
 									{categories[idx + 1]}
 								</div>
 							)}
 							<div onClick={(e) => setChosenFile(file)} className='flex items-center border-gray-500 p-2 border-b h-20 cursor-pointer'>
 								<img key={poznavacka + idx} src={`./assets/${poznavacka}/${file}`.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-								<span className={'ml-5 font-bold text-gray-400 text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-gray-200')}>
+								<span className={'ml-5 font-bold text-[--text-main] text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-gray-200')}>
 									{idx + 1}. {prettify(file)}
 								</span>
 							</div>
@@ -266,7 +266,7 @@ export default function List({ lock, setLock, poznavacka }) {
 
 			{/* Scroll Up Button */}
 			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-0 px-1 transition-opacity duration-300 outline-none'>
-				<i className='text-[1.6rem] text-gray-300 fa-angles-up fa-solid'></i>
+				<i className='text-[--text-bright] text-[1.6rem] fa-angles-up fa-solid'></i>
 			</button>
 		</div>
 	);
