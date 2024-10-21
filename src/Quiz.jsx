@@ -11,7 +11,7 @@ function Quiz({ poznavacka }) {
 	const [error, setError] = useState();
 	const [mode, setMode] = useState('custom');
 	const [presets, setPresets] = useState([]);
-	const [random, setRandom] = useState(false);
+	const [random, setRandom] = useState(true);
 
 	let files = set[poznavacka];
 
@@ -197,12 +197,12 @@ function Quiz({ poznavacka }) {
 				<div className='flex flex-col items-center mt-10 w-full'>
 					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Generovat obrázky</h2>
 					<div className='relative flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
-						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (random && 'translate-x-[calc(100%+.5rem)]')} />
-						<button onClick={(e) => setRandom(false)} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (!random && '!text-white font-semibold')}>
-							Postupně
-						</button>
+						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (!random && 'translate-x-[calc(100%+.5rem)]')} />
 						<button onClick={(e) => setRandom(true)} className={'w-1/2 z-10 text-gray-400 rounded ' + (random && '!text-gray-100 font-semibold')}>
 							Náhodně
+						</button>
+						<button onClick={(e) => setRandom(false)} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (!random && '!text-white font-semibold')}>
+							Postupně
 						</button>
 					</div>
 					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Nastavení</h2>
