@@ -11,11 +11,13 @@ function Quiz({ poznavacka }) {
 	const [error, setError] = useState();
 	const [mode, setMode] = useState('custom');
 	const [presets, setPresets] = useState([]);
+	const [random, setRandom] = useState(false);
 
 	let files = set[poznavacka];
 
 	let fileOptions = useRef({ first: [], second: [], recent: [], change: true });
 	let presetLength = useRef();
+	let prevIdx = useRef();
 
 	useEffect(() => {
 		if (poznavacka) {
@@ -112,7 +114,21 @@ function Quiz({ poznavacka }) {
 			}
 		}
 
-		let idx = generateIdx(minInt, maxInt);
+		let idx;
+
+		if (random) {
+			idx = generateIdx(minInt, maxInt);
+		} else {
+			if (!prevIdx.current || prevIdx.current == maxInt || fileOptions.current.change) {
+				idx = minInt;
+				prevIdx.current = null;
+				fileOptions.current.change = false;
+			} else {
+				idx = prevIdx.current + 1;
+			}
+			prevIdx.current = idx;
+			idx -= 1;
+		}
 
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
@@ -178,14 +194,27 @@ function Quiz({ poznavacka }) {
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
 					<i className='text-2xl text-gray-300 fa-solid fa-xmark'></i>
 				</button>
-				<div className='relative flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] mt-16 p-1 rounded-lg w-3/4 max-[400px]:w-full md:w-1/2'>
-					<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (mode == 'preset' && 'translate-x-[calc(100%+.5rem)]')} />
-					<button onClick={(e) => setMode('custom')} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold')}>
-						Vlastní
-					</button>
-					<button onClick={(e) => setMode('preset')} className={'w-1/2 z-10 text-gray-400 rounded ' + (mode == 'preset' && '!text-gray-100 font-semibold')}>
-						Předvolby
-					</button>
+				<div className='flex flex-col items-center mt-10 w-full'>
+					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Generovat obrázky</h2>
+					<div className='relative flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
+						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (random && 'translate-x-[calc(100%+.5rem)]')} />
+						<button onClick={(e) => setRandom(false)} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (!random && '!text-white font-semibold')}>
+							Postupně
+						</button>
+						<button onClick={(e) => setRandom(true)} className={'w-1/2 z-10 text-gray-400 rounded ' + (random && '!text-gray-100 font-semibold')}>
+							Náhodně
+						</button>
+					</div>
+					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Nastavení</h2>
+					<div className='relative flex justify-between bg-gray-600 shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
+						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (mode == 'preset' && 'translate-x-[calc(100%+.5rem)]')} />
+						<button onClick={(e) => setMode('custom')} className={'w-1/2 z-10 text-gray-400 rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold')}>
+							Vlastní
+						</button>
+						<button onClick={(e) => setMode('preset')} className={'w-1/2 z-10 text-gray-400 rounded ' + (mode == 'preset' && '!text-gray-100 font-semibold')}>
+							Předvolby
+						</button>
+					</div>
 				</div>
 				{mode == 'custom' && (
 					<div className='flex flex-col justify-center items-center h-2/3'>
