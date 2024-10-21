@@ -22,6 +22,7 @@ export default function App() {
 		if (cookie) {
 			setPoznavacka(cookie);
 			setShowingContent(true);
+			setLoaded('block');
 		} else {
 			setPoznavacka('rostliny');
 		}
@@ -73,7 +74,7 @@ export default function App() {
 								<div style={{ pointerEvents: 'none' }} className='z-30 fixed flex justify-center items-center w-full h-full'>
 									<img id='jumpscare' className='h-min scale-0' src='https://gkh.cz/wp-content/uploads/2022/05/jac.jpg' alt='JANEC' />
 								</div>
-								<div className={'absolute h-full z-10 w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
+								<div className={'absolute h-full bg-[--bg-main] z-10 w-full translate-y-full transition-transform duration-500 flex flex-col ' + (showingContent && '!translate-y-0')}>
 									<div onClick={(e) => setShowingContent(false)} className='border-[--text-main] bg-black bg-opacity-10 p-1 border-b w-full text-[--text-main] cursor-pointer'>
 										<span className='ml-2'>
 											<i className='fa-arrow-left mr-1 fa-solid'></i>Zpět na výběr
@@ -84,7 +85,7 @@ export default function App() {
 									</div>
 								</div>
 								<div className='relative z-0 flex flex-col px-10 w-full'>
-									<div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
+									<div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-ranslate-y-[150%]')}>
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div>
 									<h1 className='text-[--text-bright] mt-10 mb-5 font-extrabold text-3xl'>Vyber poznávačku:</h1>

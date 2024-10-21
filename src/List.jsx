@@ -223,12 +223,12 @@ export default function List({ lock, setLock, poznavacka }) {
 				{poznavacka == 'rostliny' && (
 					<div className='flex justify-between items-center p-1 cursor-pointer'>
 						<div className='flex items-center w-1/2' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
-							<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-gray-500')}>{showCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
+							<div className={'border-[--bg-secondary] border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-[--bg-secondary]')}>{showCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
 							<p className='ml-2 text-[--bg-secondary]'>Ukázat oddělení</p>
 						</div>
 						{showCategories && (
 							<div className='flex items-center w-1/2' onClick={(e) => setBrowseCategories((prev) => (prev ? false : true))}>
-								<div className={'border-gray-500 border rounded w-4 h-4 flex justify-center items-center ' + (browseCategories && 'bg-gray-500')}>{browseCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
+								<div className={'border-[--bg-secondary] border rounded w-4 h-4 flex justify-center items-center ' + (browseCategories && 'bg-[--bg-secondary]')}>{browseCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
 								<p className='ml-2 text-[--bg-secondary]'>Hledat v odděleních</p>
 							</div>
 						)}
