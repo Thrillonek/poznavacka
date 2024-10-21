@@ -9,8 +9,15 @@
 
 	--bg-main: rgb(55 65 81);
 	--bg-bright: rgb(75 80 95);
+	--bg-secondary: rgb(105 115 135);
 	--text-main: rgb(156 163 175);
 	--text-bright: rgb(200 205 220);
+
+	/* --bg-main: #f8c8dc;
+	--bg-bright: #f5b5d0;
+	--bg-secondary: #e892b6;
+	--text-main: #de3163;
+	--text-bright: #cf2758; */
 }
 
 body {

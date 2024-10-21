@@ -87,8 +87,6 @@ function Quiz({ poznavacka }) {
 			options.first.splice(idx, 1);
 		}
 
-		console.log(options.first, options.second, options.recent);
-
 		return result;
 	}
 
@@ -190,12 +188,12 @@ function Quiz({ poznavacka }) {
 				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
-			<div className='top-1/2 absolute flex flex-col justify-between items-center border-gray-500 bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[95%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
+			<div className='top-1/2 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[95%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
 					<i className='text-[--text-main] text-2xl fa-solid fa-xmark'></i>
 				</button>
 				<div className='flex flex-col items-center mt-10 w-full'>
-					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Generovat obrázky</h2>
+					<h2 className='text-[--text-bright] mt-4 mb-2 text-lg'>Generovat obrázky</h2>
 					<div className='relative bg-[--bg-bright] flex justify-between shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
 						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (!random && 'translate-x-[calc(100%+.5rem)]')} />
 						<button onClick={(e) => setRandom(true)} className={'w-1/2 z-10 text-[--text-main] rounded ' + (random && '!text-gray-100 font-semibold')}>
@@ -205,7 +203,7 @@ function Quiz({ poznavacka }) {
 							Postupně
 						</button>
 					</div>
-					<h2 className='mt-4 mb-2 text-gray-200 text-lg'>Nastavení</h2>
+					<h2 className='text-[--text-bright] mt-4 mb-2 text-lg'>Nastavení</h2>
 					<div className='relative bg-[--bg-bright] flex justify-between shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
 						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (mode == 'preset' && 'translate-x-[calc(100%+.5rem)]')} />
 						<button onClick={(e) => setMode('custom')} className={'w-1/2 z-10 text-[--text-main] rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold')}>
@@ -218,11 +216,11 @@ function Quiz({ poznavacka }) {
 				</div>
 				{mode == 'custom' && (
 					<div className='flex flex-col justify-center items-center h-2/3'>
-						<p className='font-bold text-gray-300 text-xl'>
+						<p className='text-[--text-bright] font-bold text-xl'>
 							{poznavacka.charAt(0).toUpperCase() + poznavacka.slice(1)} od
-							<input className='bg-[--bg-bright] mx-1 p-1 rounded w-12 text-[--text-main] caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
+							<input className='bg-[--bg-bright] caret-[--bg-secondary] mx-1 p-1 rounded w-12 text-[--text-main] outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 							do
-							<input className='bg-[--bg-bright] ml-1 p-1 rounded w-12 text-[--text-main] caret-gray-500 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
+							<input className='bg-[--bg-bright] caret-[--bg-secondary] ml-1 p-1 rounded w-12 text-[--text-main] outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
 						</p>
 						{/* <button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-10 px-5 py-1 rounded-xl text-gray-300'>
 							Nastavit na momentálně zkoušenou sadu
@@ -239,8 +237,8 @@ function Quiz({ poznavacka }) {
 								let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
 								return (
 									<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center px-3 py-[0.6rem] ' + (isChecked && 'bg-white bg-opacity-5')}>
-										<span className={'flex justify-center items-center bg-gray-400 rounded w-3 h-3 ' + (isChecked && '!bg-gray-600 shadow-[0_0_15px_0_rgb(0,0,0,0.2)]')}>{isChecked && <i className='text-[--text-main] text-sm fa-check fa-solid scale-75' />}</span>
-										<p className={'ml-1 ' + (isChecked ? 'text-white' : 'text-[--text-main]')}>
+										<span className={'flex justify-center items-center bg-[--text-main] rounded w-3 h-3 ' + (isChecked && '!bg-gray-600 shadow-[0_0_15px_0_rgb(0,0,0,0.2)]')}>{isChecked && <i className='text-[--text-main] text-sm fa-check fa-solid scale-75' />}</span>
+										<p className={'ml-1 ' + (isChecked ? 'text-[--text-bright]' : 'text-[--text-main]')}>
 											{num != 1 && num - 1}1-{num}0
 										</p>
 									</button>
@@ -258,10 +256,10 @@ function Quiz({ poznavacka }) {
 				</span>
 			</div>
 			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
-				<button onClick={(e) => changeImg({ show: false })} className='text-[--text-bright] bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none'>
+				<button onClick={(e) => changeImg({ show: false })} className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none'>
 					Změnit
 				</button>
-				<button className='text-[--text-bright] bg-gradient-to-b from-gray-500 to-gray-600 shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+				<button className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? 'Skrýt' : 'Odhalit'} název
 				</button>
 			</div>
