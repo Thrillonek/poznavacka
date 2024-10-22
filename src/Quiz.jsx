@@ -44,7 +44,7 @@ function Quiz({ poznavacka }) {
 		};
 
 		fileOptions.current.change = true;
-	}, [min, max, presets]);
+	}, [min, max, presets, random]);
 
 	const handleChangeMinMax = (e, setState) => !isNaN(e.target.value) && e.target.value.length <= 3 && setState(e.target.value);
 
