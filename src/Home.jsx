@@ -45,7 +45,7 @@ export default function Home({ poznavacka }) {
 
 	return (
 		<div className='flex flex-col w-screen h-full overflow-x-hidden'>
-			<div className={'relative w-[200vw] h-full transition-transform duration-500 ' + (mode == 'learning' && '-translate-x-1/2')}>
+			<div className={'relative w-[200vw] z-10 h-full transition-transform duration-500 ' + (mode == 'learning' && '-translate-x-1/2')}>
 				<div className='top-0 left-0 absolute w-screen h-full'>
 					<Quiz poznavacka={poznavacka} />
 				</div>
@@ -54,7 +54,7 @@ export default function Home({ poznavacka }) {
 				</div>
 			</div>
 			{!lock && (
-				<div className='flex justify-around items-center border-[--text-main] shadow-[0_-5px_10px_-1px_rgb(0,0,0,0.3)] md:py-2 border-t border-opacity-30 w-full'>
+				<div className='z-20 flex justify-around items-center shadow-[0_0_20px_0_rgb(0,0,0,0.3)] md:py-2 w-full'>
 					<p onClick={(e) => setMode('quiz')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && 'text-[--text-main]')}>
 						<i className='mr-3 fa-seedling fa-solid' />
 						<span className='max-md:hidden'>Kvíz</span>
