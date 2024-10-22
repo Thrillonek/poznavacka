@@ -62,6 +62,12 @@ export default function App() {
 		setShowingContent(true);
 	}
 
+	function loadColors() {
+		document.querySelectorAll('.color-picker')?.forEach((el) => {
+			if (el.value) document.querySelector(':root').style.setProperty(el.id, el.value);
+		});
+	}
+
 	if (!poznavacka) return;
 	return (
 		<Router>
@@ -85,6 +91,22 @@ export default function App() {
 									</div>
 								</div>
 								<div className='relative z-0 flex flex-col px-10 w-full'>
+									<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} className='top-6 right-6 absolute text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
+									<div className='top-6 right-6 absolute flex flex-col border-[--bg-secondary] bg-[--bg-main] p-5 border rounded-xl scale-[--color-scale]'>
+										<p className='text-[--text-bright] mt-2 mb-1'>Text</p>
+										<input id='--text-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
+										<p className='text-[--text-bright] mt-2 mb-1'>Výrazný text</p>
+										<input id='--text-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
+										<p className='text-[--text-bright] mt-2 mb-1'>Pozadí</p>
+										<input id='--bg-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
+										<p className='text-[--text-bright] mt-2 mb-1'>Vedlejší</p>
+										<input id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
+										<p className='text-[--text-bright] mt-2 mb-1'>Výrazné pozadí</p>
+										<input id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
+										<button onClick={loadColors} className='bg-blue-400 mt-4 p-1 rounded font-bold text-white'>
+											Potvrdit
+										</button>
+									</div>
 									<div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div>

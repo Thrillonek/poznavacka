@@ -7,6 +7,8 @@
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
+	--color-scale: 0;
+
 	--bg-main: rgb(55 65 81);
 	--bg-bright: rgb(75 80 95);
 	--bg-secondary: rgb(105 115 135);
