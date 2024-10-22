@@ -93,6 +93,7 @@ export default function App() {
 								<div className='relative z-0 flex flex-col px-10 w-full'>
 									<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} className='top-6 right-6 absolute text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									<div className='top-6 right-6 absolute flex flex-col border-[--bg-secondary] bg-[--bg-main] p-5 border rounded-xl scale-[--color-scale]'>
+<i onClick={e=>document.querySelector(':root').style.setProperty('--color-scale', 0)} className='fa-solid fa-xmark absolute text-lg text-[--text-main] top-4 right-4'/>
 										<p className='text-[--text-bright] mt-2 mb-1'>Text</p>
 										<input id='--text-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
 										<p className='text-[--text-bright] mt-2 mb-1'>Výrazný text</p>
