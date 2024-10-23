@@ -31,6 +31,7 @@ export default function App() {
 			.then((res) => {
 				if (loaded == 'block') return;
 				setLoaded(true);
+				console.log(res.data?.test);
 				if (res.data.session) {
 					setPoznavacka(res.data.session);
 					setShowingContent(true);

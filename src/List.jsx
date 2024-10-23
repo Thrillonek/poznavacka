@@ -212,7 +212,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			{/* Search/controls bar */}
 			<div className='top-0 z-20 sticky border-[--bg-secondary] bg-black bg-opacity-5 shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
 				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
-					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='bg-[--bg-bright] text-[--text-bright] placeholder:text-[--text-bright] flex-grow border-white shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border border-opacity-20 rounded-full caret-[--text-main] outline-none' />
+					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='bg-[--bg-bright] text-[--text-bright] placeholder:brightness-90 flex-grow border-white shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border border-opacity-20 rounded-full caret-[--text-main] outline-none' />
 					<div className='absolute mr-5 text-[--text-main]'>
 						{filter && <i onClick={(e) => setFilter('')} className='text-lg cursor-pointer fa-solid fa-xmark' />}
 						<button className='ml-4 phone-invisible'>
