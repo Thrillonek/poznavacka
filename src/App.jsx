@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Test from './Test.jsx';
@@ -31,6 +31,7 @@ export default function App() {
 		} else {
 			setPoznavacka('rostliny');
 		}
+
 		axios
 			.get('/api/index')
 			.then((res) => {
@@ -74,13 +75,18 @@ export default function App() {
 		setShowingContent(true);
 	}
 
-	function loadColors(reset) {
+	function loadColors(e, reset) {
+		document.querySelector(':root').style.setProperty('--color-scale', 0);
 		if (reset) {
-			document.querySelector(':root').style.setProperty('--bg-main', 'rgb(55 65 81)');
-			document.querySelector(':root').style.setProperty('--bg-bright', 'rgb(75 80 95)');
-			document.querySelector(':root').style.setProperty('--bg-secondary', 'rgb(105 115 135)');
-			document.querySelector(':root').style.setProperty('--text-main', 'rgb(156 163 175)');
-			document.querySelector(':root').style.setProperty('--text-bright', 'rgb(200 205 220)');
+			document.querySelector(':root').style.setProperty('--bg-main', '#374151');
+			document.querySelector(':root').style.setProperty('--bg-bright', '#4b505f');
+			document.querySelector(':root').style.setProperty('--bg-secondary', '#697387');
+			document.querySelector(':root').style.setProperty('--text-main', '#9ca3af');
+			document.querySelector(':root').style.setProperty('--text-bright', '#c8cddc');
+			document.querySelectorAll('.color-picker')?.forEach((el) => {
+				const color = getComputedStyle(root).getPropertyValue(el.id);
+				el.value = color;
+			});
 		}
 		let colors = [];
 		document.querySelectorAll('.color-picker')?.forEach((el) => {
@@ -122,19 +128,19 @@ export default function App() {
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 0)} className='top-3 right-4 absolute text-[--text-main] text-lg cursor-pointer fa-solid fa-xmark' />
 										<h2 className='text-[--text-bright] mb-2 font-bold text-xl'>Změnit barvy</h2>
 										<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Text</p>
-										<input id='--text-main' className='bg-[--bg-bright] my-1 rounded w-full color-picker outline-none' type='color' />
+										<input defaultValue={getComputedStyle(root).getPropertyValue('--text-main')} id='--text-main' className='bg-[--bg-bright] my-1 rounded w-full color-picker outline-none' type='color' />
 										<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Výrazný text</p>
-										<input id='--text-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+										<input defaultValue={getComputedStyle(root).getPropertyValue('--text-bright')} id='--text-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
 										<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Pozadí</p>
-										<input id='--bg-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+										<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-main')} id='--bg-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
 										<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Vedlejší</p>
-										<input id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+										<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-secondary')} id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
 										<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Výrazné pozadí</p>
-										<input id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+										<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-bright')} id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
 										<button onClick={loadColors} className='bg-blue-500 mt-6 p-1 rounded font-bold text-white'>
 											Potvrdit
 										</button>
-										<button onClick={(e) => loadColors(true)} className='mt-2 p-1 border border-red-500 rounded font-semibold text-red-500'>
+										<button onClick={(e) => loadColors(e, true)} className='mt-2 p-1 border border-red-500 rounded font-semibold text-red-500'>
 											Resetovat
 										</button>
 									</div>

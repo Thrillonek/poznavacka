@@ -9,11 +9,11 @@
 
 	--color-scale: 0;
 
-	--bg-main: rgb(55 65 81);
-	--bg-bright: rgb(75 80 95);
-	--bg-secondary: rgb(105 115 135);
-	--text-main: rgb(156 163 175);
-	--text-bright: rgb(200 205 220);
+	--bg-main: #374151;
+	--bg-bright: #4b505f;
+	--bg-secondary: #697387;
+	--text-main: #9ca3af;
+	--text-bright: #c8cddc;
 
 	/* --bg-main: #f8c8dc;
 	--bg-bright: #f5b5d0;
