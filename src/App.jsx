@@ -26,7 +26,7 @@ export default function App() {
 			setShowingContent(true);
 			setLoaded('block');
 		} else {
-			setPoznavacka('rostliny');
+			if (!poznavacka) setPoznavacka('rostliny');
 		}
 		axios
 			.get('/api/index')
@@ -34,15 +34,15 @@ export default function App() {
 				if (loaded == 'block') return;
 				setLoaded(true);
 				console.log('session: ' + res.data);
-				if (res.data.session.poznavacka) {
-					setPoznavacka(res.data.session.poznavacka);
+				if (res.data.poznavacka) {
+					setPoznavacka(res.data.poznavacka);
 					setShowingContent(true);
 				} else {
-					setPoznavacka('rostliny');
+					if (!poznavacka) setPoznavacka('rostliny');
 				}
 			})
 			.catch((err) => {
-				if (loaded != 'block') setPoznavacka('rostliny');
+				if (!poznavacka) setPoznavacka('rostliny');
 				console.error(err.response.data.error);
 			});
 

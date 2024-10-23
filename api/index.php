@@ -8,7 +8,7 @@
   if($method == 'GET') {
     if(isset($_SESSION)) {
       http_response_code(200);
-      echo json_encode(array('session'=>$_SESSION['poznavacka'], 'colors'=>$_SESSION['colors']));
+      echo json_encode(array('poznavacka'=>$_SESSION['poznavacka'], 'colors'=>$_SESSION['colors']));
     } else {
       http_response_code(404);
       echo json_encode(array('error'=>'No data available in session.'));
@@ -19,7 +19,6 @@
     if(isset($post['poznavacka'])) {
       //setcookie('poznavacka', $post['poznavacka'], time()+(86400*30));
       $_SESSION['poznavacka'] = $post['poznavacka'];
-      echo $_SESSION;
       http_response_code(200);
     } else if(isset($post['colors'])) {
       $_SESSION['colors'] = $post['colors'];
