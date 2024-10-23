@@ -28,13 +28,14 @@ app.use(express.json());
 // }
 // fs.writeFileSync('./public/text.txt', `${arr}`, 'utf8');
 
-// let content = fs.readFileSync('./public/text.txt', 'utf-8');
-// let arr = content.split(',\n');
+let content = fs.readFileSync('./public/text.txt', 'utf-8');
+let arr = content.split(',\n');
 
-let files = fs.readdirSync('./public/assets/houby').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
-let newFiles = files.map((f) => f.replaceAll(/\d/g, ''));
+let files = fs.readdirSync('./public/assets/media').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
+// console.log(files.length);
+// let newFiles = files.map((f) => f.replaceAll(/\d/g, ''));
 for (const idx in files) {
-	fs.rename('./public/assets/houby/' + files[idx], './public/assets/houby/' + newFiles[idx], (err) => err && console.log(err));
+	fs.rename('./public/assets/media/' + files[idx], './public/assets/media/' + arr[idx] + '.jpg', (err) => err && console.log(err));
 }
 
 app.get('/', (req, res) => {
