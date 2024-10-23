@@ -31,6 +31,19 @@ app.use(express.json());
 let content = fs.readFileSync('./public/text.txt', 'utf-8');
 let arr = content.split(',\n');
 
+let first = [];
+let used = [];
+
+// for (const i of arr) {
+// 	if (first.includes(i)) {
+// 		used.push(i);
+// 		continue;
+// 	}
+// 	first.push(i);
+// }
+
+// console.log(used);
+
 let files = fs.readdirSync('./public/assets/media').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
 // console.log(files.length);
 // let newFiles = files.map((f) => f.replaceAll(/\d/g, ''));
