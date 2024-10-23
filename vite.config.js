@@ -4,11 +4,11 @@ import { defineConfig } from 'vite';
 //import usePHP from 'vite-plugin-php';
 
 let path = './public/assets/rostliny';
-const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
+const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 path = './public/assets/houby';
-const houby = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
+const houby = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 path = './public/assets/prvoci';
-const prvoci = fs.readdirSync(path).sort((a, b) => parseInt(a.replaceAll(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
+const prvoci = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 
 // https://vitejs.dev/config/
 export default defineConfig({
