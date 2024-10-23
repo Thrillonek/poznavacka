@@ -27,6 +27,10 @@ body {
 	overscroll-behavior-y: contain;
 }
 
+input[type='color']::-webkit-color-swatch-wrapper {
+	padding: 0.1rem;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
 	width: 0.8rem;
 }
