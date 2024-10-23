@@ -10,6 +10,8 @@ export default function App() {
 	const [showingContent, setShowingContent] = useState();
 	const [loaded, setLoaded] = useState(false);
 
+	// axios.defaults.baseURL = 'http://localhost:8080';
+
 	useEffect(() => {
 		let interval = setInterval(() => {
 			let num = Math.floor(Math.random() * 500) + 1;
@@ -31,9 +33,9 @@ export default function App() {
 			.then((res) => {
 				if (loaded == 'block') return;
 				setLoaded(true);
-				console.log(res.data?.test);
-				if (res.data.session) {
-					setPoznavacka(res.data.session);
+				console.log('session: ' + res.data);
+				if (res.data.session.poznavacka) {
+					setPoznavacka(res.data.session.poznavacka);
 					setShowingContent(true);
 				} else {
 					setPoznavacka('rostliny');
@@ -64,9 +66,16 @@ export default function App() {
 	}
 
 	function loadColors() {
+		let colors = [];
 		document.querySelectorAll('.color-picker')?.forEach((el) => {
+			arr.push({ name: el.id, value: el.value });
 			if (el.value) document.querySelector(':root').style.setProperty(el.id, el.value);
 		});
+		axios
+			.post('/api/index', {
+				colors,
+			})
+			.catch((err) => console.error(err.response.data.message));
 	}
 
 	if (!poznavacka) return;
@@ -105,7 +114,7 @@ export default function App() {
 										<input id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
 										<p className='text-[--text-bright] mt-2 mb-1'>Výrazné pozadí</p>
 										<input id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
-										<button onClick={loadColors} className='bg-blue-400 mt-4 p-1 rounded font-bold text-white'>
+										<button onClick={loadColors} className='bg-blue-500 mt-6 p-1 rounded font-bold text-white'>
 											Potvrdit
 										</button>
 									</div>

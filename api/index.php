@@ -6,9 +6,9 @@
   header("Access-Control-Allow-Headers: *");
   $method = $_SERVER['REQUEST_METHOD'];
   if($method == 'GET') {
-    if(isset($_COOKIE['poznavacka'])) {
+    if(isset($_SESSION)) {
       http_response_code(200);
-      echo json_encode(array('session'=>$_COOKIE['poznavacka'], 'test'=>$_SESSION['poznavacka']));
+      echo json_encode(array('session'=>$_SESSION));
     } else {
       http_response_code(404);
       echo json_encode(array('error'=>'No data available in session.'));
@@ -17,8 +17,12 @@
   if($method == 'POST') {
     $post = json_decode(file_get_contents('php://input'), true);
     if(isset($post['poznavacka'])) {
-      setcookie('poznavacka', $post['poznavacka'], time()+(86400*30));
+      //setcookie('poznavacka', $post['poznavacka'], time()+(86400*30));
       $_SESSION['poznavacka'] = $post['poznavacka'];
+      echo $_SESSION;
+      http_response_code(200);
+    } else if(isset($post['colors'])) {
+      $_SESSION['colors'] = $post['colors'];
       http_response_code(200);
     } else {
       http_response_code(400);
