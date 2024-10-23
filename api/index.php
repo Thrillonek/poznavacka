@@ -6,7 +6,7 @@
   header("Access-Control-Allow-Headers: *");
   $method = $_SERVER['REQUEST_METHOD'];
   if($method == 'GET') {
-    if(isset($_SESSION)) {
+    if(isset($_SESSION['poznavacka']) || isset($_SESSION['colors'])) {
       http_response_code(200);
       echo json_encode(array('poznavacka'=>$_SESSION['poznavacka'], 'colors'=>$_SESSION['colors']));
     } else {

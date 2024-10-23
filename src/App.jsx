@@ -26,23 +26,23 @@ export default function App() {
 			setShowingContent(true);
 			setLoaded('block');
 		} else {
-			if (!poznavacka) setPoznavacka('rostliny');
+			setPoznavacka('rostliny');
 		}
 		axios
 			.get('/api/index')
 			.then((res) => {
 				if (loaded == 'block') return;
 				setLoaded(true);
-				console.log('session: ' + res.data);
+				console.log('session: ' + res.data, res.data.poznavacka, res.data.colors);
 				if (res.data.poznavacka) {
 					setPoznavacka(res.data.poznavacka);
 					setShowingContent(true);
 				} else {
-					if (!poznavacka) setPoznavacka('rostliny');
+					if (loaded != 'block') setPoznavacka('rostliny');
 				}
 			})
 			.catch((err) => {
-				if (!poznavacka) setPoznavacka('rostliny');
+				if (loaded != 'block') setPoznavacka('rostliny');
 				console.error(err.response.data.error);
 			});
 
