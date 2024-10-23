@@ -13,6 +13,8 @@ export default function App() {
 	// axios.defaults.baseURL = 'http://localhost:8080';
 
 	useEffect(() => {
+		let stopPropagation = false;
+
 		let interval = setInterval(() => {
 			let num = Math.floor(Math.random() * 500) + 1;
 			if (num == 250) {
@@ -25,24 +27,28 @@ export default function App() {
 			setPoznavacka(cookie);
 			setShowingContent(true);
 			setLoaded('block');
+			stopPropagation = true;
 		} else {
 			setPoznavacka('rostliny');
 		}
 		axios
 			.get('/api/index')
 			.then((res) => {
-				if (loaded == 'block') return;
 				setLoaded(true);
-				console.log('session: ' + res.data, res.data.poznavacka, res.data.colors);
+				if (res.data.colors) {
+					for (const color of res.data.colors) {
+						if (color.value) document.querySelector(':root').style.setProperty(color.name, color.value);
+					}
+				}
 				if (res.data.poznavacka) {
 					setPoznavacka(res.data.poznavacka);
 					setShowingContent(true);
 				} else {
-					if (loaded != 'block') setPoznavacka('rostliny');
+					if (!stopPropagation) setPoznavacka('rostliny');
 				}
 			})
 			.catch((err) => {
-				if (loaded != 'block') setPoznavacka('rostliny');
+				if (!stopPropagation) setPoznavacka('rostliny');
 				console.error(err.response.data.error);
 			});
 
@@ -103,7 +109,7 @@ export default function App() {
 								<div className='relative z-0 flex flex-col px-10 w-full'>
 									<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} className='top-6 right-6 absolute text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									<div className='top-6 right-6 absolute flex flex-col border-[--bg-secondary] bg-[--bg-main] p-5 border rounded-xl scale-[--color-scale]'>
-										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 0)} className='top-4 right-4 absolute text-[--text-main] text-lg fa-solid fa-xmark' />
+										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 0)} className='top-4 right-4 absolute text-[--text-main] text-lg cursor-pointer fa-solid fa-xmark' />
 										<p className='text-[--text-bright] mt-2 mb-1'>Text</p>
 										<input id='--text-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 p-1 rounded color-picker outline-none' type='text' />
 										<p className='text-[--text-bright] mt-2 mb-1'>Výrazný text</p>
