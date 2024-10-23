@@ -68,7 +68,7 @@ export default function App() {
 	function loadColors() {
 		let colors = [];
 		document.querySelectorAll('.color-picker')?.forEach((el) => {
-			arr.push({ name: el.id, value: el.value });
+			colors.push({ name: el.id, value: el.value });
 			if (el.value) document.querySelector(':root').style.setProperty(el.id, el.value);
 		});
 		axios

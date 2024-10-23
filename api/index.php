@@ -8,7 +8,7 @@
   if($method == 'GET') {
     if(isset($_SESSION)) {
       http_response_code(200);
-      echo json_encode(array('session'=>$_SESSION));
+      echo json_encode(array('session'=>$_SESSION['poznavacka'], 'colors'=>$_SESSION['colors']));
     } else {
       http_response_code(404);
       echo json_encode(array('error'=>'No data available in session.'));
