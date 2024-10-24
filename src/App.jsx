@@ -19,7 +19,6 @@ export default function App() {
 			let num = Math.floor(Math.random() * 250) + 1;
 			if (num == 20) {
 				document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
-				
 			}
 		}, 3 * 1000);
 		const cookie = Cookies.get('poznavacka');
@@ -75,14 +74,18 @@ export default function App() {
 		setShowingContent(true);
 	}
 
-	function loadColors(e, reset) {
+	function loadColors(e, preset) {
 		document.querySelector(':root').style.setProperty('--color-scale', 0);
-		if (reset) {
-			document.querySelector(':root').style.setProperty('--bg-main', '#374151');
-			document.querySelector(':root').style.setProperty('--bg-bright', '#4b505f');
-			document.querySelector(':root').style.setProperty('--bg-secondary', '#697387');
-			document.querySelector(':root').style.setProperty('--text-main', '#9ca3af');
-			document.querySelector(':root').style.setProperty('--text-bright', '#c8cddc');
+
+		if (preset) {
+			let hexCodes = [];
+			if (preset == 'default') hexCodes = ['#374151', '#4b505f', '#697387', '#9ca3af', '#c8cddc'];
+			if (preset == 'pink') hexCodes = ['#99244F', '#B92D5D', '#EE719E', '#F4A4C0', '#F4A4C0'];
+			let vars = ['--bg-main', '--bg-bright', '--bg-secondary', '--text-main', '--text-bright'];
+			for (const v in vars) {
+				document.querySelector(':root').style.setProperty(vars[v], hexCodes[v]);
+			}
+
 			document.querySelectorAll('.color-picker')?.forEach((el) => {
 				const color = getComputedStyle(root).getPropertyValue(el.id);
 				el.value = color;
@@ -140,8 +143,12 @@ export default function App() {
 										<button onClick={loadColors} className='bg-blue-500 mt-6 p-1 rounded font-bold text-white'>
 											Potvrdit
 										</button>
-										<button onClick={(e) => loadColors(e, true)} className='mt-2 p-1 border border-red-500 rounded font-semibold text-red-500'>
-											Resetovat
+										<h2 className='text-[--text-bright] mt-2 font-semibold text-lg'>Předvolby:</h2>
+										<button onClick={(e) => loadColors(e, 'default')} className='border-gray-400 mt-2 p-1 border rounded font-semibold text-gray-400'>
+											Výchozí
+										</button>
+										<button onClick={(e) => loadColors(e, 'pink')} className='border-pink-500 bg-pink-400 mt-2 p-1 border rounded font-semibold text-red-700'>
+											Růžová
 										</button>
 									</div>
 									<div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
