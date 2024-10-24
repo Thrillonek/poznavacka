@@ -16,10 +16,10 @@ export default function App() {
 		let stopPropagation = false;
 
 		let interval = setInterval(() => {
-			let num = Math.floor(Math.random() * 500) + 1;
-			if (num == 250) {
+			let num = Math.floor(Math.random() * 250) + 1;
+			if (num == 20) {
 				document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
-				clearInterval(interval);
+				
 			}
 		}, 3 * 1000);
 		const cookie = Cookies.get('poznavacka');
