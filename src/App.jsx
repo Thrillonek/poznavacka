@@ -79,9 +79,9 @@ export default function App() {
 
 		if (preset) {
 			let hexCodes = [];
-			if (preset == 'default') hexCodes = ['#374151', '#4b505f', '#697387', '#9ca3af', '#c8cddc'];
+			if (preset == 'default') hexCodes = ['#9ca3af', '#c8cddc', '#374151', '#697387', '#4b505f'];
 			if (preset == 'pink') hexCodes = ['#99244F', '#B92D5D', '#EE719E', '#F4A4C0', '#F4A4C0'];
-			let vars = ['--bg-main', '--bg-bright', '--bg-secondary', '--text-main', '--text-bright'];
+			let vars = ['--text-main', '--text-bright', '--bg-main', '--bg-secondary', '--bg-bright'];
 			for (const v in vars) {
 				document.querySelector(':root').style.setProperty(vars[v], hexCodes[v]);
 			}
