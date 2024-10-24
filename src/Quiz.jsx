@@ -59,12 +59,12 @@ function Quiz({ poznavacka }) {
 			options.first = [];
 			options.second = [];
 			for (let i = 0; i < range; i++) {
-				options.first.push(i);
+				options.first.push(i + minVal - 1);
 			}
 			options.change = false;
 		}
 
-		let idx = rng(minVal - 1, options.first.length - 1);
+		let idx = rng(0, options.first.length - 1);
 		let result = options.first[idx];
 
 		if (Math.round(range / 2.5) <= options.recent.length) {
@@ -78,7 +78,7 @@ function Quiz({ poznavacka }) {
 		}
 
 		if (options.second.length > 0 && Math.random() * 4 > 3) {
-			idx = rng(minVal - 1, options.second.length - 1);
+			idx = rng(0, options.second.length - 1);
 			result = options.second[idx];
 			options.recent.push(options.second[idx]);
 			options.second.splice(idx, 1);
