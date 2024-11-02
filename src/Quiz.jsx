@@ -4,7 +4,7 @@ import { set } from './utilities.js';
 
 function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
-	const [text, setText] = useState();
+	const [name, setName] = useState();
 	const [min, setMin] = useState('1');
 	const [max, setMax] = useState('');
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
@@ -18,6 +18,10 @@ function Quiz({ poznavacka }) {
 	let fileOptions = useRef({ first: [], second: [], recent: [], change: true });
 	let presetLength = useRef();
 	let prevIdx = useRef();
+
+	useEffect(() => {
+		if (index.number) setName(files[index.number - 1]);
+	}, [index?.number]);
 
 	useEffect(() => {
 		if (poznavacka) {
@@ -119,7 +123,6 @@ function Quiz({ poznavacka }) {
 		} else {
 			if (!prevIdx.current || prevIdx.current == maxInt || fileOptions.current.change) {
 				idx = minInt;
-				prevIdx.current = null;
 				fileOptions.current.change = false;
 			} else {
 				idx = prevIdx.current + 1;
@@ -131,9 +134,6 @@ function Quiz({ poznavacka }) {
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
 		setIndex({ number: idx + 1, imgLoaded: false });
-
-		let name = files[idx];
-		setText(name);
 	}
 
 	function togglePreset(num) {
@@ -174,8 +174,8 @@ function Quiz({ poznavacka }) {
 		setMax('70');
 	}
 
-	let readableImgName = text
-		?.substring(0, text.lastIndexOf('.'))
+	let readableImgName = name
+		?.substring(0, name.lastIndexOf('.'))
 		.replaceAll(/[0-9+]/g, '')
 		.replace('-', ' - ');
 
@@ -185,7 +185,7 @@ function Quiz({ poznavacka }) {
 				<i className='text-[--text-main] text-3xl max-sm:text-2xl fa-gear fa-solid'></i>
 			</button>
 			<div className='flex flex-col justify-end items-center mt-16 px-2 w-full h-2/3'>
-				<img onLoad={() => setIndex({ number: index.number, imgLoaded: true })} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + text).replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + name).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
 			<div className='top-1/2 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[95%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
@@ -255,11 +255,17 @@ function Quiz({ poznavacka }) {
 					a klávesu <i className='text-[--text-bright] font-semibold fa-caret-square-down fa-solid' /> pro název rostliny
 				</span>
 			</div>
-			<div className='flex justify-between items-center mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
-				<button onClick={(e) => changeImg({ show: false })} className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none'>
-					Změnit
+			<div className='gap-2 grid grid-cols-2 grid-rows-2 mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
+				<button
+					onClick={() => fileOptions.current.recent.length > 1 && fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1 != index.number && setIndex({ number: fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1, imgLoaded: true })}
+					className={'text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none ' + (fileOptions.current.recent.length <= 1 || (fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1 == index.number && 'brightness-75'))}
+				>
+					Předchozí
 				</button>
-				<button className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg w-[45%] font-bold text-lg outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+				<button onClick={() => changeImg({ show: false })} className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none'>
+					Další
+				</button>
+				<button className='text-[--text-bright] to-[--bg-bright] col-span-2 bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? 'Skrýt' : 'Odhalit'} název
 				</button>
 			</div>

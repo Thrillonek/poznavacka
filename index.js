@@ -44,11 +44,19 @@ let used = [];
 
 // console.log(used);
 
-let files = fs.readdirSync('./public/assets/media').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
+// let files = fs.readdirSync('./public/assets/media').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
 // console.log(files.length);
 // let newFiles = files.map((f) => f.replaceAll(/\d/g, ''));
-for (const idx in files) {
-	fs.rename('./public/assets/media/' + files[idx], './public/assets/media/' + arr[idx] + '.jpg', (err) => err && console.log(err));
+// for (const idx in files) {
+// 	fs.rename('./public/assets/media/' + files[idx], './public/assets/media/' + arr[idx] + '.jpg', (err) => err && console.log(err));
+// }
+
+let myfiles = fs.readFileSync('./public/moje.txt', 'utf-8').split('\n');
+let files = fs.readFileSync('./public/test.txt', 'utf-8').split('\n');
+
+for (const file of files) {
+	if (myfiles.includes(file)) continue;
+	console.log(file);
 }
 
 app.get('/', (req, res) => {
