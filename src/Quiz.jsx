@@ -211,7 +211,7 @@ function Quiz({ poznavacka }) {
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + name).replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
 			</div>
-			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[95%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
+			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[85%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
 					<i className='text-[--text-main] text-2xl fa-solid fa-xmark'></i>
 				</button>
