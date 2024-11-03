@@ -44,17 +44,17 @@ export default function Home({ poznavacka }) {
 	}, [mode, lock]);
 
 	return (
-		<div className='flex flex-col w-screen h-full overflow-x-hidden'>
-			<div className={'relative w-[200vw] z-10 h-full transition-transform duration-500 ' + (mode == 'learning' && '-translate-x-1/2')}>
-				<div className='top-0 left-0 absolute w-screen h-full'>
+		<div className='flex flex-col w-full h-full overflow-x-hidden'>
+			<div className={'relative w-full z-10 h-full left-0 transition-[left] duration-500 ' + (mode == 'learning' && '-left-[100%]')}>
+				<div className='top-0 left-0 absolute w-full h-full'>
 					<Quiz poznavacka={poznavacka} />
 				</div>
-				<div className='top-0 left-[100vw] absolute w-screen h-full'>
+				<div className='top-0 left-full absolute w-full h-full'>
 					<List poznavacka={poznavacka} setLock={setLock} lock={lock} />
 				</div>
 			</div>
 			{!lock && (
-				<div className='z-20 flex justify-around items-center shadow-[0_0_20px_0_rgb(0,0,0,0.3)] md:py-2 w-full'>
+				<div className='z-10 flex justify-around items-center shadow-[0_0_20px_0_rgb(0,0,0,0.3)] md:py-2 w-full'>
 					<p onClick={(e) => setMode('quiz')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && 'text-[--text-main]')}>
 						<i className='mr-3 fa-seedling fa-solid' />
 						<span className='max-md:hidden'>Kvíz</span>
