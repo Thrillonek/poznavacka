@@ -147,13 +147,13 @@ export default function App() {
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div>
 									{/* TOP BAR */}
-									<div className='z-10 flex justify-between items-center bg-[--bg-main] px-2 py-1 w-full text-[--text-main]'>
+									<div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] px-2 py-1 border-b w-full text-[--text-main]'>
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} id='show-colors' className='px-2 text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									</div>
 									<div className='relative z-0 flex flex-grow'>
 										{/* MENU */}
-										<div className={'z-10 bg-[--bg-main] max-md:absolute h-full transition-all duration-500 shadow-[3px_0_15px_0_rgb(0,0,0,0.3)] w-0 overflow-hidden flex flex-col min-w-full md:min-w-[22rem] lg:min-w-[25rem] ' + (showingContent && 'md:!min-w-0 max-md:-translate-x-full shadow-none')}>
+										<div className={'z-10 bg-[--bg-main] relative max-md:absolute h-full transition-all duration-500 md:border-r border-[--bg-secondary] overflow-hidden box-border flex flex-col w-full md:w-[22rem] lg:w-[25rem] ' + (showingContent && 'max-md:-translate-x-full !border-r-0 md:!w-0 shadow-none')}>
 											<h1 className='text-[--text-bright] mt-4 mb-6 font-black text-4xl tracking-wide self-center'>Poznávačky</h1>
 											{['rostliny', 'houby', 'prvoci'].map((content) => {
 												return (
