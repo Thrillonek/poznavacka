@@ -147,7 +147,7 @@ export default function App() {
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div>
 									{/* TOP BAR */}
-									<div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] px-2 py-1 border-b w-full text-[--text-main]'>
+									<div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-lg px-2 py-1 border-b w-full text-[--text-main]'>
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} id='show-colors' className='px-2 text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									</div>
