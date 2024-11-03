@@ -45,7 +45,7 @@ export default function Home({ poznavacka }) {
 
 	return (
 		<div className='flex flex-col w-full h-full overflow-x-hidden'>
-			<div className={'relative w-full z-10 h-full left-0 transition-[left] duration-500 ' + (mode == 'learning' && '-left-[100%]')}>
+			<div style={{ left: mode == 'learning' && '-100%' }} className={'relative w-full z-10 h-full left-0 transition-[left] duration-500'}>
 				<div className='top-0 left-0 absolute w-full h-full'>
 					<Quiz poznavacka={poznavacka} />
 				</div>
