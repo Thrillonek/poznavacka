@@ -15,7 +15,7 @@ function Quiz({ poznavacka }) {
 
 	let files = set[poznavacka];
 
-	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, currentIdx: null });
+	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, previous: [] });
 	let presetLength = useRef();
 	let prevIdx = useRef();
 
@@ -118,9 +118,8 @@ function Quiz({ poznavacka }) {
 
 		let idx;
 
-		if (fileOptions.current.currentIdx) {
-			idx = fileOptions.current.currentIdx;
-			fileOptions.current.currentIdx = null;
+		if (fileOptions.current.previous[0] == index.number) {
+			idx = fileOptions.current.previous[1];
 		} else {
 			if (random) {
 				idx = generateIdx(minInt, maxInt);
@@ -132,10 +131,11 @@ function Quiz({ poznavacka }) {
 				} else {
 					idx = prevIdx.current + 1;
 				}
-				if (fileOptions.current.recent.length >= 2) fileOptions.current.recent.shift();
-				fileOptions.current.recent?.push(idx);
-				prevIdx.current = idx;
+prevIdx.current = idx;
 			}
+if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
+				fileOptions.current.previous?.push(idx);
+
 		}
 
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
@@ -176,9 +176,8 @@ function Quiz({ poznavacka }) {
 	}
 
 	function showPrev() {
-		if (fileOptions.current.recent.length > 1 && fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1 != index.number) {
-			setIndex({ number: fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1, imgLoaded: false });
-			fileOptions.current.currentIdx = index.number - 1;
+		if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) {
+			setIndex({ number: fileOptions.current.previous[0] + 1, imgLoaded: false });
 		}
 	}
 
@@ -279,7 +278,7 @@ function Quiz({ poznavacka }) {
 				</span>
 			</div>
 			<div className='gap-2 grid grid-cols-2 grid-rows-2 mb-8 w-[80%] md:w-1/2 xl:w-1/3'>
-				<button onClick={showPrev} className={'text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none ' + (!(fileOptions.current.recent.length > 1 && fileOptions.current.recent[fileOptions.current.recent.length - 2] + 1 != index.number) && 'brightness-75 cursor-default')}>
+				<button onClick={showPrev} className={'text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none ' + (!(fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) && 'brightness-75 cursor-default')}>
 					Předchozí
 				</button>
 				<button onClick={() => changeImg({ show: false })} className='text-[--text-bright] to-[--bg-bright] bg-gradient-to-b from-[--bg-secondary] shadow-round mx-1 py-1 rounded-lg font-bold text-lg outline-none'>
