@@ -133,7 +133,7 @@ prevIdx.current = idx;
 
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
-if (fileOptions.current.previous length > 1 && fileOptions.current.previous[0] == index.number) {
+if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] == index.number) {
 			idx = fileOptions.current.previous[1];
 		} else {
 if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
