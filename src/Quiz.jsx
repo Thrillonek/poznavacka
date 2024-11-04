@@ -133,12 +133,12 @@ function Quiz({ poznavacka }) {
 				}
 prevIdx.current = idx;
 			}
-if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
-				fileOptions.current.previous?.push(idx);
-
 		}
 
 		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+
+if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
+				fileOptions.current.previous?.push(idx);
 
 		setIndex({ number: idx + 1, imgLoaded: false });
 	}
