@@ -56,7 +56,7 @@ export default function Home({ poznavacka }) {
 			{!lock && (
 				<div className='z-10 flex justify-around items-center shadow-[0_2px_30px_-10px_rgb(0,0,0,0.3)] md:py-2 w-full'>
 					<p onClick={(e) => setMode('quiz')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && 'text-[--text-main]')}>
-						<i className='mr-3 fa-seedling fa-solid' />
+						<i className='mr-3 fa-question fa-solid' />
 						<span className='max-md:hidden'>Kvíz</span>
 					</p>
 					<p onClick={(e) => setMode('learning')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && 'text-[--text-main]')}>
