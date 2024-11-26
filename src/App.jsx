@@ -28,7 +28,7 @@ export default function App() {
 			setLoaded('block');
 			stopPropagation = true;
 		} else {
-			setPoznavacka('rostliny');
+			setPoznavacka('houby');
 		}
 
 		axios
@@ -47,11 +47,11 @@ export default function App() {
 					setPoznavacka(res.data.poznavacka);
 					setShowingContent(true);
 				} else {
-					if (!stopPropagation) setPoznavacka('rostliny');
+					if (!stopPropagation) setPoznavacka('houby');
 				}
 			})
 			.catch((err) => {
-				if (!stopPropagation) setPoznavacka('rostliny');
+				if (!stopPropagation) setPoznavacka('houby');
 				console.error(err.response.data.error);
 			});
 
