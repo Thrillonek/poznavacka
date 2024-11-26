@@ -2,6 +2,7 @@ let set = {
 	rostliny: __ROSTLINY__,
 	houby: __HOUBY__,
 	prvoci: __PRVOCI__,
+	prvousti: __PRVOUSTI__,
 };
 const categories = {
 	1: 'Houby',
