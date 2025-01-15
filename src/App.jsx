@@ -155,7 +155,7 @@ export default function App() {
 										{/* MENU */}
 										<div className={'z-10 bg-[--bg-main] relative max-md:absolute h-full transition-all duration-500 md:border-r border-[--bg-secondary] overflow-hidden box-border flex flex-col w-full md:w-[22rem] lg:w-[25rem] ' + (showingContent && 'max-md:-translate-x-full !border-r-0 md:!w-0 shadow-none')}>
 											<h1 className='text-[--text-bright] mt-4 mb-6 font-black text-4xl tracking-wide self-center'>Poznávačky</h1>
-											{[/*'rostliny', */ 'houby', 'prvoci', 'prvousti'].map((content) => {
+											{['rostliny', 'houby', 'prvoci', 'prvousti'].map((content) => {
 												return (
 													<button onClick={(e) => showContent(content)} className={'bg-[--bg-bright] text-[--text-bright] shadow-xl flex items-center transition-[width] justify-end my-2 py-4 pr-6 rounded-r-2xl w-[min(22rem,80%)] font-bold text-5xl tracking-wider ' + (poznavacka == content && '!w-[min(24rem,85%)]')}>
 														<i className='fa-arrow-right mr-6 text-3xl fa-solid'></i>
