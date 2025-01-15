@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, HashRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Test from './Test.jsx';
 
@@ -10,7 +10,7 @@ export default function App() {
 	const [showingContent, setShowingContent] = useState();
 	const [loaded, setLoaded] = useState(false);
 
-	// axios.defaults.baseURL = 'http://localhost:8080';
+	axios.defaults.baseURL = 'http://localhost:8080';
 
 	useEffect(() => {
 		let stopPropagation = false;
@@ -103,12 +103,13 @@ export default function App() {
 			.catch((err) => console.error(err.response.data.message));
 	}
 
-	if (!poznavacka) return;
+	// if (!poznavacka) return;
 	return (
-		<Router>
-			<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-[--bg-main] w-screen h-dvh overflow-y-hidden'>
+		<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-[--bg-main] w-screen h-dvh overflow-y-hidden'>
+			<Router>
 				<Routes>
 					<Route
+						exact
 						path=''
 						element={
 							<>
@@ -155,7 +156,7 @@ export default function App() {
 										{/* MENU */}
 										<div className={'z-10 bg-[--bg-main] relative max-md:absolute h-full transition-all duration-500 md:border-r border-[--bg-secondary] overflow-hidden box-border flex flex-col w-full md:w-[22rem] lg:w-[25rem] ' + (showingContent && 'max-md:-translate-x-full !border-r-0 md:!w-0 shadow-none')}>
 											<h1 className='text-[--text-bright] mt-4 mb-6 font-black text-4xl tracking-wide self-center'>Poznávačky</h1>
-											{[/*'rostliny', */ 'houby', 'prvoci', 'prvousti'].map((content) => {
+											{['rostliny', 'houby', 'prvoci', 'prvousti'].map((content) => {
 												return (
 													<button onClick={(e) => showContent(content)} className={'bg-[--bg-bright] text-[--text-bright] shadow-xl flex items-center transition-[width] justify-end my-2 py-4 pr-6 rounded-r-2xl w-[min(22rem,80%)] font-bold text-5xl tracking-wider ' + (poznavacka == content && '!w-[min(24rem,85%)]')}>
 														<i className='fa-arrow-right mr-6 text-3xl fa-solid'></i>
@@ -173,9 +174,9 @@ export default function App() {
 							</>
 						}
 					/>
-					<Route path='pisemka' element={<Test />} />
+					{/* <Route path='pisemka' element={<Test />} /> */}
 				</Routes>
-			</div>
-		</Router>
+			</Router>
+		</div>
 	);
 }
