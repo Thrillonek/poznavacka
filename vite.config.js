@@ -5,7 +5,6 @@ import { defineConfig } from 'vite';
 
 let path = './public/assets/rostliny';
 const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
-const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 
 path = './public/assets/houby';
 const houby = fs.readdirSync(path).sort((a, b) => {
