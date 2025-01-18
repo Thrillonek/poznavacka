@@ -211,7 +211,7 @@ function Quiz({ poznavacka }) {
 				<i className='text-[--text-main] text-3xl max-sm:text-2xl fa-gear fa-solid'></i>
 			</button>
 			<div className='flex flex-col justify-end items-center mt-16 px-2 w-full h-2/3'>
-				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={name.replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={name?.replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : index.number}</div>
 			</div>
 			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[85%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
