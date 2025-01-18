@@ -4,12 +4,15 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Test from './Test.jsx';
-import { dir } from './utilities.js';
+import { dir, isObject } from './utilities.js';
 
 export default function App() {
 	const [poznavacka, setPoznavacka] = useState();
 	const [showingContent, setShowingContent] = useState();
 	const [loaded, setLoaded] = useState(false);
+	const [selectedDir, setSelectedDir] = useState(dir);
+	const [path, setPath] = useState([]);
+	const [dirName, setDirName] = useState();
 
 	// axios.defaults.baseURL = 'http://localhost:8080';
 
@@ -72,7 +75,41 @@ export default function App() {
 
 	function showContent(pozn) {
 		setPoznavacka(pozn);
+		// console.log(dir, Object.values(pozn)[0]);
+		let content = Object.values(pozn)[0];
+		if (content.some((c) => isObject(c))) {
+			setPath((p) => [...p, Object.keys(pozn)[0]]);
+			setSelectedDir(Object.values(pozn)[0]);
+			setDirName(Object.keys(pozn)[0][0].toUpperCase() + Object.keys(pozn)[0].slice(1));
+		}
 		// if (window.innerWidth < 768) setShowingContent(true);
+	}
+
+	useEffect(() => {
+		if (!path[0]) return;
+		for (let i of path) {
+			if (path.indexOf(i) == path.length - 1) break;
+			Object.values(dir.find((f) => Object.keys(f)[0] == path[0]))[0];
+		}
+	}, [path]);
+
+	function back(method) {
+		let currentArr = dir;
+		let currentObject;
+		for (let i of path) {
+			if (path.indexOf(i) == path.length - 1 && method != 'current') break;
+			currentObject = currentArr.find((f) => Object.keys(f)[0] == i);
+			currentArr = Object.values(currentObject)[0];
+		}
+		if (method == 'current') {
+			setPoznavacka(currentObject);
+		} else {
+			let newPath = [...path];
+			newPath.pop();
+			setPath(newPath);
+			setSelectedDir(currentArr);
+			setDirName(Object.keys(currentObject)[0][0].toUpperCase() + Object.keys(currentObject)[0].slice(1));
+		}
 	}
 
 	function loadColors(e, preset) {
@@ -103,8 +140,6 @@ export default function App() {
 			})
 			.catch((err) => console.error(err.response.data.message));
 	}
-
-	var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
 
 	return (
 		<Router>
@@ -157,12 +192,21 @@ export default function App() {
 										{/* MENU */}
 										<div className={'z-10 bg-[--bg-main] max-md:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out md:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-[min(100%,18rem)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
 											<div className='px-4'>
-												{/* <h1 className='text-[--text-bright] my-4 font-bold text-4xl tracking-wide'>Poznávačky:</h1> */}
-												{dir
+												{path && selectedDir !== dir && (
+													<>
+														<button className={!dirName && 'hidden'} onClick={back}>
+															<i className='fa-arrow-left mr-6 text-[--text-main] text-2xl fa-solid' />
+														</button>
+														<h1 onClick={() => back('current')} className={'text-[--text-bright] my-4 font-semibold text-2xl cursor-pointer'}>
+															{dirName}
+														</h1>
+													</>
+												)}
+												{selectedDir
 													.filter((content) => isObject(content))
 													.map((content) => {
 														return (
-															<button onClick={(e) => showContent(content)} className={'text-[--text-main] flex items-center my-2 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
+															<button onClick={(e) => showContent(content)} className={'text-[--text-main] block text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
 																{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
 																{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
 															</button>

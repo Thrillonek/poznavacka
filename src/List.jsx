@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, dir } from './utilities.js';
+import { categories, dir, isObject, nameFromPath } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -168,16 +168,6 @@ export default function List({ lock, setLock, poznavacka }) {
 		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
-	function nameFromPath(str) {
-		let arr = str.split('/');
-		str = arr[arr.length - 1];
-		str = str
-			.substring(0, str.lastIndexOf('.'))
-			.replaceAll(/[0-9+_]/g, '')
-			.replace('-', ' - ');
-		return str.charAt(0).toUpperCase() + str.slice(1);
-	}
-
 	return (
 		<div className='relative flex flex-col bg-[--bg-main] h-full overflow-hidden'>
 			{/* Enlarged image carousel */}
@@ -195,16 +185,18 @@ export default function List({ lock, setLock, poznavacka }) {
 				{Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>}
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
-						{files.map((file, idx) => {
-							return (
-								<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
-									<img src={file.replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
-									<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-										{idx + 1}. {nameFromPath(file)}
-									</span>
-								</div>
-							);
-						})}
+						{files
+							.filter((f) => !isObject(f))
+							.map((file, idx) => {
+								return (
+									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
+										<img src={file.replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
+										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
+											{idx + 1}. {nameFromPath(file)}
+										</span>
+									</div>
+								);
+							})}
 					</div>
 				</div>
 				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-[--text-main] ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
@@ -239,31 +231,33 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
-				{files.map((file, idx) => {
-					let isSearched =
-						filter &&
-						!browseCategories &&
-						nameFromPath(file)
-							.split(' ')
-							.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
+				{files
+					.filter((f) => !isObject(f))
+					.map((file, idx) => {
+						let isSearched =
+							filter &&
+							!browseCategories &&
+							nameFromPath(file)
+								.split(' ')
+								.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
 
-					if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
-					return (
-						<div id={'plant-' + idx} key={idx}>
-							{categories[idx + 1] && showCategories && (
-								<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[--bg-secondary]'>
-									{categories[idx + 1]}
+						if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
+						return (
+							<div id={'plant-' + idx} key={idx}>
+								{categories[idx + 1] && showCategories && (
+									<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[--bg-secondary]'>
+										{categories[idx + 1]}
+									</div>
+								)}
+								<div onClick={(e) => setChosenFile(file)} className='flex items-center border-[--bg-secondary] p-2 border-b h-20 cursor-pointer'>
+									<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+									<span className={'ml-5 font-bold text-[--text-main] text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-[--text-bright]')}>
+										{idx + 1}. {nameFromPath(file)}
+									</span>
 								</div>
-							)}
-							<div onClick={(e) => setChosenFile(file)} className='flex items-center border-[--bg-secondary] p-2 border-b h-20 cursor-pointer'>
-								<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-								<span className={'ml-5 font-bold text-[--text-main] text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-[--text-bright]')}>
-									{idx + 1}. {nameFromPath(file)}
-								</span>
 							</div>
-						</div>
-					);
-				})}
+						);
+					})}
 			</div>
 
 			{/* Scroll Up Button */}

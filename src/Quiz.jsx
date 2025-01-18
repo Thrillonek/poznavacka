@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { dir } from './utilities.js';
+import { dir, isObject, nameFromPath } from './utilities.js';
 
 function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
@@ -13,7 +13,7 @@ function Quiz({ poznavacka }) {
 	const [presets, setPresets] = useState([]);
 	const [random, setRandom] = useState(true);
 
-	let files = Object.values(poznavacka)[0];
+	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
 	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, previous: [] });
 	let presetLength = useRef();
@@ -193,16 +193,6 @@ function Quiz({ poznavacka }) {
 		if (poznavacka == 'houby') return;
 		setMin('1');
 		setMax('70');
-	}
-
-	function nameFromPath(str) {
-		let arr = str.split('/');
-		str = arr[arr.length - 1];
-		str = str
-			.substring(0, str.lastIndexOf('.'))
-			.replaceAll(/[0-9+_]/g, '')
-			.replace('-', ' - ');
-		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
 	return (

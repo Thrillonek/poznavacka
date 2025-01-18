@@ -1,5 +1,17 @@
 let dir = __DIR__;
 
+function nameFromPath(str) {
+	let arr = str.split('/');
+	str = arr[arr.length - 1];
+	str = str
+		.substring(0, str.lastIndexOf('.'))
+		.replaceAll(/[0-9+_]/g, '')
+		.replace('-', ' - ');
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
+
 const categories = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
@@ -48,4 +60,4 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, dir };
+export { categories, dir, isObject, nameFromPath };
