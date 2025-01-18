@@ -199,7 +199,7 @@ export default function App() {
 									</div>
 									<div className='relative z-0 flex flex-grow'>
 										{/* MENU */}
-										<div className={'z-10 bg-[--bg-main] max-md:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out md:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-[min(100%,18rem)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
+										<div className={'z-10 bg-[--bg-main] max-[400px]:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out min-[400px]:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-fit grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
 											<div className='px-4'>
 												{path && selectedDir !== dir && (
 													<div className='flex gap-2'>
