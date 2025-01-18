@@ -82,7 +82,6 @@ export default function App() {
 			setSelectedDir(Object.values(pozn)[0]);
 			setDirName(Object.keys(pozn)[0][0].toUpperCase() + Object.keys(pozn)[0].slice(1));
 		}
-		// if (window.innerWidth < 768) setShowingContent(true);
 	}
 
 	useEffect(() => {
@@ -194,7 +193,7 @@ export default function App() {
 											<div className='px-4'>
 												{path && selectedDir !== dir && (
 													<>
-														<button className={!dirName && 'hidden'} onClick={back}>
+														<button className={!dirName ? 'hidden' : ''} onClick={back}>
 															<i className='fa-arrow-left mr-6 text-[--text-main] text-2xl fa-solid' />
 														</button>
 														<h1 onClick={() => back('current')} className={'text-[--text-bright] my-4 font-semibold text-2xl cursor-pointer'}>
@@ -204,11 +203,12 @@ export default function App() {
 												)}
 												{selectedDir
 													.filter((content) => isObject(content))
-													.map((content) => {
+													.map((content, idx) => {
 														return (
-															<button onClick={(e) => showContent(content)} className={'text-[--text-main] block text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
+															<button key={'option-' + idx} onClick={(e) => showContent(content)} className={'text-[--text-main] block text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
 																{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
 																{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
+																{Object.values(content)[0].some((f) => isObject(f)) && <i className='fa-arrow-right ml-3 text-2xl fa-solid'></i>}
 															</button>
 														);
 													})}

@@ -37,6 +37,7 @@ function Quiz({ poznavacka }) {
 		return () => document.querySelector(':root').style.setProperty('--settings-scale', 0);
 	}, [poznavacka]);
 
+	/* KLÁVESNICE TLAČÍTKA */
 	useEffect(() => {
 		document.body.onkeydown = (e) => {
 			if (e.key == 'ArrowUp') {
