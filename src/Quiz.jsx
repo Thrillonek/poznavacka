@@ -13,7 +13,7 @@ function Quiz({ poznavacka }) {
 	const [presets, setPresets] = useState([]);
 	const [random, setRandom] = useState(true);
 
-	let files = dir[poznavacka];
+	let files = Object.values(poznavacka)[0];
 
 	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, previous: [] });
 	let presetLength = useRef();
@@ -195,10 +195,15 @@ function Quiz({ poznavacka }) {
 		setMax('70');
 	}
 
-	let readableImgName = name
-		?.substring(0, name.lastIndexOf('.'))
-		.replaceAll(/[0-9+]/g, '')
-		.replace('-', ' - ');
+	function nameFromPath(str) {
+		let arr = str.split('/');
+		str = arr[arr.length - 1];
+		str = str
+			.substring(0, str.lastIndexOf('.'))
+			.replaceAll(/[0-9+_]/g, '')
+			.replace('-', ' - ');
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
 
 	return (
 		<div onClick={handleClick} className='flex flex-col justify-between items-center bg-[--bg-main] py-5 w-full h-full'>
@@ -206,8 +211,8 @@ function Quiz({ poznavacka }) {
 				<i className='text-[--text-main] text-3xl max-sm:text-2xl fa-gear fa-solid'></i>
 			</button>
 			<div className='flex flex-col justify-end items-center mt-16 px-2 w-full h-2/3'>
-				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={('./assets/' + poznavacka + '/' + name).replace(' ', '%20').replace('+', '%2b')} />
-				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? readableImgName.charAt(0).toUpperCase() + readableImgName.slice(1) : index.number}</div>
+				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={name.replace(' ', '%20').replace('+', '%2b')} />
+				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : index.number}</div>
 			</div>
 			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-[0_0_20px_5px_rgb(0,0,0,0.3)] px-3 pb-5 border rounded-xl w-[90%] lg:w-1/2 h-[85%] origin-top-right transition-transform -translate-y-1/2 duration-300 scale-[--settings-scale]'>
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
@@ -238,7 +243,7 @@ function Quiz({ poznavacka }) {
 				{mode == 'custom' && (
 					<div className='flex flex-col justify-center items-center h-2/3'>
 						<p className='text-[--text-bright] font-bold text-xl'>
-							{poznavacka.charAt(0).toUpperCase() + poznavacka.slice(1)} od
+							{Object.keys(poznavacka)[0].charAt(0).toUpperCase() + Object.keys(poznavacka)[0].slice(1)} od
 							<input className='bg-[--bg-bright] caret-[--bg-secondary] mx-1 p-1 rounded w-12 text-[--text-main] outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 							do
 							<input className='bg-[--bg-bright] caret-[--bg-secondary] ml-1 p-1 rounded w-12 text-[--text-main] outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />

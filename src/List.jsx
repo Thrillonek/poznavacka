@@ -9,7 +9,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 
-	let files = dir[poznavacka];
+	let files = Object.values(poznavacka)[0];
 
 	window.onkeydown = handleKeyDown;
 
@@ -146,7 +146,7 @@ export default function List({ lock, setLock, poznavacka }) {
 		if (/\D/.test(filter)) {
 			let plant = files.find((f) => {
 				let check = false;
-				for (const i of prettify(f).toLowerCase().split(' ')) {
+				for (const i of nameFromPath(f).toLowerCase().split(' ')) {
 					if (i.startsWith(filter.toLowerCase())) check = true;
 				}
 				return check;
@@ -168,7 +168,9 @@ export default function List({ lock, setLock, poznavacka }) {
 		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
-	function prettify(str) {
+	function nameFromPath(str) {
+		let arr = str.split('/');
+		str = arr[arr.length - 1];
 		str = str
 			.substring(0, str.lastIndexOf('.'))
 			.replaceAll(/[0-9+_]/g, '')
@@ -190,15 +192,15 @@ export default function List({ lock, setLock, poznavacka }) {
 						</div>
 					</>
 				)}
-				{poznavacka == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>}
+				{Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>}
 				<div className='w-full h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files.map((file, idx) => {
 							return (
 								<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
-									<img src={('./assets/' + poznavacka + '/' + file).replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
+									<img src={file.replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
 									<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
-										{idx + 1}. {prettify(file)}
+										{idx + 1}. {nameFromPath(file)}
 									</span>
 								</div>
 							);
@@ -241,7 +243,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					let isSearched =
 						filter &&
 						!browseCategories &&
-						prettify(file)
+						nameFromPath(file)
 							.split(' ')
 							.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
 
@@ -254,9 +256,9 @@ export default function List({ lock, setLock, poznavacka }) {
 								</div>
 							)}
 							<div onClick={(e) => setChosenFile(file)} className='flex items-center border-[--bg-secondary] p-2 border-b h-20 cursor-pointer'>
-								<img key={poznavacka + idx} src={`./assets/${poznavacka}/${file}`.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+								<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
 								<span className={'ml-5 font-bold text-[--text-main] text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-[--text-bright]')}>
-									{idx + 1}. {prettify(file)}
+									{idx + 1}. {nameFromPath(file)}
 								</span>
 							</div>
 						</div>

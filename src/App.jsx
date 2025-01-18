@@ -13,66 +13,66 @@ export default function App() {
 
 	// axios.defaults.baseURL = 'http://localhost:8080';
 
-	useEffect(() => {
-		let stopPropagation = false;
+	// useEffect(() => {
+	// 	let stopPropagation = false;
 
-		let interval = setInterval(() => {
-			let num = Math.floor(Math.random() * 500) + 1;
-			if (num == 20) {
-				document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
-			}
-		}, 3 * 1000);
-		const cookie = Cookies.get('poznavacka');
-		if (cookie) {
-			setPoznavacka(cookie);
-			setShowingContent(true);
-			setLoaded('block');
-			stopPropagation = true;
-		} else {
-			setPoznavacka('houby');
-		}
+	// 	let interval = setInterval(() => {
+	// 		let num = Math.floor(Math.random() * 500) + 1;
+	// 		if (num == 20) {
+	// 			document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
+	// 		}
+	// 	}, 3 * 1000);
+	// 	const cookie = Cookies.get('poznavacka');
+	// 	if (cookie) {
+	// 		setPoznavacka(cookie);
+	// 		setShowingContent(true);
+	// 		setLoaded('block');
+	// 		stopPropagation = true;
+	// 	} else {
+	// 		// setPoznavacka('houby');
+	// 	}
 
-		axios
-			.get('/api/index')
-			.then((res) => {
-				setLoaded(true);
-				if (res.data.colors) {
-					for (const color of res.data.colors) {
-						if (color.value) {
-							document.querySelector(':root').style.setProperty(color.name, color.value);
-							document.getElementById(color.name).value = color.value;
-						}
-					}
-				}
-				if (res.data.poznavacka) {
-					setPoznavacka(res.data.poznavacka);
-					setShowingContent(true);
-				} else {
-					if (!stopPropagation) setPoznavacka('houby');
-				}
-			})
-			.catch((err) => {
-				if (!stopPropagation) setPoznavacka('houby');
-				console.error(err.response.data.error);
-			});
+	// 	axios
+	// 		.get('/api/index')
+	// 		.then((res) => {
+	// 			setLoaded(true);
+	// 			if (res.data.colors) {
+	// 				for (const color of res.data.colors) {
+	// 					if (color.value) {
+	// 						document.querySelector(':root').style.setProperty(color.name, color.value);
+	// 						document.getElementById(color.name).value = color.value;
+	// 					}
+	// 				}
+	// 			}
+	// 			if (res.data.poznavacka) {
+	// 				setPoznavacka(res.data.poznavacka);
+	// 				setShowingContent(true);
+	// 			} else {
+	// 				if (!stopPropagation) setPoznavacka('houby');
+	// 			}
+	// 		})
+	// 		.catch((err) => {
+	// 			if (!stopPropagation) setPoznavacka('houby');
+	// 			console.error(err.response.data.error);
+	// 		});
 
-		return () => clearInterval(interval);
-	}, []);
+	// 	return () => clearInterval(interval);
+	// }, []);
 
-	useEffect(() => {
-		let data = poznavacka;
-		if (!showingContent) data = '';
-		Cookies.set('poznavacka', data);
-		axios
-			.post('/api/index', {
-				poznavacka: data,
-			})
-			.catch((err) => console.error(err.response.data.message));
-	}, [poznavacka, showingContent]);
+	// useEffect(() => {
+	// 	let data = poznavacka;
+	// 	if (!showingContent) data = '';
+	// 	Cookies.set('poznavacka', data);
+	// 	axios
+	// 		.post('/api/index', {
+	// 			poznavacka: data,
+	// 		})
+	// 		.catch((err) => console.error(err.response.data.message));
+	// }, [poznavacka, showingContent]);
 
 	function showContent(pozn) {
 		setPoznavacka(pozn);
-		if (window.innerWidth < 768) setShowingContent(true);
+		// if (window.innerWidth < 768) setShowingContent(true);
 	}
 
 	function loadColors(e, preset) {
@@ -104,7 +104,8 @@ export default function App() {
 			.catch((err) => console.error(err.response.data.message));
 	}
 
-	if (!poznavacka) return;
+	var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
+
 	return (
 		<Router>
 			<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-[--bg-main] w-screen h-dvh overflow-y-hidden'>
@@ -154,21 +155,27 @@ export default function App() {
 									</div>
 									<div className='relative z-0 flex flex-grow'>
 										{/* MENU */}
-										<div className={'z-10 bg-[--bg-main] relative max-md:absolute h-full transition-all duration-500 md:border-r border-[--bg-secondary] overflow-hidden box-border flex flex-col w-full md:w-[22rem] lg:w-[25rem] ' + (showingContent && 'max-md:-translate-x-full !border-r-0 md:!w-0 shadow-none')}>
-											<h1 className='text-[--text-bright] mt-4 mb-6 font-black text-4xl tracking-wide self-center'>Poznávačky</h1>
-											{Object.keys(dir).map((content) => {
-												return (
-													<button onClick={(e) => showContent(content)} className={'bg-[--bg-bright] text-[--text-bright] shadow-xl flex items-center transition-[width] justify-end my-2 py-4 pr-6 rounded-r-2xl w-[min(22rem,80%)] font-bold text-5xl tracking-wider ' + (poznavacka == content && '!w-[min(24rem,85%)]')}>
-														<i className='fa-arrow-right mr-6 text-3xl fa-solid'></i>
-														{content.charAt(0).toUpperCase() + content.slice(1)}
-													</button>
-												);
-											})}
+										<div className={'z-10 bg-[--bg-main] max-md:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out md:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-[min(100%,18rem)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
+											<div className='px-4'>
+												{/* <h1 className='text-[--text-bright] my-4 font-bold text-4xl tracking-wide'>Poznávačky:</h1> */}
+												{dir
+													.filter((content) => isObject(content))
+													.map((content) => {
+														return (
+															<button onClick={(e) => showContent(content)} className={'text-[--text-main] flex items-center my-2 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
+																{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
+																{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
+															</button>
+														);
+													})}
+											</div>
 										</div>
 										{/* MAIN CONTENT */}
-										<div className='z-0 flex-grow'>
-											<Home poznavacka={poznavacka} />
-										</div>
+										{poznavacka && (
+											<div className='z-0 flex-grow'>
+												<Home poznavacka={poznavacka} />
+											</div>
+										)}
 									</div>
 								</div>
 							</>

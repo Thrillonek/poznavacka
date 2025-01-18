@@ -45,7 +45,7 @@ function getFS(dir) {
 			if (stat && stat.isDirectory()) {
 				let fileSctructure = file.split('/');
 				results.push({ [fileSctructure[fileSctructure.length - 1]]: getFS(file) });
-			} else results.push(file);
+			} else results.push(file.slice(8)); // soubor bez ./public složky v názvu
 		});
 
 	return results;
