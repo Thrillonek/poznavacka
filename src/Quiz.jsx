@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { set } from './utilities.js';
+import { dir } from './utilities.js';
 
 function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
@@ -13,7 +13,7 @@ function Quiz({ poznavacka }) {
 	const [presets, setPresets] = useState([]);
 	const [random, setRandom] = useState(true);
 
-	let files = set[poznavacka];
+	let files = dir[poznavacka];
 
 	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, previous: [] });
 	let presetLength = useRef();
@@ -118,8 +118,7 @@ function Quiz({ poznavacka }) {
 
 		let idx;
 
-
-if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] +1 == index.number) {
+		if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
 			idx = fileOptions.current.previous[1];
 		} else {
 			if (random) {
@@ -132,13 +131,13 @@ if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] +
 				} else {
 					idx = prevIdx.current + 1;
 				}
-prevIdx.current = idx;
+				prevIdx.current = idx;
 			}
-		if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+			if (mode == 'preset' && presets.length != 0) idx = presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 
-if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
-				fileOptions.current.previous?.push(idx);
-}
+			if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
+			fileOptions.current.previous?.push(idx);
+		}
 
 		setIndex({ number: idx + 1, imgLoaded: false });
 	}

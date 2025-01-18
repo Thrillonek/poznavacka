@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { set } from './utilities.js';
+import { dir } from './utilities.js';
 
 function Test() {
 	const [plant, setPlant] = useState();
@@ -7,7 +7,7 @@ function Test() {
 	const [end, setEnd] = useState(false);
 
 	let bomba = false;
-	let plants = set['rostliny'];
+	let plants = dir['rostliny'];
 
 	const arr = useRef([]);
 

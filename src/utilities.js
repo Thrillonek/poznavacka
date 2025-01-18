@@ -1,9 +1,5 @@
-let set = {
-	rostliny: __ROSTLINY__,
-	houby: __HOUBY__,
-	prvoci: __PRVOCI__,
-	prvousti: __PRVOUSTI__,
-};
+let dir = __DIR__;
+
 const categories = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
@@ -52,4 +48,4 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, set };
+export { categories, dir };

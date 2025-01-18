@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, set } from './utilities.js';
+import { categories, dir } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -9,7 +9,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 
-	let files = set[poznavacka];
+	let files = dir[poznavacka];
 
 	window.onkeydown = handleKeyDown;
 
