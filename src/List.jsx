@@ -17,27 +17,27 @@ export default function List({ lock, setLock, poznavacka }) {
 		if (poznavacka != 'rostliny') setShowCategories(false);
 		document.getElementById('list').scrollTop = 0;
 		if (!filter) setChosenFile();
-		const observer = new IntersectionObserver((entries) => {
-			entries.forEach(
-				(entry) => {
-					entry.target.classList.toggle('opacity-70', !entry.isIntersecting);
-					entry.target.classList.toggle('-translate-x-12', !entry.isIntersecting);
-				},
-				{
-					threshold: 1,
-				}
-			);
-		});
+		// const observer = new IntersectionObserver((entries) => {
+		// 	entries.forEach(
+		// 		(entry) => {
+		// 			entry.target.classList.toggle('opacity-70', !entry.isIntersecting);
+		// 			entry.target.classList.toggle('-translate-x-12', !entry.isIntersecting);
+		// 		},
+		// 		{
+		// 			threshold: 1,
+		// 		}
+		// 	);
+		// });
 
-		document.querySelectorAll('.plant-list-item')?.forEach((el) => {
-			observer.observe(el);
-		});
+		// document.querySelectorAll('.plant-list-item')?.forEach((el) => {
+		// 	observer.observe(el);
+		// });
 
-		return () => {
-			document.querySelectorAll('.plant-list-item')?.forEach((el) => {
-				observer.unobserve(el);
-			});
-		};
+		// return () => {
+		// 	document.querySelectorAll('.plant-list-item')?.forEach((el) => {
+		// 		observer.unobserve(el);
+		// 	});
+		// };
 	}, [poznavacka]);
 
 	useEffect(() => {
@@ -251,7 +251,7 @@ export default function List({ lock, setLock, poznavacka }) {
 								)}
 								<div onClick={(e) => setChosenFile(file)} className='flex items-center border-[--bg-secondary] p-2 border-b h-20 cursor-pointer'>
 									<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-									<span className={'ml-5 font-bold text-[--text-main] text-xl transition-all duration-500 plant-list-item ease-out ' + (isSearched && '!text-[--text-bright]')}>
+									<span className={'ml-5 font-bold text-[--text-main] text-xl ease-out ' + (isSearched && '!text-[--text-bright]')}>
 										{idx + 1}. {nameFromPath(file)}
 									</span>
 								</div>

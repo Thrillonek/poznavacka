@@ -140,6 +140,16 @@ export default function App() {
 			.catch((err) => console.error(err.response.data.message));
 	}
 
+	function groupFiles(content) {
+		let arr = Object.values(content)[0];
+		while (arr.some((f) => isObject(f))) {
+			let obj = arr.find((f) => isObject(f));
+			arr = arr.concat(Object.values(obj)[0]);
+			arr.splice(arr.indexOf(obj), 1);
+		}
+		setPoznavacka({ [Object.keys(content)[0]]: arr });
+	}
+
 	return (
 		<Router>
 			<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-[--bg-main] w-screen h-dvh overflow-y-hidden'>
@@ -179,9 +189,9 @@ export default function App() {
 								</div>
 								<div onClick={(e) => e.target.id != 'show-colors' && document.querySelector(':root').style.setProperty('--color-scale', 0)} className={'relative h-full bg-[--bg-main] z-0 w-full flex flex-col'}>
 									{/* COOKIES LOADING */}
-									<div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
+									{/* <div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
-									</div>
+									</div> */}
 									{/* TOP BAR */}
 									<div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-lg px-2 py-1 border-b w-full text-[--text-main]'>
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
@@ -192,24 +202,33 @@ export default function App() {
 										<div className={'z-10 bg-[--bg-main] max-md:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out md:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-[min(100%,18rem)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
 											<div className='px-4'>
 												{path && selectedDir !== dir && (
-													<>
+													<div className='flex gap-2'>
 														<button className={!dirName ? 'hidden' : ''} onClick={back}>
-															<i className='fa-arrow-left mr-6 text-[--text-main] text-2xl fa-solid' />
+															<i className='fa-arrow-left text-[--text-main] text-lg fa-solid' />
 														</button>
 														<h1 onClick={() => back('current')} className={'text-[--text-bright] my-4 font-semibold text-2xl cursor-pointer'}>
 															{dirName}
 														</h1>
-													</>
+													</div>
 												)}
 												{selectedDir
 													.filter((content) => isObject(content))
 													.map((content, idx) => {
 														return (
-															<button key={'option-' + idx} onClick={(e) => showContent(content)} className={'text-[--text-main] block text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
+															<div key={'option-' + idx} className={'text-[--text-main] flex items-center text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
 																{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
-																{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
-																{Object.values(content)[0].some((f) => isObject(f)) && <i className='fa-arrow-right ml-3 text-2xl fa-solid'></i>}
-															</button>
+																<span className='cursor-pointer' onClick={(e) => showContent(content)}>
+																	{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
+																</span>
+																{Object.values(content)[0].some((f) => isObject(f)) && (
+																	<div className='flex items-center gap-4 ml-4'>
+																		<i className='text-2xl fa-folder fa-regular' />
+																		<button className='flex items-center' onClick={() => groupFiles(content)}>
+																			<i className='text-xl fa-file fa-regular'></i>
+																		</button>
+																	</div>
+																)}
+															</div>
 														);
 													})}
 											</div>
