@@ -7,16 +7,51 @@ let poznavacky = {};
 let path = './public/assets';
 const dir = fs.readdirSync(path).filter((f) => !f.includes('.'));
 
-dir.forEach((f) => {
-	path = `./public/assets/${f}`;
-	const files = fs.readdirSync(path).sort((a, b) => {
-		if (/\d/.test(a.slice(0, 3)) && /\d/.test(b.slice(0, 3))) {
-			return parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, ''));
-		}
-		return a - b;
-	});
-	poznavacky[f] = files;
-});
+function sortingAlg(a, b) {
+	if (/\d/.test(a.slice(0, 3)) && /\d/.test(b.slice(0, 3))) {
+		return parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, ''));
+	}
+	return a - b;
+}
+
+// dir.forEach((f) => {
+// 	path = `./public/assets/${f}`;
+// 	const files = fs.readdirSync(path).sort(sortingAlg);
+// 	while (files.some((f) => !f.includes('.'))) {
+// 		let folder = files.find((f) => !f.includes('.'));
+// 		console.log(folder, f);
+// 		let newFiles;
+// 		try {
+// 			newFiles = fs.readdirSync(`./public/assets/${f}/${folder}`).sort(sortingAlg);
+// 		} catch (err) {
+// 			console.log(err);
+// 			break;
+// 		}
+
+// 		newFiles && files.splice(files.indexOf(folder), 1, { [`${folder}`]: [...newFiles] });
+// 	}
+// 	poznavacky[f] = files;
+// });
+
+function getFS(dir) {
+	var results = [];
+
+	fs.readdirSync(dir)
+		.sort(sortingAlg)
+		.forEach((file) => {
+			file = dir + '/' + file;
+			var stat = fs.statSync(file);
+
+			if (stat && stat.isDirectory()) {
+				let fileSctructure = file.split('/');
+				results.push({ [fileSctructure[fileSctructure.length - 1]]: getFS(file) });
+			} else results.push(file);
+		});
+
+	return results;
+}
+
+// fs.writeFileSync('./public/files.txt', JSON.stringify(getFS('./public/assets/poznavacky')));
 
 // const rostliny = fs.readdirSync(path).sort((a, b) => parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, '')));
 // path = './public/assets/houby';
@@ -43,6 +78,6 @@ dir.forEach((f) => {
 export default defineConfig({
 	plugins: [react()],
 	define: {
-		__DIR__: JSON.stringify(poznavacky),
+		__DIR__: JSON.stringify(getFS('./public/assets/poznavacky')),
 	},
 });
