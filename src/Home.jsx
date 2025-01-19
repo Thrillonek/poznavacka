@@ -64,11 +64,11 @@ export default function Home({ poznavacka }) {
 
 			{!lock && (
 				<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-2 bg-neutral-900 py-1 md:py-4 max-md:w-full text-lg'>
-					<button onClick={(e) => setMode('quiz')} className={' md:text-xl py-1 md:w-full md:py-2 md:px-4 hover:bg-neutral-800 cursor-pointer '}>
+					<button onClick={(e) => setMode('quiz')} className={' md:text-xl py-1 md:w-full md:py-2 md:px-4 md:hover:bg-neutral-800 cursor-pointer '}>
 						{/* <Icon icon='fa:question'></Icon> */}
 						<i className={'fa-question fa-solid ' + (mode == 'quiz' ? 'text-neutral-300' : 'text-neutral-500')} />
 					</button>
-					<button onClick={(e) => setMode('learning')} className={' md:text-xl hover:bg-neutral-800 py-1 md:w-full md:py-2 md:px-4 cursor-pointer'}>
+					<button onClick={(e) => setMode('learning')} className={' md:text-xl md:hover:bg-neutral-800 py-1 md:w-full md:py-2 md:px-4 cursor-pointer'}>
 						<i className={'fa-list fa-solid ' + (mode == 'learning' ? 'text-neutral-300' : 'text-neutral-500')} />
 					</button>
 				</div>

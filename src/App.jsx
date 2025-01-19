@@ -244,7 +244,7 @@ export default function App() {
 															return (
 																<div key={'option-' + idx} className={'flex text-neutral-500 items-center text-start py-4 last-of-type:border-none border-b border-neutral-700 text-4xl'}>
 																	{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
-																	<span className={'cursor-pointer text-neutral-500 hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')} onClick={(e) => showContent(content)}>
+																	<span className={'cursor-pointer text-neutral-500 md:hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')} onClick={(e) => showContent(content)}>
 																		{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
 																	</span>
 																	{Object.values(content)[0].some((f) => isObject(f)) && (
