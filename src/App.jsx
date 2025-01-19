@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -140,7 +141,9 @@ export default function App() {
 			.catch((err) => console.error(err.response.data.message));
 	}
 
-	function groupFiles(content) {
+	function toggleGroupFiles(content) {
+		if (poznavacka != content) return setPoznavacka(content);
+
 		let arr = Object.values(content)[0];
 		while (arr.some((f) => isObject(f))) {
 			let obj = arr.find((f) => isObject(f));
@@ -150,9 +153,12 @@ export default function App() {
 		setPoznavacka({ [Object.keys(content)[0]]: arr });
 	}
 
+	var objName = (obj) => obj && Object.keys(obj)[0];
+	var objValue = (obj) => obj && Object.values(obj)[0];
+
 	return (
 		<Router>
-			<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-[--bg-main] w-screen h-dvh overflow-y-hidden'>
+			<div onClick={(e) => setLoaded('block')} className='relative flex flex-col items-center bg-neutral-800 w-screen h-dvh overflow-y-hidden'>
 				<Routes>
 					<Route
 						path=''
@@ -193,52 +199,74 @@ export default function App() {
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div> */}
 									{/* TOP BAR */}
-									<div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-lg px-2 py-1 border-b w-full text-[--text-main]'>
+									{/* <div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-lg px-2 py-1 border-b w-full text-[--text-main]'>
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} id='show-colors' className='px-2 text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
-									</div>
+									</div> */}
 									<div className='relative z-0 flex flex-grow'>
 										{/* MENU */}
-										<div className={'z-10 bg-[--bg-main] max-[400px]:w-full md:relative absolute pt-4 transition-all duration-300 ease-in-out min-[400px]:border-r border-[--bg-secondary] inset-0 overflow-hidden box-border w-fit grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full md:!w-0 !border-0')}>
+										<div className={'z-10 bg-neutral-900 max-[400px]:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
 											<div className='px-4'>
-												{path && selectedDir !== dir && (
-													<div className='flex gap-2'>
-														<button className={!dirName ? 'hidden' : ''} onClick={back}>
-															<i className='fa-arrow-left text-[--text-main] text-lg fa-solid' />
+												<div className='flex justify-between mb-4 w-full text-2xl text-neutral-500'>
+													<button onClick={(e) => setShowingContent(!showingContent)} className='md:hidden'>
+														<i className='fa-solid fa-xmark'></i>
+													</button>
+													<button className='md:ml-auto' onClick={() => document.getElementById('menu-info').classList.add('scale-100')}>
+														<Icon icon='material-symbols:info-outline-rounded' className=''></Icon>
+													</button>
+												</div>
+												<div id='menu-info' className='top-4 right-4 absolute bg-neutral-800 p-4 rounded-xl w-fit max-w-[calc(100%-2rem)] text-neutral-400 origin-top-right transition-transform scale-0'>
+													<div className='flex justify-between items-center mb-2'>
+														<h3 className='font-semibold text-lg text-neutral-300'>Info</h3>
+														<button className='block ml-auto' onClick={() => document.getElementById('menu-info').classList.remove('scale-100')}>
+															<Icon icon='meteor-icons:xmark' className='text-xl'></Icon>
 														</button>
-														<h1 onClick={() => back('current')} className={'text-[--text-bright] my-4 font-semibold text-2xl cursor-pointer'}>
-															{dirName}
-														</h1>
 													</div>
-												)}
-												{selectedDir
-													.filter((content) => isObject(content))
-													.map((content, idx) => {
-														return (
-															<div key={'option-' + idx} className={'text-[--text-main] flex items-center text-start my-3 text-4xl ' + (poznavacka == content && 'font-semibold !text-[--text-bright]')}>
-																{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
-																<span className='cursor-pointer' onClick={(e) => showContent(content)}>
-																	{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
-																</span>
-																{Object.values(content)[0].some((f) => isObject(f)) && (
-																	<div className='flex items-center gap-4 ml-4'>
-																		<i className='text-2xl fa-folder fa-regular' />
-																		<button className='flex items-center' onClick={() => groupFiles(content)}>
-																			<i className='text-xl fa-file fa-regular'></i>
-																		</button>
-																	</div>
-																)}
-															</div>
-														);
-													})}
+													<p>
+														Pro vyzkoušení z obsahu celé složky, klikněte na ikonu <i className='text-base fa-folder fa-regular' />
+														<br />
+														<br />
+														Po zvolení vaší poznávačky zavřete menu kliknutím na ikonu <i className='text-base fa-solid fa-xmark' />
+													</p>
+												</div>
+												<div className='flex gap-2'>
+													<button className={dirName && path.length > 0 && selectedDir ? '' : 'hidden'} onClick={back}>
+														<i className='fa-arrow-left text-[--text-main] text-lg fa-solid' />
+													</button>
+													<h1 onClick={() => back('current')} className={'text-[--text-bright] my-4 font-semibold text-2xl cursor-pointer'}>
+														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
+													</h1>
+												</div>
+												<div>
+													{selectedDir
+														.filter((content) => isObject(content))
+														.map((content, idx) => {
+															return (
+																<div key={'option-' + idx} className={'flex text-neutral-500 items-center text-start py-4 border-b border-neutral-700 text-4xl'}>
+																	{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
+																	<span className={'cursor-pointer text-neutral-500 hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')} onClick={(e) => showContent(content)}>
+																		{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
+																	</span>
+																	{Object.values(content)[0].some((f) => isObject(f)) && (
+																		<div className='flex items-center gap-4 ml-4'>
+																			<i onClick={() => toggleGroupFiles(content)} className={'hover:brightness-150 text-base cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
+																		</div>
+																	)}
+																</div>
+															);
+														})}
+												</div>
 											</div>
 										</div>
 										{/* MAIN CONTENT */}
-										{poznavacka && (
-											<div className='z-0 flex-grow'>
+										<div className='z-0 flex flex-col flex-grow'>
+											<div className='flex items-center gap-2 md:hidden bg-neutral-900 px-4 py-2 text-neutral-500 text-xl'>
+												<i className='fa-bars fa-solid'></i> <span className='text-lg'>Menu</span>
+											</div>
+											<div className='flex-grow'>
 												<Home poznavacka={poznavacka} />
 											</div>
-										)}
+										</div>
 									</div>
 								</div>
 							</>

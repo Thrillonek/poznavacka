@@ -1,6 +1,8 @@
+import { Icon } from '@iconify/react';
 import { useEffect, useRef, useState } from 'react';
 import List from './List.jsx';
 import Quiz from './Quiz.jsx';
+import { isObject } from './utilities.js';
 
 export default function Home({ poznavacka }) {
 	const [mode, setMode] = useState('learning');
@@ -44,24 +46,30 @@ export default function Home({ poznavacka }) {
 	}, [mode, lock]);
 
 	return (
-		<div className='flex flex-col w-full h-full overflow-x-hidden'>
-			<div style={{ left: mode == 'learning' && '-100%' }} className={'relative w-full z-10 h-full left-0 transition-[left] duration-500'}>
-				<div className='top-0 left-0 absolute w-full h-full'>
-					<Quiz poznavacka={poznavacka} />
+		<div className='flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
+			{poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? (
+				<div className={'relative z-10 flex-grow transition-none bg-inherit max-[400px]:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
+					<div className={'top-0 z-0 left-0 absolute w-full h-full'}>
+						<Quiz poznavacka={poznavacka} />
+					</div>
+					<div className={'top-0 bg-inherit z-10 left-full md:left-0 absolute w-full h-full ' + (mode == 'quiz' ? 'md:hidden' : '')}>
+						<List poznavacka={poznavacka} setLock={setLock} lock={lock} />
+					</div>
 				</div>
-				<div className='top-0 left-full absolute w-full h-full'>
-					<List poznavacka={poznavacka} setLock={setLock} lock={lock} />
+			) : (
+				<div className='flex flex-grow justify-center items-center'>
+					<h1 className='font-bold text-5xl text-neutral-600'>Zvolte poznávačku...</h1>
 				</div>
-			</div>
+			)}
+
 			{!lock && (
-				<div className='z-10 flex justify-around items-center shadow-[0_2px_30px_-10px_rgb(0,0,0,0.3)] md:py-2 w-full'>
-					<p onClick={(e) => setMode('quiz')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'quiz' && 'text-[--text-main]')}>
-						<i className='mr-3 fa-question fa-solid' />
-						<span className='max-md:hidden'>Kvíz</span>
+				<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-4 bg-neutral-900 md:px-4 py-1 max-md:w-full'>
+					<p onClick={(e) => setMode('quiz')} className={'text-lg md:text-xl py-1 font-semibold cursor-pointer '}>
+						{/* <Icon icon='fa:question'></Icon> */}
+						<i className={'fa-question fa-solid ' + (mode == 'quiz' ? 'text-neutral-300' : 'text-neutral-500')} />
 					</p>
-					<p onClick={(e) => setMode('learning')} className={'text-[--bg-secondary] text-lg md:text-xl py-1 font-semibold cursor-pointer ' + (mode == 'learning' && 'text-[--text-main]')}>
-						<i className='mr-3 fa-list fa-solid' />
-						<span className='max-md:hidden'>Seznam</span>
+					<p onClick={(e) => setMode('learning')} className={'text-lg md:text-xl py-1 font-semibold cursor-pointer'}>
+						<i className={'fa-list fa-solid ' + (mode == 'learning' ? 'text-neutral-300' : 'text-neutral-500')} />
 					</p>
 				</div>
 			)}

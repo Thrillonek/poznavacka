@@ -8,6 +8,7 @@ export default function List({ lock, setLock, poznavacka }) {
 	const [browseCategories, setBrowseCategories] = useState();
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
+	const [searchVisible, setSearchVisible] = useState(false);
 
 	let files = Object.values(poznavacka)[0];
 
@@ -168,30 +169,33 @@ export default function List({ lock, setLock, poznavacka }) {
 		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
+	function toggleSearch(e) {
+		e.preventDefault();
+		document.getElementById('list-search').classList.toggle('!w-full');
+		document.getElementById('list-search').classList.toggle('border');
+		setSearchVisible(!searchVisible);
+	}
+
 	return (
-		<div className='relative flex flex-col bg-[--bg-main] h-full overflow-hidden'>
+		<div className='relative flex flex-col h-full overflow-hidden'>
 			{/* Enlarged image carousel */}
-			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex flex-col transition-transform justify-center items-center bg-[--bg-main] p-3 w-screen h-full ' + (chosenFile && '!translate-y-0')}>
+			<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
+				{/* {Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>} */}
+
 				{!window.matchMedia('(pointer: coarse)').matches && (
-					<>
-						<div onClick={(e) => changeChosenFile({ left: '-' })} className='top-0 left-0 z-50 absolute flex justify-center items-center bg-gradient-to-r from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
-							<i className='fa-caret-left text-3xl fa-solid'></i>
-						</div>
-						<div onClick={(e) => changeChosenFile({ right: '+' })} className='top-0 right-0 z-50 absolute flex justify-center items-center bg-gradient-to-l from-gray-500 hover:from-gray-400 px-8 h-screen text-white cursor-pointer'>
-							<i className='fa-caret-right text-3xl fa-solid'></i>
-						</div>
-					</>
+					<div onClick={(e) => changeChosenFile({ left: '-' })} className='text-neutral-400 cursor-pointer'>
+						<i className='fa-angle-left text-5xl fa-solid'></i>
+					</div>
 				)}
-				{Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>}
-				<div className='w-full h-[60%] overflow-hidden'>
+				<div className='w-[max(60%,400px)] h-[60%] overflow-hidden'>
 					<div id='enlarged-img-slider' className={'relative h-full ' + (lock && 'transition-[left]')} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files
 							.filter((f) => !isObject(f))
 							.map((file, idx) => {
 								return (
 									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
-										<img src={file.replace(' ', '%20').replace('+', '%2b')} className='h-[85%] object-contain' alt='Obrázek kytky' />
-										<span className='mt-5 font-bold text-3xl text-center text-gray-300'>
+										<img src={file.replace(' ', '%20').replace('+', '%2b')} className='rounded-lg h-[85%] object-contain' alt='Obrázek kytky' />
+										<span className='mt-5 font-bold text-3xl text-center text-neutral-400'>
 											{idx + 1}. {nameFromPath(file)}
 										</span>
 									</div>
@@ -199,22 +203,27 @@ export default function List({ lock, setLock, poznavacka }) {
 							})}
 					</div>
 				</div>
+				{!window.matchMedia('(pointer: coarse)').matches && (
+					<div onClick={(e) => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
+						<i className='fa-angle-right text-5xl fa-solid'></i>
+					</div>
+				)}
 				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-[--text-main] ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>
 			{/* Search/controls bar */}
-			<div className='top-0 z-20 sticky border-[--bg-secondary] shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] border-b w-full place-self-center'>
-				<form onSubmit={scrollToPlant} className='relative flex justify-end items-center p-3'>
-					<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='bg-[--bg-bright] text-[--text-bright] placeholder:brightness-90 flex-grow border-white shadow-[0_3px_10px_-2px_rgb(0,0,0,0.3)] px-4 py-2 border border-opacity-20 rounded-full caret-[--text-main] placeholder:text-[--text-main] outline-none' />
-					<div className='absolute mr-5 text-[--text-main]'>
-						{filter && <i onClick={(e) => setFilter('')} className='text-lg cursor-pointer fa-solid fa-xmark' />}
-						<button className='ml-4 phone-invisible'>
-							<i className='text-[--text-main] fa-magnifying-glass fa-solid' />
-						</button>
+			<div className='top-4 right-4 z-20 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
+				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToPlant(e)} className='relative flex justify-end items-center gap-2'>
+					<div id='list-search' className='relative flex items-center border-neutral-600 bg-neutral-700 rounded-full w-0 min-w-0 h-10 transition-[width] duration-300 overflow-hidden'>
+						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 w-full h-full font-semibold placeholder:font-normal text-neutral-400 placeholder:text-neutral-500 caret-neutral-400 outline-none' />
+						<i onClick={(e) => setFilter('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!filter && 'pointer-events-none opacity-0')} />
 					</div>
+					<button onClick={toggleSearch} className='bg-neutral-600 rounded-full min-w-10 text-neutral-400 aspect-square outline-none'>
+						{searchVisible ? <i className='fa-solid fa-xmark' /> : <i className='fa-magnifying-glass fa-solid' />}
+					</button>
 				</form>
-				{poznavacka == 'rostliny' && (
+				{/* {poznavacka == 'rostliny' && (
 					<div className='flex justify-between items-center p-1 cursor-pointer'>
 						<div className='flex items-center w-1/2' onClick={(e) => setShowCategories((prev) => (prev ? false : true))}>
 							<div className={'border-[--bg-secondary] border rounded w-4 h-4 flex justify-center items-center ' + (showCategories && 'bg-[--bg-secondary]')}>{showCategories && <i className='text-[--text-bright] text-xs fa-check fa-solid'></i>}</div>
@@ -227,37 +236,39 @@ export default function List({ lock, setLock, poznavacka }) {
 							</div>
 						)}
 					</div>
-				)}
+				)} */}
 			</div>
 			{/* List */}
-			<div id='list' onScroll={handleScroll} className='custom-scrollbar overflow-y-scroll'>
-				{files
-					.filter((f) => !isObject(f))
-					.map((file, idx) => {
-						let isSearched =
-							filter &&
-							!browseCategories &&
-							nameFromPath(file)
-								.split(' ')
-								.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
+			<div id='list' onScroll={handleScroll} className='relative overflow-y-scroll'>
+				<div>
+					{files
+						.filter((f) => !isObject(f))
+						.map((file, idx) => {
+							let isSearched =
+								filter &&
+								!browseCategories &&
+								nameFromPath(file)
+									.split(' ')
+									.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
 
-						if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
-						return (
-							<div id={'plant-' + idx} key={idx}>
-								{categories[idx + 1] && showCategories && (
+							if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
+							return (
+								<div id={'plant-' + idx} key={idx}>
+									{/* {categories[idx + 1] && showCategories && (
 									<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[--bg-secondary]'>
 										{categories[idx + 1]}
 									</div>
-								)}
-								<div onClick={(e) => setChosenFile(file)} className='flex items-center border-[--bg-secondary] p-2 border-b h-20 cursor-pointer'>
-									<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-									<span className={'ml-5 font-bold text-[--text-main] text-xl ease-out ' + (isSearched && '!text-[--text-bright]')}>
-										{idx + 1}. {nameFromPath(file)}
-									</span>
+								)} */}
+									<div onClick={(e) => setChosenFile(file)} className='flex items-center border-neutral-700 p-2 border-b h-20 cursor-pointer'>
+										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
+										<span className={'ml-5 text-neutral-400 text-xl ease-out ' + (isSearched && '!text-neutral-300 font-semibold')}>
+											{idx + 1}. {nameFromPath(file)}
+										</span>
+									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})}
+				</div>
 			</div>
 
 			{/* Scroll Up Button */}
