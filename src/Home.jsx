@@ -58,19 +58,19 @@ export default function Home({ poznavacka }) {
 				</div>
 			) : (
 				<div className='flex flex-grow justify-center items-center'>
-					<h1 className='font-bold text-5xl text-neutral-600'>Zvolte poznávačku...</h1>
+					<h1 className='font-bold text-5xl text-center text-neutral-600'>Zvolte poznávačku...</h1>
 				</div>
 			)}
 
 			{!lock && (
-				<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-4 bg-neutral-900 md:px-4 py-1 max-md:w-full'>
-					<p onClick={(e) => setMode('quiz')} className={'text-lg md:text-xl py-1 font-semibold cursor-pointer '}>
+				<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-2 bg-neutral-900 py-1 md:py-4 max-md:w-full text-lg'>
+					<button onClick={(e) => setMode('quiz')} className={' md:text-xl py-1 md:w-full md:py-2 md:px-4 hover:bg-neutral-800 cursor-pointer '}>
 						{/* <Icon icon='fa:question'></Icon> */}
 						<i className={'fa-question fa-solid ' + (mode == 'quiz' ? 'text-neutral-300' : 'text-neutral-500')} />
-					</p>
-					<p onClick={(e) => setMode('learning')} className={'text-lg md:text-xl py-1 font-semibold cursor-pointer'}>
+					</button>
+					<button onClick={(e) => setMode('learning')} className={' md:text-xl hover:bg-neutral-800 py-1 md:w-full md:py-2 md:px-4 cursor-pointer'}>
 						<i className={'fa-list fa-solid ' + (mode == 'learning' ? 'text-neutral-300' : 'text-neutral-500')} />
-					</p>
+					</button>
 				</div>
 			)}
 		</div>
