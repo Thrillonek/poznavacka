@@ -205,7 +205,7 @@ export default function App() {
 									</div> */}
 									<div className='relative z-0 flex flex-grow'>
 										{/* MENU */}
-										<div className={'z-10 bg-neutral-900 max-[400px]:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
+										<div className={'z-10 bg-neutral-900 max-sm:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
 											<div className='px-4'>
 												<div className='flex justify-between mb-4 w-full text-2xl text-neutral-500'>
 													<button onClick={(e) => setShowingContent(!showingContent)} className='md:hidden'>
