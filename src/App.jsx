@@ -233,7 +233,7 @@ export default function App() {
 													<button className={dirName && path.length > 0 && selectedDir ? '' : 'hidden'} onClick={back}>
 														<i className='fa-arrow-left text-lg text-neutral-500 fa-solid' />
 													</button>
-													<h1 onClick={() => back('current')} className={'text-neutral-500 my-4 font-semibold text-2xl cursor-pointer ' + (objName(poznavacka) == 1 && '!text-neutral-300')}>
+													<h1 onClick={() => back('current')} className={'text-neutral-500 my-4 font-semibold text-2xl cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && '!text-neutral-300')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
 													</h1>
 												</div>
