@@ -165,27 +165,27 @@ export default function App() {
 						element={
 							<>
 								{/* COLOR PICKER */}
-								<div className='top-6 right-6 z-20 fixed flex flex-col border-[--bg-secondary] bg-[--bg-main] p-5 border rounded-xl w-[min(80%,300px)] origin-top-right transition-transform scale-[--color-scale]'>
+								<div className='top-6 right-6 z-20 fixed flex flex-col bg-[--bg-main] p-5 border border-[--bg-secondary] rounded-xl w-[min(80%,300px)] scale-[--color-scale] origin-top-right transition-transform'>
 									<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 0)} className='top-3 right-4 absolute text-[--text-main] text-lg cursor-pointer fa-solid fa-xmark' />
 									<h2 className='text-[--text-bright] mb-2 font-bold text-xl'>Změnit barvy</h2>
 									<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Text</p>
-									<input defaultValue={getComputedStyle(root).getPropertyValue('--text-main')} id='--text-main' className='bg-[--bg-bright] my-1 rounded w-full color-picker outline-none' type='color' />
+									<input defaultValue={getComputedStyle(root).getPropertyValue('--text-main')} id='--text-main' className='bg-[--bg-bright] my-1 rounded outline-none w-full color-picker' type='color' />
 									<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Výrazný text</p>
-									<input defaultValue={getComputedStyle(root).getPropertyValue('--text-bright')} id='--text-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+									<input defaultValue={getComputedStyle(root).getPropertyValue('--text-bright')} id='--text-bright' className='bg-[--bg-bright] text-[--text-bright] my-1 rounded outline-none w-full caret-[--bg-secondary] color-picker' type='color' />
 									<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Pozadí</p>
-									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-main')} id='--bg-main' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-main')} id='--bg-main' className='bg-[--bg-bright] text-[--text-bright] my-1 rounded outline-none w-full caret-[--bg-secondary] color-picker' type='color' />
 									<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Vedlejší</p>
-									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-secondary')} id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-secondary')} id='--bg-secondary' className='bg-[--bg-bright] text-[--text-bright] my-1 rounded outline-none w-full caret-[--bg-secondary] color-picker' type='color' />
 									<p className='text-[--text-bright] mt-2 mb-1 font-semibold text-lg'>Výrazné pozadí</p>
-									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-bright')} id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] caret-[--bg-secondary] my-1 rounded w-full color-picker outline-none' type='color' />
+									<input defaultValue={getComputedStyle(root).getPropertyValue('--bg-bright')} id='--bg-bright' className='bg-[--bg-bright] text-[--text-bright] my-1 rounded outline-none w-full caret-[--bg-secondary] color-picker' type='color' />
 									<button onClick={loadColors} className='bg-blue-500 mt-6 p-1 rounded font-bold text-white'>
 										Potvrdit
 									</button>
 									<h2 className='text-[--text-bright] mt-2 font-semibold text-lg'>Předvolby:</h2>
-									<button onClick={(e) => loadColors(e, 'default')} className='border-gray-400 mt-2 p-1 border rounded font-semibold text-gray-400'>
+									<button onClick={(e) => loadColors(e, 'default')} className='mt-2 p-1 border border-gray-400 rounded font-semibold text-gray-400'>
 										Výchozí
 									</button>
-									<button onClick={(e) => loadColors(e, 'pink')} className='border-pink-500 bg-pink-400 mt-2 p-1 border rounded font-semibold text-red-700'>
+									<button onClick={(e) => loadColors(e, 'pink')} className='bg-pink-400 mt-2 p-1 border border-pink-500 rounded font-semibold text-red-700'>
 										Růžová
 									</button>
 								</div>
@@ -199,15 +199,15 @@ export default function App() {
 										Načítám cookies... <span className='block font-normal text-[.7rem]'>Jakoukoli akcí toto zastavíte</span>
 									</div> */}
 									{/* TOP BAR */}
-									{/* <div className='z-10 flex justify-between items-center border-[--bg-secondary] bg-[--bg-main] shadow-lg px-2 py-1 border-b w-full text-[--text-main]'>
+									{/* <div className='z-10 flex justify-between items-center bg-[--bg-main] shadow-lg px-2 py-1 border-[--bg-secondary] border-b w-full text-[--text-main]'>
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} id='show-colors' className='px-2 text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									</div> */}
-									<div className='relative z-0 flex flex-grow'>
+									<div className='z-0 relative flex flex-grow'>
 										{/* MENU */}
 										<div className={'z-10 bg-neutral-900 max-sm:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
 											<div className='px-4'>
-												<div className='flex justify-between mb-4 w-full text-2xl text-neutral-500'>
+												<div className='flex justify-between mb-4 w-full text-neutral-500 text-2xl'>
 													<button onClick={(e) => setShowingContent(!showingContent)} className='md:hidden'>
 														<i className='fa-solid fa-xmark'></i>
 													</button>
@@ -215,9 +215,9 @@ export default function App() {
 														<Icon icon='material-symbols:info-outline-rounded' className=''></Icon>
 													</button>
 												</div>
-												<div id='menu-info' className='top-4 right-4 absolute bg-neutral-800 p-4 rounded-xl w-fit max-w-[calc(100%-2rem)] text-neutral-400 origin-top-right transition-transform scale-0'>
+												<div id='menu-info' className='top-4 right-4 absolute bg-neutral-800 p-4 rounded-xl w-fit max-w-[calc(100%-2rem)] text-neutral-400 scale-0 origin-top-right transition-transform'>
 													<div className='flex justify-between items-center mb-2'>
-														<h3 className='font-semibold text-lg text-neutral-300'>Info</h3>
+														<h3 className='font-semibold text-neutral-300 text-lg'>Info</h3>
 														<button className='block ml-auto' onClick={() => document.getElementById('menu-info').classList.remove('scale-100')}>
 															<Icon icon='meteor-icons:xmark' className='text-xl'></Icon>
 														</button>
@@ -230,8 +230,8 @@ export default function App() {
 													</p>
 												</div>
 												<div className='flex gap-2'>
-													<button className={dirName && path.length > 0 && selectedDir ? '' : 'hidden'} onClick={back}>
-														<i className='fa-arrow-left text-lg text-neutral-500 fa-solid' />
+													<button className={'hover:brightness-150 ' + (dirName && path.length > 0 && selectedDir ? '' : 'hidden')} onClick={back}>
+														<i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' />
 													</button>
 													<h1 onClick={() => back('current')} className={'text-neutral-500 my-4 font-semibold text-2xl cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && '!text-neutral-300')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
@@ -248,9 +248,9 @@ export default function App() {
 																		{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
 																	</span>
 																	{Object.values(content)[0].some((f) => isObject(f)) && (
-																		<div className='flex items-center gap-4 ml-4'>
-																			<i onClick={() => toggleGroupFiles(content)} className={'hover:brightness-150 text-base cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
-																		</div>
+																		<button onClick={() => toggleGroupFiles(content)} className='flex items-center gap-4 hover:brightness-150 ml-2 px-2'>
+																			<i className={'text-base cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
+																		</button>
 																	)}
 																</div>
 															);
@@ -260,7 +260,7 @@ export default function App() {
 										</div>
 										{/* MAIN CONTENT */}
 										<div className='z-0 flex flex-col flex-grow'>
-											<div onClick={(e) => setShowingContent(!showingContent)} className='flex items-center gap-2 md:hidden bg-neutral-900 px-4 py-2 text-neutral-500 text-xl cursor-pointer'>
+											<div onClick={(e) => setShowingContent(!showingContent)} className='md:hidden flex items-center gap-2 bg-neutral-900 px-4 py-2 text-neutral-500 text-xl cursor-pointer'>
 												<i className='fa-bars fa-solid'></i> <span className='text-lg'>Menu</span>
 											</div>
 											<div className='flex-grow'>
