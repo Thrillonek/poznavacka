@@ -82,7 +82,7 @@ export default function App() {
 			setPath((p) => [...p, Object.keys(pozn)[0]]);
 			setSelectedDir(Object.values(pozn)[0]);
 			setDirName(Object.keys(pozn)[0][0].toUpperCase() + Object.keys(pozn)[0].slice(1));
-		}
+		} else setShowingContent(true);
 	}
 
 	useEffect(() => {
