@@ -141,8 +141,9 @@ export default function App() {
 			.catch((err) => console.error(err.response.data.message));
 	}
 
-	function toggleGroupFiles(content) {
-		if (poznavacka != content) return setPoznavacka(content);
+	function toggleGroupFiles(content, event) {
+		event.stopPropagation();
+		if (poznavacka != content) setPoznavacka(content);
 
 		let arr = Object.values(content)[0];
 		while (arr.some((f) => isObject(f))) {
@@ -151,6 +152,7 @@ export default function App() {
 			arr.splice(arr.indexOf(obj), 1);
 		}
 		setPoznavacka({ [Object.keys(content)[0]]: arr });
+		setShowingContent(true);
 	}
 
 	var objName = (obj) => obj && Object.keys(obj)[0];
@@ -242,14 +244,12 @@ export default function App() {
 														.filter((content) => isObject(content))
 														.map((content, idx) => {
 															return (
-																<div key={'option-' + idx} className={'flex text-neutral-500 items-center text-start py-4 last-of-type:border-none border-b border-neutral-700 text-4xl'}>
+																<div onClick={(e) => showContent(content)} key={'option-' + idx} className={'flex text-neutral-500 items-center text-start py-4 last-of-type:border-none border-b border-neutral-700 text-4xl'}>
 																	{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
-																	<span className={'cursor-pointer text-neutral-500 md:hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')} onClick={(e) => showContent(content)}>
-																		{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}
-																	</span>
+																	<span className={'cursor-pointer text-neutral-500 md:hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')}>{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}</span>
 																	{Object.values(content)[0].some((f) => isObject(f)) && (
-																		<button onClick={() => toggleGroupFiles(content)} className='flex items-center gap-4 hover:brightness-150 ml-2 px-2'>
-																			<i className={'text-base cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
+																		<button onClick={(e) => toggleGroupFiles(content, e)} className='flex items-center gap-4 hover:brightness-150 ml-2 px-2'>
+																			<i className={'text-lg cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
 																		</button>
 																	)}
 																</div>
