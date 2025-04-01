@@ -57,13 +57,14 @@ let arr = content.split(',\n');
 
 // console.log(used);
 
-let files = fs.readdirSync('./media').sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
+let p = './public/assets/poznavacky/SEXTA/hmyz';
+let files = fs.readdirSync(p).sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''));
 // console.log(files.length);
 // let newFiles = files.map((f) => f.replaceAll(/\d/g, ''));
 for (const idx in files) {
-	fs.rename('./media/' + files[idx], './media/' + arr[idx] + idx + '.' + files[idx].split('.').at(-1), (err) => err && console.log(err));
+	fs.rename(`${p}/` + files[idx], `${p}/${parseInt(idx) + 1}${arr[idx].replaceAll(/\d/g, '')}.png`, (err) => err && console.log(err));
 	// if (idx < 20) {
-	// 	console.log('./media/' + arr[idx] + '.' + files[idx].split('.').at(-1));
+	// 	console.log(`${p}/${parseInt(idx) + 1}${arr[idx].replaceAll(/\d/g, '')}`);
 	// }
 }
 
