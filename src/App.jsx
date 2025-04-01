@@ -192,9 +192,9 @@ export default function App() {
 									</button>
 								</div>
 								{/* JUMPSCARE */}
-								<div style={{ pointerEvents: 'none' }} className='z-30 fixed flex justify-center items-center w-full h-full'>
+								{/* <div style={{ pointerEvents: 'none' }} className='z-30 fixed flex justify-center items-center w-full h-full'>
 									<img id='jumpscare' className='h-min scale-0' src='https://gkh.cz/wp-content/uploads/2022/05/jac.jpg' alt='JANEC' />
-								</div>
+								</div> */}
 								<div onClick={(e) => e.target.id != 'show-colors' && document.querySelector(':root').style.setProperty('--color-scale', 0)} className={'relative h-full bg-[--bg-main] z-0 w-full flex flex-col'}>
 									{/* COOKIES LOADING */}
 									{/* <div className={'top-0 transition-transform absolute bg-[--bg-main] shadow-[0_0_30px_0_rgb(0,0,0,0.5)] px-4 py-2 rounded-b-xl font-bold text-center text-[--text-main] self-center ' + (loaded && '-translate-y-[150%]')}>
