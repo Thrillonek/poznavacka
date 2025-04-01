@@ -195,7 +195,7 @@ export default function List({ lock, setLock, poznavacka }) {
 								return (
 									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
 										<img src={file.replace(' ', '%20').replace('+', '%2b')} className='rounded-lg h-[85%] object-contain' alt='Obrázek kytky' />
-										<span className='mt-5 font-bold text-3xl text-center text-neutral-400'>
+										<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
 											{idx + 1}. {nameFromPath(file)}
 										</span>
 									</div>
@@ -215,11 +215,11 @@ export default function List({ lock, setLock, poznavacka }) {
 			{/* Search/controls bar */}
 			<div className='top-4 right-4 z-20 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
 				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToPlant(e)} className='relative flex justify-end items-center gap-2'>
-					<div id='list-search' className='relative flex items-center border-neutral-600 bg-neutral-700 rounded-full w-0 min-w-0 h-10 transition-[width] duration-300 overflow-hidden'>
-						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 w-full h-full font-semibold placeholder:font-normal text-neutral-400 placeholder:text-neutral-500 caret-neutral-400 outline-none' />
+					<div id='list-search' className='relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
+						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
 						<i onClick={(e) => setFilter('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!filter && 'pointer-events-none opacity-0')} />
 					</div>
-					<button onClick={toggleSearch} className='bg-neutral-600 rounded-full min-w-10 text-neutral-400 aspect-square outline-none'>
+					<button onClick={toggleSearch} className='bg-neutral-600 rounded-full outline-none min-w-10 aspect-square text-neutral-400'>
 						{searchVisible ? <i className='fa-solid fa-xmark' /> : <i className='fa-magnifying-glass fa-solid' />}
 					</button>
 				</form>
@@ -240,7 +240,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='relative overflow-y-scroll'>
-				<div>
+				<div className='gap-2 grid bg-black p-2'>
 					{files
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {
@@ -250,8 +250,6 @@ export default function List({ lock, setLock, poznavacka }) {
 								nameFromPath(file)
 									.split(' ')
 									.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
-
-							if (filter == '7p' && ((idx + 1) % 7 !== 0 || idx + 1 > 140)) return;
 							return (
 								<div id={'plant-' + idx} key={idx}>
 									{/* {categories[idx + 1] && showCategories && (
@@ -259,11 +257,12 @@ export default function List({ lock, setLock, poznavacka }) {
 										{categories[idx + 1]}
 									</div>
 								)} */}
-									<div onClick={(e) => setChosenFile(file)} className='flex items-center border-neutral-700 p-2 border-b h-20 cursor-pointer'>
-										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='max-h-full' />
-										<span className={'ml-5 text-neutral-400 text-xl ease-out ' + (isSearched && '!text-neutral-300 font-semibold')}>
-											{idx + 1}. {nameFromPath(file)}
-										</span>
+									<div onClick={(e) => setChosenFile(file)} className='relative items-center grid grid-cols-[5rem,1fr] bg-neutral-800 rounded-xl h-20 overflow-hidden cursor-pointer'>
+										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='h-full object-cover' />
+										<div className='relative flex items-center self-start h-20'>
+											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
+											<div className='top-0 right-2 z-10 absolute font-black text-neutral-600 text-xl'>{idx + 1}</div>
+										</div>
 									</div>
 								</div>
 							);
@@ -272,7 +271,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 
 			{/* Scroll Up Button */}
-			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-0 px-1 transition-opacity duration-300 outline-none'>
+			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-3 md:right-8 bottom-3 absolute opacity-0 px-1 outline-none transition-opacity duration-300'>
 				<i className='text-[--text-bright] text-[1.6rem] fa-angles-up fa-solid'></i>
 			</button>
 		</div>
