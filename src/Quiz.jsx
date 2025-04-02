@@ -200,19 +200,19 @@ function Quiz({ poznavacka }) {
 	return (
 		<div onClick={handleClick} className='flex flex-col justify-between items-center bg-neutral-800 py-5 w-full h-full'>
 			<button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
-				<i className='text-[--text-main] text-3xl max-sm:text-2xl fa-gear fa-solid'></i>
+				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button>
-			<div className='flex flex-col justify-end items-center mt-16 px-2 w-full h-2/3'>
-				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='mb-10 rounded h-[90%] object-contain' src={name?.replace(' ', '%20').replace('+', '%2b')} />
-				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : index.number}</div>
+			<div className='justify-items-center gap-8 grid grid-rows-[1fr,1rem] mt-4 w-full h-2/3'>
+				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
+				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : ''}</div>
 			</div>
-			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center bg-[hsl(0,0%,20%)] p-4 rounded-lg w-[90%] lg:w-1/2 h-[85%] origin-top-right transition-transform -translate-y-1/2 scale-[--settings-scale]'>
+			<div id='quiz-settings' className='top-1/2 z-10 absolute flex flex-col justify-between items-center bg-[hsl(0,0%,20%)] p-4 rounded-lg w-[90%] lg:w-1/2 h-[85%] scale-[--settings-scale] origin-top-right transition-transform -translate-y-1/2'>
 				<button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
 					<i className='text-[--text-main] text-2xl fa-solid fa-xmark'></i>
 				</button>
 				<div className='flex flex-col items-center mt-10 w-full'>
-					<h2 className='text-[--text-bright] mt-4 mb-2 text-lg'>Generovat obrázky</h2>
-					<div className='relative bg-[--bg-bright] flex justify-between shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
+					<h2 className='mt-4 mb-2 text-[--text-bright] text-lg'>Generovat obrázky</h2>
+					<div className='relative flex justify-between bg-[--bg-bright] shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
 						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (!random && 'translate-x-[calc(100%+.5rem)]')} />
 						<button onClick={(e) => setRandom(true)} className={'w-1/2 z-10 text-neutral-500 rounded ' + (random && '!text-gray-100 font-semibold')}>
 							Náhodně
@@ -221,8 +221,8 @@ function Quiz({ poznavacka }) {
 							Postupně
 						</button>
 					</div>
-					<h2 className='text-[--text-bright] mt-4 mb-2 text-lg'>Nastavení</h2>
-					<div className='relative bg-[--bg-bright] flex justify-between shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
+					<h2 className='mt-4 mb-2 text-[--text-bright] text-lg'>Nastavení</h2>
+					<div className='relative flex justify-between bg-[--bg-bright] shadow-[0_0_20px_0_rgb(0,0,0,0.3)] p-1 rounded-lg w-3/4 max-[450px]:w-full md:w-1/2'>
 						<div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (mode == 'preset' && 'translate-x-[calc(100%+.5rem)]')} />
 						<button onClick={(e) => setMode('custom')} className={'w-1/2 z-10 text-[--text-main] rounded py-1 ' + (mode == 'custom' && '!text-white font-semibold')}>
 							Vlastní
@@ -236,9 +236,9 @@ function Quiz({ poznavacka }) {
 					<div className='flex flex-col justify-center items-center h-2/3'>
 						<p className='font-bold text-neutral-300 text-xl'>
 							{Object.keys(poznavacka)[0].charAt(0).toUpperCase() + Object.keys(poznavacka)[0].slice(1)} od
-							<input className='bg-neutral-600 mx-1 p-1 rounded w-12 text-neutral-300 caret-neutral-300 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
+							<input className='bg-neutral-600 mx-1 p-1 rounded outline-none w-12 text-neutral-300 caret-neutral-300' type='text' onChange={(e) => handleChangeMinMax(e, setMin)} value={min} />
 							do
-							<input className='bg-neutral-600 ml-1 p-1 rounded w-12 text-neutral-300 caret-neutral-300 outline-none' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
+							<input className='bg-neutral-600 ml-1 p-1 rounded outline-none w-12 text-neutral-300 caret-neutral-300' type='text' onChange={(e) => handleChangeMinMax(e, setMax)} value={max} />
 						</p>
 						{/* <button onClick={setToTested} className='bg-gray-600 shadow-[0_0_10px_0_rgb(0,0,0,0.3)] mt-10 px-5 py-1 rounded-xl text-gray-300'>
 							Nastavit na momentálně zkoušenou sadu
@@ -248,10 +248,10 @@ function Quiz({ poznavacka }) {
 				{mode == 'preset' && (
 					<div className='flex flex-col items-center'>
 						{files.length > 200 ? (
-							<p className='font-semibold text-2xl text-neutral-300'>Chyba (moc velký rozsah poznávačky)</p>
+							<p className='font-semibold text-neutral-300 text-2xl'>Chyba (moc velký rozsah poznávačky)</p>
 						) : (
 							<>
-								<button onClick={checkAllPresets} className='text-[--text-bright] border-white bg-white bg-opacity-5 px-2 py-1 border border-b-0 border-opacity-10 rounded-t-lg'>
+								<button onClick={checkAllPresets} className='bg-white bg-opacity-5 px-2 py-1 border border-white border-b-0 border-opacity-10 rounded-t-lg text-[--text-bright]'>
 									Zaškrtnout všechno
 								</button>
 								<div className='grid grid-cols-3 bg-[--bg-main] shadow-[0_0_10px_5px_rgb(0,0,0,0.3)] p-px rounded overflow-hidden'>
@@ -259,7 +259,7 @@ function Quiz({ poznavacka }) {
 										let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
 										return (
 											<button key={num} onClick={(e) => togglePreset(num)} className={'flex items-center px-3 py-[0.6rem] ' + (isChecked && 'bg-white bg-opacity-5')}>
-												<span className={'flex justify-center items-center bg-[--text-main] rounded w-3 h-3 ' + (isChecked && '!bg-gray-600 shadow-[0_0_15px_0_rgb(0,0,0,0.2)]')}>{isChecked && <i className='text-[--text-main] text-sm fa-check fa-solid scale-75' />}</span>
+												<span className={'flex justify-center items-center bg-[--text-main] rounded w-3 h-3 ' + (isChecked && '!bg-gray-600 shadow-[0_0_15px_0_rgb(0,0,0,0.2)]')}>{isChecked && <i className='text-[--text-main] text-sm scale-75 fa-check fa-solid' />}</span>
 												<p className={'ml-1 ' + (isChecked ? 'text-[--text-bright]' : 'text-[--text-main]')}>
 													{num != 1 && num - 1}1-{num}0
 												</p>
@@ -271,19 +271,19 @@ function Quiz({ poznavacka }) {
 						)}
 					</div>
 				)}
-				<span className='mb-5 p-2 text-[--text-main] text-center text-lg phone-invisible'>
-					<h2 className='text-[--text-bright] font-semibold text-lg'>TIP:</h2>
+				<span className='phone-invisible mb-5 p-2 text-[--text-main] text-lg text-center'>
+					<h2 className='font-semibold text-[--text-bright] text-lg'>TIP:</h2>
 					<br />
-					Stiskni klávesu <i className='text-[--text-bright] font-semibold fa-caret-square-up fa-solid' /> pro změnu rostliny
+					Stiskni klávesu <i className='font-semibold text-[--text-bright] fa-caret-square-up fa-solid' /> pro změnu rostliny
 					<br />
-					a klávesu <i className='text-[--text-bright] font-semibold fa-caret-square-down fa-solid' /> pro název rostliny
+					a klávesu <i className='font-semibold text-[--text-bright] fa-caret-square-down fa-solid' /> pro název rostliny
 				</span>
 			</div>
-			<div className='flex gap-4 grid-rows-2 mb-8 text-7xl text-neutral-500 leading-[1]'>
+			<div className='flex gap-4 grid-rows-2 mb-8 text-neutral-500 text-7xl leading-[1]'>
 				<button onClick={showPrev} className={'outline-none ' + (!(fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) && 'brightness-50 cursor-default')}>
 					<Icon icon='basil:caret-left-solid' />
 				</button>
-				<button className='text-4xl outline-none' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+				<button className='outline-none text-4xl' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 					{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
 				</button>
 				<button onClick={() => changeImg({ show: false })} className='outline-none'>
