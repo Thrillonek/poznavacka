@@ -16,8 +16,9 @@
 }
 
 .control-btn-disabled {
-	background-color: rgb(38 38 38 / 0.8) !important;
-	color: rgb(128 128 128 / 0.6);
+	background-color: rgb(90 90 90) !important;
+	/* color: rgb(128 128 128 / 0.6); */
+	filter: brightness(0.5);
 	cursor: default;
 }
 
