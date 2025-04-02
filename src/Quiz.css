@@ -1,0 +1,36 @@
+.control-btn {
+	height: 5rem;
+	aspect-ratio: 1/1;
+	outline: none;
+	transition: background-color 0.1s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: hsl(0, 0%, 55%);
+	position: relative;
+	font-size: 2.25rem;
+}
+
+.control-btn:hover {
+	background-color: rgb(38 38 38 / 0.3);
+}
+
+.control-btn-disabled {
+	background-color: rgb(38 38 38 / 0.8) !important;
+	color: rgb(128 128 128 / 0.6);
+	cursor: default;
+}
+
+.control-btn > * {
+	position: absolute;
+	transform: translateY(-0.625rem);
+}
+
+.control-btn::after {
+	content: attr(text);
+	position: absolute;
+	bottom: 0.75rem;
+	color: hsl(0, 0%, 65%);
+	font-size: 0.75rem;
+	font-weight: 700;
+}

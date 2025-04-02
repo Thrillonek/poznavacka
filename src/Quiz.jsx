@@ -198,11 +198,11 @@ function Quiz({ poznavacka }) {
 	}
 
 	return (
-		<div onClick={handleClick} className='flex flex-col justify-between items-center bg-neutral-800 py-5 w-full h-full'>
+		<div onClick={handleClick} className='flex flex-col justify-between items-center bg-neutral-800 py-16 w-full h-full'>
 			<button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button>
-			<div className='justify-items-center gap-8 grid grid-rows-[1fr,1rem] mt-4 w-full h-2/3'>
+			<div className='justify-items-center gap-8 grid grid-rows-[1fr,1rem] w-full h-2/3'>
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : ''}</div>
 			</div>
@@ -279,16 +279,20 @@ function Quiz({ poznavacka }) {
 					a klávesu <i className='font-semibold text-[--text-bright] fa-caret-square-down fa-solid' /> pro název rostliny
 				</span>
 			</div>
-			<div className='flex gap-4 grid-rows-2 mb-8 text-neutral-500 text-7xl leading-[1]'>
-				<button onClick={showPrev} className={'outline-none ' + (!(fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) && 'brightness-50 cursor-default')}>
-					<Icon icon='basil:caret-left-solid' />
-				</button>
-				<button className='outline-none text-4xl' onClick={(e) => setShow((prev) => (prev ? false : true))}>
-					{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
-				</button>
-				<button onClick={() => changeImg({ show: false })} className='outline-none'>
-					<Icon icon='basil:caret-right-solid' />
-				</button>
+			<div className='flex gap-8'>
+				<div className='bg-neutral-700 rounded-xl overflow-hidden'>
+					<button text='Předchozí' onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) ? 'control-btn-disabled' : '')}>
+						<Icon icon='material-symbols:chevron-left-rounded' className='text-[1.5em]' />
+					</button>
+				</div>
+				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl h-18 overflow-hidden'>
+					<button text={show ? 'Skryt' : 'Zobrazit'} className='control-btn' onClick={(e) => setShow((prev) => (prev ? false : true))}>
+						{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
+					</button>
+					<button text={'Generovat'} onClick={() => changeImg({ show: false })} className='control-btn'>
+						<Icon icon='ion:dice' />
+					</button>
+				</div>
 			</div>
 		</div>
 	);
