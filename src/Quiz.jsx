@@ -291,6 +291,7 @@ function Quiz({ poznavacka }) {
 					<button text={show ? 'Skryt' : 'Zobrazit'} className='control-btn' onClick={(e) => setShow((prev) => (prev ? false : true))}>
 						{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
 					</button>
+					<div className='bg-neutral-600 w-px h-2/3'></div>
 					<button text={previousAvailable ? 'Generovat' : 'Další'} onClick={() => changeImg({ show: false })} className='control-btn'>
 						{previousAvailable ? <Icon icon='ion:dice' /> : <Icon icon='material-symbols:chevron-right-rounded' className='text-[1.5em]' />}
 					</button>

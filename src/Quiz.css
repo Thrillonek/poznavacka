@@ -1,6 +1,6 @@
 .control-btn {
 	height: 5rem;
-	aspect-ratio: 1/1;
+	aspect-ratio: 5/4;
 	outline: none;
 	transition: background-color 0.1s ease;
 	display: flex;
