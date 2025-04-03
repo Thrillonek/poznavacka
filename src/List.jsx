@@ -50,7 +50,7 @@ export default function List({ lock, setLock, poznavacka }) {
 
 		if (chosenFile) {
 			enlarged.style.top = `0px`;
-			setLock(true);
+			// setLock(true);
 			let newCategory;
 			for (const [key, val] of Object.entries(categories)) {
 				if (files.indexOf(chosenFile) >= key - 1) {
@@ -58,9 +58,10 @@ export default function List({ lock, setLock, poznavacka }) {
 				} else break;
 			}
 			setCategory(newCategory);
-		} else {
-			setLock(false);
 		}
+		// else {
+		// 	setLock(false);
+		// }
 
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
@@ -271,7 +272,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			</div>
 
 			{/* Scroll Up Button */}
-			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 md:right-8 bottom-2 z-50 absolute bg-neutral-900 opacity-0 border border-neutral-700 rounded-full outline-none h-12 aspect-square transition-opacity duration-300'>
+			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 md:right-8 bottom-2 z-30 absolute bg-neutral-900 opacity-0 border border-neutral-700 rounded-full outline-none h-12 aspect-square transition-opacity duration-300'>
 				<i className='text-neutral-500 text-2xl fa-angles-up fa-solid'></i>
 			</button>
 		</div>

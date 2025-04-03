@@ -12,6 +12,7 @@ media
 dist
 dist-ssr
 *.local
+unused
 
 # Editor directories and files
 .vscode/*
