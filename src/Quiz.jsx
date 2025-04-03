@@ -200,7 +200,7 @@ function Quiz({ poznavacka }) {
 	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number;
 
 	return (
-		<div onClick={handleClick} className='flex flex-col justify-center items-center gap-20 bg-neutral-800 w-full h-full'>
+		<div onClick={handleClick} className='flex flex-col justify-center items-center gap-20 bg-neutral-800 px-2 w-full h-full'>
 			<button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button>

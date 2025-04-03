@@ -239,8 +239,8 @@ export default function List({ lock, setLock, poznavacka }) {
 				)} */}
 			</div>
 			{/* List */}
-			<div id='list' onScroll={handleScroll} className='relative overflow-y-scroll'>
-				<div className='gap-2 grid bg-neutral-900 p-2'>
+			<div id='list' onScroll={handleScroll} className='relative bg-neutral-900 h-full overflow-y-scroll'>
+				<div className='gap-2 grid p-2'>
 					{files
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {

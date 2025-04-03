@@ -52,6 +52,48 @@ input[type='color']::-webkit-color-swatch-wrapper {
 	margin: 0.25rem 0;
 }
 
+.menu-btn {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem 0.75rem;
+	width: 100%;
+	color: hsl(0, 0%, 35%);
+	font-size: 2rem;
+	transition: color 0.2s ease;
+	outline: none;
+}
+
+@media (min-width: 768px) {
+	.menu-btn:hover {
+		color: hsl(0, 0%, 75%);
+	}
+}
+
+.menu-btn:has(.active) {
+	color: hsl(0, 0%, 70%);
+}
+
+/* 
+@media (min-width: 768px) {
+	.menu-btn::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		width: 0.6rem;
+		height: 60%;
+		transform: translateX(110%);
+		transition: transform 0.2s ease;
+		background-color: hsl(0, 0%, 50%);
+		border-radius: 1rem;
+	}
+
+	.menu-btn:has(.active)::after {
+		transform: translateX(55%);
+	}
+} */
+
 @media (pointer: coarse) {
 	::-webkit-scrollbar {
 		display: none;
