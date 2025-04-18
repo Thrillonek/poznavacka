@@ -107,3 +107,7 @@ input[type='color']::-webkit-color-swatch-wrapper {
 :root {
 	--settings-scale: 0;
 }
+
+.faint-bg {
+	background-color: hsl(220, 33%, 25%);
+}
