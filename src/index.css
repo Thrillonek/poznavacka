@@ -111,3 +111,19 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .faint-bg {
 	background-color: hsl(220, 33%, 25%);
 }
+
+.keybind-btn {
+	padding: 0.25rem 0.5rem;
+	transition: background-color 0.2s ease;
+	border-radius: 0.25rem;
+	border: 0.1rem solid hsl(0, 0%, 45%);
+}
+
+.keybind-btn.active {
+	border: none;
+	font-weight: 700;
+}
+
+.keybind-btn:not(.active):hover {
+	background-color: hsl(0, 0%, 22.5%);
+}

@@ -201,17 +201,39 @@ export default function Settings({ poznavacka, updateSettings }) {
 					<div className='phone-invisible flex flex-col'>
 						<h2 className='mb-1 text-neutral-300 text-lg'>Klávesové zkratky</h2>
 						<div className='gap-y-px grid bg-neutral-500 [&>*]:p-2 text-neutral-400'>
-							<div className='flex justify-between items-center gap-2 bg-neutral-800'>
-								<p className='font-bold'>Změnit obrázek</p>
-								<button className={'outline-none px-2 py-1 ' + (changingKeybind == 'change' ? 'font-bold' : 'rounded border border-neutral-500')} onClick={() => setChangingKeybind('change')}>
-									{changingKeybind == 'change' ? 'Změnit...' : settings.keybinds.change.length == 1 ? settings.keybinds.change.toUpperCase() : settings.keybinds.change}
-								</button>
-							</div>
-							<div className='flex justify-between items-center gap-2 bg-neutral-800'>
-								<p className='font-bold'>Odhalit jméno</p>
-								<button className={'outline-none px-2 py-1 ' + (changingKeybind == 'reveal' ? 'font-bold' : 'rounded border border-neutral-500')}>ArrowDown</button>
-							</div>
+							{[
+								['Změnit obrázek', 'change'],
+								['Odhalit jméno', 'reveal'],
+							].map((item, index) => {
+								return (
+									<div className='flex justify-between items-center gap-2 bg-neutral-800'>
+										<p className='font-bold'>{item[0]}</p>
+										<button className={'keybind-btn ' + (changingKeybind == item[1] ? 'active' : '')} onClick={() => changingKeybind != item[1] && setChangingKeybind(item[1])}>
+											{changingKeybind == item[1] ? (
+												<div className='flex items-center gap-1'>
+													<p>Změnit...</p>
+													<Icon onClick={() => setChangingKeybind()} icon='material-symbols:close' className='text-neutral-300 text-xl cursor-pointer'></Icon>
+												</div>
+											) : settings.keybinds[item[1]].length == 1 ? (
+												settings.keybinds[item[1]].toUpperCase()
+											) : (
+												settings.keybinds[item[1]]
+											)}
+										</button>
+									</div>
+								);
+							})}
 						</div>
+						<button
+							onClick={() =>
+								setSettings((prev) => {
+									return { ...prev, keybinds: { change: 'ArrowUp', reveal: 'ArrowDown' } };
+								})
+							}
+							className='hover:bg-neutral-700 hover:bg-opacity-50 mt-2 mr-auto px-4 py-2 border-2 border-neutral-600 rounded text-neutral-300'
+						>
+							Obnovit výchozí klávesové zkratky
+						</button>
 					</div>
 
 					<div className='flex items-center mt-4 pt-4 border-neutral-600 border-t'>
