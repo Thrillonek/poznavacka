@@ -189,7 +189,7 @@ export default function List({ lock, setLock, poznavacka }) {
 					</div>
 				)}
 				<div className='w-[max(60%,400px)] h-[60%] overflow-hidden'>
-					<div id='enlarged-img-slider' className={'relative h-full transition-[left]'} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
+					<div id='enlarged-img-slider' className={'relative transition-[left] h-full ' /*(chosenFile ? '' : '')*/} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files
 							.filter((f) => !isObject(f))
 							.map((file, idx) => {
