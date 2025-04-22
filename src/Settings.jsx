@@ -28,6 +28,11 @@ export default function Settings({ poznavacka, updateSettings }) {
 
 	useEffect(() => {
 		updateSettings(settings);
+		if (presets.length > 0 && visiblePresets) {
+			if (mode != 'preset') changeSettings('mode', 'preset');
+		} else {
+			if (mode != 'custom') changeSettings('mode', 'custom');
+		}
 	}, [settings]);
 
 	const handleChangeMinMax = (e, number) =>
@@ -38,9 +43,6 @@ export default function Settings({ poznavacka, updateSettings }) {
 		});
 
 	function togglePreset(num) {
-		if (presets.length > 0 && visiblePresets) {
-			if (mode != 'preset') changeSettings('mode', 'preset');
-		} else changeSettings('mode', 'custom');
 		let presetsBuffer = [...presets];
 		let presetArray = [];
 		for (let i = num * 10 - 10; i <= num * 10 - 1; i++) {
@@ -157,8 +159,8 @@ export default function Settings({ poznavacka, updateSettings }) {
 								</div>
 							</div>
 							<div id='size-range' className='relative flex items-center mt-8 h-2'>
-								<div id='size-min' onMouseDown={() => setActiveRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'min' ? '!bg-blue-400' : '')}></div>
-								<div id='size-max' onMouseDown={() => setActiveRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'max' ? '!bg-blue-400' : '')}></div>
+								<div id='size-min' onMouseDown={() => setActiveRange('min')} onTouchStart={() => setActiveRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'min' ? '!bg-blue-400' : '')}></div>
+								<div id='size-max' onMouseDown={() => setActiveRange('max')} onTouchStart={() => setActiveRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'max' ? '!bg-blue-400' : '')}></div>
 								<div className='relative flex items-center bg-neutral-500 rounded-full w-full h-2/3'>
 									<div style={{ left: ((min - 1) / files.length) * 99 + '%', width: ((max - min) / files.length) * 99 + '%' }} className='absolute bg-blue-500 h-full translate-x-2'></div>
 								</div>

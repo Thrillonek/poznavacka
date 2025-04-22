@@ -50,7 +50,7 @@ export default function List({ lock, setLock, poznavacka }) {
 
 		if (chosenFile) {
 			enlarged.style.top = `0px`;
-			// setLock(true);
+			setLock(true);
 			let newCategory;
 			for (const [key, val] of Object.entries(categories)) {
 				if (files.indexOf(chosenFile) >= key - 1) {
@@ -58,10 +58,9 @@ export default function List({ lock, setLock, poznavacka }) {
 				} else break;
 			}
 			setCategory(newCategory);
+		} else {
+			setLock(false);
 		}
-		// else {
-		// 	setLock(false);
-		// }
 
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
@@ -209,7 +208,7 @@ export default function List({ lock, setLock, poznavacka }) {
 						<i className='fa-angle-right text-5xl fa-solid'></i>
 					</div>
 				)}
-				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-[--text-main] ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
+				<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
 					<i className='fa-arrow-left text-2xl fa-solid'></i>
 				</button>
 			</div>

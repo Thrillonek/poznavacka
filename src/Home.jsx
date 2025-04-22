@@ -10,14 +10,10 @@ export default function Home({ poznavacka }) {
 	const [lock, setLock] = useState(false);
 	const [options, setSettings] = useState();
 
-	function updateSettings(newSettings) {
-		setSettings(newSettings);
-	}
-
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
 
-		if (mode == 'learning') document.querySelector(':root').style.setProperty('--settings-scale', 0);
+		// if (mode == 'learning') document.querySelector(':root').style.setProperty('--settings-scale', 0);
 
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
@@ -55,7 +51,7 @@ export default function Home({ poznavacka }) {
 		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
 			<div className='relative flex flex-grow'>
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
-					<Settings poznavacka={poznavacka} updateSettings={updateSettings} />
+					<Settings poznavacka={poznavacka} updateSettings={setSettings} />
 				</div>
 				{poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? (
 					<div className={'relative z-10 flex-grow transition-none bg-inherit max-[400px]:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
@@ -73,19 +69,17 @@ export default function Home({ poznavacka }) {
 				)}
 			</div>
 
-			{!lock && (
-				<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-2 bg-neutral-900 py-1 md:pt-8 max-md:w-full text-lg'>
-					<button onClick={(e) => setMode('quiz')} className={'menu-btn'}>
-						<Icon icon='mdi:question-mark' className={' ' + (mode == 'quiz' ? 'active' : '')} />
-					</button>
-					<button onClick={(e) => setMode('learning')} className={'menu-btn '}>
-						<Icon icon='mdi:format-list-bulleted-square' className={' ' + (mode == 'learning' ? 'active' : '')} />
-					</button>
-					<button onClick={(e) => setMode('settings')} className={'menu-btn'}>
-						<Icon icon='mdi:gear' className={' ' + (mode == 'settings' ? 'active' : '')}></Icon>
-					</button>
-				</div>
-			)}
+			<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-2 bg-neutral-900 py-1 md:pt-8 max-md:w-full text-lg'>
+				<button onClick={(e) => setMode('quiz')} className={'menu-btn'}>
+					<Icon icon='mdi:question-mark' className={' ' + (mode == 'quiz' ? 'active' : '')} />
+				</button>
+				<button onClick={(e) => setMode('learning')} className={'menu-btn '}>
+					<Icon icon='mdi:format-list-bulleted-square' className={' ' + (mode == 'learning' ? 'active' : '')} />
+				</button>
+				<button onClick={(e) => setMode('settings')} className={'menu-btn'}>
+					<Icon icon='mdi:gear' className={' ' + (mode == 'settings' ? 'active' : '')}></Icon>
+				</button>
+			</div>
 		</div>
 	);
 }
