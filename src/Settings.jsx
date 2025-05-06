@@ -238,21 +238,39 @@ export default function Settings({ poznavacka, updateSettings }) {
 						</button>
 					</div>
 
-					<div className='flex items-center mt-4 pt-4 border-neutral-600 border-t'>
-						<Checkbox
-							sx={{
-								color: blue[800],
-								'&.Mui-checked': {
-									color: blue[600],
-								},
-							}}
-							onChange={(e) =>
-								setSettings((prev) => {
-									return { ...prev, devMode: e.target.checked };
-								})
-							}
-						></Checkbox>
-						<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
+					<div className='mt-4 pt-4 border-neutral-600 border-t'>
+						<div className='flex items-center'>
+							<Checkbox
+								sx={{
+									color: blue[800],
+									'&.Mui-checked': {
+										color: blue[600],
+									},
+								}}
+								onChange={(e) =>
+									setSettings((prev) => {
+										return { ...prev, removeDuplicates: e.target.checked };
+									})
+								}
+							></Checkbox>
+							<p className='font-semibold text-neutral-300'>Odstranit duplikované obrázky</p>
+						</div>
+						<div className='flex items-center'>
+							<Checkbox
+								sx={{
+									color: blue[800],
+									'&.Mui-checked': {
+										color: blue[600],
+									},
+								}}
+								onChange={(e) =>
+									setSettings((prev) => {
+										return { ...prev, devMode: e.target.checked };
+									})
+								}
+							></Checkbox>
+							<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
+						</div>
 					</div>
 					{/* <span className='phone-invisible mb-5 p-2 text-neutral-200 text-lg text-center'>
 						<h2 className='font-semibold text-lg'>TIP:</h2>

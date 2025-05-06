@@ -33,10 +33,6 @@ function Quiz({ poznavacka, settings }) {
 		}
 	}
 
-	useEffect(() => {
-		console.log(fileOptions.current.previous);
-	}, [fileOptions.current]);
-
 	function generateIdx(minVal, maxVal) {
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 		let options = fileOptions.current;

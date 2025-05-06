@@ -47,19 +47,43 @@ export default function Home({ poznavacka }) {
 		};
 	}, [mode, lock]);
 
+	let poznavackaWithoutDuplicates = useRef();
+	useEffect(() => {
+		if (poznavacka) {
+			poznavackaWithoutDuplicates.current = removeDuplicates(poznavacka);
+		}
+	}, [poznavacka]);
+
+	function removeDuplicates(poznavacka) {
+		if (!poznavacka) return;
+		let newPoznavacka = [];
+		let originalItems = [];
+		let arr = Object.values(poznavacka)[0];
+		arr.forEach((item) => {
+			if (!isObject(item)) {
+				let itemWithoutNum = item.replace(/\d+/g, '');
+				if (!originalItems.includes(itemWithoutNum)) {
+					newPoznavacka.push(item);
+					originalItems.push(itemWithoutNum);
+				}
+			}
+		});
+		return { poznavacka: newPoznavacka };
+	}
+
 	return (
 		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
 			<div className='relative flex flex-grow'>
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
-					<Settings poznavacka={poznavacka} updateSettings={setSettings} />
+					<Settings poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} updateSettings={setSettings} />
 				</div>
 				{poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? (
 					<div className={'relative z-10 flex-grow transition-none bg-inherit max-[400px]:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
 						<div className={'top-0 z-0 left-0 absolute w-full h-full'}>
-							<Quiz poznavacka={poznavacka} settings={options} />
+							<Quiz poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} settings={options} />
 						</div>
 						<div className={'top-0 bg-inherit z-10 left-full md:left-0 absolute w-full h-full ' + (mode == 'learning' ? '' : 'md:hidden')}>
-							<List poznavacka={poznavacka} setLock={setLock} lock={lock} />
+							<List poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} setLock={setLock} lock={lock} />
 						</div>
 					</div>
 				) : (
