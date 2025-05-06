@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import './Quiz.css';
 import { dir, isObject, nameFromPath } from './utilities.js';
 
@@ -32,6 +32,10 @@ function Quiz({ poznavacka, settings }) {
 			setShow((prev) => (prev ? false : true));
 		}
 	}
+
+	useEffect(() => {
+		console.log(fileOptions.current.previous);
+	}, [fileOptions.current]);
 
 	function generateIdx(minVal, maxVal) {
 		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
@@ -99,33 +103,38 @@ function Quiz({ poznavacka, settings }) {
 
 		let idx;
 
-		if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
-			idx = fileOptions.current.previous[1];
+		// if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
+		// 	idx = fileOptions.current.previous[1];
+		// } else {
+		if (settings?.quiz.random) {
+			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (settings?.quiz.random) {
-				idx = generateIdx(minInt, maxInt);
+			if (prevIdx.current == null || prevIdx.current == maxInt - 1 || fileOptions.current.change) {
+				idx = minInt - 1;
+				fileOptions.current.change = false;
+				fileOptions.current.recent = [];
 			} else {
-				if (prevIdx.current == null || prevIdx.current == maxInt - 1 || fileOptions.current.change) {
-					idx = minInt - 1;
-					fileOptions.current.change = false;
-					fileOptions.current.recent = [];
-				} else {
-					idx = prevIdx.current + 1;
-				}
-				prevIdx.current = idx;
+				idx = prevIdx.current + 1;
 			}
-			if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
-
-			if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
-			fileOptions.current.previous?.push(idx);
+			prevIdx.current = idx;
 		}
+		if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+
+		if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
+		fileOptions.current.previous?.push(idx);
+		// }
 
 		setIndex({ number: idx + 1, imgLoaded: false });
 	}
 
+	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number;
+
 	function showPrev() {
-		if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number) {
+		if (!(fileOptions.current.previous.length > 1)) return;
+		if (previousAvailable) {
 			setIndex({ number: fileOptions.current.previous[0] + 1, imgLoaded: false });
+		} else {
+			setIndex({ number: fileOptions.current.previous[1] + 1, imgLoaded: false });
 		}
 	}
 
@@ -144,8 +153,6 @@ function Quiz({ poznavacka, settings }) {
 		setMax('70');
 	}
 
-	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number;
-
 	return (
 		<div onKeyDown={handleKeyDown} tabIndex={0} className='flex flex-col justify-center items-center gap-20 bg-neutral-800 px-2 outline-none w-full h-full'>
 			{/* <button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
@@ -157,8 +164,8 @@ function Quiz({ poznavacka, settings }) {
 			</div>
 			<div className='flex gap-8'>
 				<div className='bg-neutral-700 rounded-xl overflow-hidden'>
-					<button text='Předchozí' onClick={showPrev} className={'control-btn ' + (!previousAvailable ? 'control-btn-disabled' : '')}>
-						<Icon icon='material-symbols:chevron-left-rounded' className='text-[1.5em]' />
+					<button text={previousAvailable ? 'Předchozí' : 'Zpět'} onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1) ? 'control-btn-disabled' : '')}>
+						<Icon icon='tabler:reload' className={previousAvailable ? 'mb-5 -scale-x-100' : ''} />
 					</button>
 				</div>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl h-18 overflow-hidden'>
@@ -166,8 +173,8 @@ function Quiz({ poznavacka, settings }) {
 						{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
 					</button>
 					<div className='bg-neutral-600 w-px h-2/3'></div>
-					<button text={previousAvailable ? 'Generovat' : 'Další'} onClick={() => changeImg({ show: false })} className='control-btn'>
-						{previousAvailable ? <Icon icon='ion:dice' /> : <Icon icon='material-symbols:chevron-right-rounded' className='text-[1.5em]' />}
+					<button text={settings.quiz.random ? 'Generovat' : 'Další'} onClick={() => changeImg({ show: false })} className='control-btn'>
+						{settings.quiz.random ? <Icon icon='ion:dice' /> : <Icon icon='material-symbols:chevron-right-rounded' className='text-[1.5em]' />}
 					</button>
 				</div>
 			</div>
