@@ -208,7 +208,7 @@ export default function App() {
 									<div className='z-0 relative flex flex-grow'>
 										{/* MENU */}
 										<div className={'z-10 bg-neutral-900 max-sm:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
-											<div className='px-4'>
+											<div className='px-2'>
 												<div className='flex justify-between mb-4 w-full text-neutral-500 text-2xl'>
 													<button onClick={(e) => setShowingContent(!showingContent)} className='md:hidden'>
 														<i className='fa-solid fa-xmark'></i>
@@ -217,7 +217,7 @@ export default function App() {
 														<Icon icon='material-symbols:info-outline-rounded' className=''></Icon>
 													</button>
 												</div>
-												<div id='menu-info' className='top-4 right-4 absolute bg-neutral-800 p-4 rounded-xl w-fit max-w-[calc(100%-2rem)] text-neutral-400 scale-0 origin-top-right transition-transform'>
+												<div id='menu-info' className='top-4 right-4 z-30 absolute bg-neutral-800 p-4 rounded-xl w-fit max-w-[calc(100%-2rem)] text-neutral-400 scale-0 origin-top-right transition-transform'>
 													<div className='flex justify-between items-center mb-2'>
 														<h3 className='font-semibold text-neutral-300 text-lg'>Info</h3>
 														<button className='block ml-auto' onClick={() => document.getElementById('menu-info').classList.remove('scale-100')}>
@@ -231,25 +231,26 @@ export default function App() {
 														Po zvolení vaší poznávačky zavřete menu kliknutím na ikonu <i className='text-base fa-solid fa-xmark' />
 													</p>
 												</div>
-												<div className='flex gap-2'>
-													<button className={'hover:brightness-150 ' + (dirName && path.length > 0 && selectedDir ? '' : 'hidden')} onClick={back}>
-														<i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' />
+												<div className='relative flex justify-center items-center mb-2 py-2 rounded-lg'>
+													<button className={'hover:brightness-150 absolute left-1 ' + (dirName && path.length > 0 && selectedDir ? '' : 'hidden')} onClick={back}>
+														{/* <i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' /> */}
+														<Icon icon='material-symbols:arrow-left-alt-rounded' className='px-1 text-neutral-500 text-4xl'></Icon>
 													</button>
-													<h1 onClick={() => back('current')} className={'text-neutral-500 my-4 font-semibold text-2xl cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && '!text-neutral-300')}>
+													<h1 onClick={() => back('current')} className={'text-neutral-400 font-light tracking-wide text-2xl cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && '!text-neutral-300')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
 													</h1>
 												</div>
-												<div>
+												<div className='flex flex-col gap-2'>
 													{selectedDir
 														.filter((content) => isObject(content))
 														.map((content, idx) => {
 															return (
-																<div onClick={() => showContent(content)} key={'option-' + idx} className={'flex text-neutral-500 items-center text-start py-4 last-of-type:border-none border-b border-neutral-700 text-4xl'}>
+																<div onClick={() => showContent(content)} key={'option-' + idx} className={'grid grid-cols-[1fr,auto] relative text-4xl gap-1'}>
 																	{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
-																	<span className={'cursor-pointer text-neutral-500 md:hover:brightness-150 transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) && 'font-semibold !text-neutral-300')}>{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}</span>
+																	<p className={'text-neutral-500 cursor-pointer flex-grow py-2 pl-4 rounded-lg bg-neutral-900 font-medium transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) ? 'brightness-200' : 'md:hover:brightness-150')}>{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}</p>
 																	{Object.values(content)[0].some((f) => isObject(f)) && (
-																		<button onClick={(e) => toggleGroupFiles(content, e)} className='flex items-center gap-4 hover:brightness-150 ml-2 px-2'>
-																			<i className={'text-lg cursor-pointer fa-folder ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'fa-solid' : 'fa-regular')} />
+																		<button onClick={(e) => toggleGroupFiles(content, e)} className={'flex justify-center items-center gap-4 rounded-lg bg-neutral-900 md:hover:brightness-150 outline-none aspect-square text-neutral-500 ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'brightness-200' : '')}>
+																			<Icon icon='material-symbols:folder' className='text-2xl'></Icon>
 																		</button>
 																	)}
 																</div>
