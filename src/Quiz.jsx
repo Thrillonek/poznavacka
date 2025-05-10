@@ -21,7 +21,7 @@ function Quiz({ poznavacka, settings }) {
 	useEffect(() => {
 		changeImg({ firstChange: true });
 		fileOptions.current.change = true;
-	}, [poznavacka, settings]);
+	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
 	/* KLÁVESNICE TLAČÍTKA */
 	function handleKeyDown(e) {
@@ -114,7 +114,12 @@ function Quiz({ poznavacka, settings }) {
 			}
 			prevIdx.current = idx;
 		}
-		if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+
+		try {
+			if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+		} catch (e) {
+			console.log(e);
+		}
 
 		if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
 		fileOptions.current.previous?.push(idx);
