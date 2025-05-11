@@ -19,8 +19,8 @@ function Quiz({ poznavacka, settings }) {
 	}, [index?.number]);
 
 	useEffect(() => {
-		changeImg({ firstChange: true });
 		fileOptions.current.change = true;
+		changeImg({ firstChange: true });
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
 	/* KLÁVESNICE TLAČÍTKA */
