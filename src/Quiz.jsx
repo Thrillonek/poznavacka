@@ -11,7 +11,7 @@ function Quiz({ poznavacka, settings }) {
 
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
-	let fileOptions = useRef({ first: [], second: [], recent: [], change: true, previous: [] });
+	let fileOptions = useRef({ main: [], complete: [], recent: [], change: true, previous: [] });
 	let prevIdx = useRef();
 
 	useEffect(() => {
@@ -41,35 +41,24 @@ function Quiz({ poznavacka, settings }) {
 
 		if (options.change) {
 			options.recent = [];
-			options.first = [];
-			options.second = [];
+			options.main = [];
 			for (let i = 0; i < range; i++) {
-				options.first.push(i + minVal - 1);
+				let val = i + minVal - 1;
+				if (options.complete?.includes(val)) continue;
+				options.main.push(val);
 			}
 			options.change = false;
 		}
 
-		let idx = rng(0, options.first.length - 1);
-		let result = options.first[idx];
+		let idx = rng(0, options.main.length - 1);
+		let result = options.main[idx];
 
-		if (Math.round(range / 2.5) <= options.recent.length) {
-			options.second.push(options.recent[0]);
+		options.recent.push(result);
+		options.main.splice(idx, 1);
+
+		if (Math.floor((range - options.complete.length) / 1.33) <= options.recent.length) {
+			options.main.push(options.recent[0]);
 			options.recent.shift();
-		}
-
-		if (Math.round(range / 3) <= options.second.length) {
-			options.first.push(options.second[0]);
-			options.second.shift();
-		}
-
-		if (options.second.length > 0 && Math.random() * 4 > 3) {
-			idx = rng(0, options.second.length - 1);
-			result = options.second[idx];
-			options.recent.push(options.second[idx]);
-			options.second.splice(idx, 1);
-		} else {
-			options.recent.push(options.first[idx]);
-			options.first.splice(idx, 1);
 		}
 
 		return result;
@@ -80,10 +69,6 @@ function Quiz({ poznavacka, settings }) {
 
 		let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
 		let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
-
-		// if (minInt == 69 && maxInt == 172) {
-		// 	document.getElementById('jumpscare').animate({ transform: ['scale(0)', 'scale(.5)', 'scale(.6)', 'scale(.6)', 'scale(5)'] }, { duration: 1000 });
-		// }
 
 		setError(null);
 		if (settings?.quiz.mode == 'custom') {
@@ -139,23 +124,16 @@ function Quiz({ poznavacka, settings }) {
 		}
 	}
 
-	// function handleClick(e) {
-	// 	const rect = document.querySelector('#quiz-settings').getBoundingClientRect();
-	// 	const clientX = e.clientX || e.touches[0].clientX;
-	// 	const clientY = e.clientY || e.touches[0].clientY;
-	// 	const showSettings = document.querySelector('#show-quiz-settings');
-	// 	if ((clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom) || e.target == showSettings || showSettings.contains(e.target)) return;
-	// 	document.querySelector(':root').style.setProperty('--settings-scale', 0);
-	// }
-
-	function setToTested() {
-		if (poznavacka == 'houby') return;
-		setMin('1');
-		setMax('70');
+	function completeImg() {
+		const idx = fileOptions.current.recent.indexOf(index.number - 1);
+		fileOptions.current.recent.splice(idx, 1);
+		// fileOptions.current.recent.splice(idx, 1);
+		fileOptions.current.complete.push(idx);
+		changeImg({ show: false });
 	}
 
 	return (
-		<div onKeyDown={handleKeyDown} tabIndex={0} className='flex flex-col justify-center items-center gap-20 bg-neutral-800 px-2 outline-none w-full h-full'>
+		<div onKeyDown={handleKeyDown} tabIndex={0} className='flex flex-col justify-between items-center bg-neutral-800 px-2 py-4 md:py-8 outline-none w-full h-full'>
 			{/* <button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button> */}
@@ -163,8 +141,8 @@ function Quiz({ poznavacka, settings }) {
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
 				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : settings.devMode && index.number}</div>
 			</div>
-			<div className='flex gap-8'>
-				<div className='bg-neutral-700 rounded-xl overflow-hidden'>
+			<div className='flex max-md:flex-col items-center gap-4 md:gap-8'>
+				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl w-fit overflow-hidden'>
 					<button text={previousAvailable ? 'Předchozí' : 'Zpět'} onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1) ? 'control-btn-disabled' : '')}>
 						<Icon icon='tabler:reload' className={previousAvailable ? 'mb-5 -scale-x-100' : ''} />
 					</button>
@@ -176,6 +154,10 @@ function Quiz({ poznavacka, settings }) {
 					<div className='bg-neutral-600 w-px h-2/3'></div>
 					<button text={settings.quiz.random ? 'Generovat' : 'Další'} onClick={() => changeImg({ show: false })} className='control-btn'>
 						{settings.quiz.random ? <Icon icon='ion:dice' /> : <Icon icon='material-symbols:chevron-right-rounded' className='text-[1.5em]' />}
+					</button>
+					<div className='bg-neutral-600 w-px h-2/3'></div>
+					<button text='Naučeno' onClick={completeImg} className='control-btn'>
+						<Icon icon='material-symbols:check-circle-rounded' />
 					</button>
 				</div>
 			</div>
