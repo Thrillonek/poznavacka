@@ -232,7 +232,7 @@ export default function App() {
 													</p>
 												</div>
 												<div className='relative flex justify-center items-center mb-2 py-2 rounded-lg'>
-													<button className={'hover:brightness-150 absolute left-1 ' + (dirName && path.length > 0 && selectedDir ? '' : 'hidden')} onClick={back}>
+													<button className={'hover:bg-neutral-800 rounded-full absolute left-1 ' + (dirName && path.length > 0 && selectedDir ? '' : 'hidden')} onClick={back}>
 														{/* <i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' /> */}
 														<Icon icon='material-symbols:arrow-left-alt-rounded' className='px-1 text-neutral-500 text-4xl'></Icon>
 													</button>
