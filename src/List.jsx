@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, dir, isObject, nameFromPath } from './utilities.js';
+import { categories, dir, isObject, nameFromPath, settings } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -250,6 +250,8 @@ export default function List({ lock, setLock, poznavacka }) {
 								nameFromPath(file)
 									.split(' ')
 									.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
+
+							if (settings.list?.hideComplete && settings.quiz.complete.includes(idx)) return null;
 							return (
 								<div id={'plant-' + idx} key={idx}>
 									{/* {categories[idx + 1] && showCategories && (
@@ -257,11 +259,11 @@ export default function List({ lock, setLock, poznavacka }) {
 										{categories[idx + 1]}
 									</div>
 								)} */}
-									<div onClick={(e) => setChosenFile(file)} className='relative items-center grid grid-cols-[5rem,1fr] bg-neutral-800 rounded-xl h-20 overflow-hidden cursor-pointer'>
+									<div onClick={(e) => setChosenFile(file)} className={'relative items-center grid grid-cols-[5rem,1fr] rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
 										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='h-full object-cover' />
 										<div className='relative flex items-center self-start h-20'>
 											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
-											<div className='top-0 right-2 z-10 absolute font-black text-neutral-600 text-xl'>{idx + 1}</div>
+											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>
 										</div>
 									</div>
 								</div>

@@ -168,7 +168,7 @@ export default function Settings({ poznavacka }) {
 
 			<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
-			<div className='grid lg:grid-cols-2'>
+			<div className='gap-x-8 grid lg:grid-cols-2'>
 				<div className='flex flex-col gap-4'>
 					<h2 className='text-2xl'>Kvíz</h2>
 					{/* <button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
@@ -337,6 +337,26 @@ export default function Settings({ poznavacka }) {
 						<br />
 						a klávesu <i className='px-1 text-xl fa-caret-square-down fa-solid' /> pro název rostliny
 					</span> */}
+				</div>
+				<div>
+					<h2 className='mb-6 text-2xl'>Seznam</h2>
+
+					<div className='flex items-center'>
+						<Checkbox
+							sx={{
+								color: blue[800],
+								'&.Mui-checked': {
+									color: blue[600],
+								},
+							}}
+							onChange={(e) =>
+								setSettings((prev) => {
+									return { ...prev, list: { hideComplete: e.target.checked } };
+								})
+							}
+						></Checkbox>
+						<p className='font-semibold text-neutral-300'>Skrýt obrázky, které jsou naučené</p>
+					</div>
 				</div>
 			</div>
 		</div>
