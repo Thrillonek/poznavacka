@@ -97,11 +97,17 @@ function Quiz({ poznavacka }) {
 			} else {
 				idx = prevIdx.current + 1;
 			}
+			let defaultIdx = idx;
 			while (settings.quiz?.complete.includes(idx)) {
-				if (prevIdx.current == maxInt - 1) {
+				if (idx == maxInt - 1) {
 					idx = minInt - 1;
 				} else {
 					idx++;
+				}
+				if (idx == defaultIdx) {
+					setError('V této sadě už nic nezbylo.');
+					idx = null;
+					break;
 				}
 			}
 			prevIdx.current = idx;
