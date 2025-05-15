@@ -168,7 +168,7 @@ export default function Settings({ poznavacka }) {
 
 			<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
-			<div className='gap-x-8 grid lg:grid-cols-2'>
+			<div className='gap-x-8 gap-y-12 grid lg:grid-cols-2'>
 				<div className='flex flex-col gap-4'>
 					<h2 className='text-2xl'>Kvíz</h2>
 					{/* <button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
@@ -326,7 +326,7 @@ export default function Settings({ poznavacka }) {
 							<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
 						</div>
 					</div>
-					<div className='mt-4 pt-4 border-neutral-600 border-t'>
+					<div className='flex mt-4 pt-4 border-neutral-600 border-t'>
 						<button className='btn-danger' onClick={() => setModalVisible(true)}>
 							Odstranit všechno naučené
 						</button>
