@@ -2,10 +2,10 @@ import { Icon } from '@iconify/react';
 import { Checkbox } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
-import { isObject } from './utilities.js';
+import { settings as globalSettings, isObject } from './utilities.js';
 
-export default function Settings({ poznavacka, updateSettings }) {
-	const [settings, setSettings] = useState({ keybinds: { change: 'ArrowUp', reveal: 'ArrowDown' }, quiz: { mode: 'custom', random: true, min: 1, max: 10, presets: [] } });
+export default function Settings({ poznavacka }) {
+	const [settings, setSettings] = useState(globalSettings);
 	const [activeRange, setActiveRange] = useState();
 	const [visiblePresets, setVisiblePresets] = useState(false);
 	const [changingKeybind, setChangingKeybind] = useState();
@@ -27,7 +27,12 @@ export default function Settings({ poznavacka, updateSettings }) {
 	}, [poznavacka]);
 
 	useEffect(() => {
-		updateSettings(settings);
+		if (isObject(settings)) {
+			for (let i in settings) {
+				globalSettings[i] = settings[i];
+			}
+		}
+
 		if (presets.length > 0 && visiblePresets) {
 			if (mode != 'preset') changeSettings('mode', 'preset');
 		} else {

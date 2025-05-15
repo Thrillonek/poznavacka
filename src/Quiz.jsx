@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { dir, isObject, nameFromPath } from './utilities.js';
+import { dir, isObject, nameFromPath, settings } from './utilities.js';
 
-function Quiz({ poznavacka, settings }) {
+function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
 	const [name, setName] = useState();
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });

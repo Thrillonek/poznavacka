@@ -12,6 +12,8 @@ function nameFromPath(str) {
 
 var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
 
+var settings = { keybinds: { change: 'ArrowUp', reveal: 'ArrowDown' }, quiz: { mode: 'custom', random: true, min: 1, max: 10, presets: [] } };
+
 const categories = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
@@ -60,4 +62,4 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, dir, isObject, nameFromPath };
+export { categories, dir, isObject, nameFromPath, settings };
