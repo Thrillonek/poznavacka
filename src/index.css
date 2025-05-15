@@ -127,3 +127,33 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .keybind-btn:not(.active):hover {
 	background-color: hsl(0, 0%, 22.5%);
 }
+
+.btn-danger {
+	background-color: transparent;
+	border: 2px solid hsl(355, 65%, 50%);
+	color: hsl(0, 0%, 90%);
+	font-weight: 500;
+	font-size: 1.125rem;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+	background-color: hsl(355, 65%, 50%);
+}
+
+.modal {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: hsl(0, 0%, 20%);
+	padding: 1.5rem 2.5rem;
+	border-radius: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 90vw;
+	width: max-content;
+}

@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Checkbox } from '@mui/material';
+import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { settings as globalSettings, isObject } from './utilities.js';
@@ -9,6 +9,7 @@ export default function Settings({ poznavacka }) {
 	const [activeRange, setActiveRange] = useState();
 	const [visiblePresets, setVisiblePresets] = useState(false);
 	const [changingKeybind, setChangingKeybind] = useState();
+	const [modalVisible, setModalVisible] = useState();
 
 	let presetLength = useRef();
 
@@ -116,7 +117,55 @@ export default function Settings({ poznavacka }) {
 	document.ontouchend = () => setActiveRange();
 
 	return (
-		<div tabIndex={0} onTouchMove={handleMove} onKeyDown={handleKeyDown} onMouseMove={handleMove} className='bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
+		<div tabIndex={0} onTouchMove={handleMove} onKeyDown={handleKeyDown} onMouseMove={handleMove} className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
+			<div onClick={() => setModalVisible(false)} className={'fixed w-screen z-50 top-0 left-0 transition-opacity backdrop-blur-sm h-screen bg-black bg-opacity-20 ' + (modalVisible ? '' : 'pointer-events-none opacity-0')}>
+				<div onClick={(e) => e.stopPropagation()} className='modal'>
+					<button onClick={() => setModalVisible(false)} className='top-2 right-2 absolute hover:bg-neutral-700 p-1 rounded-full'>
+						<Icon icon='material-symbols:close' className='text-neutral-500 text-2xl'></Icon>
+					</button>
+					<p className='text-neutral-300 text-lg md:text-2xl text-center'>Vážně chceš odstranit všechny svoje vědomosti?</p>
+					<div className='flex gap-x-4 mt-8'>
+						<button
+							className='btn-danger'
+							onClick={() => {
+								changeSettings('complete', []);
+								setModalVisible(false);
+							}}
+						>
+							Ano
+						</button>
+						<button className='!bg-blue-500 hover:brightness-110 !border-blue-500 btn-danger' onClick={() => setModalVisible(false)}>
+							Ne
+						</button>
+					</div>
+				</div>
+			</div>
+
+			{/* <Modal open={modalVisible} onClose={() => setModalVisible(false)}>
+				<Box style={{ maxW: '90vw' }}>
+					<div className='modal'>
+						<button onClick={() => setModalVisible(false)} className='top-2 right-2 absolute hover:bg-neutral-700 p-1 rounded-full'>
+							<Icon icon='material-symbols:close' className='text-neutral-500 text-2xl'></Icon>
+						</button>
+						<p className='text-neutral-300 text-lg md:text-2xl text-center'>Vážně chceš odstranit všechny svoje vědomosti?</p>
+						<div className='flex gap-x-4 mt-8'>
+							<button
+								className='btn-danger'
+								onClick={() => {
+									changeSettings('complete', []);
+									setModalVisible(false);
+								}}
+							>
+								Ano
+							</button>
+							<button className='!bg-blue-500 hover:brightness-110 !border-blue-500 btn-danger' onClick={() => setModalVisible(false)}>
+								Ne
+							</button>
+						</div>
+					</div>
+				</Box>
+			</Modal> */}
+
 			<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
 			<div className='grid lg:grid-cols-2'>
@@ -207,7 +256,7 @@ export default function Settings({ poznavacka }) {
 
 					<div className='phone-invisible flex flex-col'>
 						<h2 className='mb-1 text-neutral-300 text-lg'>Klávesové zkratky</h2>
-						<div className='gap-y-px grid bg-neutral-500 [&>*]:p-2 text-neutral-400'>
+						<div className='gap-y-px grid bg-neutral-700 [&>*]:px-4 [&>*]:py-2 border border-neutral-700 rounded overflow-hidden text-neutral-400'>
 							{[
 								['Změnit obrázek', 'change'],
 								['Odhalit jméno', 'reveal'],
@@ -239,7 +288,7 @@ export default function Settings({ poznavacka }) {
 							}
 							className='hover:bg-neutral-700 hover:bg-opacity-50 mt-2 mr-auto px-4 py-2 border-2 border-neutral-600 rounded text-neutral-300'
 						>
-							Obnovit výchozí klávesové zkratky
+							Obnovit původní klávesové zkratky
 						</button>
 					</div>
 
@@ -276,6 +325,11 @@ export default function Settings({ poznavacka }) {
 							></Checkbox>
 							<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
 						</div>
+					</div>
+					<div className='mt-4 pt-4 border-neutral-600 border-t'>
+						<button className='btn-danger' onClick={() => setModalVisible(true)}>
+							Odstranit všechno naučené
+						</button>
 					</div>
 					{/* <span className='phone-invisible mb-5 p-2 text-neutral-200 text-lg text-center'>
 						<h2 className='font-semibold text-lg'>TIP:</h2>

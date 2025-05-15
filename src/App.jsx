@@ -205,7 +205,7 @@ export default function App() {
 										<i onClick={(e) => setShowingContent(!showingContent)} className={'px-2 text-2xl cursor-pointer fa-solid ' + (showingContent ? 'fa-bars' : 'fa-xmark')}></i>
 										<i onClick={(e) => document.querySelector(':root').style.setProperty('--color-scale', 1)} id='show-colors' className='px-2 text-[--text-main] text-xl cursor-pointer fa-palette fa-solid'></i>
 									</div> */}
-									<div className='z-0 relative flex flex-grow'>
+									<div className='relative flex flex-grow'>
 										{/* MENU */}
 										<div className={'z-10 bg-neutral-900 max-sm:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
 											<div className='px-2'>
@@ -260,7 +260,7 @@ export default function App() {
 											</div>
 										</div>
 										{/* MAIN CONTENT */}
-										<div className='z-0 flex flex-col flex-grow'>
+										<div className='flex flex-col flex-grow'>
 											<div onClick={(e) => setShowingContent(!showingContent)} className='md:hidden flex items-center gap-2 bg-neutral-900 px-4 py-2 text-neutral-500 text-xl cursor-pointer'>
 												<i className='fa-bars fa-solid'></i> <span className='text-lg'>Menu</span>
 											</div>
