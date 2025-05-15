@@ -11,7 +11,7 @@ function Quiz({ poznavacka }) {
 
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
-	let fileOptions = useRef({ main: [], complete: [], recent: [], change: true, previous: [] });
+	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
 	let prevIdx = useRef();
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ function Quiz({ poznavacka }) {
 			options.main = [];
 			for (let i = 0; i < range; i++) {
 				let val = i + minVal - 1;
-				if (options.complete?.includes(val)) continue;
+				if (settings.quiz.complete?.includes(val)) continue;
 				options.main.push(val);
 			}
 			options.change = false;
@@ -56,7 +56,7 @@ function Quiz({ poznavacka }) {
 		options.recent.push(result);
 		options.main.splice(idx, 1);
 
-		if (Math.floor((range - options.complete.length) / 1.33) <= options.recent.length) {
+		if (Math.floor((range - settings.quiz.complete.length) / 1.33) <= options.recent.length) {
 			options.main.push(options.recent[0]);
 			options.recent.shift();
 		}
@@ -97,9 +97,16 @@ function Quiz({ poznavacka }) {
 			} else {
 				idx = prevIdx.current + 1;
 			}
+			while (settings.quiz?.complete.includes(idx)) {
+				if (prevIdx.current == maxInt - 1) {
+					idx = minInt - 1;
+				} else {
+					idx++;
+				}
+			}
 			prevIdx.current = idx;
 		}
-
+		console.log(settings.quiz?.complete);
 		try {
 			if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 		} catch (e) {
@@ -128,7 +135,7 @@ function Quiz({ poznavacka }) {
 		const idx = fileOptions.current.recent.indexOf(index.number - 1);
 		fileOptions.current.recent.splice(idx, 1);
 		// fileOptions.current.recent.splice(idx, 1);
-		fileOptions.current.complete.push(idx);
+		settings.quiz?.complete.push(index.number - 1);
 		changeImg({ show: false });
 	}
 
