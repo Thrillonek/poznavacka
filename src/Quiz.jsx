@@ -47,7 +47,8 @@ function Quiz({ poznavacka }) {
 		options.recent.push(result);
 		options.main.splice(idx, 1);
 
-		if (Math.floor((range - settings.quiz.complete.length) / 1.33) <= options.recent.length) {
+		let multiplier = range >= 5 ? 1.33 : 2;
+		if (Math.floor((range - settings.quiz.complete.length) / multiplier) <= options.recent.length) {
 			options.main.push(options.recent[0]);
 			options.recent.shift();
 		}
