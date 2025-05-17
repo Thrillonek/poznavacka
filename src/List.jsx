@@ -189,27 +189,48 @@ export default function List({ lock, setLock, poznavacka }) {
 						<i className='fa-angle-left text-5xl fa-solid'></i>
 					</div>
 				)}
-				<div className='w-[max(60%,400px)] h-[60%] overflow-hidden'>
-					<div id='enlarged-img-slider' className={'relative transition-[left] h-full ' /*(chosenFile ? '' : '')*/} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
+				<div className='flex flex-col w-[70%] max-sm:w-[90%] h-[60%] overflow-hidden'>
+					<span className='mx-auto mb-8 font-bold text-neutral-300 text-3xl'>{files.indexOf(chosenFile) + 1}</span>
+					<div id='enlarged-img-slider' className={'relative transition-[left] grid grid-flow-col flex-grow ' /*(chosenFile ? '' : '')*/} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
 						{files
 							.filter((f) => !isObject(f))
 							.map((file, idx) => {
 								return (
-									<div key={idx} className='top-0 absolute flex flex-col justify-end items-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
-										<img src={file.replace(' ', '%20').replace('+', '%2b')} className='rounded-lg h-[85%] object-contain' alt='Obrázek kytky' />
-										<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
-											{idx + 1}. {nameFromPath(file)}
-										</span>
-										{Object.keys(poznavacka)[0] == 'hmyz' && (
-											<>
-												<br />
-												<p className='font-normal text-lg'>Řád: {calculateOrderName(idx, orderNames)}</p>
-											</>
-										)}
+									<div key={idx} className='top-0 absolute flex justify-center w-full h-full' style={{ left: `${files.indexOf(file) * 100}%` }}>
+										<div className='rounded-lg overflow-hidden'>
+											<img src={file.replace(' ', '%20').replace('+', '%2b')} className='w-full h-full object-contain overflow-hidden' alt='Obrázek' />
+										</div>
 									</div>
 								);
 							})}
 					</div>
+					<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
+						{chosenFile && nameFromPath(chosenFile)}
+						{Object.keys(poznavacka)[0] == 'hmyz' && (
+							<>
+								<br />
+								<p className='font-normal text-lg'>Řád: {calculateOrderName(files.indexOf(chosenFile), orderNames)}</p>
+							</>
+						)}
+					</span>
+
+					{/* {files
+						.filter((f) => !isObject(f))
+						.map((file, idx) => {
+							return (
+								<>
+									<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
+										{idx + 1}. {nameFromPath(file)}
+									</span>
+									{Object.keys(poznavacka)[0] == 'hmyz' && (
+										<>
+											<br />
+											<p className='font-normal text-lg'>Řád: {calculateOrderName(idx, orderNames)}</p>
+										</>
+									)}
+								</>
+							);
+						})} */}
 				</div>
 				{!window.matchMedia('(pointer: coarse)').matches && (
 					<div onClick={(e) => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
