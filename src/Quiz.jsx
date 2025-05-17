@@ -41,18 +41,6 @@ function Quiz({ poznavacka }) {
 		let options = fileOptions.current;
 
 		let range = maxVal - minVal + 1;
-
-		if (options.change) {
-			options.recent = [];
-			options.main = [];
-			for (let i = 0; i < range; i++) {
-				let val = i + minVal - 1;
-				if (settings.quiz.complete?.includes(val)) continue;
-				options.main.push(val);
-			}
-			options.change = false;
-		}
-
 		let idx = rng(0, options.main.length - 1);
 		let result = options.main[idx];
 
@@ -72,6 +60,19 @@ function Quiz({ poznavacka }) {
 
 		let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
 		let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
+
+		let range = maxInt - minInt + 1;
+
+		if (fileOptions.current.change) {
+			fileOptions.current.recent = [];
+			fileOptions.current.main = [];
+			for (let i = 0; i < range; i++) {
+				let val = i + minInt - 1;
+				if (settings.quiz.complete?.includes(val)) continue;
+				fileOptions.current.main.push(val);
+			}
+			fileOptions.current.change = false;
+		}
 
 		setError(null);
 		if (settings?.quiz.mode == 'custom') {
@@ -110,7 +111,7 @@ function Quiz({ poznavacka }) {
 			}
 			prevIdx.current = idx;
 		}
-		console.log(settings.quiz?.complete);
+
 		try {
 			if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
 		} catch (e) {
