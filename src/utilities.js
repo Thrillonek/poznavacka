@@ -62,4 +62,40 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-export { categories, dir, isObject, nameFromPath, settings };
+const orderNames = {
+	0: 'Jepice',
+	2: 'Vážky',
+	10: 'Pošvatky',
+	11: 'Švábi',
+	16: 'Škvoři',
+	18: 'Všekazi/termiti',
+	20: 'Kudlanky',
+	24: 'strašilky',
+	27: 'rovnokřídlí',
+	38: 'Pisivky ',
+	41: 'všenky',
+	44: 'vši',
+	49: 'Třásnokřídlí ',
+	51: 'Křísi',
+	56: 'Mery',
+	57: 'Mšice',
+	63: 'Červci',
+	65: 'Molice',
+	69: 'Ploštice',
+	85: 'Síťokřídlí ',
+	91: 'Chrostíci',
+	95: 'Blechy',
+	96: 'Brouci ',
+	153: 'Dvoukřídlí',
+	171: 'Blanokřídlí',
+};
+
+function calculateOrderName(idx, set) {
+	while (set[idx] == undefined) {
+		idx--;
+		if (idx < 0) break;
+	}
+	return set[idx];
+}
+
+export { calculateOrderName, categories, dir, isObject, nameFromPath, orderNames, settings };

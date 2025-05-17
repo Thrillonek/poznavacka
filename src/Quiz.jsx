@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { dir, isObject, nameFromPath, settings } from './utilities.js';
+import { calculateOrderName, dir, isObject, nameFromPath, orderNames, settings } from './utilities.js';
 
 function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
@@ -152,7 +152,25 @@ function Quiz({ poznavacka }) {
 			</button> */}
 			<div className='justify-items-center gap-8 grid grid-rows-[1fr,1rem] w-full h-2/3'>
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
-				<div className={error ? 'text-red-400 text-lg' : 'text-white font-semibold text-2xl'}>{error ? error : !index.imgLoaded ? 'Načítání...' : show ? nameFromPath(name) : settings.devMode && index.number}</div>
+				<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>
+					{error ? (
+						error
+					) : !index.imgLoaded ? (
+						'Načítání...'
+					) : show ? (
+						<>
+							{nameFromPath(name)}
+							{Object.keys(poznavacka)[0] == 'hmyz' && (
+								<>
+									<br />
+									<p className='font-normal text-lg'>Řád: {calculateOrderName(index.number - 1, orderNames)}</p>
+								</>
+							)}
+						</>
+					) : (
+						settings.devMode && index.number
+					)}
+				</div>
 			</div>
 			<div className='flex max-md:flex-col items-center gap-4 md:gap-8'>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl w-fit overflow-hidden'>

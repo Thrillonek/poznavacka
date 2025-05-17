@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { categories, dir, isObject, nameFromPath, settings } from './utilities.js';
+import { calculateOrderName, categories, dir, isObject, nameFromPath, orderNames, settings } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -200,6 +200,12 @@ export default function List({ lock, setLock, poznavacka }) {
 										<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
 											{idx + 1}. {nameFromPath(file)}
 										</span>
+										{Object.keys(poznavacka)[0] == 'hmyz' && (
+											<>
+												<br />
+												<p className='font-normal text-lg'>Řád: {calculateOrderName(idx, orderNames)}</p>
+											</>
+										)}
 									</div>
 								);
 							})}

@@ -13,6 +13,7 @@ dist
 dist-ssr
 *.local
 unused
+x-slides
 
 # Editor directories and files
 .vscode/*
@@ -28,7 +29,4 @@ unused
 
 .vercel
 
-moje.txt
-test.txt
-index.js
-hmyz.txt
+public/*.txt
