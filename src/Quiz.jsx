@@ -90,6 +90,7 @@ function Quiz({ poznavacka }) {
 		// if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
 		// 	idx = fileOptions.current.previous[1];
 		// } else {
+		if (maxInt - minInt + 1 <= settings.quiz.complete?.length) return setError('V této sadě už nic nezbylo.');
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
@@ -100,17 +101,11 @@ function Quiz({ poznavacka }) {
 			} else {
 				idx = prevIdx.current + 1;
 			}
-			let defaultIdx = idx;
 			while (settings.quiz?.complete.includes(idx)) {
 				if (idx == maxInt - 1) {
 					idx = minInt - 1;
 				} else {
 					idx++;
-				}
-				if (idx == defaultIdx) {
-					setError('V této sadě už nic nezbylo.');
-					idx = null;
-					break;
 				}
 			}
 			prevIdx.current = idx;
@@ -142,7 +137,9 @@ function Quiz({ poznavacka }) {
 
 	function completeImg() {
 		const idx = fileOptions.current.recent.indexOf(index.number - 1);
-		fileOptions.current.recent.splice(idx, 1);
+		if (fileOptions.current.recent.includes(index.number - 1)) {
+			fileOptions.current.recent.splice(idx, 1);
+		} else fileOptions.current.main.splice(idx, 1);
 		// fileOptions.current.recent.splice(idx, 1);
 		settings.quiz?.complete.push(index.number - 1);
 		changeImg({ show: false });

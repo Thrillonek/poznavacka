@@ -133,7 +133,9 @@ export default function List({ lock, setLock, poznavacka }) {
 		}
 
 		setChosenFile(files[idx]);
-		let rect = document.getElementById('plant-' + idx).getBoundingClientRect();
+		const targetElement = document.getElementById('plant-' + idx);
+		if (!targetElement) return;
+		let rect = targetElement.getBoundingClientRect();
 		let list = document.getElementById('list');
 		let listRect = list.getBoundingClientRect();
 		list.scrollTop += rect.top - listRect.top - listRect.height / 2;
