@@ -90,7 +90,7 @@ function Quiz({ poznavacka }) {
 		// if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
 		// 	idx = fileOptions.current.previous[1];
 		// } else {
-		if (maxInt - minInt + 1 <= settings.quiz.complete?.length) return setError('V této sadě už nic nezbylo.');
+		if (fileOptions.current.main.length + fileOptions.current.recent.length == 0) return setError('V této sadě už nic nezbylo.');
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
