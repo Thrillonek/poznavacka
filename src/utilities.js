@@ -87,7 +87,7 @@ const orderNames = {
 	95: 'Blechy',
 	96: 'Brouci ',
 	152: 'Dvoukřídlí',
-	170: 'Blanokřídlí',
+	169: 'Blanokřídlí',
 };
 
 function calculateOrderName(idx, set) {
