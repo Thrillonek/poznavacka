@@ -31,6 +31,9 @@ function Quiz({ poznavacka }) {
 		if (e.key == settings.keybinds.reveal) {
 			setShow((prev) => (prev ? false : true));
 		}
+		if (e.key == settings.keybinds.complete) {
+			completeImg();
+		}
 	}
 
 	function generateIdx(minVal, maxVal) {

@@ -260,6 +260,7 @@ export default function Settings({ poznavacka }) {
 							{[
 								['Změnit obrázek', 'change'],
 								['Odhalit jméno', 'reveal'],
+								['Obrázek naučený', 'complete'],
 							].map((item, index) => {
 								return (
 									<div className='flex justify-between items-center gap-2 bg-neutral-800'>

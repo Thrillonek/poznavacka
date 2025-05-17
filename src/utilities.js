@@ -12,7 +12,7 @@ function nameFromPath(str) {
 
 var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
 
-var settings = { keybinds: { change: 'ArrowUp', reveal: 'ArrowDown' }, quiz: { mode: 'custom', random: true, min: 1, max: 10, presets: [], complete: [] } };
+var settings = { keybinds: { change: 'ArrowUp', reveal: 'ArrowDown', complete: 'ArrowRight' }, quiz: { mode: 'custom', random: true, min: 1, max: 10, presets: [], complete: [] } };
 
 const categories = {
 	1: 'Houby',
