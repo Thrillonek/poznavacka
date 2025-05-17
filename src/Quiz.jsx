@@ -96,7 +96,7 @@ function Quiz({ poznavacka }) {
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (prevIdx.current == null || prevIdx.current == maxInt - 1 || fileOptions.current.change) {
+			if (prevIdx.current == null || prevIdx.current >= maxInt - 1 || prevIdx.current < minInt - 1 || fileOptions.current.change) {
 				idx = minInt - 1;
 				fileOptions.current.change = false;
 				fileOptions.current.recent = [];
