@@ -129,11 +129,29 @@ function Quiz({ poznavacka }) {
 	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number;
 
 	function showPrev() {
-		if (!(fileOptions.current.previous.length > 1)) return;
-		if (previousAvailable) {
-			setIndex({ number: fileOptions.current.previous[0] + 1, imgLoaded: false });
+		if (settings.quiz.random) {
+			if (!(fileOptions.current.previous.length > 1)) return;
+			if (previousAvailable) {
+				setIndex({ number: fileOptions.current.previous[0] + 1, imgLoaded: false });
+			} else {
+				setIndex({ number: fileOptions.current.previous[1] + 1, imgLoaded: false });
+			}
 		} else {
-			setIndex({ number: fileOptions.current.previous[1] + 1, imgLoaded: false });
+			let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
+			let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
+			let idx;
+			if (prevIdx.current == null || prevIdx.current <= minInt - 1) {
+				idx = maxInt - 1;
+			} else {
+				idx = prevIdx.current - 1;
+			}
+			prevIdx.current = idx;
+			try {
+				if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+			} catch (e) {
+				console.log(e);
+			}
+			setIndex({ number: idx + 1, imgLoaded: false });
 		}
 	}
 
@@ -176,8 +194,8 @@ function Quiz({ poznavacka }) {
 			</div>
 			<div className='flex max-md:flex-col items-center gap-4 md:gap-8'>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl w-fit overflow-hidden'>
-					<button text={previousAvailable ? 'Předchozí' : 'Zpět'} onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1) ? 'control-btn-disabled' : '')}>
-						<Icon icon='tabler:reload' className={previousAvailable ? 'mb-5 -scale-x-100' : ''} />
+					<button text={previousAvailable || !settings.quiz.random ? 'Předchozí' : 'Zpět'} onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1) ? 'control-btn-disabled' : '')}>
+						<Icon icon='tabler:reload' className={previousAvailable || !settings.quiz.random ? 'mb-5 -scale-x-100' : ''} />
 					</button>
 				</div>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl h-18 overflow-hidden'>

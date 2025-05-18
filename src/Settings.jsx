@@ -263,7 +263,7 @@ export default function Settings({ poznavacka }) {
 								['Obrázek naučený', 'complete'],
 							].map((item, index) => {
 								return (
-									<div className='flex justify-between items-center gap-2 bg-neutral-800'>
+									<div key={'keybind-' + index} className='flex justify-between items-center gap-2 bg-neutral-800'>
 										<p className='font-bold'>{item[0]}</p>
 										<button className={'keybind-btn ' + (changingKeybind == item[1] ? 'active' : '')} onClick={() => changingKeybind != item[1] && setChangingKeybind(item[1])}>
 											{changingKeybind == item[1] ? (
