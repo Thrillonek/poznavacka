@@ -107,6 +107,7 @@ function Quiz({ poznavacka }) {
 			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
 				idx = 0;
 			} else {
+				console.log(prevIdx.current);
 				idx = prevIdx.current + (options.complete ? 0 : 1);
 			}
 			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
@@ -165,9 +166,10 @@ function Quiz({ poznavacka }) {
 			if (prevIdx.current == null || prevIdx.current == 0) {
 				idx = fileOptions.current.main.length - 1;
 			} else {
-				idx = index.number - 1;
+				idx = prevIdx.current - 1;
 			}
-			prevIdx.current = idx - 1;
+			prevIdx.current = idx;
+			idx = fileOptions.current.main[idx];
 			setIndex({ number: idx, imgLoaded: false });
 		}
 	}
