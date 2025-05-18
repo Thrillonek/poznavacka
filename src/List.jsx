@@ -288,11 +288,11 @@ export default function List({ lock, setLock, poznavacka }) {
 										{categories[idx + 1]}
 									</div>
 								)} */}
-									<div onClick={(e) => setChosenFile(file)} className={'relative items-center grid grid-cols-[5rem,1fr] rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
+									<div onClick={(e) => setChosenFile(file)} className={'relative items-center grid grid-cols-[5rem,1fr] rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
 										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='h-full object-cover' />
 										<div className='relative flex items-center self-start h-20'>
 											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
-											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>
+											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx + 1) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>
 										</div>
 									</div>
 								</div>

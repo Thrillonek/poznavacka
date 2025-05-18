@@ -49,20 +49,28 @@ export default function Settings({ poznavacka }) {
 		});
 
 	function togglePreset(num) {
+		// let presetsBuffer = [...presets];
+		// let presetArray = [];
+		// for (let i = num * 10 - 10; i <= num * 10 - 1; i++) {
+		// 	presetArray.push(i);
+		// }
+		// let presetIdx = presets.findIndex((el) => el[9] == num * 10 - 1);
+		// if (presetIdx == -1) {
+		// 	presetsBuffer.push(presetArray);
+		// 	changeSettings('presets', presetsBuffer);
+		// } else {
+		// 	presetsBuffer.splice(presetIdx, 1);
+		// 	changeSettings('presets', presetsBuffer);
+		// }
+		// presetsBuffer.sort((a, b) => a[0] - b[0]);
+		// changeSettings('presets', presetsBuffer);
 		let presetsBuffer = [...presets];
-		let presetArray = [];
-		for (let i = num * 10 - 10; i <= num * 10 - 1; i++) {
-			presetArray.push(i);
-		}
-		let presetIdx = presets.findIndex((el) => el[9] == num * 10 - 1);
-		if (presetIdx == -1) {
-			presetsBuffer.push(presetArray);
-			changeSettings('presets', presetsBuffer);
+		if (presets.includes(num)) {
+			presetsBuffer = presetsBuffer.filter((el) => el != num);
 		} else {
-			presetsBuffer.splice(presetIdx, 1);
-			changeSettings('presets', presetsBuffer);
+			presetsBuffer.push(num);
 		}
-		presetsBuffer.sort((a, b) => a[0] - b[0]);
+
 		changeSettings('presets', presetsBuffer);
 	}
 
@@ -227,7 +235,7 @@ export default function Settings({ poznavacka }) {
 								<div className={'grid transition-all  ' + (visiblePresets ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
 									<div className='grid grid-cols-3 auto-rows-fr min-h-0 overflow-hidden text-neutral-300'>
 										{presetLength.current?.map((num) => {
-											let isChecked = presets?.some((p) => p[9] == num * 10 - 1);
+											let isChecked = presets?.includes(num);
 											return (
 												<button key={num} onClick={(e) => togglePreset(num)} className={'flex outline-none items-center bg-white bg-opacity-0 hover:bg-opacity-5 transition-colors w-full py-[0.6rem] ' + (isChecked && '!bg-opacity-10')}>
 													<p className={'font-bold w-full text-center'}>

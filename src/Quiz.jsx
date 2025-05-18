@@ -51,7 +51,6 @@ function Quiz({ poznavacka }) {
 		if (Math.floor((range - settings.quiz.complete.length) / multiplier) <= options.recent.length) {
 			options.main.push(options.recent[0]);
 			options.recent.shift();
-			console.log('...........');
 		}
 
 		return result;
@@ -68,12 +67,20 @@ function Quiz({ poznavacka }) {
 		if (fileOptions.current.change) {
 			fileOptions.current.recent = [];
 			fileOptions.current.main = [];
-			for (let i = 0; i < range; i++) {
-				let val = i + minInt - 1;
-				if (settings.quiz.complete?.includes(val)) continue;
-				fileOptions.current.main.push(val);
+			if (settings.quiz.mode == 'custom') {
+				for (let i = 1; i <= range; i++) {
+					let val = i + minInt - 1;
+					if (settings.quiz.complete?.includes(val)) continue;
+					fileOptions.current.main.push(val);
+				}
+			} else if (settings.quiz.mode == 'preset') {
+				for (let i of settings?.quiz.presets) {
+					for (let val = (i - 1) * 10 + 1; val <= i * 10; val++) {
+						if (settings.quiz.complete?.includes(val)) continue;
+						fileOptions.current.main.push(val);
+					}
+				}
 			}
-			fileOptions.current.change = false;
 		}
 
 		setError(null);
@@ -97,45 +104,52 @@ function Quiz({ poznavacka }) {
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (prevIdx.current == null || prevIdx.current >= maxInt - 1 || prevIdx.current < minInt - 1 || fileOptions.current.change) {
-				idx = minInt - 1;
-				fileOptions.current.change = false;
-				fileOptions.current.recent = [];
+			if (options.complete) {
+				idx = prevIdx.current;
 			} else {
-				idx = prevIdx.current + 1;
-			}
-			while (settings.quiz?.complete.includes(idx)) {
-				if (idx == maxInt - 1) {
-					idx = minInt - 1;
+				if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - 1 || fileOptions.current.change) {
+					idx = 0;
 				} else {
-					idx++;
+					idx = prevIdx.current + 1;
 				}
 			}
+
+			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
+			// 	if (idx == range - 1) {
+			// 		idx = 0;
+			// 	} else {
+			// 		idx++;
+			// 	}
+			// }
 			prevIdx.current = idx;
+			idx = fileOptions.current.main[idx];
 		}
 
-		try {
-			if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
-		} catch (e) {
-			console.log(e);
-		}
+		// try {
+		// 	if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+		// } catch (e) {
+		// 	console.log(e);
+		// }
 
 		if (fileOptions.current.previous.length >= 2) fileOptions.current.previous.shift();
 		fileOptions.current.previous?.push(idx);
-		// }
 
-		setIndex({ number: idx + 1, imgLoaded: false });
+		if (fileOptions.current.change) {
+			fileOptions.current.change = false;
+		}
+
+		setIndex({ number: idx, imgLoaded: false });
 	}
 
-	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 != index.number;
+	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] != index.number;
 
 	function showPrev() {
 		if (settings.quiz.random) {
 			if (!(fileOptions.current.previous.length > 1)) return;
 			if (previousAvailable) {
-				setIndex({ number: fileOptions.current.previous[0] + 1, imgLoaded: false });
+				setIndex({ number: fileOptions.current.previous[0], imgLoaded: false });
 			} else {
-				setIndex({ number: fileOptions.current.previous[1] + 1, imgLoaded: false });
+				setIndex({ number: fileOptions.current.previous[1], imgLoaded: false });
 			}
 		} else {
 			let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
@@ -157,13 +171,15 @@ function Quiz({ poznavacka }) {
 	}
 
 	function completeImg() {
-		const idx = fileOptions.current.recent.indexOf(index.number - 1);
-		if (fileOptions.current.recent.includes(index.number - 1)) {
+		let idx = fileOptions.current.recent.indexOf(index.number);
+		if (idx == -1) idx = fileOptions.current.main.indexOf(index.number);
+		if (fileOptions.current.recent.includes(index.number)) {
 			fileOptions.current.recent.splice(idx, 1);
 		} else fileOptions.current.main.splice(idx, 1);
 		// fileOptions.current.recent.splice(idx, 1);
-		settings.quiz?.complete.push(index.number - 1);
-		changeImg({ show: false });
+		settings.quiz?.complete.push(index.number);
+		changeImg({ show: false, complete: true });
+		console.log(fileOptions.current, settings.quiz.complete);
 	}
 
 	return (
