@@ -209,9 +209,10 @@ export default function App() {
 										{/* MENU */}
 										<div className={'z-10 bg-neutral-900 max-sm:w-full md:relative select-none absolute pt-4 transition-all duration-300 ease-in-out inset-0 overflow-hidden box-border w-[calc(5rem+20vw)] grid grid-cols-1 ' + (showingContent && 'max-md:-translate-x-full')}>
 											<div className='px-2'>
-												<div className='flex justify-between mb-4 w-full text-neutral-500 text-2xl'>
+												<div className='flex justify-between mb-4 px-1 text-neutral-500 text-2xl'>
 													<button onClick={(e) => setShowingContent(!showingContent)} className='md:hidden'>
-														<i className='fa-solid fa-xmark'></i>
+														{/* <i className='fa-solid fa-xmark'></i> */}
+														<Icon icon='material-symbols:close-rounded'></Icon>
 													</button>
 													<button className='md:ml-auto' onClick={() => document.getElementById('menu-info').classList.add('scale-100')}>
 														<Icon icon='material-symbols:info-outline-rounded' className=''></Icon>
