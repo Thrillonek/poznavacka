@@ -260,7 +260,7 @@ export default function App() {
 											</div>
 										</div>
 										{/* MAIN CONTENT */}
-										<div className='flex flex-col flex-grow'>
+										<div className='max-md:z-0 flex flex-col flex-grow'>
 											<div onClick={(e) => setShowingContent(!showingContent)} className='md:hidden flex items-center gap-2 bg-neutral-900 px-4 py-2 text-neutral-500 text-xl cursor-pointer'>
 												<i className='fa-bars fa-solid'></i> <span className='text-lg'>Menu</span>
 											</div>
