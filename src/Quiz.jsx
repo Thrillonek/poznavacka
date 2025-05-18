@@ -167,7 +167,7 @@ function Quiz({ poznavacka }) {
 			} else {
 				idx = index.number - 1;
 			}
-			prevIdx.current = idx;
+			prevIdx.current = idx - 1;
 			setIndex({ number: idx, imgLoaded: false });
 		}
 	}
