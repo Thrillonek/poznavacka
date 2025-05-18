@@ -12,7 +12,6 @@ function Quiz({ poznavacka }) {
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
 	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
-	let prevIdx = useRef();
 
 	useEffect(() => {
 		if (index.number) setName(files[index.number - 1]);
@@ -104,10 +103,10 @@ function Quiz({ poznavacka }) {
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
+			if (index.number == null || index.number >= fileOptions.current.main.length + (options.complete ? 1 : 0) || fileOptions.current.change) {
 				idx = 0;
 			} else {
-				idx = prevIdx.current + (options.complete ? 0 : 1);
+				idx = index.number - (options.complete ? 1 : 0);
 			}
 			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
 			// 	if (idx == range - 1) {
@@ -116,7 +115,6 @@ function Quiz({ poznavacka }) {
 			// 		idx++;
 			// 	}
 			// }
-			prevIdx.current = idx;
 			idx = fileOptions.current.main[idx];
 		}
 
@@ -147,21 +145,27 @@ function Quiz({ poznavacka }) {
 				setIndex({ number: fileOptions.current.previous[1], imgLoaded: false });
 			}
 		} else {
-			let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
-			let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
+			// let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
+			// let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
+			// let idx;
+			// if (prevIdx.current == null || prevIdx.current <= minInt - 1) {
+			// 	idx = maxInt - 1;
+			// } else {
+			// 	idx = prevIdx.current - 1;
+			// }
+			// prevIdx.current = idx;
+			// try {
+			// 	if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
+			// } catch (e) {
+			// 	console.log(e);
+			// }ˇ
 			let idx;
-			if (prevIdx.current == null || prevIdx.current <= minInt - 1) {
-				idx = maxInt - 1;
+			if (index.number == 1) {
+				idx = fileOptions.current.main.length;
 			} else {
-				idx = prevIdx.current - 1;
+				idx = index.number - 1;
 			}
-			prevIdx.current = idx;
-			try {
-				if (settings?.quiz.mode == 'preset' && settings?.quiz.presets.length != 0) idx = settings?.quiz.presets?.[Math.floor(idx / 10)][idx - Math.floor(idx / 10) * 10];
-			} catch (e) {
-				console.log(e);
-			}
-			setIndex({ number: idx + 1, imgLoaded: false });
+			setIndex({ number: idx, imgLoaded: false });
 		}
 	}
 
