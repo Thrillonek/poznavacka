@@ -12,6 +12,7 @@ function Quiz({ poznavacka }) {
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
 	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
+	let prevIdx = useRef();
 
 	useEffect(() => {
 		if (index.number) setName(files[index.number - 1]);
@@ -103,10 +104,10 @@ function Quiz({ poznavacka }) {
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (index.number == null || index.number >= fileOptions.current.main.length + (options.complete ? 1 : 0) || fileOptions.current.change) {
+			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
 				idx = 0;
 			} else {
-				idx = index.number - (options.complete ? 1 : 0);
+				idx = prevIdx.current + (options.complete ? 0 : 1);
 			}
 			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
 			// 	if (idx == range - 1) {
@@ -115,6 +116,7 @@ function Quiz({ poznavacka }) {
 			// 		idx++;
 			// 	}
 			// }
+			prevIdx.current = idx;
 			idx = fileOptions.current.main[idx];
 		}
 
@@ -160,11 +162,12 @@ function Quiz({ poznavacka }) {
 			// 	console.log(e);
 			// }ˇ
 			let idx;
-			if (index.number == 1) {
-				idx = fileOptions.current.main.length;
+			if (prevIdx.current == null || prevIdx.current == 0) {
+				idx = fileOptions.current.main.length - 1;
 			} else {
 				idx = index.number - 1;
 			}
+			prevIdx.current = idx;
 			setIndex({ number: idx, imgLoaded: false });
 		}
 	}
