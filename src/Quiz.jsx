@@ -104,16 +104,11 @@ function Quiz({ poznavacka }) {
 		if (settings?.quiz.random) {
 			idx = generateIdx(minInt, maxInt);
 		} else {
-			if (options.complete) {
-				idx = prevIdx.current;
+			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
+				idx = 0;
 			} else {
-				if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - 1 || fileOptions.current.change) {
-					idx = 0;
-				} else {
-					idx = prevIdx.current + 1;
-				}
+				idx = prevIdx.current + (options.complete ? 0 : 1);
 			}
-
 			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
 			// 	if (idx == range - 1) {
 			// 		idx = 0;
