@@ -187,7 +187,7 @@ function Quiz({ poznavacka }) {
 	}
 
 	return (
-		<div onKeyDown={handleKeyDown} tabIndex={0} className='flex flex-col justify-between items-center bg-neutral-800 px-2 py-4 md:py-8 outline-none w-full h-full'>
+		<div onKeyDown={handleKeyDown} tabIndex={0} className='flex flex-col justify-between items-center bg-neutral-800 px-2 py-4 md:py-8 outline-none w-full h-full max-h-full'>
 			{/* <button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button> */}
