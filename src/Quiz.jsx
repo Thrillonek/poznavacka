@@ -191,11 +191,9 @@ function Quiz({ poznavacka }) {
 			{/* <button id='show-quiz-settings' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 1)} className='top-4 max-sm:top-1 right-6 absolute px-3 py-2'>
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button> */}
-			<div className='max-md:flex-grow justify-items-center gap-8 grid grid-rows-[1fr,1rem] w-full md:h-2/3'>
+			<div className='justify-items-center gap-8 grid grid-rows-[1fr,1rem] w-full h-1/2 md:h-2/3'>
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
-			</div>
-			<div className='mb-2 md:mb-auto h-20'>
-				<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>
+		<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>
 					{error ? (
 						error
 					) : !index.imgLoaded ? (
