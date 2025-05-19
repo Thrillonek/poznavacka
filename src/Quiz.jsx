@@ -194,7 +194,7 @@ function Quiz({ poznavacka }) {
 			<div className='flex justify-center row-span-4 w-full'>
 				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
 			</div>
-			<div className='flex items-center row-span-1 h-20'>
+			<div className='row-span-1 mt-auto h-20'>
 				<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>
 					{error ? (
 						error
@@ -215,7 +215,7 @@ function Quiz({ poznavacka }) {
 					)}
 				</div>
 			</div>
-			<div className='flex max-md:flex-col max-md:items-center md:items-end gap-4 md:gap-8 row-span-3 mx-auto mt-auto'>
+			<div className='flex max-md:flex-col max-md:items-center gap-4 md:gap-8 row-span-3 mx-auto mt-auto'>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl w-fit overflow-hidden'>
 					<button text={previousAvailable || !settings.quiz.random ? 'Předchozí' : 'Zpět'} onClick={showPrev} className={'control-btn ' + (!(fileOptions.current.previous.length > 1) ? 'control-btn-disabled' : '')}>
 						<Icon icon='tabler:reload' className={previousAvailable || !settings.quiz.random ? 'mb-5 -scale-x-100' : ''} />
