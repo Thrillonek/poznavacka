@@ -244,7 +244,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			{/* Search/controls bar */}
 			<div className='top-4 right-4 z-20 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
 				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToPlant(e)} className='relative flex justify-end items-center gap-2'>
-					<div id='list-search' className='relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
+					<div id='list-search' className='relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 z-20 overflow-hidden transition-[width] duration-300'>
 						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
 						<i onClick={(e) => setFilter('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!filter && 'pointer-events-none opacity-0')} />
 					</div>
