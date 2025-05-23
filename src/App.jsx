@@ -84,22 +84,25 @@ export default function App() {
 		} else setShowingContent(true);
 	}
 
-	useEffect(() => {
-		if (!path[0]) return;
-		for (let i of path) {
-			if (path.indexOf(i) == path.length - 1) break;
-			Object.values(fileSystem.find((f) => Object.keys(f)[0] == path[0]))[0];
-		}
-	}, [path]);
+	// useEffect(() => {
+	// 	if (!path[0]) return;
+	// 	for (let i of path) {
+	// 		if (path.indexOf(i) == path.length - 1) break;
+	// 		Object.values(fileSystem.find((f) => Object.keys(f)[0] == path[0]))[0];
+	// 	}
+	// }, [path]);
 
 	function back(method) {
 		let currentArr = fileSystem;
 		let currentObject;
+
+		// Loop that goes through every level of the file system to find the right dir
 		for (let i of path) {
 			if (path.indexOf(i) == path.length - 1 && method != 'current') break;
 			currentObject = currentArr.find((f) => Object.keys(f)[0] == i);
 			currentArr = Object.values(currentObject)[0];
 		}
+		// method is current when trying to view the content of the current dir
 		if (method == 'current') {
 			setPoznavacka(currentObject);
 		} else {
@@ -107,7 +110,7 @@ export default function App() {
 			newPath.pop();
 			setPath(newPath);
 			setSelectedDir(currentArr);
-			setDirName(Object.keys(currentObject)[0][0].toUpperCase() + Object.keys(currentObject)[0].slice(1));
+			currentObject ? setDirName(Object.keys(currentObject)[0][0].toUpperCase() + Object.keys(currentObject)[0].slice(1)) : setDirName('');
 		}
 	}
 
