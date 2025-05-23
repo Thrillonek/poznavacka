@@ -1,17 +1,16 @@
 import { Icon } from '@iconify/react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Home from './Home.jsx';
 import Test from './Test.jsx';
-import { dir, isObject } from './utilities.js';
+import { dir as fileSystem, isObject } from './utilities.js';
 
 export default function App() {
 	const [poznavacka, setPoznavacka] = useState();
 	const [showingContent, setShowingContent] = useState();
 	const [loaded, setLoaded] = useState(false);
-	const [selectedDir, setSelectedDir] = useState(dir);
+	const [selectedDir, setSelectedDir] = useState(fileSystem);
 	const [path, setPath] = useState([]);
 	const [dirName, setDirName] = useState();
 
@@ -89,12 +88,12 @@ export default function App() {
 		if (!path[0]) return;
 		for (let i of path) {
 			if (path.indexOf(i) == path.length - 1) break;
-			Object.values(dir.find((f) => Object.keys(f)[0] == path[0]))[0];
+			Object.values(fileSystem.find((f) => Object.keys(f)[0] == path[0]))[0];
 		}
 	}, [path]);
 
 	function back(method) {
-		let currentArr = dir;
+		let currentArr = fileSystem;
 		let currentObject;
 		for (let i of path) {
 			if (path.indexOf(i) == path.length - 1 && method != 'current') break;
@@ -237,7 +236,7 @@ export default function App() {
 														{/* <i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' /> */}
 														<Icon icon='material-symbols:arrow-left-alt-rounded' className='px-1 text-neutral-500 text-4xl'></Icon>
 													</button>
-													<h1 onClick={() => back('current')} className={'text-neutral-400 bg-neutral-900 py-1 w-1/2 text-center rounded-lg font-light tracking-wide text-2xl transition-all cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() ? 'brightness-150' : 'hover:brightness-125')}>
+													<h1 onClick={() => back('current')} className={'text-neutral-400 bg-neutral-900 py-1 w-1/2 text-center rounded-lg font-light tracking-wide text-2xl transition-all cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? 'brightness-150' : 'hover:brightness-125')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
 													</h1>
 												</div>
