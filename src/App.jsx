@@ -237,7 +237,7 @@ export default function App() {
 														{/* <i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' /> */}
 														<Icon icon='material-symbols:arrow-left-alt-rounded' className='px-1 text-neutral-500 text-4xl'></Icon>
 													</button>
-													<h1 onClick={() => back('current')} className={'text-neutral-400 font-light tracking-wide text-2xl cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && '!text-neutral-300')}>
+													<h1 onClick={() => back('current')} className={'text-neutral-400 bg-neutral-900 py-1 w-1/2 text-center rounded-lg font-light tracking-wide text-2xl transition-all cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() ? 'brightness-150' : 'hover:brightness-125')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
 													</h1>
 												</div>
@@ -246,11 +246,11 @@ export default function App() {
 														.filter((content) => isObject(content))
 														.map((content, idx) => {
 															return (
-																<div onClick={() => showContent(content)} key={'option-' + idx} className={'grid grid-cols-[1fr,auto] relative text-4xl gap-1'}>
+																<div onClick={() => showContent(content)} key={'option-' + idx} className={'flex relative text-4xl gap-1'}>
 																	{/* <i className='fa-arrow-right mr-6 text-3xl fa-solid'></i> */}
 																	<p className={'text-neutral-500 cursor-pointer flex-grow py-2 pl-4 rounded-lg bg-neutral-900 font-medium transition-[filter] text-xl ' + (objName(poznavacka) == objName(content) ? 'brightness-200' : 'md:hover:brightness-150')}>{Object.keys(content)[0].charAt(0).toUpperCase() + Object.keys(content)[0].slice(1)}</p>
 																	{Object.values(content)[0].some((f) => isObject(f)) && (
-																		<button onClick={(e) => toggleGroupFiles(content, e)} className={'flex justify-center items-center gap-4 rounded-lg bg-neutral-900 md:hover:brightness-150 outline-none aspect-square text-neutral-500 ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'brightness-200' : '')}>
+																		<button onClick={(e) => toggleGroupFiles(content, e)} className={'flex justify-center items-center rounded-lg bg-neutral-900 md:hover:brightness-150 px-2 outline-none text-neutral-500 ' + (objName(poznavacka) == objName(content) && objValue(poznavacka) != objValue(content) ? 'brightness-200' : '')}>
 																			<Icon icon='material-symbols:folder' className='text-2xl'></Icon>
 																		</button>
 																	)}

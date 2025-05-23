@@ -244,7 +244,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			{/* Search/controls bar */}
 			<div className='top-4 right-4 z-40 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
 				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToPlant(e)} className='relative flex justify-end items-center gap-2'>
-					<div id='list-search' className='relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 z-20 overflow-hidden transition-[width] duration-300'>
+					<div id='list-search' className='z-20 relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
 						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
 						<i onClick={(e) => setFilter('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!filter && 'pointer-events-none opacity-0')} />
 					</div>
@@ -288,9 +288,9 @@ export default function List({ lock, setLock, poznavacka }) {
 										{categories[idx + 1]}
 									</div>
 								)} */}
-									<div onClick={(e) => setChosenFile(file)} className={'relative items-center grid grid-cols-[5rem,1fr] rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
-										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='h-full object-cover' />
-										<div className='relative flex items-center self-start h-20'>
+									<div onClick={(e) => setChosenFile(file)} className={'relative flex rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
+										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='object-cover aspect-square' />
+										<div className='relative flex flex-grow items-center'>
 											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
 											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx + 1) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>
 										</div>
