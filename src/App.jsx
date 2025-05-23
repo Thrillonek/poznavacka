@@ -236,7 +236,7 @@ export default function App() {
 														{/* <i className='fa-arrow-left px-1 text-neutral-500 text-lg fa-solid' /> */}
 														<Icon icon='material-symbols:arrow-left-alt-rounded' className='px-1 text-neutral-500 text-4xl'></Icon>
 													</button>
-													<h1 onClick={() => back('current')} className={'text-neutral-400 bg-neutral-900 py-1 w-1/2 text-center rounded-lg font-light tracking-wide text-2xl transition-all cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? 'brightness-150' : 'hover:brightness-125')}>
+													<h1 onClick={() => back('current')} className={'text-neutral-400 bg-neutral-900 py-1 w-1/2 text-center rounded-lg font-light tracking-wide text-2xl transition-all cursor-pointer ' + (objName(poznavacka) == dirName?.toLowerCase() && poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? 'brightness-150' : 'hover:brightness-125')}>
 														{path.length > 0 && selectedDir ? dirName : 'Poznávačky'}
 													</h1>
 												</div>
