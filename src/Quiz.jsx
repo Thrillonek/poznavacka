@@ -70,13 +70,13 @@ function Quiz({ poznavacka }) {
 			if (settings.quiz.mode == 'custom') {
 				for (let i = 1; i <= range; i++) {
 					let val = i + minInt - 1;
-					if (settings.quiz.complete?.includes(val)) continue;
+					if (settings.quiz.complete?.includes(files[val - 1])) continue;
 					fileOptions.current.main.push(val);
 				}
 			} else if (settings.quiz.mode == 'preset') {
 				for (let i of settings?.quiz.presets) {
 					for (let val = (i - 1) * 10 + 1; val <= i * 10; val++) {
-						if (settings.quiz.complete?.includes(val)) continue;
+						if (settings.quiz.complete?.includes(files[val - 1])) continue;
 						fileOptions.current.main.push(val);
 					}
 				}
@@ -107,7 +107,7 @@ function Quiz({ poznavacka }) {
 			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
 				idx = 0;
 			} else {
-				console.log(prevIdx.current);
+				// console.log(prevIdx.current);
 				idx = prevIdx.current + (options.complete ? 0 : 1);
 			}
 			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
@@ -181,9 +181,9 @@ function Quiz({ poznavacka }) {
 			fileOptions.current.recent.splice(idx, 1);
 		} else fileOptions.current.main.splice(idx, 1);
 		// fileOptions.current.recent.splice(idx, 1);
-		settings.quiz?.complete.push(index.number);
+		settings.quiz?.complete.push(files[index.number - 1]);
 		changeImg({ show: false, complete: true });
-		console.log(fileOptions.current, settings.quiz.complete);
+		// console.log(fileOptions.current, settings.quiz.complete);
 	}
 
 	return (

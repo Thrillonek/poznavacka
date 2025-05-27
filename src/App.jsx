@@ -96,13 +96,13 @@ export default function App() {
 		let currentArr = fileSystem;
 		let currentObject;
 
-		// Loop that goes through every level of the file system to find the right dir
+		// Loop that goes through every level of the file system to find the right folder (dir)
 		for (let i of path) {
 			if (path.indexOf(i) == path.length - 1 && method != 'current') break;
 			currentObject = currentArr.find((f) => Object.keys(f)[0] == i);
 			currentArr = Object.values(currentObject)[0];
 		}
-		// method is current when trying to view the content of the current dir
+		// method is current when trying to view the content of the current folder (dir)
 		if (method == 'current') {
 			setPoznavacka(currentObject);
 		} else {
