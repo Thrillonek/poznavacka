@@ -13,6 +13,9 @@ function Quiz({ poznavacka }) {
 
 	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
 	let prevIdx = useRef();
+	let completedAmount = useRef(0);
+
+	useEffect(() => {}, [poznavacka]);
 
 	useEffect(() => {
 		if (index.number) setName(files[index.number - 1]);
