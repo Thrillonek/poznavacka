@@ -1,20 +1,4 @@
-let dir = __DIR__;
-
-function nameFromPath(str) {
-	let arr = str.split('/');
-	str = arr[arr.length - 1];
-	str = str
-		.substring(0, str.lastIndexOf('.'))
-		.replaceAll(/[0-9+_]/g, '')
-		.replace('-', ' - ');
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-var isObject = (x) => typeof x === 'object' && !Array.isArray(x) && x !== null;
-
-var settings = { keybinds: { change: 'ArrowUp', reveal: 'ArrowDown', complete: 'ArrowRight' }, quiz: { mode: 'custom', random: true, min: 1, max: 10, presets: [], complete: [] } };
-
-const categories = {
+export const plantGroupNames = {
 	1: 'Houby',
 	3: 'Kapraďorosty',
 	5: 'Leknínovité',
@@ -62,7 +46,7 @@ const categories = {
 	150: 'Pupalkovité',
 };
 
-const orderNames = {
+export const insectGroupNames = {
 	0: 'Jepice',
 	2: 'Vážky',
 	10: 'Pošvatky',
@@ -90,13 +74,3 @@ const orderNames = {
 	169: 'Blanokřídlí',
 	199: 'Motýli',
 };
-
-function calculateOrderName(idx, set) {
-	while (set[idx] == undefined) {
-		idx--;
-		if (idx < 0) break;
-	}
-	return set[idx];
-}
-
-export { calculateOrderName, categories, dir, isObject, nameFromPath, orderNames, settings };

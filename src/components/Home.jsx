@@ -1,9 +1,9 @@
+import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
 import { useEffect, useRef, useState } from 'react';
 import List from './List.jsx';
 import Quiz from './Quiz.jsx';
 import Settings from './Settings.jsx';
-import { isObject } from './utilities.js';
 
 export default function Home({ poznavacka }) {
 	const [mode, setMode] = useState('learning');

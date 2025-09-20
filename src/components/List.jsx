@@ -1,5 +1,6 @@
+import { dir, insectGroupNames, plantGroupNames, settings } from '@/data';
+import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
-import { calculateOrderName, categories, dir, isObject, nameFromPath, orderNames, settings } from './utilities.js';
 
 export default function List({ lock, setLock, poznavacka }) {
 	const [chosenFile, setChosenFile] = useState();
@@ -52,7 +53,7 @@ export default function List({ lock, setLock, poznavacka }) {
 			enlarged.style.top = `0px`;
 			setLock(true);
 			let newCategory;
-			for (const [key, val] of Object.entries(categories)) {
+			for (const [key, val] of Object.entries(plantGroupNames)) {
 				if (files.indexOf(chosenFile) >= key - 1) {
 					newCategory = val;
 				} else break;
@@ -160,7 +161,7 @@ export default function List({ lock, setLock, poznavacka }) {
 		let rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
 
 		if (browseCategories) {
-			for (const [key, val] of Object.entries(categories)) {
+			for (const [key, val] of Object.entries(plantGroupNames)) {
 				if (val.toLowerCase().startsWith(filter.toLowerCase())) {
 					searchTerm = val;
 					break;
@@ -209,7 +210,7 @@ export default function List({ lock, setLock, poznavacka }) {
 						{Object.keys(poznavacka)[0] == 'hmyz' && (
 							<>
 								<br />
-								<p className='font-normal text-lg'>Řád: {calculateOrderName(files.indexOf(chosenFile), orderNames)}</p>
+								<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile), insectGroupNames)}</p>
 							</>
 						)}
 					</span>

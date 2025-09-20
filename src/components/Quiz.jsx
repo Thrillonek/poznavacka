@@ -1,7 +1,8 @@
+import { dir, settings } from '@/data';
+import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
 import './Quiz.css';
-import { calculateOrderName, dir, isObject, nameFromPath, orderNames, settings } from './utilities.js';
 
 function Quiz({ poznavacka }) {
 	const [show, setShow] = useState();
@@ -209,7 +210,7 @@ function Quiz({ poznavacka }) {
 							{Object.keys(poznavacka)[0] == 'hmyz' && (
 								<>
 									<br />
-									<p className='font-normal text-lg'>Řád: {calculateOrderName(index.number - 1, orderNames)}</p>
+									<p className='font-normal text-lg'>Řád: {getGroupName(index.number - 1, orderNames)}</p>
 								</>
 							)}
 						</>

@@ -1,8 +1,9 @@
+import { settings as globalSettings } from '@/data';
+import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
-import { settings as globalSettings, isObject } from './utilities.js';
 
 export default function Settings({ poznavacka }) {
 	const [settings, setSettings] = useState(globalSettings);
