@@ -289,7 +289,7 @@ export default function List({ lock, setLock, poznavacka }) {
 									</div>
 								)} */}
 									<div onClick={(e) => setChosenFile(file)} className={'relative flex rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
-										<img key={poznavacka + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt='Obrázek rostliny' className='object-cover aspect-square' />
+										<img key={Object.keys(poznavacka)[0] + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${Object.keys(poznavacka)[0]} - obrázek ${idx + 1}`} className='object-cover aspect-square' />
 										<div className='relative flex flex-grow items-center'>
 											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
 											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx + 1) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>

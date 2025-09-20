@@ -15,6 +15,7 @@ export default function Home({ poznavacka }) {
 
 		// if (mode == 'learning') document.querySelector(':root').style.setProperty('--settings-scale', 0);
 
+		// CHANGE MODES ON SWIPE
 		let handleTouchStart = (e) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
@@ -93,6 +94,7 @@ export default function Home({ poznavacka }) {
 				)}
 			</div>
 
+			{/* MODE MENU  */}
 			<div className='z-10 flex md:flex-col max-md:justify-around items-center md:gap-2 bg-neutral-900 py-1 md:pt-8 max-md:w-full text-lg'>
 				<button onClick={(e) => setMode('quiz')} className={'menu-btn'}>
 					<Icon icon='mdi:question-mark' className={' ' + (mode == 'quiz' ? 'active' : '')} />
