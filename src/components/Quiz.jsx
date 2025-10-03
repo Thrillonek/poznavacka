@@ -1,22 +1,23 @@
-import { dir, settings } from '@/data';
+import { dir, usePoznavackaStore, useSettingsStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
 import './Quiz.css';
 
-function Quiz({ poznavacka }) {
+function Quiz() {
 	const [show, setShow] = useState();
 	const [name, setName] = useState();
 	const [index, setIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
+
+	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+	const settings = useSettingsStore((store) => store.settings);
 
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
 	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
 	let prevIdx = useRef();
 	let completedAmount = useRef(0);
-
-	useEffect(() => {}, [poznavacka]);
 
 	useEffect(() => {
 		if (index.number) setName(files[index.number - 1]);

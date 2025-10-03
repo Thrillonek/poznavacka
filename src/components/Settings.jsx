@@ -1,16 +1,18 @@
-import { settings as globalSettings } from '@/data';
+import { usePoznavackaStore, useSettingsStore } from '@/data';
 import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 
-export default function Settings({ poznavacka }) {
-	const [settings, setSettings] = useState(globalSettings);
+export default function Settings() {
 	const [activeRange, setActiveRange] = useState();
 	const [visiblePresets, setVisiblePresets] = useState(false);
 	const [changingKeybind, setChangingKeybind] = useState();
 	const [modalVisible, setModalVisible] = useState();
+
+	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 
 	let presetLength = useRef();
 
@@ -23,31 +25,23 @@ export default function Settings({ poznavacka }) {
 			for (let i = 1; i <= Math.floor(files.length / 10); i++) {
 				presetLength.current.push(i);
 			}
-			changeSettings('min', 1);
-			changeSettings('max', files.length);
+			updateQuizSettings('min', 1);
+			updateQuizSettings('max', files.length);
 		}
 	}, [poznavacka]);
 
 	useEffect(() => {
-		if (isObject(settings)) {
-			for (let i in settings) {
-				globalSettings[i] = settings[i];
-			}
-		}
-
 		if (presets.length > 0 && visiblePresets) {
-			if (mode != 'preset') changeSettings('mode', 'preset');
+			if (mode != 'preset') updateQuizSettings('mode', 'preset');
 		} else {
-			if (mode != 'custom') changeSettings('mode', 'custom');
+			if (mode != 'custom') updateQuizSettings('mode', 'custom');
 		}
 	}, [settings]);
 
-	const handleChangeMinMax = (e, number) =>
-		!isNaN(e.target.value) &&
-		e.target.value.length <= 3 &&
-		setSettings((prev) => {
-			return { ...prev, quiz: { ...prev.quiz, [number]: e.target.value } };
-		});
+	const handleChangeMinMax = (e, option) => {
+		if (isNaN(e.target.value) || e.target.value.length > 3) return;
+		updateQuizSettings(option, e.target.value);
+	};
 
 	function togglePreset(num) {
 		// let presetsBuffer = [...presets];
@@ -58,13 +52,13 @@ export default function Settings({ poznavacka }) {
 		// let presetIdx = presets.findIndex((el) => el[9] == num * 10 - 1);
 		// if (presetIdx == -1) {
 		// 	presetsBuffer.push(presetArray);
-		// 	changeSettings('presets', presetsBuffer);
+		// 	setQuizSettings('presets', presetsBuffer);
 		// } else {
 		// 	presetsBuffer.splice(presetIdx, 1);
-		// 	changeSettings('presets', presetsBuffer);
+		// 	setQuizSettings('presets', presetsBuffer);
 		// }
 		// presetsBuffer.sort((a, b) => a[0] - b[0]);
-		// changeSettings('presets', presetsBuffer);
+		// setQuizSettings('presets', presetsBuffer);
 		let presetsBuffer = [...presets];
 		if (presets.includes(num)) {
 			presetsBuffer = presetsBuffer.filter((el) => el != num);
@@ -72,7 +66,7 @@ export default function Settings({ poznavacka }) {
 			presetsBuffer.push(num);
 		}
 
-		changeSettings('presets', presetsBuffer);
+		updateQuizSettings('presets', presetsBuffer);
 	}
 
 	function checkAllPresets() {
@@ -85,16 +79,8 @@ export default function Settings({ poznavacka }) {
 				}
 				newPresets.push(newPreset);
 			}
-			setSettings((prev) => {
-				return { ...prev, quiz: { ...prev.quiz, presets: newPresets } };
-			});
-		} else changeSettings('presets', []);
-	}
-
-	function changeSettings(property, value) {
-		setSettings((prev) => {
-			return { ...prev, quiz: { ...prev.quiz, [property]: value } };
-		});
+			updateQuizSettings('presets', newPresets);
+		} else updateQuizSettings('presets', []);
 	}
 
 	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
@@ -106,7 +92,19 @@ export default function Settings({ poznavacka }) {
 		if (calculation > files.length) calculation = files.length;
 		if (calculation < 1) calculation = 1;
 		if (calculation == max || calculation == min) return;
-		changeSettings(activeRange, calculation);
+		updateQuizSettings(activeRange, calculation);
+	}
+
+	function restoreDefaultKeybinds() {
+		const defaultKeybinds = {
+			change: 'ArrowUp',
+			reveal: 'ArrowDown',
+			complete: 'ArrowRight',
+		};
+
+		for (let [key, value] of Object.entries(defaultKeybinds)) {
+			setKeybind(key, value);
+		}
 	}
 
 	function handleKeyDown(e) {
@@ -115,10 +113,7 @@ export default function Settings({ poznavacka }) {
 		if (e.key == 'Escape') {
 			return setChangingKeybind();
 		}
-
-		setSettings((prev) => {
-			return { ...prev, keybinds: { ...prev.keybinds, [changingKeybind]: e.key } };
-		});
+		setKeybind(changingKeybind, e.key);
 		return setChangingKeybind();
 	}
 
@@ -137,7 +132,7 @@ export default function Settings({ poznavacka }) {
 						<button
 							className='btn-danger'
 							onClick={() => {
-								changeSettings('complete', []);
+								updateQuizSettings('complete', []);
 								setModalVisible(false);
 							}}
 						>
@@ -161,7 +156,7 @@ export default function Settings({ poznavacka }) {
 							<button
 								className='btn-danger'
 								onClick={() => {
-									changeSettings('complete', []);
+									setQuizSettings('complete', []);
 									setModalVisible(false);
 								}}
 							>
@@ -187,19 +182,19 @@ export default function Settings({ poznavacka }) {
 						<h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Způsob generace obrázků</h2>
 						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
 							{/* <div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (!random && 'translate-x-[calc(100%+.5rem)]')} /> */}
-							<button onClick={(e) => changeSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
+							<button onClick={(e) => updateQuizSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
 								Náhodně
 							</button>
-							<button onClick={(e) => changeSettings('random', false)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (!random && '!text-blue-300 !border-blue-500 faint-bg')}>
+							<button onClick={(e) => updateQuizSettings('random', false)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (!random && '!text-blue-300 !border-blue-500 faint-bg')}>
 								Postupně
 							</button>
 						</div>
 						{/* <h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Nastavení</h2>
 						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
-							<button onClick={(e) => changeSettings('mode', 'custom')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (mode == 'custom' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
+							<button onClick={(e) => setQuizSettings('mode', 'custom')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (mode == 'custom' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
 								Vlastní
 							</button>
-							<button onClick={(e) => changeSettings('mode', 'preset')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (mode == 'preset' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
+							<button onClick={(e) => setQuizSettings('mode', 'preset')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (mode == 'preset' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
 								Předvolby
 							</button>
 						</div> */}
@@ -290,14 +285,7 @@ export default function Settings({ poznavacka }) {
 								);
 							})}
 						</div>
-						<button
-							onClick={() =>
-								setSettings((prev) => {
-									return { ...prev, keybinds: { change: 'ArrowUp', reveal: 'ArrowDown' } };
-								})
-							}
-							className='hover:bg-neutral-700 hover:bg-opacity-50 mt-2 mr-auto px-4 py-2 border-2 border-neutral-600 rounded text-neutral-300'
-						>
+						<button onClick={restoreDefaultKeybinds} className='hover:bg-neutral-700 hover:bg-opacity-50 mt-2 mr-auto px-4 py-2 border-2 border-neutral-600 rounded text-neutral-300'>
 							Obnovit původní klávesové zkratky
 						</button>
 					</div>
@@ -311,11 +299,7 @@ export default function Settings({ poznavacka }) {
 										color: blue[600],
 									},
 								}}
-								onChange={(e) =>
-									setSettings((prev) => {
-										return { ...prev, removeDuplicates: e.target.checked };
-									})
-								}
+								onChange={(e) => updateCoreSettings('removeDuplicates', e.target.checked)}
 							></Checkbox>
 							<p className='font-semibold text-neutral-300'>Odstranit duplikované obrázky</p>
 						</div>
@@ -327,11 +311,7 @@ export default function Settings({ poznavacka }) {
 										color: blue[600],
 									},
 								}}
-								onChange={(e) =>
-									setSettings((prev) => {
-										return { ...prev, devMode: e.target.checked };
-									})
-								}
+								onChange={(e) => updateCoreSettings('devMode', e.target.checked)}
 							></Checkbox>
 							<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
 						</div>
@@ -359,11 +339,7 @@ export default function Settings({ poznavacka }) {
 									color: blue[600],
 								},
 							}}
-							onChange={(e) =>
-								setSettings((prev) => {
-									return { ...prev, list: { hideComplete: e.target.checked } };
-								})
-							}
+							onChange={(e) => updateListSettings('hideCompleted', e.target.checked)}
 						></Checkbox>
 						<p className='font-semibold text-neutral-300'>Skrýt obrázky, které jsou naučené</p>
 					</div>

@@ -1,14 +1,19 @@
+import { usePoznavackaStore, useSettingsStore } from '@/data';
+import useToggleDuplicateFileNames from '@/hooks/useToggleDuplicateFileNames.js';
 import { isObject } from '@/utils';
+import { removeDuplicateFileNames } from '@/utils/removeDuplicateFileNames.js';
 import { Icon } from '@iconify/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import List from './List.jsx';
 import Quiz from './Quiz.jsx';
 import Settings from './Settings.jsx';
 
-export default function Home({ poznavacka }) {
+export default function Home() {
 	const [mode, setMode] = useState('learning');
 	const [lock, setLock] = useState(false);
-	const [options, setSettings] = useState();
+
+	const { setPoznavacka, poznavacka } = usePoznavackaStore((store) => store);
+	const settings = useSettingsStore((store) => store.settings);
 
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
@@ -48,43 +53,19 @@ export default function Home({ poznavacka }) {
 		};
 	}, [mode, lock]);
 
-	let poznavackaWithoutDuplicates = useRef();
-	useEffect(() => {
-		if (poznavacka) {
-			poznavackaWithoutDuplicates.current = removeDuplicates(poznavacka);
-		}
-	}, [poznavacka]);
-
-	function removeDuplicates(poznavacka) {
-		if (!poznavacka) return;
-		let newPoznavacka = [];
-		let originalItems = [];
-		let arr = Object.values(poznavacka)[0];
-		arr.forEach((item) => {
-			if (!isObject(item)) {
-				let itemWithoutNum = item.replace(/\d+/g, '');
-				if (!originalItems.includes(itemWithoutNum)) {
-					newPoznavacka.push(item);
-					originalItems.push(itemWithoutNum);
-				}
-			}
-		});
-		return { poznavacka: newPoznavacka };
-	}
-
 	return (
 		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
 			<div className='relative flex flex-grow'>
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
-					<Settings poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} updateSettings={setSettings} />
+					<Settings />
 				</div>
 				{poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? (
 					<div className={'relative z-10 flex-grow transition-none bg-inherit max-[400px]:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
 						<div className={'top-0 z-0 left-0 absolute w-full h-full'}>
-							<Quiz poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} settings={options} />
+							<Quiz />
 						</div>
 						<div className={'top-0 bg-inherit z-10 left-full md:left-0 absolute w-full h-full ' + (mode == 'learning' ? '' : 'md:hidden')}>
-							<List poznavacka={options?.removeDuplicates ? poznavackaWithoutDuplicates.current : poznavacka} setLock={setLock} lock={lock} />
+							<List setLock={setLock} lock={lock} />
 						</div>
 					</div>
 				) : (

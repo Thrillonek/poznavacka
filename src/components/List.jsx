@@ -1,8 +1,11 @@
-import { dir, insectGroupNames, plantGroupNames, settings } from '@/data';
+import { dir, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
-export default function List({ lock, setLock, poznavacka }) {
+export default function List({ lock, setLock }) {
+	const settings = useSettingsStore((store) => store.settings);
+	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
