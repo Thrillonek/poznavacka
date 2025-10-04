@@ -14,5 +14,5 @@ export function removeDuplicateFileNames(fileSystem) {
 			}
 		}
 	});
-	return { poznavacka: newFileSystem };
+	return { [Object.keys(fileSystem)[0]]: newFileSystem };
 }
