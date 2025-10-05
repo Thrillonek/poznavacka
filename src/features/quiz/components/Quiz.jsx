@@ -2,7 +2,7 @@ import { dir, usePoznavackaStore, useSettingsStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
-import './Quiz.css';
+import '../styles/Quiz.css';
 
 function Quiz() {
 	const [show, setShow] = useState();

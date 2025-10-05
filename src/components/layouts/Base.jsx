@@ -3,9 +3,9 @@ import { useDetectSwipe } from '@/hooks/useDetectSwipe.js';
 import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import List from '../List.jsx';
-import Quiz from '../Quiz.jsx';
-import Settings from '../Settings.jsx';
+import List from '../../features/list/components/List.jsx';
+import Quiz from '../../features/quiz/components/Quiz.jsx';
+import Settings from '../../features/settings/components/Settings.jsx';
 import ModeMenu from '../ui/ModeMenu.jsx';
 
 export default function Base() {
