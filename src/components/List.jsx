@@ -1,10 +1,12 @@
-import { dir, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
+import { dir, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
-export default function List({ lock, setLock }) {
+export default function List() {
 	const settings = useSettingsStore((store) => store.settings);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
+	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 
 	const [chosenFile, setChosenFile] = useState();
 	const [category, setCategory] = useState();
@@ -54,7 +56,7 @@ export default function List({ lock, setLock }) {
 
 		if (chosenFile) {
 			enlarged.style.top = `0px`;
-			setLock(true);
+			lockSwiping();
 			let newCategory;
 			for (const [key, val] of Object.entries(plantGroupNames)) {
 				if (files.indexOf(chosenFile) >= key - 1) {
@@ -63,7 +65,7 @@ export default function List({ lock, setLock }) {
 			}
 			setCategory(newCategory);
 		} else {
-			setLock(false);
+			unlockSwiping();
 		}
 
 		let handleTouchStart = (e) => {
@@ -292,7 +294,7 @@ export default function List({ lock, setLock }) {
 										{categories[idx + 1]}
 									</div>
 								)} */}
-									<div onClick={(e) => setChosenFile(file)} className={'relative flex rounded-xl h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
+									<div onClick={(e) => setChosenFile(file)} className={'relative flex rounded-lg h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
 										<img key={Object.keys(poznavacka)[0] + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${Object.keys(poznavacka)[0]} - obrázek ${idx + 1}`} className='object-cover aspect-square' />
 										<div className='relative flex flex-grow items-center'>
 											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>

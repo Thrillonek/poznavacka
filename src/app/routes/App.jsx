@@ -1,4 +1,4 @@
-import Home from '@/components/Home.jsx';
+import Base from '@/components/layouts/Base.jsx';
 import MenuBar from '@/features/file-system/components/MenuBar.jsx';
 import Sidebar from '@/features/file-system/components/Sidebar.jsx';
 
@@ -68,7 +68,7 @@ export default function App() {
 					<div className='max-md:z-0 flex flex-col flex-grow'>
 						<MenuBar />
 						<div className='flex-grow'>
-							<Home />
+							<Base />
 						</div>
 					</div>
 				</div>

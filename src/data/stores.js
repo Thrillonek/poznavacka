@@ -1,5 +1,15 @@
-import { removeDuplicateFileNames } from '@/utils/removeDuplicateFileNames';
 import { create } from 'zustand';
+
+export const useSwipeLockStore = create((set) => ({
+	isLocked: false,
+	lockSwiping: () => set({ isLocked: true }),
+	unlockSwiping: () => set({ isLocked: false }),
+}));
+
+export const useModeStore = create((set) => ({
+	mode: 'list',
+	setMode: (mode) => set({ mode }),
+}));
 
 export const usePoznavackaStore = create((set) => ({
 	poznavacka: null,
