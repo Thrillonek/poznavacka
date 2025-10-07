@@ -1,4 +1,4 @@
-import { dir, usePoznavackaStore, useSettingsStore } from '@/data';
+import { dir, insectGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
@@ -211,7 +211,7 @@ function Quiz() {
 							{Object.keys(poznavacka)[0] == 'hmyz' && (
 								<>
 									<br />
-									<p className='font-normal text-lg'>Řád: {getGroupName(index.number - 1, orderNames)}</p>
+									<p className='font-normal text-lg'>Řád: {getGroupName(index.number - 1, insectGroupNames)}</p>
 								</>
 							)}
 						</>
