@@ -9,10 +9,24 @@
 	color: hsl(0, 0%, 55%);
 	position: relative;
 	font-size: 2rem;
-}
 
-.control-btn:hover {
-	background-color: rgb(38 38 38 / 0.3);
+	&:hover {
+		background-color: rgb(38 38 38 / 0.1);
+	}
+
+	& > * {
+		position: absolute;
+		transform: translateY(-0.625rem);
+	}
+
+	&::after {
+		content: attr(text);
+		position: absolute;
+		bottom: 0.75rem;
+		color: hsl(0, 0%, 65%);
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
 }
 
 .control-btn-disabled {
@@ -20,18 +34,4 @@
 	/* color: rgb(128 128 128 / 0.6); */
 	filter: brightness(0.5);
 	cursor: default;
-}
-
-.control-btn > * {
-	position: absolute;
-	transform: translateY(-0.625rem);
-}
-
-.control-btn::after {
-	content: attr(text);
-	position: absolute;
-	bottom: 0.75rem;
-	color: hsl(0, 0%, 65%);
-	font-size: 0.75rem;
-	font-weight: 700;
 }
