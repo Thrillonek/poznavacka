@@ -1,8 +1,8 @@
 import { usePoznavackaStore } from '@/data';
 import { objFirstValue } from '@/utils';
 
-export function useGetFiles() {
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+export function getFiles() {
+	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
 	return objFirstValue(poznavacka);
 }

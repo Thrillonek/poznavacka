@@ -2,10 +2,11 @@ import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useS
 import { useAddEvent } from '@/hooks';
 import { getGroupName, isObject, nameFromPath, objFirstValue } from '@/utils';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useChosenFileStore } from '../data/stores';
-import { useGetFiles } from '../hooks/useGetFiles';
+import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
 import { changeChosenFile } from '../utils/changeChosenFile';
+import { getFiles } from '../utils/getFiles';
+import { scrollToItem } from '../utils/scrollToItem';
 
 export default function List() {
 	const settings = useSettingsStore((store) => store.settings);
@@ -17,12 +18,14 @@ export default function List() {
 	const isChosenFileSet = useChosenFileStore((store) => store.isSet);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
-	const files = useGetFiles();
+	const searchInput = useListSearchStore((store) => store.searchInput);
+	const setSearchInput = useListSearchStore((store) => store.setSearchInput);
+
+	const files = getFiles();
 
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
 	const [browseCategories, setBrowseCategories] = useState();
-	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 	const [searchVisible, setSearchVisible] = useState(false);
 
@@ -71,42 +74,8 @@ export default function List() {
 		}
 	}, [chosenFile]);
 
-	useEffect(() => {
-		if (!showCategories) setBrowseCategories(false);
-	}, [showCategories]);
-
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
-	}
-
-	function scrollToPlant(e) {
-		e.preventDefault();
-		if (!filter) return;
-		const list = document.getElementById('list');
-		let searchTerm = parseInt(filter) - 1;
-		if (/\D/.test(filter)) {
-			let plant = files.find((f) => {
-				let check = false;
-				for (const i of nameFromPath(f).toLowerCase().split(' ')) {
-					if (i.startsWith(filter.toLowerCase())) check = true;
-				}
-				return check;
-			});
-			if (!plant) return;
-			searchTerm = files.indexOf(plant);
-		}
-		let rect = document.getElementById('plant-' + searchTerm).getBoundingClientRect();
-
-		if (browseCategories) {
-			for (const [key, val] of Object.entries(plantGroupNames)) {
-				if (val.toLowerCase().startsWith(filter.toLowerCase())) {
-					searchTerm = val;
-					break;
-				}
-			}
-			rect = document.getElementById('cat-' + searchTerm).getBoundingClientRect();
-		}
-		list.scrollTo({ top: rect.top + list.scrollTop - list.getBoundingClientRect().top });
 	}
 
 	function toggleSearch(e) {
@@ -181,10 +150,10 @@ export default function List() {
 			</div>
 			{/* Search/controls bar */}
 			<div className='top-4 right-4 z-40 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
-				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToPlant(e)} className='relative flex justify-end items-center gap-2'>
+				<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToItem(e)} className='relative flex justify-end items-center gap-2'>
 					<div id='list-search' className='z-20 relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
-						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setFilter(e.target.value)} value={filter} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
-						<i onClick={(e) => setFilter('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!filter && 'pointer-events-none opacity-0')} />
+						<input placeholder={'Hledat ' + (browseCategories ? 'oddělení' : 'název/číslo')} onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
+						<i onClick={(e) => setSearchInput('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!searchInput && 'pointer-events-none opacity-0')} />
 					</div>
 					<button onClick={toggleSearch} className='bg-neutral-600 rounded-full outline-none min-w-10 aspect-square text-neutral-400'>
 						{searchVisible ? <i className='fa-solid fa-xmark' /> : <i className='fa-magnifying-glass fa-solid' />}
@@ -212,11 +181,11 @@ export default function List() {
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {
 							let isSearched =
-								filter &&
+								searchInput &&
 								!browseCategories &&
 								nameFromPath(file)
 									.split(' ')
-									.some((f) => f.toLowerCase().startsWith(filter.toLowerCase()));
+									.some((f) => f.toLowerCase().startsWith(searchInput.toLowerCase()));
 
 							if (settings.list?.hideComplete && settings.quiz.complete.includes(idx)) return null;
 							return (

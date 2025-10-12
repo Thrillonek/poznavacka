@@ -1,5 +1,5 @@
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from '@/data';
-import { useInitiateSwipeEvent } from '@/hooks/useInitiateSwipeEvent.js';
+import { useInitiateSwipeEvent } from '@/hooks';
 import { isObject } from '@/utils';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import List from '../../features/list/components/List.jsx';

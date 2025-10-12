@@ -1,3 +1,3 @@
 export * from './useAddEvent';
-export * from './useGetFiles';
-export * from './usePoznavackaStore';
+export * from './useInitiateSwipeEvent';
+export * from './useUpdatePoznavacka';
