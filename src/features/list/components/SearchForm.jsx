@@ -1,0 +1,32 @@
+import { useState } from 'react';
+import { useListSearchStore } from '../data/stores';
+
+function SearchForm() {
+	const searchInput = useListSearchStore((store) => store.searchInput);
+	const setSearchInput = useListSearchStore((store) => store.setSearchInput);
+
+	const [searchVisible, setSearchVisible] = useState(false);
+
+	function toggleSearch(e) {
+		e.preventDefault();
+		document.getElementById('list-search').classList.toggle('!w-full');
+		document.getElementById('list-search').classList.toggle('border');
+		setSearchVisible(!searchVisible);
+	}
+
+	return (
+		<div className='top-4 right-4 z-40 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
+			<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToItem(e)} className='relative flex justify-end items-center gap-2'>
+				<div id='list-search' className='z-20 relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
+					<input placeholder={'Hledat název/číslo'} onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
+					<i onClick={(e) => setSearchInput('')} className={'text-lg ml-2 mr-4 text-neutral-500 cursor-pointer fa-solid fa-xmark ' + (!searchInput && 'pointer-events-none opacity-0')} />
+				</div>
+				<button onClick={toggleSearch} className='bg-neutral-600 rounded-full outline-none min-w-10 aspect-square text-neutral-400'>
+					{searchVisible ? <i className='fa-solid fa-xmark' /> : <i className='fa-magnifying-glass fa-solid' />}
+				</button>
+			</form>
+		</div>
+	);
+}
+
+export default SearchForm;
