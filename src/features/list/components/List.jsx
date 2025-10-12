@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from 'src/data';
-import { isObject, nameFromPath, objFirstValue } from 'src/utils';
+import { isObject, nameFromPath, objFirstKey, objFirstValue } from 'src/utils';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
 import { getFiles } from '../utils/getFiles';
 import { checkIsSearched } from '../utils/searchItem';
 import EnlargedImage from './EnlargedImage';
+import ListItem from './ListItem';
 import SearchForm from './SearchForm';
 
 export default function List() {
@@ -29,17 +30,17 @@ export default function List() {
 	}, [poznavacka]);
 
 	// UPDATES CATEGORY ON ENLARGED IMAGE
-	useEffect(() => {
-		if (chosenFile) {
-			let newCategory;
-			for (const [key, val] of Object.entries(plantGroupNames)) {
-				if (files.indexOf(chosenFile) >= key - 1) {
-					newCategory = val;
-				} else break;
-			}
-			setCategory(newCategory);
-		}
-	}, [chosenFile]);
+	// useEffect(() => {
+	// 	if (chosenFile) {
+	// 		let newCategory;
+	// 		for (const [key, val] of Object.entries(plantGroupNames)) {
+	// 			if (files.indexOf(chosenFile) >= key - 1) {
+	// 				newCategory = val;
+	// 			} else break;
+	// 		}
+	// 		setCategory(newCategory);
+	// 	}
+	// }, [chosenFile]);
 
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
@@ -56,19 +57,9 @@ export default function List() {
 					{files
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {
-							let isSearched = checkIsSearched(file) || searchInput == idx + 1;
 							if (settings.list?.hideComplete && settings.quiz.complete.includes(idx)) return null;
-							return (
-								<div id={'list-item-' + (parseInt(idx) + 1)} key={idx}>
-									<div onClick={(e) => setChosenFile(file)} className={'relative flex rounded-lg h-20 overflow-hidden cursor-pointer ' + (settings.quiz.complete.includes(idx + 1) ? 'bg-[hsl(100,25%,15%)]' : 'bg-neutral-800')}>
-										<img key={Object.keys(poznavacka)[0] + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${Object.keys(poznavacka)[0]} - obrázek ${idx + 1}`} className='object-cover aspect-square' />
-										<div className='relative flex flex-grow items-center'>
-											<span className={'ml-5 text-neutral-400 z-20 text-xl ' + (isSearched && '!text-neutral-300 font-semibold')}>{nameFromPath(file)}</span>
-											<div className={'top-0 right-2 z-10 absolute font-black text-xl ' + (settings.quiz.complete.includes(idx + 1) ? 'text-lime-600' : 'text-neutral-600')}>{idx + 1}</div>
-										</div>
-									</div>
-								</div>
-							);
+							let props = { idx, file };
+							return <ListItem key={'list-item-' + objFirstKey(poznavacka) + idx} {...props} />;
 						})}
 				</div>
 			</div>
