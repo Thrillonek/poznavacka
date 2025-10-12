@@ -1,7 +1,7 @@
-import ModeMenu from '@/components/ui/ModeMenu';
-import { usePoznavackaStore } from '@/data';
-import { isObject, objFirstKey } from '@/utils';
 import { Icon } from '@iconify/react';
+import ModeMenu from 'src/components/ui/ModeMenu';
+import { usePoznavackaStore } from 'src/data';
+import { isObject, objFirstKey } from 'src/utils';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
 import FileSystemButton from './FileSystemButton';

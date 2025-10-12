@@ -1,4 +1,4 @@
-import { fileSystem } from '@/data';
+import { fileSystem } from 'src/data';
 import { create } from 'zustand';
 
 export const useMenuStore = create((set) => ({

@@ -1,4 +1,4 @@
-import { useUpdatePoznavacka } from '@/hooks/useUpdatePoznavacka';
+import { useUpdatePoznavacka } from 'src/hooks/useUpdatePoznavacka';
 
 export function AppProvider({ children }) {
 	useUpdatePoznavacka();

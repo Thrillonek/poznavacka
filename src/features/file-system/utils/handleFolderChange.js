@@ -1,5 +1,5 @@
-import { usePoznavackaStore } from '@/data';
-import { capitalize, isObject, objFirstKey, objFirstValue } from '@/utils';
+import { usePoznavackaStore } from 'src/data';
+import { capitalize, isObject, objFirstKey, objFirstValue } from 'src/utils';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 
 export function handleFolderChange(pozn) {

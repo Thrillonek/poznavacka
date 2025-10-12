@@ -1,6 +1,6 @@
-import { usePoznavackaStore, useSettingsStore } from '@/data';
-import { removeDuplicateFileNames } from '@/utils/removeDuplicateFileNames';
 import { useEffect, useRef } from 'react';
+import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames';
 
 export function useUpdatePoznavacka() {
 	const basePoznavacka = usePoznavackaStore((state) => state.basePoznavacka);

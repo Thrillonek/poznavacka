@@ -1,5 +1,5 @@
-import { fileSystem } from '@/data';
 import { useEffect, useRef, useState } from 'react';
+import { fileSystem } from 'src/data';
 
 function Test() {
 	const [plant, setPlant] = useState();

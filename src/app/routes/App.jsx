@@ -1,6 +1,6 @@
-import Base from '@/components/layouts/Base.jsx';
-import MenuBar from '@/features/file-system/components/MenuBar.jsx';
-import Sidebar from '@/features/file-system/components/Sidebar.jsx';
+import Base from 'src/components/layouts/Base.jsx';
+import MenuBar from 'src/features/file-system/components/MenuBar.jsx';
+import Sidebar from 'src/features/file-system/components/Sidebar.jsx';
 
 export default function App() {
 	// useEffect(() => {

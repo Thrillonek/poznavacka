@@ -1,4 +1,4 @@
-import { removeDuplicateFileNames } from '@/utils/removeDuplicateFileNames.js';
+import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames.js';
 import { usePoznavackaStore, useSettingsStore } from './stores.js';
 
 const isRemovingDuplicates = useSettingsStore.getState().settings.removeDuplicates;

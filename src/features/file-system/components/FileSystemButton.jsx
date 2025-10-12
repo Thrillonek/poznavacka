@@ -1,7 +1,7 @@
-import { usePoznavackaStore } from '@/data';
-import { capitalize, isObject, objFirstKey, objFirstValue } from '@/utils';
 import { Icon } from '@iconify/react';
 import { useRef } from 'react';
+import { usePoznavackaStore } from 'src/data';
+import { capitalize, isObject, objFirstKey, objFirstValue } from 'src/utils';
 import { handleFolderChange } from '../utils/handleFolderChange';
 import { toggleFolderNesting } from '../utils/toggleFolderNesting';
 

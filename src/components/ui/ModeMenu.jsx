@@ -1,5 +1,5 @@
-import { useModeStore } from '@/data/stores';
 import { Icon } from '@iconify/react';
+import { useModeStore } from 'src/data/stores';
 
 function ModeMenu() {
 	const { mode, setMode } = useModeStore((store) => store);

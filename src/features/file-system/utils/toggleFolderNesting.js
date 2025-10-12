@@ -1,5 +1,5 @@
-import { usePoznavackaStore } from '@/data';
-import { isObject } from '@/utils';
+import { usePoznavackaStore } from 'src/data';
+import { isObject } from 'src/utils';
 
 export function toggleFolderNesting(content, event) {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;

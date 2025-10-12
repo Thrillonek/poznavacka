@@ -1,7 +1,7 @@
-import { insectGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
-import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
+import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { getGroupName, isObject, nameFromPath } from 'src/utils';
 import '../styles/Quiz.scss';
 
 function Quiz() {

@@ -1,4 +1,4 @@
-import { nameFromPath } from '@/utils';
+import { nameFromPath } from 'src/utils';
 import { useListSearchStore } from '../data/stores';
 import { getFiles } from './getFiles';
 

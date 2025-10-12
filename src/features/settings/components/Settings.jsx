@@ -1,9 +1,9 @@
-import { usePoznavackaStore, useSettingsStore } from '@/data';
-import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
+import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { isObject } from 'src/utils';
 
 export default function Settings() {
 	const [activeRange, setActiveRange] = useState();

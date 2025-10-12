@@ -1,5 +1,5 @@
-import { fileSystem, usePoznavackaStore } from '@/data';
-import { objFirstKey, objFirstValue } from '@/utils';
+import { fileSystem, usePoznavackaStore } from 'src/data';
+import { objFirstKey, objFirstValue } from 'src/utils';
 import { useFileSystemStore } from '../data/stores';
 
 export function fileSystemGoBack({ current }) {
