@@ -1,6 +1,10 @@
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
-import { getGroupName, isObject, nameFromPath } from '@/utils';
+import { getGroupName, isObject, nameFromPath, objFirstValue } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
+import { useChosenFileStore } from '../data/stores';
+import { useGetFiles } from '../hooks/useGetFiles';
+import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
+import { changeChosenFile } from '../utils/changeChosenFile';
 
 export default function List() {
 	const settings = useSettingsStore((store) => store.settings);
@@ -8,15 +12,17 @@ export default function List() {
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 
-	const [chosenFile, setChosenFile] = useState();
+	const chosenFile = useChosenFileStore((store) => store.chosenFile);
+	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+
+	const files = useGetFiles();
+
 	const [category, setCategory] = useState();
 	const [showCategories, setShowCategories] = useState();
 	const [browseCategories, setBrowseCategories] = useState();
 	const [filter, setFilter] = useState('');
 	const [scrollY, setScrollY] = useState();
 	const [searchVisible, setSearchVisible] = useState(false);
-
-	let files = Object.values(poznavacka)[0];
 
 	window.onkeydown = handleKeyDown;
 
@@ -102,14 +108,15 @@ export default function List() {
 			changeChosenFile({ left: changeX > 0, right: changeX < 0 });
 		};
 
-		document.addEventListener('touchstart', handleTouchStart, { passive: false });
-		document.addEventListener('touchmove', handleTouchMove, { passive: false });
-		document.addEventListener('touchend', handleTouchEnd);
+		let ctrl = new AbortController();
+		let signal = ctrl.signal;
+
+		document.addEventListener('touchstart', handleTouchStart, { passive: false, signal });
+		document.addEventListener('touchmove', handleTouchMove, { passive: false, signal });
+		document.addEventListener('touchend', handleTouchEnd, { signal });
 
 		return () => {
-			document.removeEventListener('touchstart', handleTouchStart);
-			document.removeEventListener('touchmove', handleTouchMove);
-			document.removeEventListener('touchend', handleTouchEnd);
+			ctrl.abort();
 		};
 	}, [chosenFile]);
 
@@ -127,24 +134,6 @@ export default function List() {
 
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
-	}
-
-	function changeChosenFile(conditions) {
-		let idx = chosenFile && files.indexOf(chosenFile);
-
-		if (conditions.right) {
-			idx == files.length - 1 ? (idx = 0) : idx++;
-		} else if (conditions.left) {
-			idx == 0 ? (idx = files.length - 1) : idx--;
-		}
-
-		setChosenFile(files[idx]);
-		const targetElement = document.getElementById('plant-' + idx);
-		if (!targetElement) return;
-		let rect = targetElement.getBoundingClientRect();
-		let list = document.getElementById('list');
-		let listRect = list.getBoundingClientRect();
-		list.scrollTop += rect.top - listRect.top - listRect.height / 2;
 	}
 
 	function scrollToPlant(e) {
