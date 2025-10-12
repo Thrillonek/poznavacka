@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { useListSearchStore } from '../data/stores';
+import { searchItem } from '../utils/searchItem';
 
 function SearchForm() {
 	const searchInput = useListSearchStore((store) => store.searchInput);
@@ -17,7 +18,7 @@ function SearchForm() {
 
 	return (
 		<div className='top-4 right-4 z-40 absolute max-w-[calc(100%-2rem)] overflow-hidden'>
-			<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && scrollToItem(e)} className='relative flex justify-end items-center gap-2'>
+			<form tabIndex={0} onKeyDown={(e) => e.key == 'Enter' && searchItem(e)} className='relative flex justify-end items-center gap-2'>
 				<div id='list-search' className='z-20 relative flex items-center bg-neutral-700 border-neutral-600 rounded-full w-0 min-w-0 h-10 overflow-hidden transition-[width] duration-300'>
 					<input placeholder={'Hledat název/číslo'} onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='flex-grow bg-inherit ml-4 outline-none w-full h-full placeholder:font-normal font-semibold text-neutral-400 placeholder:text-neutral-500 caret-neutral-400' />
 					<Icon icon='material-symbols:close-rounded' onClick={(e) => setSearchInput('')} className={'text-2xl ml-2 mr-4 text-neutral-500 cursor-pointer ' + (!searchInput && 'pointer-events-none opacity-0')} />

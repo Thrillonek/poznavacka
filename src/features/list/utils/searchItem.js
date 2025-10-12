@@ -2,7 +2,17 @@ import { nameFromPath } from 'src/utils';
 import { useListSearchStore } from '../data/stores';
 import { getFiles } from './getFiles';
 
-export function scrollToItem(e) {
+export function checkIsSearched(fileName) {
+	const searchInput = useListSearchStore.getState().searchInput;
+	if (!searchInput) return false;
+
+	for (const word of nameFromPath(fileName).split(' ')) {
+		if (word.toLowerCase().startsWith(searchInput.toLowerCase())) return true;
+	}
+	return false;
+}
+
+export function searchItem(e) {
 	e.preventDefault();
 
 	const searchInput = useListSearchStore.getState().searchInput;
@@ -13,16 +23,9 @@ export function scrollToItem(e) {
 	const list = document.getElementById('list');
 	let searchedItemIndex;
 
-	function searchCondition(fileName) {
-		for (const i of nameFromPath(fileName).toLowerCase().split(' ')) {
-			if (i.startsWith(searchInput.toLowerCase())) return true;
-		}
-		return false;
-	}
-
 	if (/\D/.test(searchInput)) {
 		//pokud hledaný výraz není číslo
-		let plant = files.find(searchCondition);
+		let plant = files.find(checkIsSearched);
 		if (!plant) return;
 		searchedItemIndex = files.indexOf(plant) + 1;
 	} else {
