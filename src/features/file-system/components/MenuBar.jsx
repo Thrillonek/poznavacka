@@ -1,5 +1,4 @@
 import { useMenuStore } from '../data/stores';
-import { useMenuVisibility } from '../hooks/useMenuVisibility';
 
 export default function MenuBar() {
 	const open = useMenuStore((state) => state.open);

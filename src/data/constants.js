@@ -1,1 +1,1 @@
-export const dir = __DIR__;
+export const fileSystem = __FILE_SYSTEM__;

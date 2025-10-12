@@ -1,4 +1,4 @@
-import { dir, insectGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
+import { insectGroupNames, usePoznavackaStore, useSettingsStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';

@@ -6,7 +6,7 @@ import { getPoznavackaFiles } from './functions/getPoznavackaFiles.js';
 export default defineConfig({
 	plugins: [react()],
 	define: {
-		__DIR__: JSON.stringify(getPoznavackaFiles('./public/assets/poznavacky')),
+		__FILE_SYSTEM__: JSON.stringify(getPoznavackaFiles('./public/assets/poznavacky')),
 	},
 	resolve: {
 		alias: {

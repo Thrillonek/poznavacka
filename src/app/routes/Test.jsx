@@ -1,4 +1,4 @@
-import { dir } from '@/data';
+import { fileSystem } from '@/data';
 import { useEffect, useRef, useState } from 'react';
 
 function Test() {
@@ -7,7 +7,7 @@ function Test() {
 	const [end, setEnd] = useState(false);
 
 	let bomba = false;
-	let plants = dir['rostliny'];
+	let plants = fileSystem['rostliny'];
 
 	const arr = useRef([]);
 

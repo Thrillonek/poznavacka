@@ -1,4 +1,4 @@
-import { dir, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
+import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
 import { getGroupName, isObject, nameFromPath } from '@/utils';
 import { useEffect, useRef, useState } from 'react';
 
