@@ -1,5 +1,4 @@
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
-import { useDetectSwipe } from '@/hooks/useDetectSwipe';
 import { getGroupName, isObject, nameFromPath, objFirstValue } from '@/utils';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useChosenFileStore } from '../data/stores';
@@ -56,14 +55,7 @@ export default function List() {
 	}, [poznavacka]);
 
 	useEffect(() => {
-		let startY, changeY, startMS;
-
-		let enlarged = document.getElementById('enlarged-img');
-
-		let locked;
-
-		if (chosenFile) {
-			enlarged.style.top = `0px`;
+		if (isChosenFileSet) {
 			lockSwiping();
 			let newCategory;
 			for (const [key, val] of Object.entries(plantGroupNames)) {
@@ -75,60 +67,27 @@ export default function List() {
 		} else {
 			unlockSwiping();
 		}
+	}, [isChosenFileSet]);
 
-		let handleTouchStart = (e) => {
-			startY = e.touches[0].clientY;
-			startMS = Date.now();
-			locked = true;
-		};
-		let handleTouchMove = (e) => {
-			if (!startY) return;
-
-			let deltaY = e.touches[0].clientY;
-			if (changeY > 50) locked = false;
-
-			changeY = deltaY - startY;
-
-			if (!locked) enlarged.style.top = `${changeY >= 0 ? changeY : 0}px`;
-		};
-
-		let handleTouchEnd = (e) => {
-			if (!chosenFile) return;
-
-			let currentMS = Date.now();
-
-			if (changeY > 200 || Math.abs(startMS - currentMS) < 100) {
-				setChosenFile(null);
-			} else {
-				enlarged.style.top = '0px';
-			}
-
-			if (!locked) return;
-		};
-
-		let ctrl = new AbortController();
-		let signal = ctrl.signal;
-
-		document.addEventListener('touchstart', handleTouchStart, { passive: false, signal });
-		document.addEventListener('touchmove', handleTouchMove, { passive: false, signal });
-		document.addEventListener('touchend', handleTouchEnd, { signal });
+	useEffect(() => {
+		const ctrl = new AbortController();
+		if (isChosenFileSet) {
+			document.addEventListener(
+				'custom:swipe',
+				(e) => {
+					let direction = e.detail.direction;
+					if (direction == 'left') changeChosenFile({ right: true });
+					if (direction == 'right') changeChosenFile({ left: true });
+					if (direction == 'down') setChosenFile(null);
+				},
+				{ signal: ctrl.signal }
+			);
+		}
 
 		return () => {
 			ctrl.abort();
 		};
-	}, [chosenFile]);
-
-	const detectedSwipe = useDetectSwipe();
-
-	useEffect(() => {
-		if (isChosenFileSet) {
-			if (detectedSwipe.direction == 'left') {
-				changeChosenFile({ right: true });
-			} else if (detectedSwipe.direction == 'right') {
-				changeChosenFile({ left: true });
-			}
-		}
-	}, [detectedSwipe, isChosenFileSet]);
+	}, [isChosenFileSet]);
 
 	useEffect(() => {
 		if (!showCategories) setBrowseCategories(false);
@@ -190,7 +149,7 @@ export default function List() {
 				{/* {Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>} */}
 
 				{!window.matchMedia('(pointer: coarse)').matches && (
-					<div onClick={(e) => changeChosenFile({ left: '-' })} className='text-neutral-400 cursor-pointer'>
+					<div onClick={(e) => changeChosenFile({ left: true })} className='text-neutral-400 cursor-pointer'>
 						<i className='fa-angle-left text-5xl fa-solid'></i>
 					</div>
 				)}
@@ -287,7 +246,7 @@ export default function List() {
 
 							if (settings.list?.hideComplete && settings.quiz.complete.includes(idx)) return null;
 							return (
-								<div id={'plant-' + idx} key={idx}>
+								<div id={'list-item-' + (parseInt(idx) + 1)} key={idx}>
 									{/* {categories[idx + 1] && showCategories && (
 									<div id={'cat-' + categories[idx + 1]} className='py-1 pl-3 font-semibold text-[--bg-secondary]'>
 										{categories[idx + 1]}

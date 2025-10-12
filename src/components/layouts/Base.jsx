@@ -1,7 +1,6 @@
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from '@/data';
-import { useDetectSwipe } from '@/hooks/useDetectSwipe.js';
+import { useInitiateSwipeEvent } from '@/hooks/useInitiateSwipeEvent.js';
 import { isObject } from '@/utils';
-import { Icon } from '@iconify/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import List from '../../features/list/components/List.jsx';
 import Quiz from '../../features/quiz/components/Quiz.jsx';
@@ -14,14 +13,27 @@ export default function Base() {
 
 	const isLocked = useSwipeLockStore((state) => state.isLocked);
 
-	const swipeDirection = useDetectSwipe();
+	useInitiateSwipeEvent();
 
 	useEffect(() => {
-		if (!isLocked) {
-			if (swipeDirection.direction == 'right' && mode == 'list') setMode('quiz');
-			if (swipeDirection.direction == 'left' && mode == 'quiz') setMode('list');
-		}
-	}, [swipeDirection]);
+		const ctrl = new AbortController();
+
+		document.addEventListener(
+			'custom:swipe',
+			(e) => {
+				const direction = e.detail.direction;
+				if (isLocked) return;
+
+				if (direction == 'right' && mode == 'list') setMode('quiz');
+				if (direction == 'left' && mode == 'quiz') setMode('list');
+			},
+			{ signal: ctrl.signal }
+		);
+
+		return () => {
+			ctrl.abort();
+		};
+	}, [mode, isLocked]);
 
 	return (
 		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
