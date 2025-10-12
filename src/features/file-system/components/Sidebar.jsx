@@ -1,8 +1,7 @@
 import ModeMenu from '@/components/ui/ModeMenu';
-import { fileSystem, usePoznavackaStore } from '@/data';
-import { capitalize, isObject, objFirstKey, objFirstValue } from '@/utils';
+import { usePoznavackaStore } from '@/data';
+import { isObject, objFirstKey } from '@/utils';
 import { Icon } from '@iconify/react';
-import { useEffect, useRef, useState } from 'react';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
 import FileSystemButton from './FileSystemButton';
@@ -10,15 +9,11 @@ import Info from './Info';
 
 export default function Sidebar() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const setPoznavacka = usePoznavackaStore((store) => store.setPoznavacka);
 
 	const toggleMenu = useMenuStore((store) => store.toggle);
 	const isMenuOpened = useMenuStore((store) => store.isOpened);
 
 	const path = useFileSystemStore((store) => store.path);
-	const setSelectedFolder = useFileSystemStore((store) => store.setSelectedFolder);
-	const setPath = useFileSystemStore((store) => store.setPath);
-	const setFolderName = useFileSystemStore((store) => store.setFolderName);
 	const folderName = useFileSystemStore((store) => store.folderName);
 	const selectedFolder = useFileSystemStore((store) => store.selectedFolder);
 
