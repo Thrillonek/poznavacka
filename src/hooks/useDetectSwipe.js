@@ -1,10 +1,11 @@
-import { useSwipeLockStore } from '@/data';
 import { useEffect, useState } from 'react';
 
 export function useDetectSwipe() {
-	const isLocked = useSwipeLockStore((state) => state.isLocked);
+	const [swipe, setSwipe] = useState({ switch: false, direction: '' });
 
-	const [direction, setDirection] = useState();
+	function changeDirection(newDirection) {
+		setSwipe((prev) => ({ switch: !prev.switch, direction: newDirection }));
+	}
 
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;
@@ -22,11 +23,11 @@ export function useDetectSwipe() {
 			changeY = deltaY - startY;
 		};
 		let handleTouchEnd = (e) => {
-			if (Date.now() - startMS > 500 || Math.abs(changeY) >= Math.abs(changeX) || Math.abs(changeX) < 20 || isLocked) return;
+			if (Date.now() - startMS > 500 || Math.abs(changeY) >= Math.abs(changeX) || Math.abs(changeX) < 20) return;
 			if (changeX > 0) {
-				setDirection('right');
+				changeDirection('right');
 			} else if (changeX < 0) {
-				setDirection('left');
+				changeDirection('left');
 			}
 		};
 
@@ -40,7 +41,7 @@ export function useDetectSwipe() {
 		return () => {
 			eventController.abort();
 		};
-	}, [isLocked]);
+	}, []);
 
-	return direction;
+	return swipe;
 }

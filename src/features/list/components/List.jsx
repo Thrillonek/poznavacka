@@ -1,6 +1,7 @@
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
+import { useDetectSwipe } from '@/hooks/useDetectSwipe';
 import { getGroupName, isObject, nameFromPath, objFirstValue } from '@/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useChosenFileStore } from '../data/stores';
 import { useGetFiles } from '../hooks/useGetFiles';
 import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
@@ -13,6 +14,7 @@ export default function List() {
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);
+	const isChosenFileSet = useChosenFileStore((store) => store.isSet);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
 	const files = useGetFiles();
@@ -54,7 +56,7 @@ export default function List() {
 	}, [poznavacka]);
 
 	useEffect(() => {
-		let startX, startY, changeX, changeY, startMS;
+		let startY, changeY, startMS;
 
 		let enlarged = document.getElementById('enlarged-img');
 
@@ -75,19 +77,16 @@ export default function List() {
 		}
 
 		let handleTouchStart = (e) => {
-			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
 			startMS = Date.now();
 			locked = true;
 		};
 		let handleTouchMove = (e) => {
-			if (!startX) return;
+			if (!startY) return;
 
-			let deltaX = e.touches[0].clientX;
 			let deltaY = e.touches[0].clientY;
 			if (changeY > 50) locked = false;
 
-			changeX = deltaX - startX;
 			changeY = deltaY - startY;
 
 			if (!locked) enlarged.style.top = `${changeY >= 0 ? changeY : 0}px`;
@@ -105,7 +104,6 @@ export default function List() {
 			}
 
 			if (!locked) return;
-			changeChosenFile({ left: changeX > 0, right: changeX < 0 });
 		};
 
 		let ctrl = new AbortController();
@@ -119,6 +117,18 @@ export default function List() {
 			ctrl.abort();
 		};
 	}, [chosenFile]);
+
+	const detectedSwipe = useDetectSwipe();
+
+	useEffect(() => {
+		if (isChosenFileSet) {
+			if (detectedSwipe.direction == 'left') {
+				changeChosenFile({ right: true });
+			} else if (detectedSwipe.direction == 'right') {
+				changeChosenFile({ left: true });
+			}
+		}
+	}, [detectedSwipe, isChosenFileSet]);
 
 	useEffect(() => {
 		if (!showCategories) setBrowseCategories(false);

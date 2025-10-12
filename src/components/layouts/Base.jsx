@@ -1,4 +1,4 @@
-import { useModeStore, usePoznavackaStore } from '@/data';
+import { useModeStore, usePoznavackaStore, useSwipeLockStore } from '@/data';
 import { useDetectSwipe } from '@/hooks/useDetectSwipe.js';
 import { isObject } from '@/utils';
 import { Icon } from '@iconify/react';
@@ -12,11 +12,15 @@ export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { mode, setMode } = useModeStore((store) => store);
 
+	const isLocked = useSwipeLockStore((state) => state.isLocked);
+
 	const swipeDirection = useDetectSwipe();
 
 	useEffect(() => {
-		if (swipeDirection == 'right' && mode == 'list') setMode('quiz');
-		if (swipeDirection == 'left' && mode == 'quiz') setMode('list');
+		if (!isLocked) {
+			if (swipeDirection.direction == 'right' && mode == 'list') setMode('quiz');
+			if (swipeDirection.direction == 'left' && mode == 'quiz') setMode('list');
+		}
 	}, [swipeDirection]);
 
 	return (
@@ -26,7 +30,7 @@ export default function Base() {
 					<Settings />
 				</div>
 				{poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f)).length > 0 ? (
-					<div className={'relative z-10 flex-grow transition-none bg-inherit max-[400px]:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
+					<div className={'relative z-10 flex-grow transition-none bg-inherit max-md:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
 						<div className={'top-0 z-0 left-0 absolute w-full h-full'}>
 							<Quiz />
 						</div>

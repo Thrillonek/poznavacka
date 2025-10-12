@@ -2,7 +2,7 @@ import { fileSystem } from '@/data';
 import { create } from 'zustand';
 
 export const useMenuStore = create((set) => ({
-	isOpened: false,
+	isOpened: true,
 	open: () => set({ isOpened: true }),
 	close: () => set({ isOpened: false }),
 	toggle: () => set((state) => ({ isOpened: !state.isOpened })),
