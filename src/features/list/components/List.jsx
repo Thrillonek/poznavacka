@@ -1,4 +1,5 @@
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from '@/data';
+import { useAddEvent } from '@/hooks';
 import { getGroupName, isObject, nameFromPath, objFirstValue } from '@/utils';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useChosenFileStore } from '../data/stores';
@@ -25,74 +26,7 @@ export default function List() {
 	const [scrollY, setScrollY] = useState();
 	const [searchVisible, setSearchVisible] = useState(false);
 
-	window.onkeydown = handleKeyDown;
-
-	useEffect(() => {
-		if (poznavacka != 'rostliny') setShowCategories(false);
-		document.getElementById('list').scrollTop = 0;
-		if (!filter) setChosenFile();
-		// const observer = new IntersectionObserver((entries) => {
-		// 	entries.forEach(
-		// 		(entry) => {
-		// 			entry.target.classList.toggle('opacity-70', !entry.isIntersecting);
-		// 			entry.target.classList.toggle('-translate-x-12', !entry.isIntersecting);
-		// 		},
-		// 		{
-		// 			threshold: 1,
-		// 		}
-		// 	);
-		// });
-
-		// document.querySelectorAll('.plant-list-item')?.forEach((el) => {
-		// 	observer.observe(el);
-		// });
-
-		// return () => {
-		// 	document.querySelectorAll('.plant-list-item')?.forEach((el) => {
-		// 		observer.unobserve(el);
-		// 	});
-		// };
-	}, [poznavacka]);
-
-	useEffect(() => {
-		if (isChosenFileSet) {
-			lockSwiping();
-			let newCategory;
-			for (const [key, val] of Object.entries(plantGroupNames)) {
-				if (files.indexOf(chosenFile) >= key - 1) {
-					newCategory = val;
-				} else break;
-			}
-			setCategory(newCategory);
-		} else {
-			unlockSwiping();
-		}
-	}, [isChosenFileSet]);
-
-	useEffect(() => {
-		const ctrl = new AbortController();
-		if (isChosenFileSet) {
-			document.addEventListener(
-				'custom:swipe',
-				(e) => {
-					let direction = e.detail.direction;
-					if (direction == 'left') changeChosenFile({ right: true });
-					if (direction == 'right') changeChosenFile({ left: true });
-					if (direction == 'down') setChosenFile(null);
-				},
-				{ signal: ctrl.signal }
-			);
-		}
-
-		return () => {
-			ctrl.abort();
-		};
-	}, [isChosenFileSet]);
-
-	useEffect(() => {
-		if (!showCategories) setBrowseCategories(false);
-	}, [showCategories]);
-
+	useAddEvent('keydown', handleKeyDown);
 	function handleKeyDown(e) {
 		if (e.key == 'ArrowRight') {
 			changeChosenFile({ right: true });
@@ -100,6 +34,46 @@ export default function List() {
 			changeChosenFile({ left: true });
 		}
 	}
+
+	useAddEvent('custom:swipe', handleSwipe, [isChosenFileSet]);
+	function handleSwipe(e) {
+		let direction = e.detail.direction;
+		if (direction == 'left') changeChosenFile({ right: true });
+		if (direction == 'right') changeChosenFile({ left: true });
+		if (direction == 'down') setChosenFile(null);
+	}
+
+	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
+	useEffect(() => {
+		if (isChosenFileSet) {
+			lockSwiping();
+		} else {
+			unlockSwiping();
+		}
+	}, [isChosenFileSet]);
+
+	// RESETS STATE WHEN POZNAVACKA CHANGES
+	useEffect(() => {
+		document.getElementById('list').scrollTop = 0;
+		setChosenFile(null);
+	}, [poznavacka]);
+
+	// UPDATES CATEGORY ON ENLARGED IMAGE
+	useEffect(() => {
+		if (chosenFile) {
+			let newCategory;
+			for (const [key, val] of Object.entries(plantGroupNames)) {
+				if (files.indexOf(chosenFile) >= key - 1) {
+					newCategory = val;
+				} else break;
+			}
+			setCategory(newCategory);
+		}
+	}, [chosenFile]);
+
+	useEffect(() => {
+		if (!showCategories) setBrowseCategories(false);
+	}, [showCategories]);
 
 	function handleScroll(e) {
 		setScrollY(e.target.scrollTop);
