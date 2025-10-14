@@ -2,12 +2,14 @@ import { Icon } from '@iconify/react';
 import { use, useEffect, useRef, useState } from 'react';
 import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getGroupName, isObject, nameFromPath } from 'src/utils';
-import '../styles/Quiz.scss';
+import '../assets/_Quiz.scss';
+import { fileHistory } from '../data/variables';
+import { betterRNG } from '../utils/betterRNG';
 
 function Quiz() {
-	const [show, setShow] = useState();
-	const [name, setName] = useState();
-	const [index, setIndex] = useState({ number: null, imgLoaded: false });
+	const [isNameRevealed, setIsNameRevealed] = useState();
+	const [fileName, setFileName] = useState();
+	const [fileIndex, setFileIndex] = useState({ number: null, imgLoaded: false });
 	const [error, setError] = useState();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -15,54 +17,33 @@ function Quiz() {
 
 	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
 
-	let fileOptions = useRef({ main: [], recent: [], change: true, previous: [] });
+	let fileOptions = useRef({ change: true, previous: [] });
 	let prevIdx = useRef();
 	let completedAmount = useRef(0);
 
 	useEffect(() => {
-		if (index.number) setName(files[index.number - 1]);
-	}, [index?.number]);
+		if (fileIndex.number) setFileName(files[fileIndex.number - 1]);
+	}, [fileIndex?.number]);
 
 	useEffect(() => {
 		fileOptions.current.change = true;
 		changeImg({ firstChange: true });
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
-	/* KLÁVESNICE TLAČÍTKA */
 	function handleKeyDown(e) {
 		if (e.key == settings.keybinds.change) {
 			changeImg({ show: false });
 		}
 		if (e.key == settings.keybinds.reveal) {
-			setShow((prev) => (prev ? false : true));
+			setIsNameRevealed((prev) => (prev ? false : true));
 		}
 		if (e.key == settings.keybinds.complete) {
 			completeImg();
 		}
 	}
 
-	function generateIdx(minVal, maxVal) {
-		const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-		let options = fileOptions.current;
-
-		let range = maxVal - minVal + 1;
-		let idx = rng(0, options.main.length - 1);
-		let result = options.main[idx];
-
-		options.recent.push(result);
-		options.main.splice(idx, 1);
-
-		let multiplier = range >= 5 ? 1.33 : 1;
-		if (Math.floor((range - settings.quiz.complete.length) / multiplier) <= options.recent.length) {
-			options.main.push(options.recent[0]);
-			options.recent.shift();
-		}
-
-		return result;
-	}
-
 	function changeImg(options) {
-		options?.show != undefined && setShow(options.show);
+		options?.show != undefined && setIsNameRevealed(options.show);
 
 		let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
 		let maxInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.max) || files.length : settings?.quiz.presets.length * 10;
@@ -70,19 +51,19 @@ function Quiz() {
 		let range = maxInt - minInt + 1;
 
 		if (fileOptions.current.change) {
-			fileOptions.current.recent = [];
-			fileOptions.current.main = [];
+			fileHistory.recent = [];
+			fileHistory.main = [];
 			if (settings.quiz.mode == 'custom') {
 				for (let i = 1; i <= range; i++) {
 					let val = i + minInt - 1;
 					if (settings.quiz.complete?.includes(files[val - 1])) continue;
-					fileOptions.current.main.push(val);
+					fileHistory.main.push(val);
 				}
 			} else if (settings.quiz.mode == 'preset') {
 				for (let i of settings?.quiz.presets) {
 					for (let val = (i - 1) * 10 + 1; val <= i * 10; val++) {
 						if (settings.quiz.complete?.includes(files[val - 1])) continue;
-						fileOptions.current.main.push(val);
+						fileHistory.main.push(val);
 					}
 				}
 			}
@@ -105,17 +86,17 @@ function Quiz() {
 		// if (fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] + 1 == index.number) {
 		// 	idx = fileOptions.current.previous[1];
 		// } else {
-		if (fileOptions.current.main.length + fileOptions.current.recent.length == 0) return setError('V této sadě už nic nezbylo.');
+		if (fileHistory.main.length + fileHistory.recent.length == 0) return setError('V této sadě už nic nezbylo.');
 		if (settings?.quiz.random) {
-			idx = generateIdx(minInt, maxInt);
+			idx = betterRNG(minInt, maxInt);
 		} else {
-			if (prevIdx.current == null || prevIdx.current >= fileOptions.current.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
+			if (prevIdx.current == null || prevIdx.current >= fileHistory.main.length - (options.complete ? 0 : 1) || fileOptions.current.change) {
 				idx = 0;
 			} else {
 				// console.log(prevIdx.current);
 				idx = prevIdx.current + (options.complete ? 0 : 1);
 			}
-			// while (settings.quiz?.complete.includes(fileOptions.current.main[idx])) {
+			// while (settings.quiz?.complete.includes(fileHistory.main[idx])) {
 			// 	if (idx == range - 1) {
 			// 		idx = 0;
 			// 	} else {
@@ -123,7 +104,7 @@ function Quiz() {
 			// 	}
 			// }
 			prevIdx.current = idx;
-			idx = fileOptions.current.main[idx];
+			idx = fileHistory.main[idx];
 		}
 
 		// try {
@@ -139,18 +120,18 @@ function Quiz() {
 			fileOptions.current.change = false;
 		}
 
-		setIndex({ number: idx, imgLoaded: false });
+		setFileIndex({ number: idx, imgLoaded: false });
 	}
 
-	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] != index.number;
+	let previousAvailable = fileOptions.current.previous.length > 1 && fileOptions.current.previous[0] != fileIndex.number;
 
 	function showPrev() {
 		if (settings.quiz.random) {
 			if (!(fileOptions.current.previous.length > 1)) return;
 			if (previousAvailable) {
-				setIndex({ number: fileOptions.current.previous[0], imgLoaded: false });
+				setFileIndex({ number: fileOptions.current.previous[0], imgLoaded: false });
 			} else {
-				setIndex({ number: fileOptions.current.previous[1], imgLoaded: false });
+				setFileIndex({ number: fileOptions.current.previous[1], imgLoaded: false });
 			}
 		} else {
 			// let minInt = settings?.quiz.mode == 'custom' ? parseInt(settings?.quiz.min) || 1 : 1;
@@ -169,24 +150,24 @@ function Quiz() {
 			// }ˇ
 			let idx;
 			if (prevIdx.current == null || prevIdx.current == 0) {
-				idx = fileOptions.current.main.length - 1;
+				idx = fileHistory.main.length - 1;
 			} else {
 				idx = prevIdx.current - 1;
 			}
 			prevIdx.current = idx;
-			idx = fileOptions.current.main[idx];
-			setIndex({ number: idx, imgLoaded: false });
+			idx = fileHistory.main[idx];
+			setFileIndex({ number: idx, imgLoaded: false });
 		}
 	}
 
 	function completeImg() {
-		let idx = fileOptions.current.recent.indexOf(index.number);
-		if (idx == -1) idx = fileOptions.current.main.indexOf(index.number);
-		if (fileOptions.current.recent.includes(index.number)) {
-			fileOptions.current.recent.splice(idx, 1);
-		} else fileOptions.current.main.splice(idx, 1);
-		// fileOptions.current.recent.splice(idx, 1);
-		settings.quiz?.complete.push(files[index.number - 1]);
+		let idx = fileHistory.recent.indexOf(fileIndex.number);
+		if (idx == -1) idx = fileHistory.main.indexOf(fileIndex.number);
+		if (fileHistory.recent.includes(fileIndex.number)) {
+			fileHistory.recent.splice(idx, 1);
+		} else fileHistory.main.splice(idx, 1);
+		// fileHistory.recent.splice(idx, 1);
+		settings.quiz?.complete.push(files[fileIndex.number - 1]);
 		changeImg({ show: false, complete: true });
 		// console.log(fileOptions.current, settings.quiz.complete);
 	}
@@ -197,26 +178,26 @@ function Quiz() {
 				<i className='text-[--text-main] max-sm:text-2xl text-3xl fa-gear fa-solid'></i>
 			</button> */}
 			<div className='flex justify-center row-span-4 w-full'>
-				<img onLoad={() => setIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={name?.replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={() => setFileIndex((prev) => ({ ...prev, imgLoaded: true }))} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={fileName?.replace(' ', '%20').replace('+', '%2b')} />
 			</div>
 			<div className='row-span-1 mt-auto h-20'>
 				<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>
 					{error ? (
 						error
-					) : !index.imgLoaded ? (
+					) : !fileIndex.imgLoaded ? (
 						'Načítání...'
-					) : show ? (
+					) : isNameRevealed ? (
 						<>
-							{nameFromPath(name)}
+							{nameFromPath(fileName)}
 							{Object.keys(poznavacka)[0] == 'hmyz' && (
 								<>
 									<br />
-									<p className='font-normal text-lg'>Řád: {getGroupName(index.number - 1, insectGroupNames)}</p>
+									<p className='font-normal text-lg'>Řád: {getGroupName(fileIndex.number - 1, insectGroupNames)}</p>
 								</>
 							)}
 						</>
 					) : (
-						settings.devMode && index.number
+						settings.devMode && fileIndex.number
 					)}
 				</div>
 			</div>
@@ -227,8 +208,8 @@ function Quiz() {
 					</button>
 				</div>
 				<div className='place-items-center grid grid-flow-col bg-neutral-700 rounded-xl h-18 overflow-hidden'>
-					<button text={show ? 'Skryt' : 'Zobrazit'} className='control-btn' onClick={(e) => setShow((prev) => (prev ? false : true))}>
-						{show ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
+					<button text={isNameRevealed ? 'Skryt' : 'Zobrazit'} className='control-btn' onClick={(e) => setIsNameRevealed((prev) => (prev ? false : true))}>
+						{isNameRevealed ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
 					</button>
 					<div className='bg-neutral-600 w-px h-2/3'></div>
 					<button text={settings.quiz.random ? 'Generovat' : 'Další'} onClick={() => changeImg({ show: false })} className='control-btn'>
