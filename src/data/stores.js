@@ -30,8 +30,6 @@ export const useSettingsStore = create((set) => ({
 			random: true,
 			min: 1,
 			max: 10,
-			presets: [],
-			complete: [],
 		},
 		list: {
 			hideCompleted: false,
@@ -43,4 +41,16 @@ export const useSettingsStore = create((set) => ({
 	updateQuizSettings: (key, value) => set((state) => ({ settings: { ...state.settings, quiz: { ...state.settings.quiz, [key]: value } } })),
 	updateCoreSettings: (key, value) => set((state) => ({ settings: { ...state.settings, [key]: value } })),
 	updateListSettings: (key, value) => set((state) => ({ settings: { ...state.settings, list: { ...state.settings.list, [key]: value } } })),
+}));
+
+export const usePresetStore = create((set) => ({
+	presets: [],
+	addPreset: (preset) => set((state) => ({ presets: [...state.presets, preset] })),
+	clearPresets: () => set({ presets: [] }),
+}));
+
+export const useCompletedFilesStore = create((set) => ({
+	completedFiles: [],
+	addFileToCompleted: (file) => set((state) => ({ completedFiles: [...state.completedFiles, file] })),
+	clearCompletedFiles: () => set({ completedFiles: [] }),
 }));
