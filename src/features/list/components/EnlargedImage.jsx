@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { insectGroupNames, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEvent } from 'src/hooks';
-import { getGroupName, isObject, nameFromPath } from 'src/utils';
+import { getGroupName, isObject, nameFromPath, objFirstKey } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 import { changeChosenFile } from '../utils/changeChosenFile';
 import { getFiles } from '../utils/getFiles';
@@ -44,11 +44,11 @@ function EnlargedImage() {
 		}
 	}, [isChosenFileSet]);
 
+	let isPhone = window.matchMedia('(pointer: coarse)').matches;
+
 	return (
 		<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
-			{/* {Object.keys(poznavacka)[0] == 'rostliny' && <div className='shadow-[0_0_20px_0_rgb(0,0,0,0.5)] mb-8 px-8 py-2 rounded-2xl font-bold text-[--text-main] text-4xl'>{category}</div>} */}
-
-			{!window.matchMedia('(pointer: coarse)').matches && (
+			{!isPhone && (
 				<div onClick={(e) => changeChosenFile({ left: true })} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-left text-5xl fa-solid'></i>
 				</div>
@@ -70,38 +70,20 @@ function EnlargedImage() {
 				</div>
 				<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
 					{chosenFile && nameFromPath(chosenFile)}
-					{Object.keys(poznavacka)[0] == 'hmyz' && (
+					{objFirstKey(poznavacka) == 'hmyz' && (
 						<>
 							<br />
 							<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile), insectGroupNames)}</p>
 						</>
 					)}
 				</span>
-
-				{/* {files
-                .filter((f) => !isObject(f))
-                .map((file, idx) => {
-                  return (
-                    <>
-                      <span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
-                        {idx + 1}. {nameFromPath(file)}
-                      </span>
-                      {Object.keys(poznavacka)[0] == 'hmyz' && (
-                        <>
-                          <br />
-                          <p className='font-normal text-lg'>Řád: {calculateOrderName(idx, orderNames)}</p>
-                        </>
-                      )}
-                    </>
-                  );
-                })} */}
 			</div>
-			{!window.matchMedia('(pointer: coarse)').matches && (
+			{!isPhone && (
 				<div onClick={(e) => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-right text-5xl fa-solid'></i>
 				</div>
 			)}
-			<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (window.matchMedia('(pointer:coarse)').matches && '!left-[5%]')}>
+			<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (isPhone && '!left-[5%]')}>
 				<i className='fa-arrow-left text-2xl fa-solid'></i>
 			</button>
 		</div>
