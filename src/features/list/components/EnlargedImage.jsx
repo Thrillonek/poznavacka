@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import { insectGroupNames, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEvent } from 'src/hooks';
-import { getGroupName, isObject, nameFromPath, objFirstKey } from 'src/utils';
+import { getFiles, getGroupName, isObject, nameFromPath, objFirstKey } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 import { changeChosenFile } from '../utils/changeChosenFile';
-import { getFiles } from '../utils/getFiles';
 
 function EnlargedImage() {
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);

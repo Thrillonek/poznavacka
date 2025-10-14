@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from 'src/data';
-import { isObject, nameFromPath, objFirstKey, objFirstValue } from 'src/utils';
+import { getFiles, isObject, nameFromPath, objFirstKey, objFirstValue } from 'src/utils';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
-import { getFiles } from '../utils/getFiles';
 import { checkIsSearched } from '../utils/searchItem';
 import EnlargedImage from './EnlargedImage';
 import ListItem from './ListItem';

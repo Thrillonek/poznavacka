@@ -1,6 +1,6 @@
 import { nameFromPath } from 'src/utils';
+import { getFiles } from '../../../utils/getFiles';
 import { useListSearchStore } from '../data/stores';
-import { getFiles } from './getFiles';
 
 export function checkIsSearched(fileName) {
 	const searchInput = useListSearchStore.getState().searchInput;
