@@ -16,10 +16,6 @@ function Quiz() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const settings = useSettingsStore((store) => store.settings);
 
-	let files = Object.values(poznavacka)[0].filter((f) => !isObject(f));
-
-	let prevIdx = useRef();
-
 	useEffect(() => {
 		didPoznavackaChange.current = true;
 		changeImage({ firstChange: true });
