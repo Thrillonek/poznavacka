@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
-import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { isObject } from 'src/utils';
 
 export default function Settings() {
@@ -13,11 +13,12 @@ export default function Settings() {
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
+	const presets = usePresetStore((store) => store.presets);
 
 	let presetLength = useRef();
 
 	let files = poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f));
-	const { mode, random, min, max, presets } = settings.quiz;
+	const { mode, random, min, max } = settings.quiz;
 
 	useEffect(() => {
 		if (poznavacka) {

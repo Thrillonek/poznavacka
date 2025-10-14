@@ -1,8 +1,8 @@
-import { useSettingsStore } from 'src/data';
+import { useCompletedFilesStore } from 'src/data';
 import { fileIndexHistory } from '../data/variables';
 
 export function betterRNG(minVal, maxVal) {
-	const settings = useSettingsStore.getState().settings;
+	const { completedFiles } = useCompletedFilesStore.getState();
 
 	const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -14,7 +14,7 @@ export function betterRNG(minVal, maxVal) {
 	fileIndexHistory.main.splice(idx, 1);
 
 	let multiplier = range >= 5 ? 1.33 : 1;
-	if (Math.floor((range - settings.quiz.complete.length) / multiplier) <= fileIndexHistory.recent.length) {
+	if (Math.floor((range - completedFiles.length) / multiplier) <= fileIndexHistory.recent.length) {
 		fileIndexHistory.main.push(fileIndexHistory.recent[0]);
 		fileIndexHistory.recent.shift();
 	}
