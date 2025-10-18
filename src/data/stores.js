@@ -45,7 +45,15 @@ export const useSettingsStore = create((set) => ({
 
 export const usePresetStore = create((set) => ({
 	presets: [],
-	addPreset: (preset) => set((state) => ({ presets: [...state.presets, preset] })),
+	togglePreset: (preset) =>
+		set((state) => {
+			if (state.presets.includes(preset)) {
+				return { presets: state.presets.filter((item) => item != preset) };
+			} else {
+				return { presets: [...state.presets, preset] };
+			}
+		}),
+
 	clearPresets: () => set({ presets: [] }),
 }));
 

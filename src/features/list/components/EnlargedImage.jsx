@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { insectGroupNames, usePoznavackaStore, useSwipeLockStore } from 'src/data';
-import { useAddEvent } from 'src/hooks';
+import { useAddEventListener } from 'src/hooks';
 import { getFiles, getGroupName, isObject, nameFromPath, objFirstKey } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 import { changeChosenFile } from '../utils/changeChosenFile';
@@ -17,7 +17,7 @@ function EnlargedImage() {
 
 	const files = getFiles();
 
-	useAddEvent('keydown', handleKeyDown);
+	useAddEventListener('keydown', handleKeyDown);
 	function handleKeyDown(e) {
 		if (e.key == 'ArrowRight') {
 			changeChosenFile({ right: true });
@@ -26,7 +26,7 @@ function EnlargedImage() {
 		}
 	}
 
-	useAddEvent('custom:swipe', handleSwipe, [isChosenFileSet]);
+	useAddEventListener('custom:swipe', handleSwipe);
 	function handleSwipe(e) {
 		let direction = e.detail.direction;
 		if (direction == 'left') changeChosenFile({ right: true });

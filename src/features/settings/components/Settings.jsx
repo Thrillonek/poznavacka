@@ -3,6 +3,7 @@ import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
+import { useAddEventListener } from 'src/hooks';
 import { isObject } from 'src/utils';
 import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
 
@@ -15,6 +16,7 @@ export default function Settings() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 	const presets = usePresetStore((store) => store.presets);
+	const togglePreset = usePresetStore((store) => store.togglePreset);
 
 	let presetLength = useRef();
 
@@ -44,32 +46,6 @@ export default function Settings() {
 		if (isNaN(e.target.value) || e.target.value.length > 3) return;
 		updateQuizSettings(option, e.target.value);
 	};
-
-	function togglePreset(num) {
-		// let presetsBuffer = [...presets];
-		// let presetArray = [];
-		// for (let i = num * 10 - 10; i <= num * 10 - 1; i++) {
-		// 	presetArray.push(i);
-		// }
-		// let presetIdx = presets.findIndex((el) => el[9] == num * 10 - 1);
-		// if (presetIdx == -1) {
-		// 	presetsBuffer.push(presetArray);
-		// 	setQuizSettings('presets', presetsBuffer);
-		// } else {
-		// 	presetsBuffer.splice(presetIdx, 1);
-		// 	setQuizSettings('presets', presetsBuffer);
-		// }
-		// presetsBuffer.sort((a, b) => a[0] - b[0]);
-		// setQuizSettings('presets', presetsBuffer);
-		let presetsBuffer = [...presets];
-		if (presets.includes(num)) {
-			presetsBuffer = presetsBuffer.filter((el) => el != num);
-		} else {
-			presetsBuffer.push(num);
-		}
-
-		updateQuizSettings('presets', presetsBuffer);
-	}
 
 	function checkAllPresets() {
 		if (settings.quiz.presets.length !== Math.round(files.length / 10)) {
@@ -107,8 +83,8 @@ export default function Settings() {
 		return setChangingKeybind();
 	}
 
-	document.onmouseup = () => setActiveRange();
-	document.ontouchend = () => setActiveRange();
+	useAddEventListener('mousedown', setActiveRange);
+	useAddEventListener('touchend', setActiveRange);
 
 	return (
 		<div tabIndex={0} onTouchMove={handleMove} onKeyDown={handleKeyDown} onMouseMove={handleMove} className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useAddEvent(eventName, callback, dependencies = [], target = document) {
+export function useAddEventListener(eventName, callback, dependencies = [], target = document) {
 	useEffect(() => {
 		const eventController = new AbortController();
 
