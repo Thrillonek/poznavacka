@@ -4,6 +4,7 @@ import { blue } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { isObject } from 'src/utils';
+import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
 
 export default function Settings() {
 	const [activeRange, setActiveRange] = useState();
@@ -94,18 +95,6 @@ export default function Settings() {
 		if (calculation < 1) calculation = 1;
 		if (calculation == max || calculation == min) return;
 		updateQuizSettings(activeRange, calculation);
-	}
-
-	function restoreDefaultKeybinds() {
-		const defaultKeybinds = {
-			change: 'ArrowUp',
-			reveal: 'ArrowDown',
-			complete: 'ArrowRight',
-		};
-
-		for (let [key, value] of Object.entries(defaultKeybinds)) {
-			setKeybind(key, value);
-		}
 	}
 
 	function handleKeyDown(e) {
