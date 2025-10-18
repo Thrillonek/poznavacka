@@ -4,10 +4,8 @@ import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data
 import { getGroupName, isObject, nameFromPath } from 'src/utils';
 import '../assets/_Quiz.scss';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
-import { didPoznavackaChange, fileIndexHistory, previousFiles } from '../data/variables';
-import { addFileToCompleted } from '../utils/addFileToCompleted';
-import { changeImage } from '../utils/changeImage';
-import { showPreviousFile } from '../utils/showPreviousFile';
+import { previousFiles } from '../data/variables';
+import { addFileToCompleted, changeImage, initiateQuiz, showPreviousFile } from '../utils';
 
 function Quiz() {
 	const error = useQuizErrorStore((store) => store.error);
@@ -17,13 +15,13 @@ function Quiz() {
 	const settings = useSettingsStore((store) => store.settings);
 
 	useEffect(() => {
-		didPoznavackaChange.current = true;
-		changeImage({ firstChange: true });
+		initiateQuiz();
+		changeImage();
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
 	function handleKeyDown(e) {
 		if (e.key == settings.keybinds.change) {
-			changeImage({ show: false });
+			changeImage();
 		}
 		if (e.key == settings.keybinds.reveal) {
 			toggleFileNameRevealed();
@@ -75,7 +73,7 @@ function Quiz() {
 						{isFileNameRevealed ? <Icon icon='mdi:eye-off' /> : <Icon icon='mdi:eye' />}
 					</button>
 					<div className='bg-neutral-600 w-px h-2/3'></div>
-					<button text={settings.quiz.random ? 'Generovat' : 'Další'} onClick={() => changeImage({ show: false })} className='control-btn'>
+					<button text={settings.quiz.random ? 'Generovat' : 'Další'} onClick={changeImage} className='control-btn'>
 						{settings.quiz.random ? <Icon icon='ion:dice' /> : <Icon icon='material-symbols:chevron-right-rounded' className='text-[1.5em]' />}
 					</button>
 					<div className='bg-neutral-600 w-px h-2/3'></div>
