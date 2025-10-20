@@ -3,6 +3,9 @@ import { getFiles } from 'src/utils';
 import { useQuizFileStore } from '../data/stores';
 import { fileIndexList } from '../data/variables';
 
+/**
+ * Adds file to completed files array in global state, removes it from cycle, then changes the image.
+ */
 export function addFileToCompleted() {
 	const { addFileToCompleted: storeFileInCompleted } = useCompletedFilesStore.getState();
 	const { fileIndex } = useQuizFileStore.getState();

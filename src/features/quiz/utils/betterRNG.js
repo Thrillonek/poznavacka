@@ -1,12 +1,18 @@
 import { useCompletedFilesStore } from 'src/data';
 import { fileIndexList } from '../data/variables';
 
-export function betterRNG(minVal, maxVal) {
+/**
+ * Generates a semi-random number between min and max.
+ * Makes sure, that files do not repeat often using fileIndexList object.
+ * @param min - The minimum value of the range.
+ * @param max - The maximum value of the range.
+ */
+export function betterRNG(min, max) {
 	const { completedFiles } = useCompletedFilesStore.getState();
 
-	const rng = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+	const rng = (minNum, maxNum) => Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
-	let range = maxVal - minVal + 1;
+	let range = max - min + 1;
 	let idx = rng(0, fileIndexList.main.length - 1);
 	let result = fileIndexList.main[idx];
 

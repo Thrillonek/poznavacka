@@ -2,6 +2,10 @@ import { nameFromPath } from 'src/utils';
 import { getFiles } from '../../../utils/getFiles';
 import { useListSearchStore } from '../data/stores';
 
+/**
+ * Checks if the given file name matches the current search input.
+ * @param fileName - The file name to check.
+ */
 export function checkIsSearched(fileName) {
 	const searchInput = useListSearchStore.getState().searchInput;
 	if (!searchInput) return false;
@@ -12,6 +16,12 @@ export function checkIsSearched(fileName) {
 	return false;
 }
 
+/**
+ * Handles the search form submission.
+ * If the search input is a number, it scrolls to the item with that index.
+ * If the search input is a string, it finds the first item that contains a word starting with the search input.
+ * @param e - The event triggered when the search form is submitted.
+ */
 export function searchItem(e) {
 	e.preventDefault();
 

@@ -77,14 +77,14 @@ export default function Settings() {
 		if (!changingKeybind) return;
 
 		if (e.key == 'Escape') {
-			return setChangingKeybind();
+			return setChangingKeybind(null);
 		}
 		setKeybind(changingKeybind, e.key);
-		return setChangingKeybind();
+		return setChangingKeybind(null);
 	}
 
-	useAddEventListener('mousedown', setActiveRange);
-	useAddEventListener('touchend', setActiveRange);
+	useAddEventListener('mousedown', () => setActiveRange(null));
+	useAddEventListener('touchend', () => setActiveRange(null));
 
 	return (
 		<div tabIndex={0} onTouchMove={handleMove} onKeyDown={handleKeyDown} onMouseMove={handleMove} className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>

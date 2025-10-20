@@ -2,6 +2,11 @@ import { usePoznavackaStore } from 'src/data';
 import { capitalize, isObject, objFirstKey, objFirstValue } from 'src/utils';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 
+/**
+ * Updates the viewed file system to the selected folder.
+ * If the folder contains files, it stores them in `poznavacka` state, so that the user can view them.
+ * @param pozn - The new folder.
+ */
 export function handleFolderChange(pozn) {
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
 	const { addToPath, setSelectedFolder, setFolderName } = useFileSystemStore.getState();

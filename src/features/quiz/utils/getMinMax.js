@@ -1,3 +1,8 @@
+/**
+ * Returns the minimum and maximum value of the range, based on selected settings.
+ *
+ * @param {{ presets, files, settings }} - An object containing all the necessary data.
+ */
 export function getMinMax({ presets, files, settings }) {
 	let min, max;
 

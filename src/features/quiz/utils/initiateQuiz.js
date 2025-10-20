@@ -3,6 +3,13 @@ import { getFiles } from 'src/utils';
 import { fileIndexList, previousIndex } from '../data/variables';
 import { getMinMax } from './getMinMax';
 
+/**
+ * Prepares the quiz for the change of `poznavacka` variable.
+ * Generates a new array of indexes for the quiz. The result depends on selected mode.
+ * It also resets `previousIndex`.
+ *
+ * The function also skips files that are in the `completedFiles` array.
+ */
 export function initiateQuiz() {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;

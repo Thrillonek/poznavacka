@@ -2,6 +2,11 @@ import { fileSystem, usePoznavackaStore } from 'src/data';
 import { objFirstKey, objFirstValue } from 'src/utils';
 import { useFileSystemStore } from '../data/stores';
 
+/**
+ * Function, that either exits the parent folder or shows its contents.
+ * It goes through each layer of the file system to find the right folder to view.
+ * @param current - If the function should view the contents of the parent folder.
+ */
 export function fileSystemGoBack({ current }) {
 	const { path, cutPath, setSelectedFolder, setFolderName } = useFileSystemStore.getState();
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;

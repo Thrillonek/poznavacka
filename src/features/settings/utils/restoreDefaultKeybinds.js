@@ -1,5 +1,9 @@
 import { useSettingsStore } from 'src/data';
+import { defaultKeybinds } from '../constants';
 
+/**
+ * Restores the default keybinds from the defaultKeybinds object.
+ */
 export function restoreDefaultKeybinds() {
 	const setKeybind = useSettingsStore.getState().setKeybind;
 

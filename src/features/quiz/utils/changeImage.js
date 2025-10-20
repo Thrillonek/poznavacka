@@ -5,6 +5,13 @@ import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
 import { betterRNG } from './betterRNG';
 import { getMinMax } from './getMinMax';
 
+/**
+ * Changes the current image in the quiz, toggles the filename reveal and handles errors.
+ * @param [options] - Optional object with properties:
+ *   - showImage - Whether to show the new image or not. Default is false.
+ *   - complete - Only set to true when the file was added to the `completedFiles` array. Default is false.
+ */
+
 export function changeImage({ showImage = false, complete: isFileCompleted } = {}) {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;

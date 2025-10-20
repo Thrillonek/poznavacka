@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+/**
+ * Creates the custom:swipe event on the document element.
+ */
 export function useInitiateSwipeEvent() {
 	useEffect(() => {
 		let startX, startY, changeX, changeY, startMS;

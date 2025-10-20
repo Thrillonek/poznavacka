@@ -2,6 +2,9 @@ import { useEffect, useRef } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames';
 
+/**
+ * Handles changes on the derived `poznavacka` state based on the `removeDuplicates` setting.
+ */
 export function useUpdatePoznavacka() {
 	const basePoznavacka = usePoznavackaStore((state) => state.basePoznavacka);
 	const updatePoznavacka = usePoznavackaStore((state) => state.updatePoznavacka);

@@ -2,6 +2,10 @@ import { usePoznavackaStore } from 'src/data';
 import { objFirstValue } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 
+/**
+ * Changes the chosen file in the list. Scrolls the list, so that the file is visible when the user closes the enlarged mode.
+ * @param condition - Defines the direction that the carousel will move.
+ */
 export function changeChosenFile(condition) {
 	const { chosenFile, setChosenFile } = useChosenFileStore.getState();
 	const poznavacka = usePoznavackaStore.getState().poznavacka;

@@ -2,6 +2,11 @@ import { useSettingsStore } from 'src/data';
 import { useQuizFileStore } from '../data/stores';
 import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
 
+/**
+ * Shows the previous file in the quiz.
+ * If the mode is random, it can only go back one file, then just returns the current file.
+ * Otherwise it can go back to the previous file in the cycle infinitely.
+ */
 export function showPreviousFile() {
 	const { setFileIndex, fileIndex } = useQuizFileStore.getState();
 	const settings = useSettingsStore.getState().settings;
