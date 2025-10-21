@@ -1,5 +1,5 @@
 import { useSettingsStore } from 'src/data';
-import { defaultKeybinds } from '../constants';
+import { defaultKeybinds } from '../data/constants';
 
 /**
  * Restores the default keybinds from the defaultKeybinds object.

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { isObject } from 'src/utils';
+import { checkAllPresets } from '../utils/checkAllPresets';
 import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
 
 export default function Settings() {
@@ -46,20 +47,6 @@ export default function Settings() {
 		if (isNaN(e.target.value) || e.target.value.length > 3) return;
 		updateQuizSettings(option, e.target.value);
 	};
-
-	function checkAllPresets() {
-		if (settings.quiz.presets.length !== Math.round(files.length / 10)) {
-			let newPresets = [];
-			for (let i = 0; i < Math.round(files.length / 10); i++) {
-				let newPreset = [];
-				for (let j = 1; j <= 10; j++) {
-					newPreset.push(j + i * 10 - 1);
-				}
-				newPresets.push(newPreset);
-			}
-			updateQuizSettings('presets', newPresets);
-		} else updateQuizSettings('presets', []);
-	}
 
 	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
 	function handleMove(e) {
@@ -199,7 +186,7 @@ export default function Settings() {
 										{presetLength.current?.map((num) => {
 											let isChecked = presets?.includes(num);
 											return (
-												<button key={num} onClick={(e) => togglePreset(num)} className={'flex outline-none items-center bg-white bg-opacity-0 hover:bg-opacity-5 transition-colors w-full py-[0.6rem] ' + (isChecked && '!bg-opacity-10')}>
+												<button key={num} onClick={() => togglePreset(num)} className={'flex outline-none items-center bg-white bg-opacity-0 hover:bg-opacity-5 transition-colors w-full py-[0.6rem] ' + (isChecked && '!bg-opacity-10')}>
 													<p className={'font-bold w-full text-center'}>
 														{num != 1 && num - 1}1 - {num}0
 													</p>
