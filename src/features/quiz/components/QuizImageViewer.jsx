@@ -1,4 +1,4 @@
-import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getGroupName, nameFromPath, objFirstKey } from 'src/utils';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 

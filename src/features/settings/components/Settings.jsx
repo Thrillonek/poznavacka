@@ -6,6 +6,7 @@ import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { isObject } from 'src/utils';
 import { checkAllPresets } from '../utils/checkAllPresets';
+import { handleChangeMinMax } from '../utils/handleChangeMinMax';
 import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
 
 export default function Settings() {
@@ -43,11 +44,6 @@ export default function Settings() {
 		}
 	}, [settings]);
 
-	const handleChangeMinMax = (e, option) => {
-		if (isNaN(e.target.value) || e.target.value.length > 3) return;
-		updateQuizSettings(option, e.target.value);
-	};
-
 	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
 	function handleMove(e) {
 		if (!activeRange) return;
@@ -70,7 +66,7 @@ export default function Settings() {
 		return setChangingKeybind(null);
 	}
 
-	useAddEventListener('mousedown', () => setActiveRange(null));
+	useAddEventListener('mouseup', () => setActiveRange(null));
 	useAddEventListener('touchend', () => setActiveRange(null));
 
 	return (
