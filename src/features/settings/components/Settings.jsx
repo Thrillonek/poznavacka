@@ -1,11 +1,12 @@
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { isObject } from 'src/utils';
+import { getFiles, isObject } from 'src/utils';
 import { usePresetMenuStore } from '../data/stores';
+import { useDefineDefaultValues } from '../hooks/useDefineDefaultValues';
 import { useHandlePresetModeToggling } from '../hooks/useHandlePresetModeToggling';
 import { checkAllPresets } from '../utils/checkAllPresets';
 import { handleChangeMinMax } from '../utils/handleChangeMinMax';
@@ -22,22 +23,10 @@ export default function Settings() {
 	const presets = usePresetStore((store) => store.presets);
 	const togglePreset = usePresetStore((store) => store.togglePreset);
 
-	let presetLength = useRef();
-
-	let files = poznavacka && Object.values(poznavacka)[0].filter((f) => !isObject(f));
+	let files = getFiles();
 	const { mode, random, min, max } = settings.quiz;
 
-	useEffect(() => {
-		if (poznavacka) {
-			presetLength.current = [];
-			for (let i = 1; i <= Math.floor(files.length / 10); i++) {
-				presetLength.current.push(i);
-			}
-			updateQuizSettings('min', 1);
-			updateQuizSettings('max', files.length);
-		}
-	}, [poznavacka]);
-
+	const presetLength = useDefineDefaultValues();
 	useHandlePresetModeToggling();
 
 	const rangeRectRef = useRef();

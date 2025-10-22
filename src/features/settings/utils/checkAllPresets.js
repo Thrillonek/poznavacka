@@ -1,6 +1,10 @@
 import { usePresetStore } from 'src/data';
 import { getFiles } from 'src/utils';
 
+/**
+ * Checks if all presets are active and clears them if not.
+ * If not all of the presets are active, it activates them all.
+ */
 export function checkAllPresets() {
 	const files = getFiles();
 
