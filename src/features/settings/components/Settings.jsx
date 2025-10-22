@@ -53,7 +53,7 @@ export default function Settings() {
 		let calculation = Math.round(((pos.x - rangeRect.left) * (files.length - 1)) / rangeRect.width) + 1;
 		if (calculation > files.length) calculation = files.length;
 		if (calculation < 1) calculation = 1;
-		if (calculation == max || calculation == min) return;
+		if ((calculation == max && activeRange == 'min') || (calculation == min && activeRange == 'max')) return;
 		updateQuizSettings(activeRange, calculation);
 	}
 
