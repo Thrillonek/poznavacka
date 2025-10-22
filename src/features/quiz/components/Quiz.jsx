@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useAddEventListener } from 'src/hooks';
 import '../assets/_Quiz.scss';
 import { useQuizFileStore } from '../data/stores';
 import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
@@ -29,8 +30,10 @@ function Quiz() {
 		}
 	}
 
+	useAddEventListener('keydown', handleKeyDown, [settings.keybinds]);
+
 	return (
-		<div onKeyDown={handleKeyDown} tabIndex={0} className='justify-items-center grid grid-rows-8 bg-neutral-800 px-2 py-2 md:py-8 outline-none w-full h-full'>
+		<div className='justify-items-center grid grid-rows-8 bg-neutral-800 px-2 py-2 md:py-8 outline-none w-full h-full'>
 			<QuizImageViewer />
 			<QuizControlPanel />
 		</div>

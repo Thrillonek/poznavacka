@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import e from 'cors';
 import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
@@ -66,11 +67,13 @@ export default function Settings() {
 		return setChangingKeybind(null);
 	}
 
-	useAddEventListener('mouseup', () => setActiveRange(null));
-	useAddEventListener('touchend', () => setActiveRange(null));
+	useAddEventListener('pointerup', () => setActiveRange(null));
+	useAddEventListener('pointermove', handleMove, [activeRange]);
+	useAddEventListener('keydown', handleKeyDown, [changingKeybind]);
+	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
 
 	return (
-		<div tabIndex={0} onTouchMove={handleMove} onKeyDown={handleKeyDown} onMouseMove={handleMove} className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
+		<div className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
 			<div onClick={() => setModalVisible(false)} className={'fixed w-screen z-50 top-0 left-0 transition-opacity backdrop-blur-sm h-screen bg-black bg-opacity-20 ' + (modalVisible ? '' : 'pointer-events-none opacity-0')}>
 				<div onClick={(e) => e.stopPropagation()} className='modal'>
 					<button onClick={() => setModalVisible(false)} className='top-2 right-2 absolute hover:bg-neutral-700 p-1 rounded-full'>
@@ -166,8 +169,8 @@ export default function Settings() {
 								</div>
 							</div>
 							<div id='size-range' className='relative flex items-center mt-8 h-2'>
-								<div id='size-min' onMouseDown={() => setActiveRange('min')} onTouchStart={() => setActiveRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'min' ? '!bg-blue-400' : '')}></div>
-								<div id='size-max' onMouseDown={() => setActiveRange('max')} onTouchStart={() => setActiveRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'max' ? '!bg-blue-400' : '')}></div>
+								<div id='size-min' onPointerDown={() => setActiveRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'min' ? '!bg-blue-400' : '')}></div>
+								<div id='size-max' onPointerDown={() => setActiveRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'max' ? '!bg-blue-400' : '')}></div>
 								<div className='relative flex items-center bg-neutral-500 rounded-full w-full h-2/3'>
 									<div style={{ left: ((min - 1) / files.length) * 99 + '%', width: ((max - min) / files.length) * 99 + '%' }} className='absolute bg-blue-500 h-full translate-x-2'></div>
 								</div>
