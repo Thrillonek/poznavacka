@@ -1,21 +1,22 @@
 import { Icon } from '@iconify/react';
 import { Box, Checkbox, Modal, Typography } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import e from 'cors';
 import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore, usePresetStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { isObject } from 'src/utils';
+import { usePresetMenuStore } from '../data/stores';
+import { useHandlePresetModeToggling } from '../hooks/useHandlePresetModeToggling';
 import { checkAllPresets } from '../utils/checkAllPresets';
 import { handleChangeMinMax } from '../utils/handleChangeMinMax';
 import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
 
 export default function Settings() {
 	const [activeRange, setActiveRange] = useState();
-	const [visiblePresets, setVisiblePresets] = useState(false);
 	const [changingKeybind, setChangingKeybind] = useState();
 	const [modalVisible, setModalVisible] = useState();
 
+	const { isPresetMenuOpen, togglePresetMenu } = usePresetMenuStore((store) => store);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 	const presets = usePresetStore((store) => store.presets);
@@ -37,17 +38,13 @@ export default function Settings() {
 		}
 	}, [poznavacka]);
 
-	useEffect(() => {
-		if (presets.length > 0 && visiblePresets) {
-			if (mode != 'preset') updateQuizSettings('mode', 'preset');
-		} else {
-			if (mode != 'custom') updateQuizSettings('mode', 'custom');
-		}
-	}, [settings]);
+	useHandlePresetModeToggling();
 
-	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
+	const rangeRectRef = useRef();
+	rangeRectRef.current = document.getElementById('size-range')?.getBoundingClientRect();
 	function handleMove(e) {
 		if (!activeRange) return;
+		const rangeRect = rangeRectRef.current;
 		const pos = { x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY };
 
 		let calculation = Math.round(((pos.x - rangeRect.left) * (files.length - 1)) / rangeRect.width) + 1;
@@ -176,11 +173,11 @@ export default function Settings() {
 								</div>
 							</div>
 							<div className='flex flex-col bg-neutral-700 mt-8 rounded-xl w-full overflow-hidden'>
-								<button className={'flex justify-center outline-none items-center gap-1 col-span-3 py-2 ' + (visiblePresets && 'bg-neutral-800 bg-opacity-[33%]')} onClick={() => setVisiblePresets(!visiblePresets)}>
+								<button className={'flex justify-center outline-none items-center gap-1 col-span-3 py-2 ' + (isPresetMenuOpen && 'bg-neutral-800 bg-opacity-[33%]')} onClick={togglePresetMenu}>
 									<span>Předvolby</span>
-									<Icon icon='mi:chevron-up' className={'text-xl transition-all ' + (!visiblePresets && 'rotate-180')}></Icon>
+									<Icon icon='mi:chevron-up' className={'text-xl transition-all ' + (!isPresetMenuOpen && 'rotate-180')}></Icon>
 								</button>
-								<div className={'grid transition-all  ' + (visiblePresets ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
+								<div className={'grid transition-all  ' + (isPresetMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0')}>
 									<div className='grid grid-cols-3 auto-rows-fr min-h-0 overflow-hidden text-neutral-300'>
 										{presetLength.current?.map((num) => {
 											let isChecked = presets?.includes(num);
