@@ -8,9 +8,7 @@ import { getFiles, isObject } from 'src/utils';
 import { usePresetMenuStore } from '../data/stores';
 import { useDefineDefaultValues } from '../hooks/useDefineDefaultValues';
 import { useHandlePresetModeToggling } from '../hooks/useHandlePresetModeToggling';
-import { checkAllPresets } from '../utils/checkAllPresets';
-import { handleChangeMinMax } from '../utils/handleChangeMinMax';
-import { restoreDefaultKeybinds } from '../utils/restoreDefaultKeybinds';
+import { checkAllPresets, handleChangeMinMax, handlePointerMove, restoreDefaultKeybinds } from '../utils';
 
 export default function Settings() {
 	const [activeRange, setActiveRange] = useState();
@@ -29,20 +27,6 @@ export default function Settings() {
 	const presetLength = useDefineDefaultValues();
 	useHandlePresetModeToggling();
 
-	const rangeRectRef = useRef();
-	rangeRectRef.current = document.getElementById('size-range')?.getBoundingClientRect();
-	function handleMove(e) {
-		if (!activeRange) return;
-		const rangeRect = rangeRectRef.current;
-		const pos = { x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY };
-
-		let calculation = Math.round(((pos.x - rangeRect.left) * (files.length - 1)) / rangeRect.width) + 1;
-		if (calculation > files.length) calculation = files.length;
-		if (calculation < 1) calculation = 1;
-		if ((calculation == max && activeRange == 'min') || (calculation == min && activeRange == 'max')) return;
-		updateQuizSettings(activeRange, calculation);
-	}
-
 	function handleKeyDown(e) {
 		if (!changingKeybind) return;
 
@@ -54,7 +38,7 @@ export default function Settings() {
 	}
 
 	useAddEventListener('pointerup', () => setActiveRange(null));
-	useAddEventListener('pointermove', handleMove, [activeRange]);
+	useAddEventListener('pointermove', handlePointerMove, [activeRange]);
 	useAddEventListener('keydown', handleKeyDown, [changingKeybind]);
 	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
 
