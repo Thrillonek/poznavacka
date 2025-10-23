@@ -1,25 +1,24 @@
 import { Icon } from '@iconify/react';
 import { Checkbox } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
+import ConfirmModal from './ConfirmModal';
 import ExtraSettings from './ExtraSettings';
 import KeybindControl from './KeybindControl';
 import MinMaxControl from './MinMaxControl';
 import PresetMenu from './PresetMenu';
 
 export default function Settings() {
-	const [modalVisible, setModalVisible] = useState();
-
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
 	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
 	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
 	const stopChangingKeybinds = useSettingsStatusStore((store) => store.stopChangingKeybinds);
+	const openModal = useSettingsStatusStore((store) => store.openModal);
 
 	const { random } = settings.quiz;
 
@@ -41,37 +40,13 @@ export default function Settings() {
 
 	return (
 		<div className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
-			<div onClick={() => setModalVisible(false)} className={'fixed w-screen z-50 top-0 left-0 transition-opacity backdrop-blur-sm h-screen bg-black bg-opacity-20 ' + (modalVisible ? '' : 'pointer-events-none opacity-0')}>
-				<div onClick={(e) => e.stopPropagation()} className='modal'>
-					<button onClick={() => setModalVisible(false)} className='top-2 right-2 absolute hover:bg-neutral-700 p-1 rounded-full'>
-						<Icon icon='material-symbols:close' className='text-neutral-500 text-2xl'></Icon>
-					</button>
-					<p className='text-neutral-300 text-lg md:text-2xl text-center'>Vážně chceš odstranit všechny svoje vědomosti?</p>
-					<div className='flex gap-x-4 mt-8'>
-						<button
-							className='btn-danger'
-							onClick={() => {
-								updateQuizSettings('complete', []);
-								setModalVisible(false);
-							}}
-						>
-							Ano
-						</button>
-						<button className='!bg-blue-500 hover:brightness-110 !border-blue-500 btn-danger' onClick={() => setModalVisible(false)}>
-							Ne
-						</button>
-					</div>
-				</div>
-			</div>
+			<ConfirmModal />
 
 			<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
 			<div className='gap-x-8 gap-y-12 grid lg:grid-cols-2'>
 				<div className='flex flex-col gap-4'>
 					<h2 className='text-2xl'>Kvíz</h2>
-					{/* <button className='top-2 right-3 absolute px-3 py-2' onClick={(e) => document.querySelector(':root').style.setProperty('--settings-scale', 0)}>
-					<i className='text-[--text-main] text-2xl fa-solid fa-xmark'></i>
-					</button> */}
 					<div className='flex flex-col w-full'>
 						<h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Způsob generace obrázků</h2>
 						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
@@ -94,7 +69,7 @@ export default function Settings() {
 					<ExtraSettings />
 
 					<div className='flex mt-4 pt-4 border-neutral-600 border-t'>
-						<button className='btn-danger' onClick={() => setModalVisible(true)}>
+						<button className='btn-danger' onClick={openModal}>
 							Odstranit všechno naučené
 						</button>
 					</div>

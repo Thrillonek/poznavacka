@@ -13,4 +13,8 @@ export const useSettingsStatusStore = create((set) => ({
 	keybindToBeChanged: false,
 	startChangingKeybinds: (keybind) => set((state) => ({ keybindToBeChanged: keybind })),
 	stopChangingKeybinds: () => set({ keybindToBeChanged: null }),
+
+	isModalOpen: false,
+	openModal: () => set({ isModalOpen: true }),
+	closeModal: () => set({ isModalOpen: false }),
 }));
