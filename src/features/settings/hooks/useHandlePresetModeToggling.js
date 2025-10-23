@@ -15,9 +15,9 @@ export function useHandlePresetModeToggling() {
 
 	useEffect(() => {
 		if (presets.length > 0 && isPresetMenuOpen) {
-			if (settings.mode != 'preset') updateQuizSettings('mode', 'preset');
+			if (settings.quiz.mode != 'preset') updateQuizSettings('mode', 'preset');
 		} else {
-			if (settings.mode != 'custom') updateQuizSettings('mode', 'custom');
+			if (settings.quiz.mode != 'custom') updateQuizSettings('mode', 'custom');
 		}
-	}, [settings.mode]);
+	}, [presets.length, isPresetMenuOpen, settings.quiz.mode]);
 }

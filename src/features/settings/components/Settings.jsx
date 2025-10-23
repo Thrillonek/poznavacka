@@ -1,12 +1,10 @@
 import { Icon } from '@iconify/react';
-import { Box, Checkbox, Modal, Typography } from '@mui/material';
+import { Checkbox } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { useRef, useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles, isObject } from 'src/utils';
-import { useDefineDefaultValues } from '../hooks/useDefineDefaultValues';
-import { useHandlePresetModeToggling } from '../hooks/useHandlePresetModeToggling';
 import { handleChangeMinMax, handlePointerMove, restoreDefaultKeybinds } from '../utils';
 import PresetMenu from './PresetMenu';
 
@@ -19,9 +17,7 @@ export default function Settings() {
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 
 	let files = getFiles();
-	const { mode, random, min, max } = settings.quiz;
-
-	useHandlePresetModeToggling();
+	const { random, min, max } = settings.quiz;
 
 	function handleKeyDown(e) {
 		if (!changingKeybind) return;
@@ -62,31 +58,6 @@ export default function Settings() {
 					</div>
 				</div>
 			</div>
-
-			{/* <Modal open={modalVisible} onClose={() => setModalVisible(false)}>
-				<Box style={{ maxW: '90vw' }}>
-					<div className='modal'>
-						<button onClick={() => setModalVisible(false)} className='top-2 right-2 absolute hover:bg-neutral-700 p-1 rounded-full'>
-							<Icon icon='material-symbols:close' className='text-neutral-500 text-2xl'></Icon>
-						</button>
-						<p className='text-neutral-300 text-lg md:text-2xl text-center'>Vážně chceš odstranit všechny svoje vědomosti?</p>
-						<div className='flex gap-x-4 mt-8'>
-							<button
-								className='btn-danger'
-								onClick={() => {
-									setQuizSettings('complete', []);
-									setModalVisible(false);
-								}}
-							>
-								Ano
-							</button>
-							<button className='!bg-blue-500 hover:brightness-110 !border-blue-500 btn-danger' onClick={() => setModalVisible(false)}>
-								Ne
-							</button>
-						</div>
-					</div>
-				</Box>
-			</Modal> */}
 
 			<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
@@ -142,11 +113,6 @@ export default function Settings() {
 								</div>
 							</div>
 							<PresetMenu />
-							{mode == 'preset' && (
-								<p className='flex items-center gap-1 mx-auto mt-4 font-semibold text-neutral-300'>
-									<Icon icon='solar:danger-line-duotone' className='text-red-400 text-xl'></Icon>Kvíz se orientuje podle rozsahu předvoleb
-								</p>
-							)}
 						</div>
 					)}
 
