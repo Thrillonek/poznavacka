@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { usePoznavackaStore } from 'src/data';
+import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
 
 /**
@@ -11,6 +11,7 @@ export function useDefineDefaultValues() {
 	const files = getFiles();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
 
 	useEffect(() => {
 		if (poznavacka) {
