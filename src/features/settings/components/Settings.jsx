@@ -5,16 +5,17 @@ import { useRef, useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles, isObject } from 'src/utils';
+import { useRangeComponentStore } from '../data/stores';
 import { handleChangeMinMax, handlePointerMove, restoreDefaultKeybinds } from '../utils';
 import PresetMenu from './PresetMenu';
 
 export default function Settings() {
-	const [activeRange, setActiveRange] = useState();
 	const [changingKeybind, setChangingKeybind] = useState();
 	const [modalVisible, setModalVisible] = useState();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
+	const { activeRangeValue, activateRange, deactivateRange } = useRangeComponentStore((store) => store);
 
 	let files = getFiles();
 	const { random, min, max } = settings.quiz;
@@ -29,10 +30,10 @@ export default function Settings() {
 		return setChangingKeybind(null);
 	}
 
-	useAddEventListener('pointerup', () => setActiveRange(null));
-	useAddEventListener('pointermove', handlePointerMove, [activeRange]);
+	useAddEventListener('pointerup', () => deactivateRange());
+	useAddEventListener('pointermove', handlePointerMove, [activeRangeValue]);
 	useAddEventListener('keydown', handleKeyDown, [changingKeybind]);
-	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
+	useAddEventListener('touchmove', (e) => activeRangeValue && e.preventDefault(), [activeRangeValue], { passive: false });
 
 	return (
 		<div className='relative bg-neutral-800 p-8 outline-none w-full h-full overflow-y-auto select-none'>
@@ -106,8 +107,8 @@ export default function Settings() {
 								</div>
 							</div>
 							<div id='size-range' className='relative flex items-center mt-8 h-2'>
-								<div id='size-min' onPointerDown={() => setActiveRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'min' ? '!bg-blue-400' : '')}></div>
-								<div id='size-max' onPointerDown={() => setActiveRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRange == 'max' ? '!bg-blue-400' : '')}></div>
+								<div id='size-min' onPointerDown={() => activateRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'min' ? '!bg-blue-400' : '')}></div>
+								<div id='size-max' onPointerDown={() => activateRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'max' ? '!bg-blue-400' : '')}></div>
 								<div className='relative flex items-center bg-neutral-500 rounded-full w-full h-2/3'>
 									<div style={{ left: ((min - 1) / files.length) * 99 + '%', width: ((max - min) / files.length) * 99 + '%' }} className='absolute bg-blue-500 h-full translate-x-2'></div>
 								</div>

@@ -7,6 +7,6 @@ export const usePresetMenuStore = create((set) => ({
 
 export const useRangeComponentStore = create((set) => ({
 	activeRangeValue: null,
-	activateRange: (type) => set({ isRangeActive: type }),
-	deactivateRange: () => set({ isRangeActive: false }),
+	activateRange: (type) => set({ activeRangeValue: type }),
+	deactivateRange: () => set({ activeRangeValue: false }),
 }));

@@ -1,6 +1,11 @@
+import { useSettingsStore } from 'src/data';
+import { getFiles } from 'src/utils';
 import { useRangeComponentStore } from '../data/stores';
 
 const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
+const files = getFiles();
+const { min, max } = useSettingsStore.getState().settings.quiz;
+const { updateQuizSettings } = useSettingsStore.getState();
 export function handlePointerMove(e) {
 	const { activeRangeValue } = useRangeComponentStore.getState();
 
