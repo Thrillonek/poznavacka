@@ -1,12 +1,12 @@
 import { useMemo } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
-import { useRangeComponentStore } from '../data/stores';
+import { useSettingsStatusStore } from '../data/stores';
 import { handleChangeMinMax } from '../utils';
 
 function MinMaxControl() {
-	const activateRange = useRangeComponentStore((store) => store.activateRange);
-	const activeRangeValue = useRangeComponentStore((store) => store.activeRangeValue);
+	const activateRange = useSettingsStatusStore((store) => store.activateRange);
+	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
 	const settings = useSettingsStore((store) => store.settings);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 

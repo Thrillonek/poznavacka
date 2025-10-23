@@ -1,9 +1,9 @@
 import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
-import { useRangeComponentStore } from '../data/stores';
+import { useSettingsStatusStore } from '../data/stores';
 
 export function handlePointerMove(e) {
-	const { activeRangeValue } = useRangeComponentStore.getState();
+	const { activeRangeValue } = useSettingsStatusStore.getState();
 	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
 	const files = getFiles();
 	const { min, max } = useSettingsStore.getState().settings.quiz;

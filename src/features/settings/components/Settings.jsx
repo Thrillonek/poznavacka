@@ -1,37 +1,41 @@
 import { Icon } from '@iconify/react';
 import { Checkbox } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { useRangeComponentStore } from '../data/stores';
-import { handlePointerMove, restoreDefaultKeybinds } from '../utils';
+import { useSettingsStatusStore } from '../data/stores';
+import { handlePointerMove } from '../utils';
+import KeybindControl from './KeybindControl';
 import MinMaxControl from './MinMaxControl';
 import PresetMenu from './PresetMenu';
 
 export default function Settings() {
-	const [changingKeybind, setChangingKeybind] = useState();
 	const [modalVisible, setModalVisible] = useState();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
-	const { activeRangeValue, activateRange, deactivateRange } = useRangeComponentStore((store) => store);
+	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
+	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
+	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
+	const stopChangingKeybinds = useSettingsStatusStore((store) => store.stopChangingKeybinds);
 
 	const { random } = settings.quiz;
 
 	function handleKeyDown(e) {
-		if (!changingKeybind) return;
+		if (!keybindToBeChanged) return;
 
 		if (e.key == 'Escape') {
-			return setChangingKeybind(null);
+			return stopChangingKeybinds();
 		}
-		setKeybind(changingKeybind, e.key);
-		return setChangingKeybind(null);
+
+		setKeybind(keybindToBeChanged, e.key);
+		return stopChangingKeybinds();
 	}
 
 	useAddEventListener('pointerup', () => deactivateRange());
 	useAddEventListener('pointermove', handlePointerMove, [activeRangeValue]);
-	useAddEventListener('keydown', handleKeyDown, [changingKeybind]);
+	useAddEventListener('keydown', handleKeyDown, [keybindToBeChanged]);
 	useAddEventListener('touchmove', (e) => activeRangeValue && e.preventDefault(), [activeRangeValue], { passive: false });
 
 	return (
@@ -95,37 +99,7 @@ export default function Settings() {
 						</div>
 					)}
 
-					<div className='phone-invisible flex flex-col'>
-						<h2 className='mb-1 text-neutral-300 text-lg'>Klávesové zkratky</h2>
-						<div className='gap-y-px grid bg-neutral-700 [&>*]:px-4 [&>*]:py-2 border border-neutral-700 rounded overflow-hidden text-neutral-400'>
-							{[
-								['Změnit obrázek', 'change'],
-								['Odhalit jméno', 'reveal'],
-								['Obrázek naučený', 'complete'],
-							].map((item, index) => {
-								return (
-									<div key={'keybind-' + index} className='flex justify-between items-center gap-2 bg-neutral-800'>
-										<p className='font-bold'>{item[0]}</p>
-										<button className={'keybind-btn ' + (changingKeybind == item[1] ? 'active' : '')} onClick={() => changingKeybind != item[1] && setChangingKeybind(item[1])}>
-											{changingKeybind == item[1] ? (
-												<div className='flex items-center gap-1'>
-													<p>Změnit...</p>
-													<Icon onClick={() => setChangingKeybind()} icon='material-symbols:close' className='text-neutral-300 text-xl cursor-pointer'></Icon>
-												</div>
-											) : settings.keybinds[item[1]].length == 1 ? (
-												settings.keybinds[item[1]].toUpperCase()
-											) : (
-												settings.keybinds[item[1]]
-											)}
-										</button>
-									</div>
-								);
-							})}
-						</div>
-						<button onClick={restoreDefaultKeybinds} className='hover:bg-neutral-700 hover:bg-opacity-50 mt-2 mr-auto px-4 py-2 border-2 border-neutral-600 rounded text-neutral-300'>
-							Obnovit původní klávesové zkratky
-						</button>
-					</div>
+					<KeybindControl />
 
 					<div className='mt-4 pt-4 border-neutral-600 border-t'>
 						<div className='flex items-center'>
