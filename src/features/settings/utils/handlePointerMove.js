@@ -2,12 +2,12 @@ import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
 import { useRangeComponentStore } from '../data/stores';
 
-const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
-const files = getFiles();
-const { min, max } = useSettingsStore.getState().settings.quiz;
-const { updateQuizSettings } = useSettingsStore.getState();
 export function handlePointerMove(e) {
 	const { activeRangeValue } = useRangeComponentStore.getState();
+	const rangeRect = document.getElementById('size-range')?.getBoundingClientRect();
+	const files = getFiles();
+	const { min, max } = useSettingsStore.getState().settings.quiz;
+	const { updateQuizSettings } = useSettingsStore.getState();
 
 	if (!activeRangeValue) return;
 	const pos = { x: e.clientX || e.touches[0].clientX, y: e.clientY || e.touches[0].clientY };

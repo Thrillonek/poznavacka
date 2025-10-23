@@ -4,9 +4,9 @@ import { blue } from '@mui/material/colors';
 import { useRef, useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFiles, isObject } from 'src/utils';
 import { useRangeComponentStore } from '../data/stores';
-import { handleChangeMinMax, handlePointerMove, restoreDefaultKeybinds } from '../utils';
+import { handlePointerMove, restoreDefaultKeybinds } from '../utils';
+import MinMaxControl from './MinMaxControl';
 import PresetMenu from './PresetMenu';
 
 export default function Settings() {
@@ -17,8 +17,7 @@ export default function Settings() {
 	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 	const { activeRangeValue, activateRange, deactivateRange } = useRangeComponentStore((store) => store);
 
-	let files = getFiles();
-	const { random, min, max } = settings.quiz;
+	const { random } = settings.quiz;
 
 	function handleKeyDown(e) {
 		if (!changingKeybind) return;
@@ -91,28 +90,7 @@ export default function Settings() {
 					</div>
 					{poznavacka && (
 						<div className='flex flex-col'>
-							<h2 className='mb-1 text-neutral-300 text-lg'>Zkoušená sada</h2>
-							<div className='flex gap-4 mx-auto'>
-								<div className='gap-1 grid grid-cols-1 w-12'>
-									<label className='font-bold text-neutral-300 text-sm text-center' htmlFor='min'>
-										Od
-									</label>
-									<input id='min' className='bg-neutral-600 p-1 rounded outline-none font-medium text-neutral-300 text-center caret-neutral-400' type='text' onChange={(e) => handleChangeMinMax(e, 'min')} value={settings.quiz.min} />
-								</div>
-								<div className='gap-1 grid grid-cols-1 w-12'>
-									<label className='font-bold text-neutral-300 text-sm text-center' htmlFor='max'>
-										Do
-									</label>
-									<input className='bg-neutral-600 p-1 rounded outline-none font-medium text-neutral-300 text-center caret-neutral-400' type='text' onChange={(e) => handleChangeMinMax(e, 'max')} value={settings.quiz.max} />
-								</div>
-							</div>
-							<div id='size-range' className='relative flex items-center mt-8 h-2'>
-								<div id='size-min' onPointerDown={() => activateRange('min')} style={{ left: ((min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'min' ? '!bg-blue-400' : '')}></div>
-								<div id='size-max' onPointerDown={() => activateRange('max')} style={{ left: ((max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'max' ? '!bg-blue-400' : '')}></div>
-								<div className='relative flex items-center bg-neutral-500 rounded-full w-full h-2/3'>
-									<div style={{ left: ((min - 1) / files.length) * 99 + '%', width: ((max - min) / files.length) * 99 + '%' }} className='absolute bg-blue-500 h-full translate-x-2'></div>
-								</div>
-							</div>
+							<MinMaxControl />
 							<PresetMenu />
 						</div>
 					)}
