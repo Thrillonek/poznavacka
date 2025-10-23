@@ -6,6 +6,7 @@ import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
+import ExtraSettings from './ExtraSettings';
 import KeybindControl from './KeybindControl';
 import MinMaxControl from './MinMaxControl';
 import PresetMenu from './PresetMenu';
@@ -14,7 +15,7 @@ export default function Settings() {
 	const [modalVisible, setModalVisible] = useState();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const { settings, updateCoreSettings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
+	const { settings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
 	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
 	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
 	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
@@ -74,7 +75,6 @@ export default function Settings() {
 					<div className='flex flex-col w-full'>
 						<h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Způsob generace obrázků</h2>
 						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
-							{/* <div className={'top-0 left-0 z-0 absolute bg-blue-500 m-1 rounded w-[calc(50%-.5rem)] h-[calc(100%-.5rem)] transition-transform ' + (!random && 'translate-x-[calc(100%+.5rem)]')} /> */}
 							<button onClick={(e) => updateQuizSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
 								Náhodně
 							</button>
@@ -82,15 +82,6 @@ export default function Settings() {
 								Postupně
 							</button>
 						</div>
-						{/* <h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Nastavení</h2>
-						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
-							<button onClick={(e) => setQuizSettings('mode', 'custom')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (mode == 'custom' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
-								Vlastní
-							</button>
-							<button onClick={(e) => setQuizSettings('mode', 'preset')} className={'z-10 text-neutral-400 py-2 border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (mode == 'preset' && '!text-blue-300 !border-blue-500 bg-[hsl(220,33%,25%)] ')}>
-								Předvolby
-							</button>
-						</div> */}
 					</div>
 					{poznavacka && (
 						<div className='flex flex-col'>
@@ -100,44 +91,13 @@ export default function Settings() {
 					)}
 
 					<KeybindControl />
+					<ExtraSettings />
 
-					<div className='mt-4 pt-4 border-neutral-600 border-t'>
-						<div className='flex items-center'>
-							<Checkbox
-								sx={{
-									color: blue[800],
-									'&.Mui-checked': {
-										color: blue[600],
-									},
-								}}
-								onChange={(e) => updateCoreSettings('removeDuplicates', e.target.checked)}
-							></Checkbox>
-							<p className='font-semibold text-neutral-300'>Odstranit duplikované obrázky</p>
-						</div>
-						<div className='flex items-center'>
-							<Checkbox
-								sx={{
-									color: blue[800],
-									'&.Mui-checked': {
-										color: blue[600],
-									},
-								}}
-								onChange={(e) => updateCoreSettings('devMode', e.target.checked)}
-							></Checkbox>
-							<p className='font-semibold text-neutral-300'>Vývojařský režim (zobrazovat index obrázku)</p>
-						</div>
-					</div>
 					<div className='flex mt-4 pt-4 border-neutral-600 border-t'>
 						<button className='btn-danger' onClick={() => setModalVisible(true)}>
 							Odstranit všechno naučené
 						</button>
 					</div>
-					{/* <span className='phone-invisible mb-5 p-2 text-neutral-200 text-lg text-center'>
-						<h2 className='font-semibold text-lg'>TIP:</h2>
-						Stiskni klávesu <i className='px-1 text-xl fa-caret-square-up fa-solid' /> pro změnu rostliny
-						<br />
-						a klávesu <i className='px-1 text-xl fa-caret-square-down fa-solid' /> pro název rostliny
-					</span> */}
 				</div>
 				<div>
 					<h2 className='mb-6 text-2xl'>Seznam</h2>
