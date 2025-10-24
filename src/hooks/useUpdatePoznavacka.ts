@@ -10,7 +10,7 @@ export function useUpdatePoznavacka() {
 	const updatePoznavacka = usePoznavackaStore((state) => state.updatePoznavacka);
 	const settings = useSettingsStore((state) => state.settings);
 
-	const poznavackaWithoutDuplicates = useRef();
+	const poznavackaWithoutDuplicates = useRef<Object | null>();
 
 	useEffect(() => {
 		poznavackaWithoutDuplicates.current = null;

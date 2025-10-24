@@ -9,7 +9,13 @@ import { useEffect } from 'react';
  * - target - The element that will listen to the event (default: document)
  * - passive - Whether the event listener is passive or not
  */
-export function useAddEventListener(eventName, callback, dependencies = [], { target = document, passive } = {}) {
+
+type Options = {
+	target?: HTMLElement | Document;
+	passive?: boolean;
+};
+
+export function useAddEventListener(eventName: string, callback: () => void, dependencies = [], { target = document, passive }: Options = {}) {
 	useEffect(() => {
 		const eventController = new AbortController();
 

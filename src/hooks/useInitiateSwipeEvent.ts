@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 /**
  * Creates the custom:swipe event on the document element.
  */
 export function useInitiateSwipeEvent() {
 	useEffect(() => {
-		let startX, startY, changeX, changeY, startMS;
+		let startX: number, startY: number, changeX: number, changeY: number, startMS: number;
 
-		let handleTouchStart = (e) => {
+		let handleTouchStart = (e: TouchEvent) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
 			startMS = Date.now();
 		};
 
-		let handleTouchMove = (e) => {
+		let handleTouchMove = (e: TouchEvent) => {
 			if (!startX) return;
 			let deltaX = e.touches[0].clientX;
 			let deltaY = e.touches[0].clientY;
@@ -21,7 +21,7 @@ export function useInitiateSwipeEvent() {
 			changeY = deltaY - startY;
 		};
 
-		let handleTouchEnd = (e) => {
+		let handleTouchEnd = () => {
 			if (Date.now() - startMS > 500) return; // PREVENTS EVENT IF SWIPE IS TOO SLOW
 			if (Math.abs(changeY) < 20 && Math.abs(changeX) < 20) return; // PREVENTS EVENT IF SWIPE IS TOO INSIGNIFICANT
 			if (Math.abs(Math.abs(changeX) - Math.abs(changeY)) < 20) return; // PREVENTS SWIPE IF THE DIRECTION IS NOT UNAMBIGUOUS
