@@ -1,6 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { getPoznavackaFiles } from './functions/getPoznavackaFiles.js';
+import { getPoznavackaFiles } from './functions/getPoznavackaFiles.ts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
