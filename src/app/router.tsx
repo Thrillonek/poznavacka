@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { createBrowserRouter } from 'react-router';
 import { RouterProvider } from 'react-router/dom';
 import App from './routes/App';

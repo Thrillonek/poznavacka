@@ -31,5 +31,5 @@
 			"public": ["./public"]
 		}
 	},
-	"include": ["src"]
+	"include": ["src/"]
 }

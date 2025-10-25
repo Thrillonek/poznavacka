@@ -1,16 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useInitiateSwipeEvent } from 'src/hooks';
 import { isObject } from 'src/utils';
-import List from '../../features/list/components/List.jsx';
-import Quiz from '../../features/quiz/components/Quiz.jsx';
-import Settings from '../../features/settings/components/Settings.jsx';
-import ModeMenu from '../ui/ModeMenu.jsx';
+import List from '../../features/list/components/List';
+import Quiz from '../../features/quiz/components/Quiz';
+import Settings from '../../features/settings/components/Settings';
+import ModeMenu from '../ui/ModeMenu';
 
 export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { mode, setMode } = useModeStore((store) => store);
-
 	const isLocked = useSwipeLockStore((state) => state.isLocked);
 
 	useInitiateSwipeEvent();
@@ -20,7 +19,7 @@ export default function Base() {
 
 		document.addEventListener(
 			'custom:swipe',
-			(e) => {
+			(e: CustomEventInit) => {
 				const direction = e.detail.direction;
 				if (isLocked) return;
 
