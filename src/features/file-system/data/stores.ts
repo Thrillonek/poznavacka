@@ -1,14 +1,15 @@
 import { fileSystem } from 'src/data';
 import { create } from 'zustand';
+import type { FileSystemStore, MenuStore } from '../types/stores';
 
-export const useMenuStore = create((set) => ({
+export const useMenuStore = create<MenuStore>()((set) => ({
 	isOpened: true,
 	open: () => set({ isOpened: true }),
 	close: () => set({ isOpened: false }),
 	toggle: () => set((state) => ({ isOpened: !state.isOpened })),
 }));
 
-export const useFileSystemStore = create((set) => ({
+export const useFileSystemStore = create<FileSystemStore>()((set) => ({
 	selectedFolder: fileSystem,
 	path: [],
 	folderName: null,

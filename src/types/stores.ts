@@ -1,4 +1,4 @@
-import type { FileSystem } from 'src/types/variables';
+import type { Folder } from 'src/types/variables';
 
 export type SwipeLockStore = {
 	isLocked: boolean;
@@ -12,10 +12,10 @@ export type ModeStore = {
 };
 
 export type PoznavackaStore = {
-	poznavacka: FileSystem;
-	basePoznavacka: FileSystem;
-	setPoznavacka: (newPoznavacka: FileSystem) => void;
-	updatePoznavacka: (newPoznavacka: FileSystem) => void;
+	poznavacka: Folder;
+	basePoznavacka: Folder;
+	setPoznavacka: (newPoznavacka: Folder) => void;
+	updatePoznavacka: (newPoznavacka: Folder) => void;
 };
 
 export type SettingsStore = {

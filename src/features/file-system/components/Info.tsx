@@ -5,7 +5,7 @@ function Info() {
 		<>
 			<div className='flex justify-between items-center mb-2'>
 				<h3 className='font-semibold text-neutral-300 text-lg'>Info</h3>
-				<button className='block ml-auto' onClick={() => document.getElementById('menu-info').classList.remove('scale-100')}>
+				<button className='block ml-auto' onClick={() => document.getElementById('menu-info')!.classList.remove('scale-100')}>
 					<Icon icon='meteor-icons:xmark' className='text-xl'></Icon>
 				</button>
 			</div>

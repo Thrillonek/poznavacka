@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
-import type { FileSystem } from 'src/types/variables';
+import type { Folder } from 'src/types/variables';
 import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames';
 
 /**
@@ -11,7 +11,7 @@ export function useUpdatePoznavacka() {
 	const updatePoznavacka = usePoznavackaStore((state) => state.updatePoznavacka);
 	const settings = useSettingsStore((state) => state.settings);
 
-	const poznavackaWithoutDuplicates = useRef<FileSystem>();
+	const poznavackaWithoutDuplicates = useRef<Folder>();
 
 	useEffect(() => {
 		poznavackaWithoutDuplicates.current = null;

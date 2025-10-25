@@ -1,4 +1,4 @@
-import type { FileSystem } from 'src/types/variables';
+import type { Folder } from 'src/types/variables';
 import { isObject, objFirstKey, objFirstValue } from './objectManipulation';
 
 /**
@@ -8,7 +8,7 @@ import { isObject, objFirstKey, objFirstValue } from './objectManipulation';
  *
  * @param fileSystem - The file system object to remove duplicates from.
  */
-export function removeDuplicateFileNames(fileSystem: FileSystem) {
+export function removeDuplicateFileNames(fileSystem: Folder) {
 	if (!fileSystem) return;
 	let uniqueItems: string[] = [];
 	let poznavackaItems: string[] = objFirstValue(fileSystem);
@@ -22,6 +22,6 @@ export function removeDuplicateFileNames(fileSystem: FileSystem) {
 			}
 		}
 	});
-	let newFileSystem: FileSystem = { [objFirstKey(fileSystem)]: newPoznavackaItems };
+	let newFileSystem: Folder = { [objFirstKey(fileSystem)]: newPoznavackaItems };
 	return newFileSystem;
 }
