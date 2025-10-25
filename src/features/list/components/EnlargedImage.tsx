@@ -18,7 +18,7 @@ function EnlargedImage() {
 	const files = getFiles();
 
 	useAddEventListener('keydown', handleKeyDown);
-	function handleKeyDown(e) {
+	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key == 'ArrowRight') {
 			changeChosenFile({ right: true });
 		} else if (e.key == 'ArrowLeft') {
@@ -27,7 +27,7 @@ function EnlargedImage() {
 	}
 
 	useAddEventListener('custom:swipe', handleSwipe);
-	function handleSwipe(e) {
+	function handleSwipe(e: CustomEvent) {
 		let direction = e.detail.direction;
 		if (direction == 'left') changeChosenFile({ right: true });
 		if (direction == 'right') changeChosenFile({ left: true });
@@ -48,7 +48,7 @@ function EnlargedImage() {
 	return (
 		<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
 			{!isPhone && (
-				<div onClick={(e) => changeChosenFile({ left: true })} className='text-neutral-400 cursor-pointer'>
+				<div onClick={() => changeChosenFile({ left: true })} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-left text-5xl fa-solid'></i>
 				</div>
 			)}
@@ -69,7 +69,7 @@ function EnlargedImage() {
 				</div>
 				<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
 					{chosenFile && nameFromPath(chosenFile)}
-					{objFirstKey(poznavacka) == 'hmyz' && (
+					{objFirstKey(poznavacka!) == 'hmyz' && (
 						<>
 							<br />
 							<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile), insectGroupNames)}</p>
@@ -78,11 +78,11 @@ function EnlargedImage() {
 				</span>
 			</div>
 			{!isPhone && (
-				<div onClick={(e) => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
+				<div onClick={() => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-right text-5xl fa-solid'></i>
 				</div>
 			)}
-			<button onClick={(e) => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (isPhone && '!left-[5%]')}>
+			<button onClick={() => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (isPhone && '!left-[5%]')}>
 				<i className='fa-arrow-left text-2xl fa-solid'></i>
 			</button>
 		</div>

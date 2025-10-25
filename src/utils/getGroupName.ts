@@ -6,7 +6,7 @@
  * @param index The index of the group name to retrieve.
  * @param groupNameArray The array of group names and their starting indexes.
  */
-export function getGroupName(index: number, groupNameArray: Object[]) {
+export function getGroupName(index: number, groupNameArray: Record<number, string>): string {
 	while (groupNameArray[index] == undefined) {
 		index--;
 		if (index < 0) break;

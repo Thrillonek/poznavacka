@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { fileSystem, insectGroupNames, plantGroupNames, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from 'src/data';
-import { getFiles, isObject, nameFromPath, objFirstKey, objFirstValue } from 'src/utils';
-import { useChosenFileStore, useListSearchStore } from '../data/stores';
-import { useSmoothSwipeDown } from '../hooks/useSmoothSwipeDown';
-import { checkIsSearched } from '../utils/searchItem';
+import type { UIEvent } from 'react';
+import { useEffect, useState } from 'react';
+import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { getFiles, isObject, objFirstKey } from 'src/utils';
+import { useChosenFileStore } from '../data/stores';
 import EnlargedImage from './EnlargedImage';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
@@ -11,20 +10,16 @@ import SearchForm from './SearchForm';
 export default function List() {
 	const settings = useSettingsStore((store) => store.settings);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-
-	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
-
-	const searchInput = useListSearchStore((store) => store.searchInput);
+	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
 	const files = getFiles();
 
-	const [category, setCategory] = useState();
-	const [scrollY, setScrollY] = useState();
+	const [scrollY, setScrollY] = useState<number>();
 
 	// RESETS STATE WHEN POZNAVACKA CHANGES
 	useEffect(() => {
-		document.getElementById('list').scrollTop = 0;
+		document.getElementById('list')!.scrollTop = 0;
 		setChosenFile(null);
 	}, [poznavacka]);
 
@@ -41,8 +36,8 @@ export default function List() {
 	// 	}
 	// }, [chosenFile]);
 
-	function handleScroll(e) {
-		setScrollY(e.target.scrollTop);
+	function handleScroll(e: UIEvent) {
+		setScrollY(e.currentTarget.scrollTop);
 	}
 
 	return (
@@ -56,15 +51,15 @@ export default function List() {
 					{files
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {
-							if (settings.list?.hideComplete && settings.quiz.complete.includes(idx)) return null;
+							if (settings.list.hideCompleted && completedFiles.includes(file)) return null;
 							let props = { idx, file };
-							return <ListItem key={'list-item-' + objFirstKey(poznavacka) + idx} {...props} />;
+							return <ListItem key={'list-item-' + objFirstKey(poznavacka!) + idx} {...props} />;
 						})}
 				</div>
 			</div>
 
 			{/* Scroll Up Button */}
-			<button style={{ opacity: scrollY > 100 && '100' }} onClick={(e) => scrollY > 100 && document.getElementById('list').scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 md:right-8 bottom-2 z-30 absolute bg-neutral-900 opacity-0 border border-neutral-700 rounded-full outline-none h-12 aspect-square transition-opacity duration-300'>
+			<button style={{ opacity: scrollY! > 100 ? '100' : undefined }} onClick={() => scrollY! > 100 && document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 md:right-8 bottom-2 z-30 absolute bg-neutral-900 opacity-0 border border-neutral-700 rounded-full outline-none h-12 aspect-square transition-opacity duration-300'>
 				<i className='text-neutral-500 text-2xl fa-angles-up fa-solid'></i>
 			</button>
 		</div>
