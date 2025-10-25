@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import { fileSystem } from 'src/data';
 
 function Test() {
-	const [plant, setPlant] = useState();
+	const [plant, setPlant] = useState<string | null>();
 	const [count, setCount] = useState(0);
 	const [end, setEnd] = useState(false);
 
 	let bomba = false;
 	let plants = fileSystem['rostliny'];
 
-	const arr = useRef([]);
+	const arr = useRef<number[]>([]);
 
 	useEffect(() => {
 		setCount(0);
@@ -29,7 +29,7 @@ function Test() {
 		arr.current = [];
 		setCount(0);
 		setEnd(false);
-		setPlant();
+		setPlant(null);
 	}
 
 	function changePlant() {
@@ -49,7 +49,7 @@ function Test() {
 					<img src={('./assets/rostliny/' + plant).replace(' ', '%20').replace('+', '%2b')} className='h-[90%]' alt='obrázek rostliny' />
 				</div>
 			) : (
-				<h1 onClick={(e) => !end && changePlant()} className='top-1/2 absolute p-8 font-bold text-white text-5xl tracking-widest cursor-pointer'>
+				<h1 onClick={() => !end && changePlant()} className='top-1/2 absolute p-8 font-bold text-white text-5xl tracking-widest cursor-pointer'>
 					{end ? 'KONEC' : 'ZAČÍT'}
 				</h1>
 			)}
