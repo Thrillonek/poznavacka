@@ -2,6 +2,7 @@ import { useCompletedFilesStore } from 'src/data';
 import { getFiles } from 'src/utils';
 import { useQuizFileStore } from '../data/stores';
 import { fileIndexList } from '../data/variables';
+import { changeImage } from './changeImage';
 
 /**
  * Adds file to completed files array in global state, removes it from cycle, then changes the image.
