@@ -11,7 +11,7 @@ function ListItem({ idx, file }: ListItemProps) {
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
-	let isSearched = useMemo(() => checkIsSearched(file) || searchInput == idx + 1, [searchInput]);
+	let isSearched = useMemo(() => checkIsSearched(file) || searchInput == (idx + 1).toString(), [searchInput]);
 
 	return (
 		<div id={'list-item-' + (idx + 1).toString()}>

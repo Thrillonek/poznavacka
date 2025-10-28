@@ -20,18 +20,18 @@ function EnlargedImage() {
 	useAddEventListener('keydown', handleKeyDown);
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key == 'ArrowRight') {
-			changeChosenFile({ right: true });
+			changeChosenFile('right');
 		} else if (e.key == 'ArrowLeft') {
-			changeChosenFile({ left: true });
+			changeChosenFile('left');
 		}
 	}
 
 	useAddEventListener('custom:swipe', handleSwipe);
 	function handleSwipe(e: CustomEvent) {
 		let direction = e.detail.direction;
-		if (direction == 'left') changeChosenFile({ right: true });
-		if (direction == 'right') changeChosenFile({ left: true });
-		if (direction == 'down') setChosenFile(null);
+		if (direction == 'left') changeChosenFile('right');
+		if (direction == 'right') changeChosenFile('left');
+		if (direction == 'down') setChosenFile(undefined);
 	}
 
 	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
@@ -48,13 +48,13 @@ function EnlargedImage() {
 	return (
 		<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
 			{!isPhone && (
-				<div onClick={() => changeChosenFile({ left: true })} className='text-neutral-400 cursor-pointer'>
+				<div onClick={() => changeChosenFile('left')} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-left text-5xl fa-solid'></i>
 				</div>
 			)}
 			<div className='flex flex-col w-[70%] max-sm:w-[90%] h-[60%] overflow-hidden'>
-				<span className='mx-auto mb-8 font-bold text-neutral-300 text-3xl'>{files.indexOf(chosenFile) + 1}</span>
-				<div id='enlarged-img-slider' className={'relative transition-[left] grid grid-flow-col flex-grow ' /*(chosenFile ? '' : '')*/} style={{ left: `-${files.indexOf(chosenFile) * 100}%` }}>
+				<span className='mx-auto mb-8 font-bold text-neutral-300 text-3xl'>{files.indexOf(chosenFile!) + 1}</span>
+				<div id='enlarged-img-slider' className={'relative transition-[left] grid grid-flow-col flex-grow ' /*(chosenFile ? '' : '')*/} style={{ left: `-${files.indexOf(chosenFile!) * 100}%` }}>
 					{files
 						.filter((f) => !isObject(f))
 						.map((file, idx) => {
@@ -72,17 +72,17 @@ function EnlargedImage() {
 					{objFirstKey(poznavacka!) == 'hmyz' && (
 						<>
 							<br />
-							<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile), insectGroupNames)}</p>
+							<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>
 						</>
 					)}
 				</span>
 			</div>
 			{!isPhone && (
-				<div onClick={() => changeChosenFile({ right: '+' })} className='text-neutral-400 cursor-pointer'>
+				<div onClick={() => changeChosenFile('right')} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-right text-5xl fa-solid'></i>
 				</div>
 			)}
-			<button onClick={() => setChosenFile(null)} className={'top-3 left-24 absolute text-neutral-400 ' + (isPhone && '!left-[5%]')}>
+			<button onClick={() => setChosenFile(undefined)} className={'top-3 left-24 absolute text-neutral-400 ' + (isPhone && '!left-[5%]')}>
 				<i className='fa-arrow-left text-2xl fa-solid'></i>
 			</button>
 		</div>

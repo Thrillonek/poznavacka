@@ -7,18 +7,18 @@ export function useSmoothSwipeDown() {
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
 	useEffect(() => {
-		let startY, changeY, startMS;
-		let enlarged = document.getElementById('enlarged-img');
-		let locked;
+		let startY: number, changeY: number, startMS: number;
+		let enlarged = document.getElementById('enlarged-img')!;
+		let locked: boolean;
 
 		if (chosenFile) enlarged.style.top = `0px`;
 
-		let handleTouchStart = (e) => {
+		let handleTouchStart = (e: TouchEvent) => {
 			startY = e.touches[0].clientY;
 			startMS = Date.now();
 			locked = true;
 		};
-		let handleTouchMove = (e) => {
+		let handleTouchMove = (e: TouchEvent) => {
 			if (!startY) return;
 
 			let deltaY = e.touches[0].clientY;
@@ -29,13 +29,13 @@ export function useSmoothSwipeDown() {
 			if (!locked) enlarged.style.top = `${changeY >= 0 ? changeY : 0}px`;
 		};
 
-		let handleTouchEnd = (e) => {
+		let handleTouchEnd = () => {
 			if (!chosenFile) return;
 
 			let currentMS = Date.now();
 
 			if (changeY > 200 || Math.abs(startMS - currentMS) < 100) {
-				setChosenFile(null);
+				setChosenFile(undefined);
 			} else {
 				enlarged.style.top = '0px';
 			}

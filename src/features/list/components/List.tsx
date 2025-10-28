@@ -20,7 +20,7 @@ export default function List() {
 	// RESETS STATE WHEN POZNAVACKA CHANGES
 	useEffect(() => {
 		document.getElementById('list')!.scrollTop = 0;
-		setChosenFile(null);
+		setChosenFile(undefined);
 	}, [poznavacka]);
 
 	// UPDATES CATEGORY ON ENLARGED IMAGE

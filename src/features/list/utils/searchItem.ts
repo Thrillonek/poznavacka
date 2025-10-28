@@ -1,3 +1,4 @@
+import type { FormEvent } from 'react';
 import { nameFromPath } from 'src/utils';
 import { getFiles } from '../../../utils/getFiles';
 import { useListSearchStore } from '../data/stores';
@@ -6,7 +7,7 @@ import { useListSearchStore } from '../data/stores';
  * Checks if the given file name matches the current search input.
  * @param fileName - The file name to check.
  */
-export function checkIsSearched(fileName) {
+export function checkIsSearched(fileName: string) {
 	const searchInput = useListSearchStore.getState().searchInput;
 	if (!searchInput) return false;
 
@@ -22,7 +23,7 @@ export function checkIsSearched(fileName) {
  * If the search input is a string, it finds the first item that contains a word starting with the search input.
  * @param e - The event triggered when the search form is submitted.
  */
-export function searchItem(e) {
+export function searchItem(e: FormEvent) {
 	e.preventDefault();
 
 	const searchInput = useListSearchStore.getState().searchInput;
@@ -30,7 +31,7 @@ export function searchItem(e) {
 
 	const files = getFiles();
 
-	const list = document.getElementById('list');
+	const list = document.getElementById('list')!;
 	let searchedItemIndex;
 
 	if (/\D/.test(searchInput)) {
@@ -42,7 +43,7 @@ export function searchItem(e) {
 		searchedItemIndex = parseInt(searchInput);
 	}
 
-	let searchedItem = document.getElementById('list-item-' + searchedItemIndex);
+	let searchedItem = document.getElementById('list-item-' + searchedItemIndex)!;
 	let searchedItemRect = searchedItem.getBoundingClientRect();
 	let listRect = list.getBoundingClientRect();
 
