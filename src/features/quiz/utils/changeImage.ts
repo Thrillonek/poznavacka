@@ -1,4 +1,5 @@
 import { usePresetStore, useSettingsStore } from 'src/data';
+import type { SettingsStore } from 'src/types/stores';
 import { getFiles } from 'src/utils/getFiles';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
@@ -12,7 +13,7 @@ import { getMinMax } from './getMinMax';
  *   - complete - Only set to true when the file was added to the `completedFiles` array. Default is false.
  */
 
-export function changeImage({ showImage = false, complete: isFileCompleted } = {}) {
+export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean }) {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
 	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();
@@ -35,8 +36,8 @@ export function changeImage({ showImage = false, complete: isFileCompleted } = {
 	setFileIndex(newIndex);
 }
 
-function generateNewIndex({ min, max, isFileCompleted, settings }) {
-	let idx;
+function generateNewIndex({ min, max, isFileCompleted, settings }: { min: number; max: number; isFileCompleted: boolean; settings: SettingsStore['settings'] }) {
+	let idx: number;
 	if (settings?.quiz.random) {
 		idx = betterRNG(min, max);
 	} else {
@@ -51,15 +52,15 @@ function generateNewIndex({ min, max, isFileCompleted, settings }) {
 	return idx;
 }
 
-function handleErrors({ files, settings, min, max }) {
+function handleErrors({ files, settings, min, max }: { files: string[]; settings: SettingsStore['settings']; min: number; max: number }) {
 	const setError = useQuizErrorStore.getState().setError;
 
-	function invalidate(message) {
+	function invalidate(message: string) {
 		setError(message);
 		return false;
 	}
 
-	setError(null);
+	setError('');
 	if (settings?.quiz.mode == 'custom') {
 		if (max <= min || (!settings?.quiz.max && min >= files?.length) || (!settings?.quiz.min && max < 1)) invalidate('Dolní hranice musí být nižší než ta horní');
 		if (min < 1) invalidate('Dolní hranice nemůže být nižší než 1');

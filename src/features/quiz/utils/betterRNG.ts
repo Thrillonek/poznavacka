@@ -7,10 +7,10 @@ import { fileIndexList } from '../data/variables';
  * @param min - The minimum value of the range.
  * @param max - The maximum value of the range.
  */
-export function betterRNG(min, max) {
+export function betterRNG(min: number, max: number) {
 	const { completedFiles } = useCompletedFilesStore.getState();
 
-	const rng = (minNum, maxNum) => Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+	const rng = (minNum: number, maxNum: number) => Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
 
 	let range = max - min + 1;
 	let idx = rng(0, fileIndexList.main.length - 1);

@@ -9,7 +9,7 @@ import { changeImage } from './changeImage';
  */
 export function addFileToCompleted() {
 	const { addFileToCompleted: storeFileInCompleted } = useCompletedFilesStore.getState();
-	const { fileIndex } = useQuizFileStore.getState();
+	const fileIndex = useQuizFileStore.getState().fileIndex!;
 	const files = getFiles();
 
 	let idx = fileIndexList.recent.indexOf(fileIndex);

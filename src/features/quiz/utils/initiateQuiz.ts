@@ -16,7 +16,7 @@ export function initiateQuiz() {
 	const completedFiles = useCompletedFilesStore.getState().completedFiles;
 	const files = getFiles();
 
-	previousIndex.current = null;
+	previousIndex.current = undefined;
 
 	let { min, max } = getMinMax({ presets, files, settings });
 
