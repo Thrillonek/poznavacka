@@ -1,14 +1,15 @@
 import { getFiles } from 'src/utils';
 import { create } from 'zustand';
+import type { QuizErrorStore, QuizFileStore } from '../types/base';
 
-export const useQuizErrorStore = create((set) => ({
-	error: null,
+export const useQuizErrorStore = create<QuizErrorStore>()((set) => ({
+	error: undefined,
 	setError: (error) => set({ error }),
 }));
 
-export const useQuizFileStore = create((set) => ({
-	fileIndex: null,
-	fileName: null,
+export const useQuizFileStore = create<QuizFileStore>()((set) => ({
+	fileIndex: undefined,
+	fileName: undefined,
 	isFileLoaded: false,
 	isFileNameRevealed: false,
 	setFileIndex: (fileIndex) => {
