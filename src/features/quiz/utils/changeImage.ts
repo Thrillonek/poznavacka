@@ -3,8 +3,7 @@ import type { SettingsStore } from 'src/types/stores';
 import { getFiles } from 'src/utils/getFiles';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
-import { betterRNG } from './betterRNG';
-import { getMinMax } from './getMinMax';
+import { betterRNG, getMinMax } from './index';
 
 /**
  * Changes the current image in the quiz, toggles the filename reveal and handles errors.
@@ -13,7 +12,7 @@ import { getMinMax } from './getMinMax';
  *   - complete - Only set to true when the file was added to the `completedFiles` array. Default is false.
  */
 
-export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean }) {
+export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean } = {}) {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
 	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();

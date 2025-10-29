@@ -7,7 +7,7 @@ import { getFiles } from 'src/utils';
  * It also generates an array containing a number for every preset available.
  */
 export function useDefineDefaultValues() {
-	const presetLength = useRef();
+	const presetLength = useRef<number[]>();
 	const files = getFiles();
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);

@@ -18,6 +18,8 @@ export type PoznavackaStore = {
 	updatePoznavacka: (newPoznavacka: Folder) => void;
 };
 
+type Basic = string | number | boolean;
+
 export type SettingsStore = {
 	settings: {
 		keybinds: { [key: string]: string };
@@ -34,9 +36,9 @@ export type SettingsStore = {
 		devMode: boolean;
 	};
 	setKeybind: (keybind: string, newValue: string) => void;
-	updateQuizSettings: (key: string, value: string) => void;
-	updateCoreSettings: (key: string, value: string) => void;
-	updateListSettings: (key: string, value: string) => void;
+	updateQuizSettings: (key: string, value: Basic) => void;
+	updateCoreSettings: (key: string, value: Basic) => void;
+	updateListSettings: (key: string, value: Basic) => void;
 };
 
 export type PresetStore = {
