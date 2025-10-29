@@ -4,8 +4,8 @@ export type PresetMenuStore = {
 };
 
 export type SettingsStatusStore = {
-	activeRangeValue?: string;
-	activateRange: (type: string) => void;
+	activeRangeValue?: 'min' | 'max';
+	activateRange: (type: 'min' | 'max') => void;
 	deactivateRange: () => void;
 
 	keybindToBeChanged?: string;
