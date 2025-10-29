@@ -1,9 +1,11 @@
 import { Icon } from '@iconify/react';
+import { useCompletedFilesStore } from 'src/data/stores';
 import { useSettingsStatusStore } from '../data/stores';
 
 function ConfirmModal() {
 	const isModalOpen = useSettingsStatusStore((store) => store.isModalOpen);
 	const closeModal = useSettingsStatusStore((store) => store.closeModal);
+	const clearCompletedFiles = useCompletedFilesStore((store) => store.clearCompletedFiles);
 
 	return (
 		<div onClick={closeModal} className={'fixed w-screen z-50 top-0 left-0 transition-opacity backdrop-blur-sm h-screen bg-black bg-opacity-20 ' + (isModalOpen ? '' : 'pointer-events-none opacity-0')}>
@@ -16,7 +18,7 @@ function ConfirmModal() {
 					<button
 						className='btn-danger'
 						onClick={() => {
-							updateQuizSettings('complete', []);
+							clearCompletedFiles();
 							closeModal();
 						}}
 					>
