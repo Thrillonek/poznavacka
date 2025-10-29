@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react';
 import { Checkbox } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
@@ -22,7 +21,7 @@ export default function Settings() {
 
 	const { random } = settings.quiz;
 
-	function handleKeyDown(e) {
+	function handleKeyDown(e: KeyboardEvent) {
 		if (!keybindToBeChanged) return;
 
 		if (e.key == 'Escape') {
@@ -50,10 +49,10 @@ export default function Settings() {
 					<div className='flex flex-col w-full'>
 						<h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Způsob generace obrázků</h2>
 						<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
-							<button onClick={(e) => updateQuizSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
+							<button onClick={() => updateQuizSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
 								Náhodně
 							</button>
-							<button onClick={(e) => updateQuizSettings('random', false)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (!random && '!text-blue-300 !border-blue-500 faint-bg')}>
+							<button onClick={() => updateQuizSettings('random', false)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (!random && '!text-blue-300 !border-blue-500 faint-bg')}>
 								Postupně
 							</button>
 						</div>
