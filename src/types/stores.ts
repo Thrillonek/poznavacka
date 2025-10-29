@@ -38,7 +38,7 @@ export type SettingsStore = {
 	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
 	updateQuizSettings: (key: keyof SettingsStore['settings']['quiz'], value: Basic) => void;
 	updateCoreSettings: (key: keyof SettingsStore['settings'], value: Basic) => void;
-	updateListSettings: (key: keyof SettingsStore['settings']['list'], value: Basic) => void;
+	updateListSettings: (key: keyof SettingsStore['settings']['list'], value: boolean) => void;
 };
 
 export type PresetStore = {
