@@ -5,10 +5,10 @@ import { getFiles } from 'src/utils';
 import { useSettingsStatusStore } from '../data/stores';
 import { useUpdateRangeUI } from '../hooks/useUpdateRangeUI';
 import { handleChangeMinMax } from '../utils';
-import { handleFocusOut } from '../utils/handleFocusOut';
+import { handleFocusOut } from '../utils/event-handlers/handleFocusOut';
+import { handleRangePointerDown } from '../utils/event-handlers/handleRangePointerDown';
 
 function MinMaxControl() {
-	const activateRange = useSettingsStatusStore((store) => store.activateRange);
 	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
 	const settings = useSettingsStore((store) => store.settings);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -40,9 +40,9 @@ function MinMaxControl() {
 					<input className='bg-neutral-600 p-1 rounded outline-none font-medium text-neutral-300 text-center caret-neutral-400' type='text' onChange={(e) => handleChangeMinMax(e, 'max')} value={max} />
 				</div>
 			</div>
-			<div id='size-range' className='relative flex items-center mt-8 h-2'>
-				<div id='size-min' onPointerDown={() => activateRange('min')} style={{ left: ((minMaxInput.min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'min' ? '!bg-blue-400' : '')}></div>
-				<div id='size-max' onPointerDown={() => activateRange('max')} style={{ left: ((minMaxInput.max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'max' ? '!bg-blue-400' : '')}></div>
+			<div id='size-range' onPointerDown={(e) => handleRangePointerDown(e, files)} className='relative flex items-center mt-8 h-2'>
+				<div id='size-min' style={{ left: ((minMaxInput.min - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'min' ? '!bg-blue-400' : '')}></div>
+				<div id='size-max' style={{ left: ((minMaxInput.max - 1) / files.length) * 99 + '%' }} className={'z-10 absolute bg-blue-500 hover:z-20 transition-colors hover:bg-blue-400 rounded-full h-[200%] aspect-square ' + (activeRangeValue == 'max' ? '!bg-blue-400' : '')}></div>
 				<div className='relative flex items-center bg-neutral-500 rounded-full w-full h-2/3'>
 					<div style={{ left: ((minMaxInput.min - 1) / files.length) * 99 + '%', width: ((minMaxInput.max - minMaxInput.min) / files.length) * 99 + '%' }} className='absolute bg-blue-500 h-full translate-x-2'></div>
 				</div>

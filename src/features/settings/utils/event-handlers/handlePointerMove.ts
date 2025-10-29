@@ -1,7 +1,7 @@
 import type { PointerEvent } from 'react';
 import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
-import { useSettingsStatusStore } from '../data/stores';
+import { useSettingsStatusStore } from '../../data/stores';
 
 export function handlePointerMove(e: PointerEvent) {
 	const activeRangeValue = useSettingsStatusStore.getState().activeRangeValue;
