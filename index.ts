@@ -15,26 +15,26 @@ app.use(cors());
 app.use(express.json());
 
 //* XML READ TESTER
-for (const file of files.sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''))) {
-	let content = fs.readFileSync(path + '/' + file);
-	let $ = load(content, { xml: true });
-	if ($('p\\:pic').length > 0) {
-		count += $('p\\:pic').length;
-		continue;
-	}
-	$(`p\\:sp`).each((idx, item) => {
-		let itemA = item?.children.find((i) => i.name == 'p:nvSpPr');
-		let itemB = itemA?.children.find((i) => i.name == 'p:cNvPr');
-		let attr = itemB?.attributes.find((i) => i.name == 'name');
-		if (!attr.value.toLowerCase().includes('nadpis')) return;
+// for (const file of files.sort((a, b) => a.replaceAll(/\D/g, '') - b.replaceAll(/\D/g, ''))) {
+// 	let content = fs.readFileSync(path + '/' + file);
+// 	let $ = load(content, { xml: true });
+// 	if ($('p\\:pic').length > 0) {
+// 		count += $('p\\:pic').length;
+// 		continue;
+// 	}
+// 	$(`p\\:sp`).each((idx, item) => {
+// 		let itemA = item?.children.find((i) => i.name == 'p:nvSpPr');
+// 		let itemB = itemA?.children.find((i) => i.name == 'p:cNvPr');
+// 		let attr = itemB?.attributes.find((i) => i.name == 'name');
+// 		if (!attr.value.toLowerCase().includes('nadpis')) return;
 
-		let itemC = item?.children.find((i) => i.name == 'p:txBody');
-		let itemD = itemC?.children.find((i) => i.name == 'a:p');
-		let itemE = itemD?.children.find((i) => i.name == 'a:r');
-		let targetItem = itemE?.children.find((i) => i.name == 'a:t');
-		arr.push(count + ": '" + targetItem?.children?.[0].data + "'");
-	});
-}
+// 		let itemC = item?.children.find((i) => i.name == 'p:txBody');
+// 		let itemD = itemC?.children.find((i) => i.name == 'a:p');
+// 		let itemE = itemD?.children.find((i) => i.name == 'a:r');
+// 		let targetItem = itemE?.children.find((i) => i.name == 'a:t');
+// 		arr.push(count + ": '" + targetItem?.children?.[0].data + "'");
+// 	});
+// }
 
 fs.writeFileSync('./public/nadpisy.txt', `${arr.join(',\n')}`, 'utf8');
 
