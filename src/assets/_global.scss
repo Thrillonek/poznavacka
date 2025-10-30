@@ -9,3 +9,27 @@
 	--accent: oklch(55.088% 0.20446 259.68);
 	--accent-muted: oklch(74.34% 0.11046 256.855);
 }
+
+.text-muted {
+	color: var(--text-muted);
+}
+
+.text-main {
+	color: var(--text);
+}
+
+.bg-dark {
+	background-color: var(--bg-dark);
+}
+
+.bg-base {
+	background-color: var(--bg-base);
+}
+
+.bg-light {
+	background-color: var(--bg-light);
+}
+
+.bg-accent {
+	color: var(--accent);
+}

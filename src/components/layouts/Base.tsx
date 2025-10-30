@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
-import { useInitiateSwipeEvent } from 'src/hooks';
+import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
@@ -14,25 +13,17 @@ export default function Base() {
 
 	useInitiateSwipeEvent();
 
-	useEffect(() => {
-		const ctrl = new AbortController();
+	useAddEventListener(
+		'custom:swipe',
+		(e: CustomEventInit) => {
+			const direction = e.detail.direction;
+			if (isLocked) return;
 
-		document.addEventListener(
-			'custom:swipe',
-			(e: CustomEventInit) => {
-				const direction = e.detail.direction;
-				if (isLocked) return;
-
-				if (direction == 'right' && mode == 'list') setMode('quiz');
-				if (direction == 'left' && mode == 'quiz') setMode('list');
-			},
-			{ signal: ctrl.signal }
-		);
-
-		return () => {
-			ctrl.abort();
-		};
-	}, [mode, isLocked]);
+			if (direction == 'right' && mode == 'list') setMode('quiz');
+			if (direction == 'left' && mode == 'quiz') setMode('list');
+		},
+		[mode, isLocked]
+	);
 
 	return (
 		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>

@@ -1,3 +1,4 @@
+import 'src/assets/_main.scss';
 import Base from 'src/components/layouts/Base';
 import MenuBar from 'src/features/file-system/components/MenuBar';
 import Sidebar from 'src/features/file-system/components/Sidebar';
@@ -62,15 +63,11 @@ export default function App() {
 
 	return (
 		<>
-			<main className={'relative h-screen bg-[--bg-main] z-0 w-full flex flex-col'}>
-				<div className='relative flex flex-grow'>
-					<Sidebar />
-					<div className='max-md:z-0 flex flex-col flex-grow'>
-						<MenuBar />
-						<div className='flex-grow'>
-							<Base />
-						</div>
-					</div>
+			<main>
+				<Sidebar />
+				<div className='main-content'>
+					<MenuBar />
+					<Base />
 				</div>
 			</main>
 		</>
