@@ -9,3 +9,13 @@ main {
 	display: flex;
 	flex-direction: column;
 }
+
+.fill-space {
+	flex: 1 0 auto;
+}
+
+.center-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
