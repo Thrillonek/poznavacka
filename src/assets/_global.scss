@@ -1,13 +1,13 @@
 :root {
-	--text: oklch(95% 0 0);
-	--text-muted: oklch(70% 0 0);
-	--border: oklch(40% 0 0);
-	--bg-dark: oklch(15% 0 0);
-	--bg-base: oklch(10% 0 0);
-	--bg-light: oklch(5% 0 0);
+	--text: oklch(0.9491 0 0);
+	--text-muted: oklch(0.6993 0 0);
+	--border: oklch(0.4017 0 0);
+	--bg-light: oklch(0.2603 0 0);
+	--bg-base: oklch(0.2178 0 0);
+	--bg-dark: oklch(0.1822 0 0);
 
-	--accent: oklch(55.088% 0.20446 259.68);
-	--accent-muted: oklch(74.34% 0.11046 256.855);
+	--accent: oklch(0.6802 0.1606 278.08);
+	--accent-muted: oklch(0.3296 0.0529 280.15);
 }
 
 .text-muted {
@@ -16,6 +16,10 @@
 
 .text-main {
 	color: var(--text);
+}
+
+.text-accent {
+	color: var(--accent);
 }
 
 .bg-dark {
@@ -30,6 +34,6 @@
 	background-color: var(--bg-light);
 }
 
-.bg-accent {
-	color: var(--accent);
+.bg-accent-muted {
+	background-color: var(--accent-muted);
 }

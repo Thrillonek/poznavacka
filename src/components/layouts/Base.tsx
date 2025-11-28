@@ -1,3 +1,4 @@
+import 'src/assets/_base.scss';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { isObject, objFirstValue } from 'src/utils';
@@ -26,23 +27,24 @@ export default function Base() {
 	);
 
 	return (
-		<div className='relative flex max-md:flex-col bg-neutral-800 h-full overflow-x-hidden'>
-			<div className='relative flex flex-grow'>
+		<div className='relative flex max-md:flex-col bg-dark h-full overflow-x-hidden'>
+			<div className='relative fill-space'>
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
 					<Settings />
 				</div>
 				{poznavacka && objFirstValue(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
-					<div className={'relative z-10 flex-grow transition-none bg-inherit max-md:transition-[left] duration-500 ' + (mode == 'quiz' ? 'left-0' : 'max-md:-left-full')}>
-						<div className={'top-0 left-0 absolute w-full h-full'}>
+					<div className={'mode-slider fill-space ' + (mode == 'quiz' ? 'quiz-mode' : '')}>
+						<div className={'left-0'}>
 							<Quiz />
 						</div>
-						<div className={'top-0 bg-inherit left-full md:left-0 absolute w-full h-full ' + (mode == 'list' ? '' : 'md:hidden')}>
+						<div className={'left-full md:left-0 ' + (mode == 'list' ? '' : 'md:hidden')}>
 							<List />
 						</div>
 					</div>
 				) : (
-					<div className='fill-space center-content'>
-						<h1 className='font-bold text-muted text-5xl text-center'>Zvolte poznávačku</h1>
+					<div className='flex-col gap-y-2 fill-space center-content'>
+						<h1 className='font-bold text-main text-4xl text-center'>Poznávačka Tool</h1>
+						<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu obrázků) ve výběru nalevo</p>
 					</div>
 				)}
 			</div>
