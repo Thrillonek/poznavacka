@@ -42,15 +42,15 @@ export default function Base() {
 						</div>
 					</div>
 				) : (
-					<div className='flex-col gap-y-2 fill-space center-content'>
-						<h1 className='font-bold text-main text-4xl text-center'>Poznávačka Tool</h1>
-						<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu obrázků) ve výběru nalevo</p>
+					<div className='flex-col gap-y-2 fill-space px-8 text-center center-content'>
+						<h1 className='font-bold text-main text-4xl'>Poznávačka Tool</h1>
+						<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu&nbsp;obrázků) ve výběru nalevo</p>
 					</div>
 				)}
 			</div>
 
 			{/* MODE MENU  */}
-			<div className='md:hidden'>
+			<div className='md:hidden p-2'>
 				<ModeMenu />
 			</div>
 		</div>

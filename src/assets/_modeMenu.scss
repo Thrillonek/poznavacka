@@ -1,0 +1,22 @@
+@use 'main';
+
+.mode-menu {
+	display: flex;
+	overflow: hidden;
+	border-radius: 1rem;
+
+	& > button {
+		@extend .center-content;
+		@include main.hover-bg(var(--bg-base));
+
+		width: 100%;
+		padding: 1rem 0;
+		font-size: 1.5rem;
+		color: var(--text-muted);
+
+		&.active {
+			background-color: var(--accent-muted);
+			color: var(--accent);
+		}
+	}
+}
