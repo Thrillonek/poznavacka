@@ -18,7 +18,7 @@ function Quiz() {
 		changeImage();
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
-	function handleKeyDown(e) {
+	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key == settings.keybinds.change) {
 			changeImage();
 		}

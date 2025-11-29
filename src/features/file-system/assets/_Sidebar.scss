@@ -1,0 +1,22 @@
+.sidebar-container {
+	background-color: var(--bg-base);
+	border-right: 1px solid var(--border);
+	padding: 1rem 0.5rem;
+	width: 350px;
+	overflow: hidden;
+	user-select: none;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	@media not all and (min-width: 768px) {
+		position: absolute;
+		transition: all 300ms ease-in-out;
+		inset: 0;
+
+		.hide {
+			transform: translateX(-100%);
+		}
+	}
+}

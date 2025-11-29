@@ -31,3 +31,7 @@ main {
 		background-color: oklch(from $color calc(l + 0.033) c h);
 	}
 }
+
+@mixin lighten($color, $amount: 0.033) {
+	background-color: oklch(from $color calc(l + $amount) c h) !important;
+}

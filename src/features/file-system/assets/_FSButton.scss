@@ -1,0 +1,29 @@
+@use 'src/assets/main';
+
+.sidebar-option {
+	display: flex;
+	column-gap: 0.25rem;
+	justify-content: space-between;
+
+	& > button {
+		@include main.hover-bg(var(--bg-base));
+		border-radius: 0.5rem;
+		padding: 0.5rem 1rem;
+		color: var(--text-muted);
+	}
+
+	& > button:first-of-type {
+		text-align: left;
+		font-weight: bold;
+		font-size: 1.25rem;
+		width: 100%;
+	}
+
+	& > button:nth-of-type(2) {
+		@extend .center-content;
+
+		& > * {
+			font-size: 1.25rem;
+		}
+	}
+}

@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import 'src/assets/_modeMenu.scss';
+import 'src/assets/_ModeMenu.scss';
 import { useModeStore } from 'src/data/stores';
 
 function ModeMenu() {

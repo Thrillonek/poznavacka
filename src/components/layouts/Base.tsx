@@ -1,4 +1,4 @@
-import 'src/assets/_base.scss';
+import 'src/assets/_Base.scss';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { isObject, objFirstValue } from 'src/utils';
@@ -27,7 +27,7 @@ export default function Base() {
 	);
 
 	return (
-		<div className='relative flex max-md:flex-col bg-dark h-full overflow-x-hidden'>
+		<div className='flex flex-col bg-dark h-full overflow-x-hidden'>
 			<div className='relative fill-space'>
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
 					<Settings />
