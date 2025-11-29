@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { usePoznavackaStore } from 'src/data';
-import { objFirstKey } from 'src/utils';
+import { getFolderName } from 'src/utils';
 import '../assets/_FSHeadBar.scss';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
@@ -20,7 +20,7 @@ function FSButton() {
 				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : '!hidden')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && objFirstKey(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
+				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
 				<button onClick={() => {}} className='h-full sidebar-head-button'>

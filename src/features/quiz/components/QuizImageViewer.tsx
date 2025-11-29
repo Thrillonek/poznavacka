@@ -1,5 +1,5 @@
 import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
-import { getGroupName, nameFromPath, objFirstKey } from 'src/utils';
+import { getFolderName, getGroupName, nameFromPath } from 'src/utils';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 
 function QuizImageViewer() {
@@ -22,7 +22,7 @@ function QuizImageViewer() {
 					) : isFileNameRevealed ? (
 						<>
 							{nameFromPath(fileName!)}
-							{objFirstKey(poznavacka!) == 'hmyz' && (
+							{getFolderName(poznavacka!) == 'hmyz' && (
 								<>
 									<br />
 									<p className='font-normal text-lg'>Řád: {getGroupName(fileIndex! - 1, insectGroupNames)}</p>

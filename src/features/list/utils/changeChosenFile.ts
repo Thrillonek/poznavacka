@@ -1,5 +1,5 @@
 import { usePoznavackaStore } from 'src/data';
-import { objFirstValue } from 'src/utils';
+import { getContent } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 
 /**
@@ -10,7 +10,7 @@ export function changeChosenFile(condition: 'left' | 'right') {
 	const { chosenFile, setChosenFile } = useChosenFileStore.getState();
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
-	let files = objFirstValue(poznavacka!);
+	let files = getContent(poznavacka!);
 	let idx = chosenFile && files.indexOf(chosenFile);
 
 	if (condition === 'right') {

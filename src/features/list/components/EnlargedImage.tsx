@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { insectGroupNames, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFiles, getGroupName, isObject, nameFromPath, objFirstKey } from 'src/utils';
+import { getFiles, getFolderName, getGroupName, isObject, nameFromPath } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 import { changeChosenFile } from '../utils/changeChosenFile';
 
@@ -69,7 +69,7 @@ function EnlargedImage() {
 				</div>
 				<span className='mt-5 font-bold text-neutral-400 text-3xl text-center'>
 					{chosenFile && nameFromPath(chosenFile)}
-					{objFirstKey(poznavacka!) == 'hmyz' && (
+					{getFolderName(poznavacka!) == 'hmyz' && (
 						<>
 							<br />
 							<p className='font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>

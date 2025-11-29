@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react';
 import { usePoznavackaStore } from 'src/data';
 import type { Folder, FolderContent } from 'src/types/variables';
-import { isObject, objFirstKey, objFirstValue } from 'src/utils';
+import { getContent, getFolderName, isObject } from 'src/utils';
 import { useMenuStore } from '../data/stores';
 
 /**
@@ -19,14 +19,14 @@ export function toggleFolderNesting(content: Folder, event: FormEvent) {
 	event.stopPropagation();
 	if (poznavacka != content) setPoznavacka(content);
 
-	let arr: FolderContent = objFirstValue(content!);
+	let arr: FolderContent = getContent(content!);
 	while (arr.some((f) => isObject(f))) {
 		let obj = arr.find((f) => isObject(f));
-		arr = arr.concat(objFirstValue(obj as object));
+		arr = arr.concat(getContent(obj as object));
 		arr.splice(arr.indexOf(obj!), 1);
 	}
 
-	let newPoznavacka: Folder = { [objFirstKey(content!)]: arr };
+	let newPoznavacka: Folder = { [getFolderName(content!)]: arr };
 	setPoznavacka(newPoznavacka);
 	closeMenu();
 }

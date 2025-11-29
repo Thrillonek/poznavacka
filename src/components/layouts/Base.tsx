@@ -1,7 +1,7 @@
 import 'src/assets/_Base.scss';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
-import { isObject, objFirstValue } from 'src/utils';
+import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
 import Settings from '../../features/settings/components/Settings';
@@ -32,7 +32,7 @@ export default function Base() {
 				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
 					<Settings />
 				</div>
-				{poznavacka && objFirstValue(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
+				{poznavacka && getContent(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
 					<div className={'mode-slider fill-space ' + (mode == 'quiz' ? 'quiz-mode' : '')}>
 						<div className={'left-0'}>
 							<Quiz />

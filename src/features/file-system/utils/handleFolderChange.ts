@@ -1,6 +1,6 @@
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
-import { capitalize, isObject, objFirstKey, objFirstValue } from 'src/utils';
+import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 
 /**
@@ -14,10 +14,10 @@ export function handleFolderChange(pozn: Folder) {
 	const closeMenu = useMenuStore.getState().close;
 
 	setPoznavacka(pozn);
-	let content: Folder[] | string[] = objFirstValue(pozn!);
+	let content: Folder[] | string[] = getContent(pozn!);
 	if (content.some((c) => isObject(c))) {
-		addToPath(objFirstKey(pozn!));
-		setSelectedFolder(objFirstValue(pozn!));
-		setFolderName(capitalize(objFirstKey(pozn!)));
+		addToPath(getFolderName(pozn!));
+		setSelectedFolder(getContent(pozn!));
+		setFolderName(capitalize(getFolderName(pozn!)));
 	} else closeMenu();
 }

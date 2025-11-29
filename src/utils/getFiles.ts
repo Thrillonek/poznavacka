@@ -1,5 +1,5 @@
 import { usePoznavackaStore } from 'src/data';
-import { isObject, objFirstValue } from 'src/utils';
+import { getContent, isObject } from 'src/utils';
 
 /**
  * Returns array of the current files in `poznavacka` store.
@@ -7,5 +7,5 @@ import { isObject, objFirstValue } from 'src/utils';
 export function getFiles(): string[] {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
-	return objFirstValue(poznavacka!).filter((f: any) => !isObject(f));
+	return getContent(poznavacka!).filter((f: any) => !isObject(f));
 }

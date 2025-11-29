@@ -1,6 +1,6 @@
 import { fileSystem, usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
-import { capitalize, objFirstKey, objFirstValue } from 'src/utils';
+import { capitalize, getContent, getFolderName } from 'src/utils';
 import { useFileSystemStore } from '../data/stores';
 
 /**
@@ -18,8 +18,8 @@ export function fileSystemGoBack(current?: boolean) {
 	// Loop that goes through every level of the file system to find the right folder (dir)
 	for (let i of path) {
 		if (path.indexOf(i) == path.length - 1 && !current) break;
-		currentObject = currentArr.find((f) => objFirstKey(f!) == i);
-		currentArr = objFirstValue(currentObject!);
+		currentObject = currentArr.find((f) => getFolderName(f!) == i);
+		currentArr = getContent(currentObject!);
 	}
 	// method is current when trying to view the content of the current folder (dir)
 	if (current) {
@@ -28,7 +28,7 @@ export function fileSystemGoBack(current?: boolean) {
 		cutPath();
 		setSelectedFolder(currentArr);
 		if (currentObject) {
-			setFolderName(capitalize(objFirstKey(currentObject)));
+			setFolderName(capitalize(getFolderName(currentObject)));
 		} else {
 			setFolderName('');
 		}

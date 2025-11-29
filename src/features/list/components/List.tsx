@@ -1,7 +1,7 @@
 import type { UIEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
-import { getFiles, isObject, objFirstKey } from 'src/utils';
+import { getFiles, getFolderName, isObject } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
 import EnlargedImage from './EnlargedImage';
 import ListItem from './ListItem';
@@ -53,7 +53,7 @@ export default function List() {
 						.map((file, idx) => {
 							if (settings.list.hideCompleted && completedFiles.includes(file)) return null;
 							let props = { idx, file };
-							return <ListItem key={'list-item-' + objFirstKey(poznavacka!) + idx} {...props} />;
+							return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
 						})}
 				</div>
 			</div>
