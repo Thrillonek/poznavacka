@@ -12,8 +12,13 @@
 		aspect-ratio: 1 / 1;
 	}
 
-	&.active {
-		@include main.lighten(var(--bg-light), 0.05);
+	&.folder-name {
+		padding: 0.25rem 0.5rem;
+
+		&.active {
+			background-color: var(--accent-muted);
+			color: var(--accent);
+		}
 	}
 
 	& > * {

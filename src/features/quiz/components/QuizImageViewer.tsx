@@ -11,7 +11,7 @@ function QuizImageViewer() {
 	return (
 		<>
 			<div className='flex justify-center row-span-4 w-full'>
-				<img onLoad={completeFileLoading} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={fileName!.replace(' ', '%20').replace('+', '%2b')} />
+				<img onLoad={completeFileLoading} className='rounded max-w-full h-full max-h-full object-contain overflow-hidden' src={fileName?.replace(' ', '%20').replace('+', '%2b')} />
 			</div>
 			<div className='row-span-1 mt-auto h-20'>
 				<div className={error ? 'text-red-400 text-lg' : 'text-white text-center font-semibold text-2xl'}>

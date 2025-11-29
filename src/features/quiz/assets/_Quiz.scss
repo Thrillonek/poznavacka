@@ -20,7 +20,7 @@
 	}
 
 	&::after {
-		content: attr(text);
+		content: attr(data-text);
 		position: absolute;
 		bottom: 0.75rem;
 		color: hsl(0, 0%, 65%);

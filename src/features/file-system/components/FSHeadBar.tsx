@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { usePoznavackaStore } from 'src/data';
-import { isObject, objFirstKey, objFirstValue } from 'src/utils';
+import { objFirstKey } from 'src/utils';
 import '../assets/_FSHeadBar.scss';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
@@ -17,10 +17,10 @@ function FSButton() {
 	return (
 		<div className='flex justify-between'>
 			<div className='flex items-center gap-x-2'>
-				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden')} onClick={() => fileSystemGoBack()}>
+				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : '!hidden')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button px-2 py-1 ' + (objFirstKey(poznavacka!) == folderName?.toLowerCase() && poznavacka && objFirstValue(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? 'active' : '')}>
+				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && objFirstKey(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
 				<button onClick={() => {}} className='h-full sidebar-head-button'>

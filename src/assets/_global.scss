@@ -1,4 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
 :root {
+	font-family: Inter;
+
 	--text: oklch(0.9491 0 0);
 	--text-muted: oklch(0.6993 0 0);
 	--border: oklch(0.4017 0 0);
@@ -11,31 +19,31 @@
 }
 
 .text-muted {
-	color: var(--text-muted);
+	color: var(--text-muted) !important;
 }
 
 .text-main {
-	color: var(--text);
+	color: var(--text) !important;
 }
 
 .text-accent {
-	color: var(--accent);
+	color: var(--accent) !important;
 }
 
 .bg-dark {
-	background-color: var(--bg-dark);
+	background-color: var(--bg-dark) !important;
 }
 
 .bg-base {
-	background-color: var(--bg-base);
+	background-color: var(--bg-base) !important;
 }
 
 .bg-light {
-	background-color: var(--bg-light);
+	background-color: var(--bg-light) !important;
 }
 
 .bg-accent-muted {
-	background-color: var(--accent-muted);
+	background-color: var(--accent-muted) !important;
 }
 
 .shadow-base {
