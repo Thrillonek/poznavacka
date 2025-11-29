@@ -8,7 +8,7 @@ import { fileSystemGoBack } from '../utils/fileSystemGoBack';
 function FSButton() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
-	const toggleMenu = useMenuStore((store) => store.toggle);
+	const closeMenu = useMenuStore((store) => store.close);
 
 	const path = useFileSystemStore((store) => store.path);
 	const folderName = useFileSystemStore((store) => store.folderName);
@@ -27,7 +27,7 @@ function FSButton() {
 					<Icon icon='mdi:chevron-right' />
 				</button>
 			</div>
-			<button onClick={() => toggleMenu()} className='md:!hidden sidebar-head-button square'>
+			<button onClick={() => closeMenu()} className='md:!hidden sidebar-head-button square'>
 				<Icon icon='mdi:close' />
 			</button>
 		</div>
