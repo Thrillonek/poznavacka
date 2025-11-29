@@ -5,6 +5,17 @@
 	overflow: hidden;
 	border-radius: 1rem;
 
+	&:not(.disabled) > button.active,
+	& > button[data-settings].active {
+		background-color: var(--accent-muted);
+		color: var(--accent);
+	}
+
+	&.disabled > button:not([data-settings]) {
+		pointer-events: none;
+		color: var(--border);
+	}
+
 	& > button {
 		@extend .center-content;
 		@include main.hover-bg(var(--bg-base));
@@ -13,10 +24,5 @@
 		padding: 1rem 0;
 		font-size: 1.5rem;
 		color: var(--text-muted);
-
-		&.active {
-			background-color: var(--accent-muted);
-			color: var(--accent);
-		}
 	}
 }
