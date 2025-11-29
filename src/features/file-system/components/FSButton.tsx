@@ -13,7 +13,7 @@ function FSButton({ content }: { content: Folder }) {
 		<div onClick={() => handleFolderChange(content)} className={'sidebar-option'}>
 			<button className={objFirstKey(poznavacka!) == objFirstKey(content!) ? 'active' : ''}>{capitalize(objFirstKey(content!))}</button>
 			{objFirstValue(content!).some((f: Folder | string) => isObject(f)) && (
-				<button onClick={(e) => toggleFolderNesting(content, e)} className={objFirstKey(poznavacka!) == objFirstKey(content!) && objFirstValue(poznavacka!) != objFirstValue(content!) ? 'brightness-200' : ''}>
+				<button onClick={(e) => toggleFolderNesting(content, e)} className={objFirstKey(poznavacka!) == objFirstKey(content!) && objFirstValue(poznavacka!) != objFirstValue(content!) ? 'active' : ''}>
 					<Icon icon='mdi:folder-eye'></Icon>
 				</button>
 			)}

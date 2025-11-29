@@ -10,6 +10,11 @@
 		border-radius: 0.5rem;
 		padding: 0.5rem 1rem;
 		color: var(--text-muted);
+
+		&.active {
+			background-color: var(--accent-muted);
+			color: var(--accent);
+		}
 	}
 
 	& > button:first-of-type {
@@ -17,11 +22,6 @@
 		font-weight: bold;
 		font-size: 1.25rem;
 		width: 100%;
-
-		&.active {
-			background-color: var(--accent-muted);
-			color: var(--accent);
-		}
 	}
 
 	& > button:nth-of-type(2) {
