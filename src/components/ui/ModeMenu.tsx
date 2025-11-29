@@ -9,10 +9,10 @@ function ModeMenu() {
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka!);
 
-	const files = useMemo(() => getFiles(), [poznavacka]);
+	const files = useMemo(() => poznavacka && getFiles(), [poznavacka]);
 
 	return (
-		<div className={'shadow-base mode-menu' + (files.length == 0 ? ' disabled' : '')}>
+		<div className={'shadow-base mode-menu' + (files?.length == 0 ? ' disabled' : '')}>
 			<button onClick={() => setMode('quiz')} className={mode == 'quiz' ? 'active' : ''}>
 				<Icon icon='mdi:brain' />
 			</button>

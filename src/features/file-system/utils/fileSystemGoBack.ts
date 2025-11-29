@@ -22,9 +22,7 @@ export function fileSystemGoBack(current?: boolean) {
 		currentArr = getContent(currentObject!);
 	}
 	// method is current when trying to view the content of the current folder (dir)
-	if (current) {
-		setPoznavacka(currentObject);
-	} else {
+	if (!current) {
 		cutPath();
 		setSelectedFolder(currentArr);
 		if (currentObject) {
@@ -33,4 +31,7 @@ export function fileSystemGoBack(current?: boolean) {
 			setFolderName('');
 		}
 	}
+
+	console.log(currentObject);
+	setPoznavacka(currentObject);
 }
