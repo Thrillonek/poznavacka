@@ -7,6 +7,8 @@
 	align-items: start;
 	column-gap: 0.5rem;
 
+	max-width: calc(100vw - 1rem);
+
 	&.hide {
 		display: none;
 	}
@@ -37,6 +39,7 @@
 	font-size: 1.25rem;
 	text-align: left;
 	text-decoration: underline;
+	text-overflow: ellipsis;
 
 	display: flex;
 	align-items: center;
