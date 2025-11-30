@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_FSHeadBar.scss';
-import { useFileSystemStore, useMenuStore } from '../data/stores';
+import { useFileSystemStore, useMenuStore, usePathViewerStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
 
 function FSButton() {
@@ -14,6 +14,8 @@ function FSButton() {
 	const folderName = useFileSystemStore((store) => store.folderName);
 	const selectedFolder = useFileSystemStore((store) => store.selectedFolder);
 
+	const openPathViewer = usePathViewerStore((store) => store.open);
+
 	return (
 		<div className='flex justify-between'>
 			<div className='flex items-center gap-x-2'>
@@ -23,7 +25,7 @@ function FSButton() {
 				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
-				<button onClick={() => {}} className='h-full sidebar-head-button'>
+				<button onClick={() => openPathViewer()} className='h-full sidebar-head-button'>
 					<Icon icon='mdi:chevron-right' />
 				</button>
 			</div>

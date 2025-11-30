@@ -4,6 +4,7 @@ import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';
+import PathViewer from './PathViewer';
 
 export default function Sidebar() {
 	const isMenuOpened = useMenuStore((store) => store.isOpened);
@@ -11,7 +12,8 @@ export default function Sidebar() {
 	const selectedFolder = useFileSystemStore((store) => store.selectedFolder);
 
 	return (
-		<div className={'sidebar-container ' + (!isMenuOpened ? 'hidden' : '')}>
+		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
+			<PathViewer />
 			<div className='flex flex-col gap-6'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1'>

@@ -1,0 +1,65 @@
+@use 'src/assets/global';
+@use 'src/assets/main';
+
+.path-viewer-container {
+	position: absolute;
+	display: flex;
+	align-items: start;
+	column-gap: 0.5rem;
+
+	&.hide {
+		display: none;
+	}
+}
+
+.path-viewer {
+	@extend .shadow-base;
+
+	background-color: var(--bg-base);
+	border-radius: 0.5rem;
+	padding: 0.25rem;
+
+	& > div {
+		border-radius: 0.25rem;
+		border: 1px solid var(--border);
+		background-color: var(--bg-dark);
+
+		display: flex;
+		flex-direction: column;
+		row-gap: 0.5rem;
+
+		padding: 1rem;
+	}
+}
+
+.path-folder {
+	color: var(--text-muted);
+	font-size: 1.25rem;
+	text-align: left;
+	text-decoration: underline;
+
+	display: flex;
+	align-items: center;
+	column-gap: 0.25rem;
+
+	&.path-file {
+		text-decoration: none;
+		font-weight: bold;
+	}
+}
+
+.path-viewer-close {
+	@include main.hover-bg(var(--bg-light));
+	@extend .center-content;
+	@extend .shadow-base;
+
+	border-radius: 2rem;
+	height: 32px;
+	aspect-ratio: 1 / 1;
+
+	color: var(--text-muted);
+
+	& > * {
+		font-size: 20px;
+	}
+}

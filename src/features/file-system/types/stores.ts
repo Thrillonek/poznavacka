@@ -7,6 +7,12 @@ export type MenuStore = {
 	toggle: () => void;
 };
 
+export type PathViewerStore = {
+	isOpened: boolean;
+	open: () => void;
+	close: () => void;
+};
+
 export type FileSystemStore = {
 	selectedFolder: Folder[];
 	path: string[];
