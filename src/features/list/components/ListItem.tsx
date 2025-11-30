@@ -6,7 +6,7 @@ import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import type { ListItemProps } from '../types/base';
 import { checkIsSearched } from '../utils/searchItem';
 
-function ListItem({ idx, file, hideImage }: ListItemProps) {
+function ListItem({ idx, file }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const searchInput = useListSearchStore((store) => store.searchInput);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
@@ -25,7 +25,7 @@ function ListItem({ idx, file, hideImage }: ListItemProps) {
 					</div>
 					<p className='list-item-text'>{nameFromPath(file)}</p>
 				</div>
-				{hideImage != true && <img key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />}
+				<img key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);

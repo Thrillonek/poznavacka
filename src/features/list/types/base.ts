@@ -1,7 +1,6 @@
 export type ListItemProps = {
 	idx: number;
 	file: string;
-	hideImage?: boolean;
 };
 
 export type ChosenFileStore = {
@@ -12,5 +11,7 @@ export type ChosenFileStore = {
 
 export type ListSearchStore = {
 	searchInput: string;
+	isSearchInputFocused: boolean;
 	setSearchInput: (input: string) => void;
+	setIsSearchInputFocused: (input: boolean) => void;
 };

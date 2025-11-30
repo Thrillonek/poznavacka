@@ -15,7 +15,7 @@ type Options = {
 	passive?: boolean;
 };
 
-export function useAddEventListener(eventName: string, callback: (e: any) => void, dependencies: any[] = [], { target = document, passive }: Options = {}) {
+export function useAddEventListener(eventName: keyof DocumentEventMap, callback: (e: any) => void, dependencies: any[] = [], { target = document, passive }: Options = {}) {
 	useEffect(() => {
 		const eventController = new AbortController();
 

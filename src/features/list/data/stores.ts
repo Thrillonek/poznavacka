@@ -9,5 +9,7 @@ export const useChosenFileStore = create<ChosenFileStore>()((set) => ({
 
 export const useListSearchStore = create<ListSearchStore>()((set) => ({
 	searchInput: '',
+	isSearchInputFocused: false,
 	setSearchInput: (input) => set({ searchInput: input }),
+	setIsSearchInputFocused: (input) => set({ isSearchInputFocused: input }),
 }));
