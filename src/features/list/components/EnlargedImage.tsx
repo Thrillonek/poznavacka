@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { insectGroupNames, usePoznavackaStore, useSwipeLockStore } from 'src/data';
+import { insectGroupNames, useMenuElementStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles, getFolderName, getGroupName, isObject, nameFromPath } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
@@ -12,6 +12,8 @@ function EnlargedImage() {
 
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
+
+	const toggleHideMenu = useMenuElementStore((store) => store.toggleHideMenu);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
@@ -37,9 +39,11 @@ function EnlargedImage() {
 	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
 	useEffect(() => {
 		if (isChosenFileSet) {
+			if (window.innerWidth < 1024) toggleHideMenu(true);
 			lockSwiping();
 		} else {
 			unlockSwiping();
+			toggleHideMenu(false);
 		}
 	}, [isChosenFileSet]);
 

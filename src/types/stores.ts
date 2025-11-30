@@ -1,3 +1,4 @@
+import type { JSXElementConstructor } from 'react';
 import type { Folder } from 'src/types/variables';
 
 export type SwipeLockStore = {
@@ -51,4 +52,11 @@ export type CompletedFilesStore = {
 	completedFiles: string[];
 	addFileToCompleted: (file: string) => void;
 	clearCompletedFiles: () => void;
+};
+
+export type MenuElementStore = {
+	isMenuHidden: boolean;
+	Element: JSXElementConstructor<any> | null;
+	toggleHideMenu: (mode: boolean) => void;
+	setElement: (element: JSXElementConstructor<any> | null) => void;
 };

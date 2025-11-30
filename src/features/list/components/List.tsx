@@ -1,6 +1,6 @@
 import type { UIEvent } from 'react';
 import { useEffect, useState } from 'react';
-import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useCompletedFilesStore, useMenuElementStore, useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFiles, getFolderName, isObject } from 'src/utils';
 import '../assets/_List.scss';
 import { useChosenFileStore } from '../data/stores';
@@ -13,10 +13,20 @@ export default function List() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
+	const setElement = useMenuElementStore((store) => store.setElement);
+	const mode = useModeStore((store) => store.mode);
 
 	const files = getFiles();
 
 	const [scrollY, setScrollY] = useState<number>();
+
+	useEffect(() => {
+		if (mode == 'list') {
+			setElement(SearchForm);
+		}
+
+		return () => setElement(null);
+	}, [mode]);
 
 	// RESETS STATE WHEN POZNAVACKA CHANGES
 	useEffect(() => {
@@ -48,7 +58,7 @@ export default function List() {
 	return (
 		<div className='relative flex flex-col h-full overflow-hidden'>
 			<EnlargedImage />
-			<SearchForm />
+			{/* <SearchForm /> */}
 
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='list-container'>

@@ -1,12 +1,11 @@
 @use 'src/assets/global';
 
 .menu-bar {
-	@extend .shadow-base;
-
 	z-index: 30;
 	background-color: var(--bg-dark);
 	border-bottom: 1px solid var(--border);
-	padding: 0.5rem 1rem;
+	padding: 0.5rem;
+	padding-left: 1rem;
 	color: var(--text-muted);
 
 	display: flex;
@@ -14,8 +13,22 @@
 	justify-content: space-between;
 	column-gap: 0.5rem;
 
-	@media (min-width: 1024px) {
+	&[data-hidden='true'] {
 		display: none;
+	}
+
+	&:not([data-hidden='true']) {
+		@extend .shadow-base;
+	}
+
+	@media (min-width: 1024px) {
+		& > button {
+			display: none !important;
+		}
+
+		&:not([data-visible-pc='true']) {
+			display: none;
+		}
 	}
 
 	& > button {

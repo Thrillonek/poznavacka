@@ -1,0 +1,27 @@
+.search-form {
+	background-color: var(--bg-light);
+	border: 1px solid var(--border);
+	border-radius: 1000px;
+	overflow: hidden;
+	padding: 0.25rem 0.75rem;
+
+	display: flex;
+	align-items: center;
+	column-gap: 0.5rem;
+	margin-left: auto;
+}
+
+.search-icon {
+	color: var(--text-muted);
+	font-size: 1.5rem;
+}
+
+.search-input {
+	background-color: inherit;
+	outline: 1px solid transparent !important;
+	color: var(--text);
+
+	&::placeholder {
+		color: var(--text-muted);
+	}
+}
