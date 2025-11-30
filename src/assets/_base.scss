@@ -2,15 +2,15 @@
 	position: relative;
 	z-index: 10;
 
-	.quiz-mode {
+	&.quiz-mode {
 		left: 0;
 	}
 
 	@media not all and (min-width: 768px) {
-		transition: left 500ms;
+		transition: left 300ms ease;
 
 		&:not(.quiz-mode) {
-			left: 100%;
+			left: -100%;
 		}
 	}
 
