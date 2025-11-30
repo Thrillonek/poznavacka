@@ -15,12 +15,15 @@ function ModeMenu() {
 		<div className={'shadow-base mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>
 			<button onClick={() => setMode('quiz')} className={mode == 'quiz' ? 'active' : ''}>
 				<Icon icon='mdi:brain' />
+				<span>Kvíz</span>
 			</button>
 			<button onClick={() => setMode('list')} className={mode == 'list' ? 'active' : ''}>
 				<Icon icon='mdi:format-list-bulleted-square' />
+				<span>Seznam</span>
 			</button>
 			<button data-settings onClick={() => setMode('settings')} className={mode == 'settings' ? 'active' : ''}>
 				<Icon icon='mdi:gear' />
+				<span>Nastavení</span>
 			</button>
 		</div>
 	);
