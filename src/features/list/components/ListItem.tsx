@@ -6,13 +6,15 @@ import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import type { ListItemProps } from '../types/base';
 import { checkIsSearched } from '../utils/searchItem';
 
-function ListItem({ idx, file }: ListItemProps) {
+function ListItem({ idx, file, hideImage }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const searchInput = useListSearchStore((store) => store.searchInput);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
-	let isSearched = useMemo(() => checkIsSearched(file) || searchInput == (idx + 1).toString(), [searchInput]);
+	//TODO: MAKE SEARCH RESULTS LIGHT UP ONLY WHEN SEARCH FORM SUBMITED
+
+	let isSearched = useMemo(() => checkIsSearched(file), [searchInput]);
 
 	return (
 		<div id={'list-item-' + (idx + 1).toString()}>
@@ -23,7 +25,7 @@ function ListItem({ idx, file }: ListItemProps) {
 					</div>
 					<p className='list-item-text'>{nameFromPath(file)}</p>
 				</div>
-				<img key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				{hideImage != true && <img key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />}
 			</div>
 		</div>
 	);

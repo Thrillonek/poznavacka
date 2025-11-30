@@ -1,6 +1,7 @@
 export type ListItemProps = {
 	idx: number;
 	file: string;
+	hideImage?: boolean;
 };
 
 export type ChosenFileStore = {

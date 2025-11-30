@@ -1,0 +1,19 @@
+@use 'src/assets/global';
+
+.search-form-results {
+	@extend .shadow-base;
+
+	&[data-visible='false'] {
+		display: none;
+	}
+
+	position: absolute;
+	width: 100%;
+	background-color: var(--bg-dark);
+	padding: 1rem;
+	border-radius: 1rem;
+
+	top: calc(100% + 0.5rem);
+	left: 0;
+	z-index: 10;
+}
