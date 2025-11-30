@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
 import { usePoznavackaStore } from 'src/data';
-import { capitalize, getFolderName } from 'src/utils';
+import type { Folder } from 'src/types/variables';
+import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
 import '../assets/_PathViewer.scss';
 import { useFileSystemStore, usePathViewerStore } from '../data/stores';
 import { fileSystemGoBack } from '../utils/fileSystemGoBack';
@@ -29,7 +30,7 @@ function PathViewer() {
 							<span>{item}</span>
 						</button>
 					))}
-					{poznavacka && (
+					{poznavacka && getContent(poznavacka).some((f: Folder | string) => !isObject(f)) && (
 						<div className='path-folder path-file'>
 							<Icon className='mb-1' icon='mdi:arrow-right-bottom' />
 							<span>{capitalize(getFolderName(poznavacka!))}</span>
