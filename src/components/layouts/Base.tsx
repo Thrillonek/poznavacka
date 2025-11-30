@@ -50,7 +50,7 @@ export default function Base() {
 			</div>
 
 			{/* MODE MENU  */}
-			<div className='md:hidden p-2'>
+			<div className='lg:hidden p-2'>
 				<ModeMenu />
 			</div>
 		</div>

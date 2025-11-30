@@ -28,7 +28,7 @@ export default function Sidebar() {
 						})}
 				</div>
 			</div>
-			<div className='max-md:hidden'>
+			<div className='max-lg:hidden'>
 				<ModeMenu />
 			</div>
 		</div>

@@ -29,7 +29,7 @@ function FSButton() {
 					<Icon icon='mdi:chevron-right' />
 				</button>
 			</div>
-			<button onClick={() => closeMenu()} className='md:!hidden sidebar-head-button square'>
+			<button onClick={() => closeMenu()} className='lg:!hidden sidebar-head-button square'>
 				<Icon icon='mdi:close' />
 			</button>
 		</div>
