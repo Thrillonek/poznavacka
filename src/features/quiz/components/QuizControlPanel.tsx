@@ -19,7 +19,7 @@ function QuizControlPanel() {
 						<Icon icon='mdi:undo' />
 						<span>{isPreviousAvailable || !settings.quiz.random ? 'Předchozí' : 'Zpět'}</span>
 					</button>
-					<button onClick={addFileToCompleted} className='control-button'>
+					<button onClick={addFileToCompleted} className='control-button complete-button'>
 						<Icon icon='mdi:checkbox-marked-circle-outline' />
 						<span>Splnit</span>
 					</button>

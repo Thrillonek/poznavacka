@@ -2,6 +2,7 @@
 
 .quiz-control-panel-container {
 	width: min(100%, 500px);
+	max-height: 100%;
 	aspect-ratio: 2 / 1;
 
 	container: quiz-control-panel / inline-size;
@@ -46,6 +47,11 @@
 
 	& > span {
 		font-size: 1em;
+	}
+
+	&.complete-button:hover {
+		background-color: oklch(from var(--success) calc(l - 0.3) calc(c - 0.15) h);
+		color: var(--success);
 	}
 
 	&:last-of-type {
