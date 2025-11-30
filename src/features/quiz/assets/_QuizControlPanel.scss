@@ -1,37 +1,56 @@
-.control-btn {
-	height: 5rem;
-	aspect-ratio: 5/4;
-	outline: none;
-	transition: background-color 0.1s ease;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: hsl(0, 0%, 55%);
-	position: relative;
-	font-size: 2rem;
+@use 'src/assets/main';
 
-	&:hover {
-		background-color: rgb(38 38 38 / 0.1);
-	}
+.quiz-control-panel-container {
+	width: min(100%, 500px);
+	aspect-ratio: 2 / 1;
 
-	& > * {
-		position: absolute;
-		transform: translateY(-0.625rem);
-	}
+	container: quiz-control-panel / inline-size;
+}
 
-	&::after {
-		content: attr(data-text);
-		position: absolute;
-		bottom: 0.75rem;
-		color: hsl(0, 0%, 65%);
-		font-size: 0.75rem;
-		font-weight: 700;
+.quiz-control-panel {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 1fr);
+	gap: 1rem;
+
+	width: 100%;
+	height: 100%;
+
+	@container quiz-control-panel (width <= 500px) {
+		gap: calc(16cqw / 5);
 	}
 }
 
-.control-btn-disabled {
-	background-color: rgb(90 90 90) !important;
-	/* color: rgb(128 128 128 / 0.6); */
-	filter: brightness(0.5);
-	cursor: default;
+.control-button {
+	@include main.hover-bg(var(--bg-base));
+
+	@extend .center-content;
+	flex-direction: column;
+	row-gap: 0.5rem;
+
+	border-radius: 0.5rem;
+	color: var(--text-muted);
+	font-weight: bold;
+	width: 100%;
+	height: 100%;
+
+	font-size: 1rem;
+	@container quiz-control-panel (width <= 500px) {
+		font-size: calc(16cqw / 5);
+		row-gap: calc(8cqw / 5);
+	}
+
+	& > *:not(span) {
+		font-size: 2.5em;
+	}
+
+	& > span {
+		font-size: 1em;
+	}
+
+	&:last-of-type {
+		grid-column: span 3;
+		color: var(--accent);
+		@include main.hover-bg(var(--accent-muted));
+	}
 }
