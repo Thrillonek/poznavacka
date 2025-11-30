@@ -2,6 +2,7 @@ import type { UIEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFiles, getFolderName, isObject } from 'src/utils';
+import '../assets/_List.scss';
 import { useChosenFileStore } from '../data/stores';
 import EnlargedImage from './EnlargedImage';
 import ListItem from './ListItem';
@@ -40,26 +41,28 @@ export default function List() {
 		setScrollY(e.currentTarget.scrollTop);
 	}
 
+	function scrollToTop() {
+		if (scrollY! > 100) document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
 	return (
 		<div className='relative flex flex-col h-full overflow-hidden'>
 			<EnlargedImage />
 			<SearchForm />
 
 			{/* List */}
-			<div id='list' onScroll={handleScroll} className='relative bg-neutral-900 h-full overflow-y-scroll'>
-				<div className='gap-2 grid p-2'>
-					{files
-						.filter((f) => !isObject(f))
-						.map((file, idx) => {
-							if (settings.list.hideCompleted && completedFiles.includes(file)) return null;
-							let props = { idx, file };
-							return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
-						})}
-				</div>
+			<div id='list' onScroll={handleScroll} className='list-container'>
+				{files
+					.filter((f) => !isObject(f))
+					.map((file, idx) => {
+						if (settings.list.hideCompleted && completedFiles.includes(file)) return null;
+						let props = { idx, file };
+						return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
+					})}
 			</div>
 
 			{/* Scroll Up Button */}
-			<button style={{ opacity: scrollY! > 100 ? '100' : undefined }} onClick={() => scrollY! > 100 && document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' })} className='right-2 md:right-8 bottom-2 z-30 absolute bg-neutral-900 opacity-0 border border-neutral-700 rounded-full outline-none h-12 aspect-square transition-opacity duration-300'>
+			<button data-visible={scrollY! > 100} onClick={scrollToTop} className='go-up-button'>
 				<i className='text-neutral-500 text-2xl fa-angles-up fa-solid'></i>
 			</button>
 		</div>
