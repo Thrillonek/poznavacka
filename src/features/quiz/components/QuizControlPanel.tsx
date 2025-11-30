@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useSettingsStore } from 'src/data';
+import '../assets/_QuizControlPanel.scss';
 import { useQuizFileStore } from '../data/stores';
 import { previousFiles } from '../data/variables';
 import { addFileToCompleted, changeImage, showPreviousFile } from '../utils';
