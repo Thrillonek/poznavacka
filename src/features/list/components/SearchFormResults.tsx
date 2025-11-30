@@ -9,12 +9,14 @@ function SearchFormResults() {
 	const searchInput = useListSearchStore((store) => store.searchInput);
 	const isSearchInputFocused = useListSearchStore((store) => store.isSearchInputFocused);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
+	const setSearchedItem = useListSearchStore((store) => store.setSearchedItem);
 
 	const [searchedArray, setSearchedArray] = useState<string[]>();
 
 	function scrollToSearchResult(file: string) {
 		scrollListToItem(file);
 		setIsSearchInputFocused(false);
+		setSearchedItem(file);
 	}
 
 	useEffect(() => {

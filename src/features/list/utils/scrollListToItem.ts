@@ -22,5 +22,5 @@ export function scrollListToItem(item: string) {
 	// 	}
 	// 	rect = document.getElementById('cat-' + searchedItemIndex).getBoundingClientRect();
 	// }
-	list.scrollTop += searchedItemRect.top - listRect.top;
+	list.scrollTop += searchedItemRect.top - listRect.top - listRect.height / 3;
 }

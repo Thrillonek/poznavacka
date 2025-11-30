@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { type FormEvent, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useRef } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_SearchForm.scss';
 import { useListSearchStore } from '../data/stores';
@@ -11,10 +11,17 @@ function SearchForm() {
 	const searchInput = useListSearchStore((store) => store.searchInput);
 	const setSearchInput = useListSearchStore((store) => store.setSearchInput);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
+	const setSearchedItem = useListSearchStore((store) => store.setSearchedItem);
 
 	function submitForm(e: FormEvent) {
 		scrollListToItem(searchItem(e) as string);
+		setSearchedItem(searchItem(e) as string);
+		setIsSearchInputFocused(false);
 	}
+
+	useEffect(() => {
+		setSearchedItem('');
+	}, [searchInput]);
 
 	useAddEventListener('mousedown', (e: MouseEvent) => {
 		if (!['list-search-container', 'search-form-results'].some((item) => document.getElementById(item)?.contains(e.target as HTMLElement))) setIsSearchInputFocused(false);
