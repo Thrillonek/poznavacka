@@ -20,7 +20,7 @@ export const useFileSystemStore = create<FileSystemStore>()((set) => ({
 }));
 
 export const usePathViewerStore = create<PathViewerStore>()((set) => ({
-	isOpened: true,
+	isOpened: false,
 	open: () => set({ isOpened: true }),
 	close: () => set({ isOpened: false }),
 }));
