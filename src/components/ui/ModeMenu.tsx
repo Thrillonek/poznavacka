@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import 'src/assets/_ModeMenu.scss';
 import { useModeStore, usePoznavackaStore } from 'src/data/stores';
 import { getFiles } from 'src/utils';
@@ -9,7 +9,9 @@ function ModeMenu() {
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka!);
 
-	const files = useMemo(() => poznavacka && getFiles(), [poznavacka]);
+	const files = useCallback(() => {
+		if (poznavacka) getFiles();
+	}, [poznavacka]);
 
 	return (
 		<div className={'shadow-base mode-menu' + (files?.length == 0 ? ' disabled' : '')}>
