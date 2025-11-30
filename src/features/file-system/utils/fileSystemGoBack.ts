@@ -16,6 +16,9 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 	let currentArr: Folder[] = fileSystem;
 	let currentObject;
 
+	let pathCutNumber: number = 1;
+	if (level) pathCutNumber = path.length - path.indexOf(level) - 1;
+
 	// Loop that goes through every level of the file system to find the right folder (dir)
 	for (let i of path) {
 		if (path.indexOf(i) == path.length - 1 && !current) break;
@@ -28,7 +31,11 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 	}
 	// method is current when trying to view the content of the current folder (dir)
 	if (!current) {
-		cutPath();
+		// pathCutNumber is 1 if level is undefined
+		for (let i = 0; i < pathCutNumber; i++) {
+			cutPath();
+		}
+
 		setSelectedFolder(currentArr);
 		if (currentObject) {
 			setFolderName(capitalize(getFolderName(currentObject)));
