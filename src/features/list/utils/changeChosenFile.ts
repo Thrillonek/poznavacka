@@ -1,6 +1,7 @@
 import { usePoznavackaStore } from 'src/data';
 import { getContent } from 'src/utils';
 import { useChosenFileStore } from '../data/stores';
+import { scrollListToItem } from './scrollListToItem';
 
 /**
  * Changes the chosen file in the list. Scrolls the list, so that the file is visible when the user closes the enlarged mode.
@@ -20,10 +21,5 @@ export function changeChosenFile(condition: 'left' | 'right') {
 	}
 
 	setChosenFile(files[idx]);
-	const targetElement = document.getElementById('plant-' + idx);
-	if (!targetElement) return;
-	let rect = targetElement.getBoundingClientRect();
-	let list = document.getElementById('list')!;
-	let listRect = list.getBoundingClientRect();
-	list.scrollTop += rect.top - listRect.top - listRect.height / 2;
+	scrollListToItem(files[idx]);
 }

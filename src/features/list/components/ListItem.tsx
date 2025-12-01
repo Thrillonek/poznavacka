@@ -9,10 +9,11 @@ function ListItem({ idx, file }: ListItemProps) {
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const searchedItem = useListSearchStore((store) => store.searchedItem);
+	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 
 	return (
 		<div id={'list-item-' + (idx + 1).toString()}>
-			<div onClick={() => setChosenFile(file)} data-searched={searchedItem === file} data-completed={completedFiles.includes(file)} className='list-item-container'>
+			<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} data-searched={searchedItem === file} data-completed={completedFiles.includes(file)} className='list-item-container'>
 				<div className='flex items-center gap-4'>
 					<div className='list-item-number'>
 						<p data-length={(idx + 1).toString().length}>{idx + 1}</p>

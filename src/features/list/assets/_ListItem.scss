@@ -29,6 +29,12 @@
 		}
 	}
 
+	&[data-chosen='true'] {
+		.list-item-text {
+			text-decoration: underline;
+		}
+	}
+
 	& > div {
 		overflow: hidden;
 	}

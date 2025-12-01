@@ -60,16 +60,18 @@ function SelectedFile() {
 				<p>{files.indexOf(chosenFile!) + 1}</p>
 			</div>
 			<div className='selected-file-grid'>
-				<div className='selected-file-slider' style={{ left: `-${files.indexOf(chosenFile!) * 100}%` }}>
-					{files
-						.filter((f) => !isObject(f))
-						.map((file, idx) => {
-							return (
-								<div key={idx} className='selected-img-container' style={{ left: `${files.indexOf(file) * 100}%` }}>
-									<img src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Zvětšený obrázek číslo ' + idx} />
-								</div>
-							);
-						})}
+				<div>
+					<div className='selected-file-slider' style={{ left: `-${files.indexOf(chosenFile!) * 100}%` }}>
+						{files
+							.filter((f) => !isObject(f))
+							.map((file, idx) => {
+								return (
+									<div key={idx} className='selected-img-container' style={{ left: `${files.indexOf(file) * 100}%` }}>
+										<img src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Zvětšený obrázek číslo ' + idx} />
+									</div>
+								);
+							})}
+					</div>
 				</div>
 				<div>
 					<div className='selected-file-name-frame'>
@@ -81,7 +83,7 @@ function SelectedFile() {
 							<Icon icon='mdi:chevron-right' />
 						</button>
 					</div>
-					{getFolderName(poznavacka!) == 'hmyz' && <p className='hidden font-normal text-lg'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>}
+					{getFolderName(poznavacka!) == 'hmyz' && <p className='text-muted text-lg text-center'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>}
 				</div>
 			</div>
 		</div>
