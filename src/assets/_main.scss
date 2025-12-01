@@ -24,12 +24,21 @@ main {
 	align-items: center;
 }
 
-@mixin hover-bg($color) {
-	background-color: $color;
-	transition: background-color 100ms ease;
+@mixin hover-bg($color, $property: background-color) {
+	#{$property}: $color;
+	transition: #{$property} 100ms ease;
 
 	&:hover {
-		background-color: oklch(from $color calc(l + 0.033) c h);
+		#{$property}: oklch(from $color calc(l + 0.033) c h);
+	}
+}
+
+@mixin hover-text {
+	color: var(--text-muted);
+	transition: color 100ms ease;
+
+	&:hover {
+		color: var(--text);
 	}
 }
 

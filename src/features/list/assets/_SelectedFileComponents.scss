@@ -1,0 +1,33 @@
+@use 'src/assets/main';
+
+.selected-img-container {
+	@extend .center-content;
+
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+
+	img {
+		max-width: 95%;
+		max-height: 100%;
+		height: 100%;
+		object-fit: contain;
+		border-radius: 0.5rem;
+	}
+}
+
+.selected-file-name {
+	font-size: 2rem;
+	font-weight: bold;
+	color: var(--text);
+}
+
+.selected-file-swapper {
+	@extend .center-content;
+	@include main.hover-text;
+
+	& > * {
+		font-size: 5rem;
+	}
+}

@@ -4,9 +4,9 @@ import { useCompletedFilesStore, useMenuElementStore, useModeStore, usePoznavack
 import { getFiles, getFolderName, isObject } from 'src/utils';
 import '../assets/_List.scss';
 import { useChosenFileStore } from '../data/stores';
-import EnlargedImage from './EnlargedImage';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
+import SelectedFile from './SelectedFile';
 
 export default function List() {
 	const settings = useSettingsStore((store) => store.settings);
@@ -56,8 +56,8 @@ export default function List() {
 	}
 
 	return (
-		<div className='relative flex w-full overflow-hidden'>
-			<EnlargedImage />
+		<div className='list-layout-container'>
+			<SelectedFile />
 
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='list-container'>
