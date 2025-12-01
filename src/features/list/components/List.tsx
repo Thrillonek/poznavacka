@@ -56,9 +56,8 @@ export default function List() {
 	}
 
 	return (
-		<div className='relative flex flex-col h-full overflow-hidden'>
+		<div className='relative flex w-full overflow-hidden'>
 			<EnlargedImage />
-			{/* <SearchForm /> */}
 
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='list-container'>

@@ -50,7 +50,7 @@ function EnlargedImage() {
 	let isPhone = window.matchMedia('(pointer: coarse)').matches;
 
 	return (
-		<div id='enlarged-img' className={'translate-y-full left-0 z-40 absolute flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
+		<div id='enlarged-img' className={'enlarged-img-container left-0 z-40 flex gap-4 transition-transform justify-center items-center bg-neutral-800 w-full h-full ' + (chosenFile && '!translate-y-0')}>
 			{!isPhone && (
 				<div onClick={() => changeChosenFile('left')} className='text-neutral-400 cursor-pointer'>
 					<i className='fa-angle-left text-5xl fa-solid'></i>

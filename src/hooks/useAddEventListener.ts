@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import type { CustomEventMap } from 'src/types/customEvents';
 
 /**
  * Adds an event listener to an element using useEffect, and aborts it when the component unmounts
@@ -15,11 +16,11 @@ type Options = {
 	passive?: boolean;
 };
 
-export function useAddEventListener(eventName: keyof DocumentEventMap, callback: (e: any) => void, dependencies: any[] = [], { target = document, passive }: Options = {}) {
+export function useAddEventListener(eventName: keyof DocumentEventMap | keyof CustomEventMap, callback: (e: any) => void, dependencies: any[] = [], { target = document, passive }: Options = {}) {
 	useEffect(() => {
 		const eventController = new AbortController();
 
-		target.addEventListener(eventName, callback, { signal: eventController.signal, passive });
+		target.addEventListener(eventName as string, callback, { signal: eventController.signal, passive });
 
 		return () => {
 			eventController.abort();
