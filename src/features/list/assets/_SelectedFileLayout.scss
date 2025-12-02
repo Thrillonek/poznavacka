@@ -8,7 +8,15 @@
 	background-color: var(--bg-dark);
 	height: 100%;
 	width: 50%;
-	padding: 1rem;
+	min-width: 500px;
+	padding: 1rem 2rem;
+
+	@container main-content (width <= 800px) {
+		position: absolute;
+		inset: 0;
+		z-index: 40;
+		width: 100%;
+	}
 }
 
 .selected-file-menu {
@@ -39,7 +47,7 @@
 }
 
 div:has(> .selected-file-slider) {
-	width: 95%;
+	width: 100%;
 	margin: 0 auto;
 	overflow: hidden;
 }

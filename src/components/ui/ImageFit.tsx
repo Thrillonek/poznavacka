@@ -23,19 +23,16 @@ function ImageFit({ src, alt, onLoad }: { src: string; alt?: string; onLoad?: ()
 
 	function handleImageLoad() {
 		if (onLoad) onLoad();
+		containerRef.current?.setAttribute('data-loaded', 'true');
 		calcSize();
 	}
 
 	useEffect(() => {
 		calcSize();
-		const resizeObserver = new ResizeObserver(calcSize);
-		if (containerRef.current) resizeObserver.observe(containerRef.current!);
-
-		return () => resizeObserver.disconnect();
 	}, [containerRef.current]);
 
 	return (
-		<div onResize={calcSize} ref={containerRef as any} id='image-fit-container' className={classes['image-fit-container']}>
+		<div ref={containerRef as any} id='image-fit-container' className={classes['image-fit-container']}>
 			<img onLoad={handleImageLoad} ref={imageRef as any} id='image-fit' src={src} alt={alt} />
 		</div>
 	);

@@ -4,7 +4,8 @@
 	@include main.hover-bg(var(--bg-dark));
 	transition: none !important;
 
-	height: 3rem;
+	--height: 3rem;
+	height: var(--height);
 
 	width: 100%;
 	display: flex;
@@ -40,8 +41,8 @@
 	}
 
 	& > img {
-		aspect-ratio: 1 / 1;
-		height: 100%;
+		height: var(--height);
+		width: var(--height);
 		border-radius: 0.25rem;
 		object-fit: cover;
 

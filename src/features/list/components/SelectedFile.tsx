@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import { useEffect } from 'react';
 import ImageFit from 'src/components/ui/ImageFit';
-import { insectGroupNames, useMenuElementStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
+import { useCompletedFilesStore, useMenuElementStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFiles, getFolderName, getGroupName, isObject, nameFromPath } from 'src/utils';
+import { getFiles, isObject, nameFromPath } from 'src/utils';
 import '../assets/_SelectedFileComponents.scss';
 import '../assets/_SelectedFileLayout.scss';
 import { useChosenFileStore } from '../data/stores';
@@ -19,7 +19,9 @@ function SelectedFile() {
 
 	const toggleHideMenu = useMenuElementStore((store) => store.toggleHideMenu);
 
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+	// const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+
+	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
 	const files = getFiles();
 
@@ -74,7 +76,7 @@ function SelectedFile() {
 							})}
 					</div>
 				</div>
-				<div>
+				<div className='flex flex-col gap-y-4'>
 					<div className='selected-file-name-frame'>
 						<button className='selected-file-swapper' onClick={() => changeChosenFile('left')}>
 							<Icon icon='mdi:chevron-left' />
@@ -84,7 +86,12 @@ function SelectedFile() {
 							<Icon icon='mdi:chevron-right' />
 						</button>
 					</div>
-					{getFolderName(poznavacka!) == 'hmyz' && <p className='text-muted text-lg text-center'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>}
+					<div className='selected-file-divider' />
+					<div data-success={completedFiles.includes(chosenFile!)} className='selected-file-stat'>
+						<p>Splněno</p>
+						<Icon icon={completedFiles.includes(chosenFile!) ? 'mdi:check-circle' : 'mdi:close-circle'} />
+					</div>
+					{/* {getFolderName(poznavacka!) == 'hmyz' && <p className='text-muted text-lg text-center'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>} */}
 				</div>
 			</div>
 		</div>
