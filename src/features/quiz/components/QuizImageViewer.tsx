@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ImageFit from 'src/components/ui/ImageFit';
 import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFolderName, getGroupName, nameFromPath } from 'src/utils';
 import '../assets/_QuizImageViewer.scss';
@@ -10,7 +11,7 @@ function ImageViewer() {
 	return (
 		<>
 			<div className='quiz-image-viewer'>
-				<img onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')} />
+				<ImageFit onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
 			</div>
 		</>
 	);

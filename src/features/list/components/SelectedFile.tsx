@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useEffect } from 'react';
+import ImageFit from 'src/components/ui/ImageFit';
 import { insectGroupNames, useMenuElementStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles, getFolderName, getGroupName, isObject, nameFromPath } from 'src/utils';
@@ -67,7 +68,7 @@ function SelectedFile() {
 							.map((file, idx) => {
 								return (
 									<div key={idx} className='selected-img-container' style={{ left: `${files.indexOf(file) * 100}%` }}>
-										<img src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Zvětšený obrázek číslo ' + idx} />
+										<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Zvětšený obrázek číslo ' + idx} />
 									</div>
 								);
 							})}

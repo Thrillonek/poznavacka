@@ -21,7 +21,7 @@ function QuizControlPanel() {
 					</button>
 					<button onClick={addFileToCompleted} className='control-button complete-button'>
 						<Icon icon='mdi:checkbox-marked-circle-outline' />
-						<span>Splnit</span>
+						<span>Naučeno</span>
 					</button>
 					<button className='control-button' onClick={() => toggleFileNameRevealed()}>
 						<Icon icon={'mdi:eye' + (isFileNameRevealed ? '-off' : '')} />
