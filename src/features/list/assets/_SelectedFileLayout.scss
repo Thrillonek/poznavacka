@@ -21,7 +21,14 @@
 		inset: 0;
 		z-index: 40;
 		width: 100%;
-		min-width: 0;
+		transition: opacity 200ms ease, transform 200ms ease;
+
+		&:not([data-visible='true']) {
+			opacity: 0;
+			pointer-events: none;
+			display: flex;
+			transform: scale(1.2);
+		}
 	}
 }
 
