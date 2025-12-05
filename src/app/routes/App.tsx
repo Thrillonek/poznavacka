@@ -1,5 +1,6 @@
 import 'src/assets/_main.scss';
 import Base from 'src/components/layouts/Base';
+import ModeMenu from 'src/components/ui/ModeMenu';
 import MenuBar from 'src/features/file-system/components/MenuBar';
 import Sidebar from 'src/features/file-system/components/Sidebar';
 
@@ -68,6 +69,9 @@ export default function App() {
 				<div className='main-content'>
 					<MenuBar />
 					<Base />
+					<div className='lg:hidden z-30 bg-inherit p-2'>
+						<ModeMenu />
+					</div>
 				</div>
 			</main>
 		</>

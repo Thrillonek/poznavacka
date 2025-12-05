@@ -3,18 +3,22 @@ import { nameFromPath } from 'src/utils';
 import { getFiles } from '../../../utils/getFiles';
 import { useListSearchStore } from '../data/stores';
 
+type SearchOptions = {
+	ignoreEmptyInput?: boolean;
+};
+
 /**
  * Checks if the given file name matches the current search input.
  * @param fileName - The file name to check.
  */
-export function checkIsSearched(fileName: string) {
+export function checkIsSearched(fileName: string, { ignoreEmptyInput }: SearchOptions = {}) {
 	const searchInput = useListSearchStore.getState().searchInput;
-	if (!searchInput) return false;
+	if (!ignoreEmptyInput && !searchInput) return false;
 
 	for (const word of nameFromPath(fileName).split(' ')) {
 		if (word.toLowerCase().startsWith(searchInput.toLowerCase())) return true;
 	}
-	if (getFiles().indexOf(fileName) + 1 == parseInt(searchInput)) return true;
+	if ((getFiles().indexOf(fileName) + 1).toString().startsWith(searchInput)) return true;
 
 	return false;
 }
@@ -29,12 +33,9 @@ export function checkIsSearched(fileName: string) {
 export function searchItem(e?: FormEvent, multiple: boolean = false) {
 	if (e) e.preventDefault();
 
-	const searchInput = useListSearchStore.getState().searchInput;
-	if (!searchInput) return;
-
 	const files = getFiles();
 
-	let searchedItems = files.filter(checkIsSearched);
+	let searchedItems = files.filter((f) => checkIsSearched(f));
 
 	if (multiple) {
 		return searchedItems;

@@ -23,23 +23,29 @@ function SearchFormResults() {
 		setSearchedArray(searchItem(undefined, true) as string[]);
 	}, [searchInput]);
 
-	if (!searchedArray || searchedArray.length == 0) return null;
-	if (!searchInput || !isSearchInputFocused) return null;
+	const checkSearchedArray = searchedArray && searchedArray.length > 0;
+
+	function verifyConditions() {
+		if (!searchedArray || searchedArray.length == 0) return false;
+		if (!isSearchInputFocused || !searchInput) return false;
+		return true;
+	}
 
 	return (
-		<div id='search-form-results' className='search-form-results'>
-			{searchedArray.map((file, idx) => {
-				const fileIndex = getFiles().indexOf(file);
-				if (idx < 5)
-					return (
-						<button onClick={() => scrollToSearchResult(file)}>
-							<div className='list-item-number'>
-								<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
-							</div>
-							<p>{nameFromPath(file)}</p>
-						</button>
-					);
-			})}
+		<div data-visible={verifyConditions()} id='search-form-results' className='search-form-results'>
+			{checkSearchedArray &&
+				searchedArray.map((file, idx) => {
+					const fileIndex = getFiles().indexOf(file);
+					if (idx < 10)
+						return (
+							<button onClick={() => scrollToSearchResult(file)}>
+								<div className='list-item-number'>
+									<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
+								</div>
+								<p className='ml-2'>{nameFromPath(file)}</p>
+							</button>
+						);
+				})}
 		</div>
 	);
 }

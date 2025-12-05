@@ -5,7 +5,6 @@ import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
 import Settings from '../../features/settings/components/Settings';
-import ModeMenu from '../ui/ModeMenu';
 
 export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -47,11 +46,6 @@ export default function Base() {
 						<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu&nbsp;obrázků) ve výběru nalevo</p>
 					</div>
 				)}
-			</div>
-
-			{/* MODE MENU  */}
-			<div className='lg:hidden p-2'>
-				<ModeMenu />
 			</div>
 		</div>
 	);
