@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_Quiz.scss';
 import { useQuizFileStore } from '../data/stores';
@@ -13,12 +13,15 @@ function Quiz() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const settings = useSettingsStore((store) => store.settings);
 
+	const mode = useModeStore((store) => store.mode);
+
 	useEffect(() => {
 		initiateQuiz();
 		changeImage();
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
 	function handleKeyDown(e: KeyboardEvent) {
+		if (mode !== 'quiz') return;
 		if (e.key == settings.keybinds.change) {
 			changeImage();
 		}
