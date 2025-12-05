@@ -30,6 +30,10 @@
 			transform: scale(1.2);
 		}
 	}
+
+	@media not all and (min-width: 768px) {
+		padding: 1rem;
+	}
 }
 
 .selected-file-menu {
