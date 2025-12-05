@@ -14,6 +14,16 @@
 	border-radius: 0.25rem;
 	cursor: default;
 
+	&[data-chosen='true'] {
+		.list-item-number,
+		.list-item-text {
+			color: var(--accent);
+			border-color: var(--accent);
+		}
+
+		background-color: var(--accent-muted);
+	}
+
 	&[data-searched='true'] {
 		.list-item-number,
 		.list-item-text {
@@ -27,12 +37,6 @@
 		.list-item-text {
 			color: var(--success);
 			border-color: var(--success);
-		}
-	}
-
-	&[data-chosen='true'] {
-		.list-item-text {
-			text-decoration: underline;
 		}
 	}
 
