@@ -33,9 +33,7 @@ function ImageFit({ src, alt, onLoad, calcFit }: { src: string; alt?: string; on
 		if (containerRef.current) resizeObserver.observe(containerRef.current);
 
 		return () => resizeObserver.disconnect();
-	}, [containerRef.current]);
-
-	useEffect(() => calcSize(), [calcFit]);
+	}, [containerRef.current, calcFit]);
 
 	return (
 		<div ref={containerRef as any} id='image-fit-container' className={classes['image-fit-container']}>

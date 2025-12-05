@@ -41,11 +41,10 @@ function SelectedFile() {
 	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
 	useLockSwiping();
 
-	const calcFit = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) < 2, [chosenFile]);
+	const calcFit = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) <= 1, [chosenFile]);
 
-	if (!isChosenFileSet) return null;
 	return (
-		<div className='selected-file-container'>
+		<div data-visible={isChosenFileSet} className='selected-file-container'>
 			<div className='selected-file-menu'>
 				<button onClick={() => setChosenFile(undefined)}>
 					<Icon icon='mdi:arrow-back' />
