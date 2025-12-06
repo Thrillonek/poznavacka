@@ -1,36 +1,27 @@
 import { Icon } from '@iconify/react';
-import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useModeStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsPages.scss';
 import { useSettingsModeStore, useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
-import ExtraSettings from './ExtraSettings';
 import GeneralSettings from './pages/GeneralSettings';
 import KeybindsSettings from './pages/KeybindsSettings';
 import ListSettings from './pages/ListSettings';
 import QuizSettings from './pages/QuizSettings';
 import SettingsCategories from './SettingsCategories';
-import ConfirmModal from './ui/ConfirmModal';
-import KeybindControl from './ui/KeybindControl';
-import MinMaxControl from './ui/MinMaxControl';
-import PresetMenu from './ui/PresetMenu';
 
 export default function Settings() {
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const { settings, updateQuizSettings, updateListSettings, setKeybind } = useSettingsStore((store) => store);
+	const setKeybind = useSettingsStore((store) => store.setKeybind);
 	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
 	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
 	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
 	const stopChangingKeybinds = useSettingsStatusStore((store) => store.stopChangingKeybinds);
-	const openModal = useSettingsStatusStore((store) => store.openModal);
 	const mode = useModeStore((store) => store.mode);
 	const setMode = useModeStore((store) => store.setMode);
 
 	const settingsMode = useSettingsModeStore((store) => store.mode);
-
-	const { random } = settings.quiz;
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (!keybindToBeChanged) return;
@@ -65,8 +56,6 @@ export default function Settings() {
 					</div>
 
 					{/* <ConfirmModal />
-
-					<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
 					<div className='gap-x-8 gap-y-12 grid lg:grid-cols-2'>
 						<div className='flex flex-col gap-4'>
