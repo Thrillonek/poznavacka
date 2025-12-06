@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import type { SettingsStore } from 'src/types/stores';
-import { capitalize } from 'src/utils';
 import classes from '../../assets/ui/_KeybindInput.module.scss';
+import { getKey } from '../../utils';
 
 type SwitchInputProps = {
 	title: string;
@@ -56,7 +56,7 @@ function KeybindInput({ title, keybindName, keybinds, setKeybind }: SwitchInputP
 				{showedText}
 			</p>
 			<div className={classes.keybind}>
-				<p>{capitalize(keybinds[keybindName])}</p>
+				<p>{getKey(keybinds[keybindName])}</p>
 			</div>
 		</button>
 	);
