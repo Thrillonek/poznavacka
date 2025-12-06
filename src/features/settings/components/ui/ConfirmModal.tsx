@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useCompletedFilesStore } from 'src/data/stores';
-import { useSettingsStatusStore } from '../data/stores';
+import { useSettingsStatusStore } from '../../data/stores';
 
 function ConfirmModal() {
 	const isModalOpen = useSettingsStatusStore((store) => store.isModalOpen);

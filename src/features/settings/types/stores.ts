@@ -16,3 +16,8 @@ export type SettingsStatusStore = {
 	openModal: () => void;
 	closeModal: () => void;
 };
+
+export type SettingsModeStore = {
+	mode: string;
+	setMode: (mode: string) => void;
+};

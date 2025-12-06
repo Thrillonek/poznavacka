@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PresetMenuStore, SettingsStatusStore } from '../types/stores';
+import { type PresetMenuStore, type SettingsModeStore, type SettingsStatusStore } from '../types/stores';
 
 export const usePresetMenuStore = create<PresetMenuStore>()((set) => ({
 	isPresetMenuOpen: false,
@@ -18,4 +18,9 @@ export const useSettingsStatusStore = create<SettingsStatusStore>()((set) => ({
 	isModalOpen: false,
 	openModal: () => set({ isModalOpen: true }),
 	closeModal: () => set({ isModalOpen: false }),
+}));
+
+export const useSettingsModeStore = create<SettingsModeStore>((set) => ({
+	mode: 'general',
+	setMode: (newMode) => set({ mode: newMode }),
 }));

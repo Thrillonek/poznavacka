@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
 import { useSettingsStore } from 'src/data';
-import { useSettingsStatusStore } from '../data/stores';
-import { restoreDefaultKeybinds } from '../utils';
+import { useSettingsStatusStore } from '../../data/stores';
+import { restoreDefaultKeybinds } from '../../utils';
 
 function KeybindControl() {
 	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);

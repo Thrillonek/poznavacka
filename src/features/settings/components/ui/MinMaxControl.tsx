@@ -2,11 +2,11 @@ import { useMemo, useState } from 'react';
 import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils';
-import { useSettingsStatusStore } from '../data/stores';
-import { useUpdateRangeUI } from '../hooks/useUpdateRangeUI';
-import { handleChangeMinMax } from '../utils';
-import { handleFocusOut } from '../utils/event-handlers/handleFocusOut';
-import { handleRangePointerDown } from '../utils/event-handlers/handleRangePointerDown';
+import { useSettingsStatusStore } from '../../data/stores';
+import { useUpdateRangeUI } from '../../hooks/useUpdateRangeUI';
+import { handleChangeMinMax } from '../../utils';
+import { handleFocusOut } from '../../utils/event-handlers/handleFocusOut';
+import { handleRangePointerDown } from '../../utils/event-handlers/handleRangePointerDown';
 
 function MinMaxControl() {
 	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);

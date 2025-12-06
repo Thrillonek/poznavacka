@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
 import { usePresetStore, useSettingsStore } from 'src/data';
-import { usePresetMenuStore } from '../data/stores';
-import { useDefineDefaultValues } from '../hooks/useDefineDefaultValues';
-import { useHandlePresetModeToggling } from '../hooks/useHandlePresetModeToggling';
-import { checkAllPresets } from '../utils';
+import { usePresetMenuStore } from '../../data/stores';
+import { useDefineDefaultValues } from '../../hooks/useDefineDefaultValues';
+import { useHandlePresetModeToggling } from '../../hooks/useHandlePresetModeToggling';
+import { checkAllPresets } from '../../utils';
 
 function PresetMenu() {
 	const { isPresetMenuOpen, togglePresetMenu } = usePresetMenuStore((store) => store);

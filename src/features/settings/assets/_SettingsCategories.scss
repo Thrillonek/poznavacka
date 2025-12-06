@@ -1,0 +1,22 @@
+@use 'src/assets/main';
+
+.settings-header {
+	font-weight: 700;
+	color: var(--text-muted);
+	font-size: 0.875rem;
+	padding-left: 0.25rem;
+}
+
+.settings-category {
+	@include main.hover-bg(var(--bg-base));
+
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	text-align: left;
+	color: var(--text);
+
+	&[data-active='true'] {
+		color: var(--accent);
+		background-color: var(--accent-muted);
+	}
+}

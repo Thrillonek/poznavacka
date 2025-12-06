@@ -6,11 +6,12 @@ import { useAddEventListener } from 'src/hooks';
 import '../assets/_Settings.scss';
 import { useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
-import ConfirmModal from './ConfirmModal';
 import ExtraSettings from './ExtraSettings';
-import KeybindControl from './KeybindControl';
-import MinMaxControl from './MinMaxControl';
-import PresetMenu from './PresetMenu';
+import SettingsCategories from './SettingsCategories';
+import ConfirmModal from './ui/ConfirmModal';
+import KeybindControl from './ui/KeybindControl';
+import MinMaxControl from './ui/MinMaxControl';
+import PresetMenu from './ui/PresetMenu';
 
 export default function Settings() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -45,7 +46,9 @@ export default function Settings() {
 	return (
 		<div onClick={() => setMode('quiz')} data-visible={mode == 'settings'} className='settings-modal'>
 			<div onClick={(e) => e.stopPropagation()} className='settings-container'>
-				<div className='settings-categories'></div>
+				<div className='settings-categories'>
+					<SettingsCategories />
+				</div>
 				<div className='settings-content'>
 					<ConfirmModal />
 
