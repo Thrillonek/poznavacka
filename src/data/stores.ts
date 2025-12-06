@@ -34,7 +34,7 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 		},
 		quiz: {
 			mode: 'custom',
-			random: true,
+			random: false,
 			min: 1,
 			max: 10,
 		},
