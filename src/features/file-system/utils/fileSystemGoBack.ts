@@ -4,8 +4,8 @@ import { capitalize, getContent, getFolderName } from 'src/utils';
 import { useFileSystemStore } from '../data/stores';
 
 /**
- * Function, that either exits the parent folder or shows its contents.
- * It goes through each layer of the file system to find the right folder to view.
+ * Goes through each layer of the file system to find the intended folder to view.
+ * You can view the parent folder content, go back a level of depth in the file system or multiple levels.
  * @param current - If the function should view the contents of the parent folder.
  * @param level - The level of the file system (folder) that the function should apply to.
  */
@@ -21,7 +21,7 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 
 	// Loop that goes through every level of the file system to find the right folder (dir)
 	for (let i of path) {
-		if (path.indexOf(i) == path.length - 1 && !current) break;
+		if (path.indexOf(i) == path.length - 1 && !current && !level) break;
 		if (level && level == '0') break;
 
 		currentObject = currentArr.find((f) => getFolderName(f!) == i);
