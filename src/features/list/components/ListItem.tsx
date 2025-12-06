@@ -1,4 +1,4 @@
-import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
+import { useCompletedFilesStore, useModeStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
@@ -10,6 +10,7 @@ function ListItem({ idx, file }: ListItemProps) {
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const searchedItem = useListSearchStore((store) => store.searchedItem);
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);
+	const mode = useModeStore((store) => store.mode);
 
 	return (
 		<div id={'list-item-' + (idx + 1).toString()}>
@@ -20,7 +21,7 @@ function ListItem({ idx, file }: ListItemProps) {
 					</div>
 					<p className='list-item-text'>{nameFromPath(file)}</p>
 				</div>
-				<img key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				<img key={getFolderName(poznavacka!) + idx} src={mode == 'list' ? file.replace(' ', '%20').replace('+', '%2b') : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);
