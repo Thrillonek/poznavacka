@@ -1,4 +1,6 @@
 import { useSettingsStore } from 'src/data';
+import { getFiles } from 'src/utils';
+import RangeInput from '../ui/RangeInput';
 import SelectionInput from '../ui/SelectionInput';
 import SwitchInput from '../ui/SwitchInput';
 
@@ -7,6 +9,11 @@ function QuizSettings() {
 	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
 	const updateCoreSettings = useSettingsStore((store) => store.updateCoreSettings);
 
+	const updateMin = (useMin: number) => updateQuizSettings('min', useMin);
+	const updateMax = (useMax: number) => updateQuizSettings('max', useMax);
+
+	const files = getFiles();
+
 	return (
 		<>
 			<div className='settings-section'>
@@ -14,9 +21,13 @@ function QuizSettings() {
 				<SelectionInput title='Postupně' type='radio' active={!settings.quiz.random} onSelect={() => updateQuizSettings('random', false)} />
 				<SelectionInput title='Náhodně' type='radio' active={settings.quiz.random} onSelect={() => updateQuizSettings('random', true)} />
 			</div>
-			<div className='settings-section'>
-				<h3>Zkoušená sada</h3>
-			</div>
+			{files.length > 0 && (
+				<div className='settings-section'>
+					<h3>Zkoušená sada</h3>
+					<RangeInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
+				</div>
+			)}
+
 			<div className='settings-section'>
 				<h3>Ostatní</h3>
 				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.devMode} onToggle={() => updateCoreSettings('devMode', !settings.devMode)} />

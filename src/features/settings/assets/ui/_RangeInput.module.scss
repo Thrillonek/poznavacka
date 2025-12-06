@@ -1,0 +1,80 @@
+@use 'src/assets/main';
+
+.container {
+	display: flex;
+	align-items: flex-end;
+	column-gap: 0.5rem;
+
+	--height: 2.5rem;
+}
+
+.input-container {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.25rem;
+	width: 4rem;
+
+	.input-label {
+		font-size: 0.75rem;
+		color: var(--text-muted);
+	}
+
+	.input {
+		background-color: var(--bg-base);
+		color: var(--text-muted);
+		border-radius: 0.5rem;
+		padding: 0.25rem 0.5rem;
+		height: var(--height);
+		outline: 1px solid transparent !important;
+	}
+}
+
+.range-container {
+	@extend .center-content;
+	@include main.hover-bg(var(--bg-base));
+
+	padding: 0.5rem 1rem;
+	flex-grow: 1;
+	border-radius: 0.5rem;
+	height: var(--height);
+
+	.range-slider {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+
+		height: 5px;
+		width: 100%;
+		background-color: var(--accent-muted);
+		border-radius: 1000px;
+		padding: 1px;
+	}
+
+	.range-thumb {
+		@extend .center-content;
+
+		height: 3px;
+		aspect-ratio: 1 / 1;
+		position: absolute;
+
+		& > div {
+			position: absolute;
+			background-color: var(--accent);
+			height: 1rem;
+			aspect-ratio: 1 / 1;
+			border-radius: 50%;
+			transition: background-color 200ms ease;
+
+			&:hover {
+				@include main.lighten(var(--accent), 0.1);
+			}
+		}
+	}
+
+	.range-active {
+		background-color: var(--accent);
+		position: absolute;
+		height: 100%;
+	}
+}

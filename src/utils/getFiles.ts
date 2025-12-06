@@ -6,6 +6,8 @@ import { getContent, isObject } from 'src/utils';
  */
 export function getFiles(): string[] {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
+	const content = getContent(poznavacka!);
+	if (!content || !content.length) return [];
 
-	return getContent(poznavacka!).filter((f: any) => !isObject(f));
+	return content.filter((f: any) => !isObject(f));
 }
