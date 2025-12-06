@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import classes from '../../assets/ui/_DeleteButton.module.scss';
 
@@ -23,6 +24,9 @@ function DeleteButton({ title, text, confirmText, onConfirm }: DeleteButtonProps
 			</button>
 			<div onClick={() => setIsModalOpen(false)} data-open={isModalOpen} className={classes.modal}>
 				<div onClick={(e) => e.stopPropagation()}>
+					<button onClick={() => setIsModalOpen(false)} className={classes['modal-btn-close']}>
+						<Icon icon='mdi:close' />
+					</button>
 					<div>
 						<h2>Opravdu chceš {title.toLowerCase()}?</h2>
 						<p>{text}</p>
@@ -31,7 +35,7 @@ function DeleteButton({ title, text, confirmText, onConfirm }: DeleteButtonProps
 						<button className={classes['modal-btn-confirm']} onClick={() => confirmModal()}>
 							{confirmText}
 						</button>
-						<button className={classes['modal-btn-close']} onClick={() => setIsModalOpen(false)}>
+						<button className={classes['modal-btn-cancel']} onClick={() => setIsModalOpen(false)}>
 							Zrušit
 						</button>
 					</div>
