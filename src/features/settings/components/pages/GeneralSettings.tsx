@@ -9,7 +9,7 @@ function GeneralSettings() {
 
 	return (
 		<>
-			<SwitchInput title='Odstranit duplikované obrázky' description='Zajistí, že každý název bude v poznávačce jen jednou' active={settings.removeDuplicates} toggle={() => updateCoreSettings('removeDuplicates', !settings.removeDuplicates)} />
+			<SwitchInput title='Odstranit duplikované obrázky' description='Zajistí, že každý název bude v poznávačce jen jednou' active={settings.removeDuplicates} onToggle={() => updateCoreSettings('removeDuplicates', !settings.removeDuplicates)} />
 			<DeleteButton title='Resetovat naučené obrázky' text='Tímto u všech obrázků ve všech poznávačkách vymažeš označení "naučené" (začnou se ti objevovat ve kvízu).' confirmText='Resetovat' onConfirm={() => clearCompletedFiles()} />
 		</>
 	);

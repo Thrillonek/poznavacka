@@ -4,12 +4,12 @@ type SwitchInputProps = {
 	title: string;
 	description: string;
 	active: boolean;
-	toggle: () => void;
+	onToggle: () => void;
 };
 
-function SwitchInput({ title, description, active, toggle }: SwitchInputProps) {
+function SwitchInput({ title, description, active, onToggle }: SwitchInputProps) {
 	return (
-		<button onClick={() => toggle()} data-active={active} className={classes.container}>
+		<button onClick={() => onToggle()} data-active={active} className={classes.container}>
 			<div className={classes.switch}>
 				<div />
 			</div>
