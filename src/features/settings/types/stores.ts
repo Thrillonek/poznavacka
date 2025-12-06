@@ -1,3 +1,5 @@
+import type { SettingsStore } from 'src/types/stores';
+
 export type PresetMenuStore = {
 	isPresetMenuOpen: boolean;
 	togglePresetMenu: () => void;
@@ -8,7 +10,7 @@ export type SettingsStatusStore = {
 	activateRange: (type: 'min' | 'max') => void;
 	deactivateRange: () => void;
 
-	keybindToBeChanged?: string;
+	keybindToBeChanged?: keyof SettingsStore['settings']['keybinds'];
 	startChangingKeybinds: (keybind: string) => void;
 	stopChangingKeybinds: () => void;
 

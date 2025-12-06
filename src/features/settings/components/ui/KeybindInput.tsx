@@ -1,14 +1,15 @@
 // import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useAddEventListener } from 'src/hooks';
+import type { SettingsStore } from 'src/types/stores';
 import { capitalize } from 'src/utils';
 import classes from '../../assets/ui/_KeybindInput.module.scss';
 
 type SwitchInputProps = {
 	title: string;
-	keybindName: string;
+	keybindName: keyof SettingsStore['settings']['keybinds'];
 	keybinds: Record<string, string>;
-	setKeybind: (keybind: string, newValue: string) => void;
+	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
 };
 
 function KeybindInput({ title, keybindName, keybinds, setKeybind }: SwitchInputProps) {

@@ -23,7 +23,11 @@ type Basic = string | number | boolean;
 
 export type SettingsStore = {
 	settings: {
-		keybinds: Record<string, string>;
+		keybinds: {
+			change: string;
+			reveal: string;
+			complete: string;
+		};
 		quiz: {
 			mode: string;
 			random: boolean;
