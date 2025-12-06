@@ -64,7 +64,8 @@ export default function List() {
 				{files
 					.filter((f) => !isObject(f))
 					.map((file, idx) => {
-						if (settings.list.hideCompleted && completedFiles.includes(file)) return null;
+						if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
+						if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
 						let props = { idx, file };
 						return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
 					})}

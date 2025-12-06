@@ -33,7 +33,7 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 			max: 10,
 		},
 		list: {
-			hideCompleted: false,
+			showFiles: 'all',
 		},
 		removeDuplicates: false,
 		devMode: false,

@@ -35,7 +35,7 @@ export type SettingsStore = {
 			max: number;
 		};
 		list: {
-			hideCompleted: boolean;
+			showFiles: 'all' | 'completed' | 'uncompleted';
 		};
 		removeDuplicates: boolean;
 		devMode: boolean;
@@ -43,7 +43,7 @@ export type SettingsStore = {
 	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
 	updateQuizSettings: (key: keyof SettingsStore['settings']['quiz'], value: Basic) => void;
 	updateCoreSettings: (key: keyof SettingsStore['settings'], value: Basic) => void;
-	updateListSettings: (key: keyof SettingsStore['settings']['list'], value: boolean) => void;
+	updateListSettings: (key: keyof SettingsStore['settings']['list'], value: SettingsStore['settings']['list']['showFiles']) => void;
 };
 
 export type PresetStore = {
