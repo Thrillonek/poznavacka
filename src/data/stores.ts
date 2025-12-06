@@ -9,7 +9,13 @@ export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
 
 export const useModeStore = create<ModeStore>()((set) => ({
 	mode: 'list',
-	setMode: (mode: string) => set({ mode }),
+	isSettingsOpen: false,
+	closeSettings: () => set({ isSettingsOpen: false }),
+	setMode: (newMode: ModeStore['mode'] | 'settings') =>
+		set(() => {
+			if (newMode == 'settings') return { isSettingsOpen: true };
+			return { mode: newMode, isSettingsOpen: false };
+		}),
 }));
 
 export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({

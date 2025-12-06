@@ -7,9 +7,12 @@ export type SwipeLockStore = {
 	unlockSwiping: () => void;
 };
 
+export type Modes = 'list' | 'quiz' | 'settings';
 export type ModeStore = {
-	mode: string;
-	setMode: (mode: string) => void;
+	mode: Exclude<Modes, 'settings'>;
+	isSettingsOpen: boolean;
+	closeSettings: () => void;
+	setMode: (mode: Modes) => void;
 };
 
 export type PoznavackaStore = {

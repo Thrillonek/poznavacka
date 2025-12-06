@@ -18,14 +18,14 @@ export default function Settings() {
 	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
 	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
 	const stopChangingKeybinds = useSettingsStatusStore((store) => store.stopChangingKeybinds);
-	const mode = useModeStore((store) => store.mode);
-	const setMode = useModeStore((store) => store.setMode);
+	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
+	const closeSettings = useModeStore((store) => store.closeSettings);
 
 	const settingsMode = useSettingsModeStore((store) => store.mode);
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (!keybindToBeChanged) return;
-		if (mode !== 'settings') return;
+		if (!isSettingsOpen) return;
 
 		if (e.key == 'Escape') {
 			return stopChangingKeybinds();
@@ -41,7 +41,7 @@ export default function Settings() {
 	useAddEventListener('touchmove', (e) => activeRangeValue && e.preventDefault(), [activeRangeValue], { passive: false });
 
 	return (
-		<div onClick={() => setMode('quiz')} data-open={mode == 'settings'} className='settings-modal'>
+		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
 			<div onClick={(e) => e.stopPropagation()} className='settings-container'>
 				<div className='settings-categories'>
 					<SettingsCategories />
@@ -105,7 +105,7 @@ export default function Settings() {
 						</div>
 					</div> */}
 				</div>
-				<button onClick={() => setMode('quiz')} className='settings-close'>
+				<button onClick={() => closeSettings()} className='settings-close'>
 					<Icon icon='mdi:close' />
 				</button>
 			</div>

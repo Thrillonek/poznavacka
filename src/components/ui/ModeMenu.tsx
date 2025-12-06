@@ -5,7 +5,9 @@ import { useModeStore, usePoznavackaStore } from 'src/data/stores';
 import { getFiles } from 'src/utils';
 
 function ModeMenu() {
-	const { mode, setMode } = useModeStore((store) => store);
+	const mode = useModeStore((store) => store.mode);
+	const setMode = useModeStore((store) => store.setMode);
+	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka!);
 
@@ -13,15 +15,15 @@ function ModeMenu() {
 
 	return (
 		<div className={'shadow-base mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>
-			<button onClick={() => setMode('quiz')} className={mode == 'quiz' ? 'active' : ''}>
+			<button onClick={() => setMode('quiz')} className={mode == 'quiz' && !isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:brain' />
 				<span>Kvíz</span>
 			</button>
-			<button onClick={() => setMode('list')} className={mode == 'list' ? 'active' : ''}>
+			<button onClick={() => setMode('list')} className={mode == 'list' && !isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:format-list-bulleted-square' />
 				<span>Seznam</span>
 			</button>
-			<button data-settings onClick={() => setMode('settings')} className={mode == 'settings' ? 'active' : ''}>
+			<button data-settings onClick={() => setMode('settings')} className={isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:gear' />
 				<span>Nastavení</span>
 			</button>
