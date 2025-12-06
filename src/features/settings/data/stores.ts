@@ -21,6 +21,6 @@ export const useSettingsStatusStore = create<SettingsStatusStore>()((set) => ({
 }));
 
 export const useSettingsModeStore = create<SettingsModeStore>((set) => ({
-	mode: 'general',
+	mode: 'obecné',
 	setMode: (newMode) => set({ mode: newMode }),
 }));
