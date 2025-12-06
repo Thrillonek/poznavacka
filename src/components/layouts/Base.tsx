@@ -4,7 +4,6 @@ import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
-import Settings from '../../features/settings/components/Settings';
 
 export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -26,27 +25,22 @@ export default function Base() {
 	);
 
 	return (
-		<div className='flex flex-col bg-dark h-full overflow-x-hidden'>
-			<div className='relative fill-space'>
-				<div className={'flex absolute w-full h-full z-20 ' + (mode == 'settings' ? '' : 'hidden')}>
-					<Settings />
+		<div className='relative bg-dark fill-space overflow-x-hidden'>
+			{poznavacka && getContent(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
+				<div className={'mode-slider fill-space ' + (mode == 'quiz' ? 'quiz-mode' : '')}>
+					<div className={'left-0'}>
+						<Quiz />
+					</div>
+					<div className={'left-full md:left-0 ' + (mode == 'list' ? '' : 'md:hidden')}>
+						<List />
+					</div>
 				</div>
-				{poznavacka && getContent(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
-					<div className={'mode-slider fill-space ' + (mode == 'quiz' ? 'quiz-mode' : '')}>
-						<div className={'left-0'}>
-							<Quiz />
-						</div>
-						<div className={'left-full md:left-0 ' + (mode == 'list' ? '' : 'md:hidden')}>
-							<List />
-						</div>
-					</div>
-				) : (
-					<div className='flex-col gap-y-2 fill-space px-8 text-center center-content'>
-						<h1 className='font-bold text-main text-4xl'>Poznávačka Tool</h1>
-						<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu&nbsp;obrázků) ve výběru nalevo</p>
-					</div>
-				)}
-			</div>
+			) : (
+				<div className='flex-col gap-y-2 fill-space px-8 text-center center-content'>
+					<h1 className='font-bold text-main text-4xl'>Poznávačka Tool</h1>
+					<p className='text-muted text-xl'>Pro pokračování zvolte poznávačku (skupinu&nbsp;obrázků) ve výběru nalevo</p>
+				</div>
+			)}
 		</div>
 	);
 }

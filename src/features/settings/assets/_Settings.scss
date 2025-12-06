@@ -1,0 +1,60 @@
+@use 'src/assets/main';
+
+.settings-modal {
+	@extend .center-content;
+
+	position: fixed;
+	inset: 0;
+	background-color: oklch(0 0 0 / 0.6);
+	z-index: 1000;
+
+	transition: opacity 200ms ease;
+
+	& > div {
+		background-color: var(--bg-dark);
+		color: var(--text);
+	}
+
+	&:not([data-visible='true']) {
+		opacity: 0;
+		pointer-events: none;
+	}
+}
+
+.settings-container {
+	display: flex;
+	border-radius: 2rem;
+	overflow: hidden;
+	position: relative;
+	width: 80%;
+	height: 80%;
+}
+
+.settings-categories {
+	display: flex;
+	flex-direction: column;
+	width: 250px;
+	background-color: var(--bg-base);
+	border-right: 1px solid var(--border);
+}
+
+.settings-content {
+	padding: 1rem;
+	padding-left: 0;
+}
+
+.settings-close {
+	@extend .center-content;
+	@include main.hover-bg(var(--bg-base));
+
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.5rem;
+
+	font-size: 1.25rem;
+	color: var(--text-muted);
+}
