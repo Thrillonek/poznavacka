@@ -41,7 +41,7 @@ export default function Settings() {
 	useAddEventListener('touchmove', (e) => activeRangeValue && e.preventDefault(), [activeRangeValue], { passive: false });
 
 	return (
-		<div onClick={() => setMode('quiz')} data-visible={mode == 'settings'} className='settings-modal'>
+		<div onClick={() => setMode('quiz')} data-open={mode == 'settings'} className='settings-modal'>
 			<div onClick={(e) => e.stopPropagation()} className='settings-container'>
 				<div className='settings-categories'>
 					<SettingsCategories />

@@ -50,3 +50,29 @@ main {
 @mixin lighten($color, $amount: 0.033) {
 	background-color: oklch(from $color calc(l + $amount) c h) !important;
 }
+
+@mixin modal {
+	@extend .center-content;
+
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+	width: 100%;
+	height: 100%;
+	background-color: oklch(0 0 0 / 0.5);
+
+	transition: opacity 200ms ease;
+
+	& > div {
+		transition: transform 200ms ease;
+	}
+
+	&:not([data-open='true']) {
+		opacity: 0;
+		pointer-events: none;
+
+		& > div {
+			transform: scale(0.9);
+		}
+	}
+}
