@@ -1,5 +1,5 @@
 function KeybindsSettings() {
-	return <div>GeneralSettings</div>;
+	return <></>;
 }
 
 export default KeybindsSettings;

@@ -23,7 +23,7 @@ export default function SettingsCategories() {
 
 	return (
 		<>
-			<h1 className='settings-header'>Nastavení</h1>
+			<h2 className='settings-header'>Nastavení</h2>
 			<SettingsCategory mode='obecné' />
 			<SettingsCategory mode='kvíz' />
 			<SettingsCategory mode='seznam' />

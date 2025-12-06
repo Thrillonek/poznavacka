@@ -27,8 +27,8 @@
 	&[data-searched='true'] {
 		.list-item-number,
 		.list-item-text {
-			color: var(--text);
-			border-color: var(--text);
+			color: var(--text-main);
+			border-color: var(--text-main);
 		}
 	}
 

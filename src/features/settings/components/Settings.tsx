@@ -1,7 +1,9 @@
 import { Icon } from '@iconify/react';
 import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
+import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
+import '../assets/_SettingsPages.scss';
 import { useSettingsModeStore, useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
 import ExtraSettings from './ExtraSettings';
@@ -54,10 +56,14 @@ export default function Settings() {
 					<SettingsCategories />
 				</div>
 				<div className='settings-content'>
-					{settingsMode == 'obecné' && <GeneralSettings />}
-					{settingsMode == 'kvíz' && <QuizSettings />}
-					{settingsMode == 'seznam' && <ListSettings />}
-					{settingsMode == 'klávesové zkratky' && <KeybindsSettings />}
+					<div>
+						<h1 className='settings-page-header'>{capitalize(settingsMode)}</h1>
+						{settingsMode == 'obecné' && <GeneralSettings />}
+						{settingsMode == 'kvíz' && <QuizSettings />}
+						{settingsMode == 'seznam' && <ListSettings />}
+						{settingsMode == 'klávesové zkratky' && <KeybindsSettings />}
+					</div>
+
 					{/* <ConfirmModal />
 
 					<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>

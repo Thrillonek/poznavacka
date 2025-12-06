@@ -7,7 +7,7 @@
 :root {
 	font-family: Inter, sans-serif;
 
-	--text: oklch(0.9491 0 0);
+	--text-main: oklch(0.9491 0 0);
 	--text-muted: oklch(0.6993 0 0);
 	--border: oklch(0.4017 0 0);
 	--bg-light: oklch(0.2603 0 0);
@@ -26,7 +26,7 @@
 }
 
 .text-main {
-	color: var(--text) !important;
+	color: var(--text-main) !important;
 }
 
 .text-accent {

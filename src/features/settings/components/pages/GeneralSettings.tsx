@@ -1,5 +1,5 @@
 function GeneralSettings() {
-	return <div>GeneralSettings</div>;
+	return <></>;
 }
 
 export default GeneralSettings;

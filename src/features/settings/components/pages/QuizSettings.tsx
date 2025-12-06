@@ -1,5 +1,5 @@
 function QuizSettings() {
-	return <div>GeneralSettings</div>;
+	return <></>;
 }
 
 export default QuizSettings;

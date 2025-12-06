@@ -1,5 +1,5 @@
 function ListSettings() {
-	return <div>GeneralSettings</div>;
+	return <></>;
 }
 
 export default ListSettings;
