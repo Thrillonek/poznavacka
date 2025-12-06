@@ -31,7 +31,9 @@ function SearchForm() {
 		if (isSearchInputFocused) {
 			inputRef.current!.focus();
 		} else {
-			setSearchInput('');
+			if (window.innerWidth < 768) {
+				setSearchInput('');
+			}
 		}
 	}, [isSearchInputFocused]);
 
