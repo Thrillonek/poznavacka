@@ -1,12 +1,14 @@
 import { Icon } from '@iconify/react';
-import { Checkbox } from '@mui/material';
-import { blue } from '@mui/material/colors';
 import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_Settings.scss';
-import { useSettingsStatusStore } from '../data/stores';
+import { useSettingsModeStore, useSettingsStatusStore } from '../data/stores';
 import { handlePointerMove } from '../utils';
 import ExtraSettings from './ExtraSettings';
+import GeneralSettings from './pages/GeneralSettings';
+import KeybindsSettings from './pages/KeybindsSettings';
+import ListSettings from './pages/ListSettings';
+import QuizSettings from './pages/QuizSettings';
 import SettingsCategories from './SettingsCategories';
 import ConfirmModal from './ui/ConfirmModal';
 import KeybindControl from './ui/KeybindControl';
@@ -23,6 +25,8 @@ export default function Settings() {
 	const openModal = useSettingsStatusStore((store) => store.openModal);
 	const mode = useModeStore((store) => store.mode);
 	const setMode = useModeStore((store) => store.setMode);
+
+	const settingsMode = useSettingsModeStore((store) => store.mode);
 
 	const { random } = settings.quiz;
 
@@ -50,7 +54,11 @@ export default function Settings() {
 					<SettingsCategories />
 				</div>
 				<div className='settings-content'>
-					<ConfirmModal />
+					{settingsMode == 'obecné' && <GeneralSettings />}
+					{settingsMode == 'kvíz' && <QuizSettings />}
+					{settingsMode == 'seznam' && <ListSettings />}
+					{settingsMode == 'klávesové zkratky' && <KeybindsSettings />}
+					{/* <ConfirmModal />
 
 					<h1 className='mb-8 font-bold text-3xl'>Nastavení</h1>
 
@@ -100,7 +108,7 @@ export default function Settings() {
 								<p className='font-semibold text-neutral-300'>Skrýt obrázky, které jsou naučené</p>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 				<button onClick={() => setMode('quiz')} className='settings-close'>
 					<Icon icon='mdi:close' />

@@ -49,6 +49,12 @@
 .settings-content {
 	padding: 1rem;
 	padding-left: 0;
+
+	& > div {
+		height: 100%;
+		overflow-y: auto;
+		padding: 1rem;
+	}
 }
 
 .settings-close {

@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { capitalize } from 'src/utils';
 import '../assets/_SettingsCategories.scss';
 import { useSettingsModeStore } from '../data/stores';
 
@@ -16,13 +17,17 @@ export default function SettingsCategories() {
 		[currentMode]
 	);
 
+	function SettingsCategory({ mode }: { mode: string }) {
+		return <button {...btnProps(mode)}>{capitalize(mode)}</button>;
+	}
+
 	return (
 		<>
 			<h1 className='settings-header'>Nastavení</h1>
-			<button {...btnProps('general')}>Obecné</button>
-			<button {...btnProps('quiz')}>Kvíz</button>
-			<button {...btnProps('list')}>Seznam</button>
-			<button {...btnProps('keybinds')}>Klávesové zkratky</button>
+			<SettingsCategory mode='obecné' />
+			<SettingsCategory mode='kvíz' />
+			<SettingsCategory mode='seznam' />
+			<SettingsCategory mode='klávesové zkratky' />
 		</>
 	);
 }
