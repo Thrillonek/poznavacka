@@ -57,6 +57,7 @@
 		height: 3px;
 		aspect-ratio: 1 / 1;
 		position: absolute;
+		z-index: 1;
 
 		& > div {
 			position: absolute;

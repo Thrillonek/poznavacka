@@ -3,20 +3,22 @@ import type { RangeInputProps } from '../../components/ui/RangeInput';
 
 export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>, props: RangeInputProps) {
 	const { value } = minRef.current!;
-	const { setMin } = props;
+	const { setMin, max } = props;
 
 	if (/\D/g.test(value) || value.length === 0 || parseInt(value) < 1) {
 		return setMin(1);
 	}
+	if (parseInt(value) >= max) return setMin(max - 1);
 	setMin(parseInt(value));
 }
 
 export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>, props: RangeInputProps) {
 	const { value } = maxRef.current!;
-	const { set, setMax } = props;
+	const { set, setMax, min } = props;
 
 	if (/\D/g.test(value) || value.length === 0 || parseInt(value) > set.length) {
 		return setMax(set.length);
 	}
+	if (parseInt(value) <= min) return setMax(min + 1);
 	setMax(parseInt(value));
 }

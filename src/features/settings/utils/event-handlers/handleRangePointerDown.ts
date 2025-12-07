@@ -17,11 +17,15 @@ export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Re
 
 	const relativePosition = (e.clientX - rangeInputRect.left) / rangeInputRect.width;
 
+	let result = Math.round(props.set.length * relativePosition);
+	if (result > props.set.length) result = props.set.length;
+	if (result < 1) result = 1;
+
 	if (deltaMin > deltaMax) {
 		setActiveRange('max');
-		props.setMax(Math.round(props.set.length * relativePosition));
+		props.setMax(result);
 	} else {
 		setActiveRange('min');
-		props.setMin(Math.round(props.set.length * relativePosition));
+		props.setMin(result);
 	}
 }
