@@ -8,7 +8,6 @@ import SwitchInput from '../ui/SwitchInput';
 function QuizSettings() {
 	const settings = useSettingsStore((store) => store.settings);
 	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
-	const updateCoreSettings = useSettingsStore((store) => store.updateCoreSettings);
 
 	const updateMin = (useMin: number) => updateQuizSettings('min', useMin);
 	const updateMax = (useMax: number) => updateQuizSettings('max', useMax);
@@ -35,7 +34,7 @@ function QuizSettings() {
 
 			<div className='settings-section'>
 				<h3>Ostatní</h3>
-				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.quiz.devMode} onToggle={() => updateCoreSettings('devMode', !settings.quiz.devMode)} />
+				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.quiz.devMode} onToggle={() => updateQuizSettings('devMode', !settings.quiz.devMode)} />
 			</div>
 		</>
 	);
