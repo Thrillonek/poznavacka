@@ -3,7 +3,8 @@ export type PresetMenuStore = {
 	togglePresetMenu: () => void;
 };
 
+type SettingsModes = 'obecné' | 'kvíz' | 'seznam' | 'klávesové zkratky';
 export type SettingsModeStore = {
-	mode: string;
-	setMode: (mode: string) => void;
+	mode: SettingsModes;
+	setMode: (mode: SettingsModes) => void;
 };

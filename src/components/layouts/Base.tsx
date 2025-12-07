@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import 'src/assets/_Base.scss';
 import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
+import { useSettingsModeStore } from 'src/features/settings/data/stores';
 import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
@@ -9,6 +11,7 @@ export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { mode, setMode } = useModeStore((store) => store);
 	const isLocked = useSwipeLockStore((state) => state.isLocked);
+	const setSettingsMode = useSettingsModeStore((store) => store.setMode);
 
 	useInitiateSwipeEvent();
 
@@ -23,6 +26,11 @@ export default function Base() {
 		},
 		[mode, isLocked]
 	);
+
+	useEffect(() => {
+		if (mode == 'quiz') setSettingsMode('kvíz');
+		if (mode == 'list') setSettingsMode('seznam');
+	}, [mode]);
 
 	return (
 		<div className='relative bg-dark fill-space overflow-x-hidden'>
