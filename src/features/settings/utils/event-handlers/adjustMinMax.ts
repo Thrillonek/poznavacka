@@ -6,7 +6,6 @@ export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>
 	const { setMin } = props;
 
 	if (/\D/g.test(value) || value.length === 0 || parseInt(value) < 1) {
-		minRef.current!.value = '1';
 		return setMin(1);
 	}
 	setMin(parseInt(value));
@@ -17,7 +16,6 @@ export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>
 	const { set, setMax } = props;
 
 	if (/\D/g.test(value) || value.length === 0 || parseInt(value) > set.length) {
-		maxRef.current!.value = set.length.toString();
 		return setMax(set.length);
 	}
 	setMax(parseInt(value));

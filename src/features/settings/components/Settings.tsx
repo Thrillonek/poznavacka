@@ -1,11 +1,9 @@
 import { Icon } from '@iconify/react';
-import { useModeStore, useSettingsStore } from 'src/data';
-import { useAddEventListener } from 'src/hooks';
+import { useModeStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsPages.scss';
-import { useSettingsModeStore, useSettingsStatusStore } from '../data/stores';
-import { handlePointerMove } from '../utils';
+import { useSettingsModeStore } from '../data/stores';
 import GeneralSettings from './pages/GeneralSettings';
 import KeybindsSettings from './pages/KeybindsSettings';
 import ListSettings from './pages/ListSettings';
@@ -13,32 +11,10 @@ import QuizSettings from './pages/QuizSettings';
 import SettingsCategories from './SettingsCategories';
 
 export default function Settings() {
-	const setKeybind = useSettingsStore((store) => store.setKeybind);
-	const activeRangeValue = useSettingsStatusStore((store) => store.activeRangeValue);
-	const deactivateRange = useSettingsStatusStore((store) => store.deactivateRange);
-	const keybindToBeChanged = useSettingsStatusStore((store) => store.keybindToBeChanged);
-	const stopChangingKeybinds = useSettingsStatusStore((store) => store.stopChangingKeybinds);
 	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
 	const closeSettings = useModeStore((store) => store.closeSettings);
 
 	const settingsMode = useSettingsModeStore((store) => store.mode);
-
-	function handleKeyDown(e: KeyboardEvent) {
-		if (!keybindToBeChanged) return;
-		if (!isSettingsOpen) return;
-
-		if (e.key == 'Escape') {
-			return stopChangingKeybinds();
-		}
-
-		setKeybind(keybindToBeChanged, e.key);
-		return stopChangingKeybinds();
-	}
-
-	useAddEventListener('pointerup', () => deactivateRange());
-	useAddEventListener('pointermove', handlePointerMove, [activeRangeValue]);
-	useAddEventListener('keydown', handleKeyDown, [keybindToBeChanged]);
-	useAddEventListener('touchmove', (e) => activeRangeValue && e.preventDefault(), [activeRangeValue], { passive: false });
 
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>

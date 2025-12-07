@@ -1,14 +1,13 @@
-import type { PointerEvent } from 'react';
-import { useSettingsStore } from 'src/data';
-import { useSettingsStatusStore } from '../../data/stores';
+import type { MutableRefObject, PointerEvent } from 'react';
+import type { RangeInputProps } from '../../components/ui/RangeInput';
 
-export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, files: string[]) {
-	const activateRange = useSettingsStatusStore.getState().activateRange;
-	const updateQuizSettings = useSettingsStore.getState().updateQuizSettings;
+type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
+export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Refs, props: RangeInputProps, setActiveRange: (x: string) => void) {
+	if (Object.values(refs).some((val) => val.current == undefined)) return;
 
-	const minInputRect = document.getElementById('size-min')!.getBoundingClientRect();
-	const maxInputRect = document.getElementById('size-max')!.getBoundingClientRect();
-	const rangeInputRect = document.getElementById('size-range')!.getBoundingClientRect();
+	const minInputRect = refs.minRangeRef.current!.getBoundingClientRect();
+	const maxInputRect = refs.maxRangeRef.current!.getBoundingClientRect();
+	const rangeInputRect = refs.rangeSliderRef.current!.getBoundingClientRect();
 
 	const minInputCenter = minInputRect.left + minInputRect.width / 2;
 	const maxInputCenter = maxInputRect.left + maxInputRect.width / 2;
@@ -19,10 +18,10 @@ export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, files: s
 	const relativePosition = (e.clientX - rangeInputRect.left) / rangeInputRect.width;
 
 	if (deltaMin > deltaMax) {
-		activateRange('max');
-		updateQuizSettings('max', Math.round(files.length * relativePosition));
+		setActiveRange('max');
+		props.setMax(Math.round(props.set.length * relativePosition));
 	} else {
-		activateRange('min');
-		updateQuizSettings('min', Math.round(files.length * relativePosition));
+		setActiveRange('min');
+		props.setMin(Math.round(props.set.length * relativePosition));
 	}
 }

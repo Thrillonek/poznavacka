@@ -1,4 +1,4 @@
-export const defaultKeybinds: Record<string, string> = {
+export const defaultKeybinds = {
 	change: 'ArrowUp',
 	reveal: 'ArrowDown',
 	complete: 'ArrowRight',

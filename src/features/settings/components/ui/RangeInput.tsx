@@ -1,6 +1,9 @@
-import { useMemo, useRef, type KeyboardEvent, type LegacyRef } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type LegacyRef } from 'react';
+import { useAddEventListener } from 'src/hooks';
 import classes from '../../assets/ui/_RangeInput.module.scss';
+import { handlePointerMove } from '../../utils';
 import { adjustMax, adjustMin } from '../../utils/event-handlers/adjustMinMax';
+import { handleRangePointerDown } from '../../utils/event-handlers/handleRangePointerDown';
 
 export type RangeInputProps = {
 	min: number;
@@ -11,10 +14,20 @@ export type RangeInputProps = {
 };
 
 function RangeInput(props: RangeInputProps) {
-	const { min, max, set, setMin, setMax } = props;
+	const { min, max, set } = props; // setMin and setMax are used in util functions below
 
 	const minRef = useRef<HTMLInputElement>();
 	const maxRef = useRef<HTMLInputElement>();
+	const minRangeRef = useRef<HTMLDivElement>();
+	const maxRangeRef = useRef<HTMLDivElement>();
+	const rangeSliderRef = useRef<HTMLDivElement>();
+
+	const [activeRange, setActiveRange] = useState('');
+
+	useEffect(() => {
+		minRef.current!.value = min.toString();
+		maxRef.current!.value = max.toString();
+	}, [min, max]);
 
 	function handleSubmitForm(e: KeyboardEvent<HTMLDivElement>) {
 		if (e.key !== 'Enter') return;
@@ -29,21 +42,31 @@ function RangeInput(props: RangeInputProps) {
 		return `calc(${calculation * 100}% - ${calculation * 3}px)`;
 	}
 
+	const refs = {
+		minRangeRef,
+		maxRangeRef,
+		rangeSliderRef,
+	};
+
+	useAddEventListener('pointerup', () => setActiveRange(''));
+	useAddEventListener('pointermove', (e) => handlePointerMove(e, refs, props, activeRange), [activeRange]);
+	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
+
 	return (
-		<div tabIndex={0} onKeyDown={handleSubmitForm} className={classes.container}>
+		<div onPointerDown={(e) => handleRangePointerDown(e, refs, props, setActiveRange)} tabIndex={0} onKeyDown={handleSubmitForm} className={classes['container']}>
 			<div className={classes['input-container']}>
 				<label className={classes['input-label']} htmlFor='min'>
 					Min
 				</label>
-				<input id='min' ref={minRef as LegacyRef<HTMLInputElement>} onBlur={() => adjustMin(minRef, props)} onFocus={(e) => e.target.select()} className={classes.input} type='text' defaultValue={min} />
+				<input id='min' ref={minRef as LegacyRef<any>} onBlur={() => adjustMin(minRef, props)} onFocus={(e) => e.target.select()} className={classes.input} type='text' defaultValue={min} />
 			</div>
 			<div className={classes['range-container']}>
-				<div className={classes['range-slider']}>
-					<div style={{ left: calcPosition(min) }} className={classes['range-thumb']}>
+				<div ref={rangeSliderRef as LegacyRef<any>} className={classes['range-slider']}>
+					<div style={{ left: calcPosition(min) }} ref={minRangeRef as LegacyRef<any>} className={classes['range-thumb']}>
 						<div />
 					</div>
 					<div style={{ width: `${((max - min) / (set.length - 1)) * 100}%`, left: `${((min - 1) / (set.length - 1)) * 100}%` }} className={classes['range-active']} />
-					<div style={{ left: calcPosition(max) }} className={classes['range-thumb']}>
+					<div style={{ left: calcPosition(max) }} ref={maxRangeRef as LegacyRef<any>} className={classes['range-thumb']}>
 						<div />
 					</div>
 				</div>

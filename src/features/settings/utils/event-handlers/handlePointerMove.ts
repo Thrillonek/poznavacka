@@ -1,22 +1,21 @@
-import type { PointerEvent } from 'react';
-import { useSettingsStore } from 'src/data';
-import { getFiles } from 'src/utils';
-import { useSettingsStatusStore } from '../../data/stores';
+import type { MutableRefObject, PointerEvent } from 'react';
+import type { RangeInputProps } from '../../components/ui/RangeInput';
 
-export function handlePointerMove(e: PointerEvent) {
-	const activeRangeValue = useSettingsStatusStore.getState().activeRangeValue;
-	if (!activeRangeValue) return;
+type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
+export function handlePointerMove(e: PointerEvent, refs: Refs, props: RangeInputProps, activeRange: string) {
+	if (!activeRange) return;
+	if (!refs.rangeSliderRef.current) return;
 
-	const rangeRect = document.getElementById('size-range')!.getBoundingClientRect();
-	const files = getFiles();
-	const { min, max } = useSettingsStore.getState().settings.quiz;
-	const { updateQuizSettings } = useSettingsStore.getState();
+	const rangeRect = refs.rangeSliderRef.current.getBoundingClientRect();
+	const { min, max } = props;
 
-	const pos = { x: e.clientX || e.clientX, y: e.clientY || e.clientY };
+	const pos = { x: e.clientX, y: e.clientY };
 
-	let calculation = Math.round(((pos.x - rangeRect.left) * (files.length - 1)) / rangeRect.width) + 1;
-	if (calculation > files.length) calculation = files.length;
+	let calculation = Math.round(((pos.x - rangeRect.left) * (props.set.length - 1)) / rangeRect.width) + 1;
+	if (calculation > props.set.length) calculation = props.set.length;
 	if (calculation < 1) calculation = 1;
-	if ((calculation == max && activeRangeValue == 'min') || (calculation == min && activeRangeValue == 'max')) return;
-	updateQuizSettings(activeRangeValue, calculation);
+	if ((calculation == max && activeRange == 'min') || (calculation == min && activeRange == 'max')) return;
+
+	if (activeRange == 'min') props.setMin(calculation);
+	if (activeRange == 'max') props.setMax(calculation);
 }
