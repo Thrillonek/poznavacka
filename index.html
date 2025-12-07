@@ -1,60 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-DKDRL7RCH3"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
 
-			gtag('config', 'G-DKDRL7RCH3');
-		</script>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="description" content="co se děje" />
-		<link rel="icon" type="image/png" href="/assets/icon.png" />
-		<script src="https://kit.fontawesome.com/58f533b0e1.js" crossorigin="anonymous"></script>
-		<title>Poznávačka Tool</title>
-		<style>
-			.unloaded-bg {
-				display: flex;
-				flex-direction: column;
-				position: fixed;
-				top: 0;
-				left: 0;
-				justify-content: center;
-				align-items: center;
-				width: 100vw;
-				text-align: center;
-				background-color: hsl(0, 0%, 20%);
-				z-index: -1000;
-				height: 100dvh;
-			}
-			.unloaded-title {
-				font-size: 3.5rem;
-				font-weight: bold;
-				line-height: 1.2;
-				color: hsl(0, 0%, 50%);
-				font-family: 'Tahoma', Arial, Helvetica, sans-serif;
-			}
-			.unloaded-loading {
-				font-size: 2rem;
-				margin-top: 2rem;
-				font-weight: bold;
-				line-height: 1.5;
-				color: hsl(0, 0%, 40%);
-			}
-		</style>
-	</head>
-	<body>
-		<div id="root"></div>
-		<script defer type="module" src="/src/main.jsx"></script>
-		<div class="unloaded-bg">
-			<h1 class="unloaded-title">Poznávačka<br />Tool</h1>
-			<p class="unloaded-loading">Načítání...</p>
-		</div>
-	</body>
+<head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-DKDRL7RCH3"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'G-DKDRL7RCH3');
+	</script>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description" content="Pomocník s učením poznávačky" />
+	<link rel="icon" type="image/png" href="/assets/icon.png" />
+	<script src="https://kit.fontawesome.com/58f533b0e1.js" crossorigin="anonymous"></script>
+	<title>Poznávačka Tool</title>
+	<style>
+		.unloaded-bg {
+			display: flex;
+			flex-direction: column;
+			position: fixed;
+			top: 0;
+			left: 0;
+			justify-content: center;
+			align-items: center;
+			width: 100vw;
+			text-align: center;
+			background-color: hsl(0, 0%, 20%);
+			z-index: -1000;
+			height: 100dvh;
+		}
+
+		.unloaded-title {
+			font-size: 3.5rem;
+			font-weight: bold;
+			line-height: 1.2;
+			color: hsl(0, 0%, 50%);
+			font-family: 'Tahoma', Arial, Helvetica, sans-serif;
+		}
+
+		.unloaded-loading {
+			font-size: 2rem;
+			margin-top: 2rem;
+			font-weight: bold;
+			line-height: 1.5;
+			color: hsl(0, 0%, 40%);
+		}
+	</style>
+</head>
+
+<body>
+	<div id="root"></div>
+	<script defer type="module" src="/src/main.jsx"></script>
+	<div class="unloaded-bg">
+		<h1 class="unloaded-title">Poznávačka<br />Tool</h1>
+		<p class="unloaded-loading">Načítání...</p>
+	</div>
+</body>
+
 </html>
