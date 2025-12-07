@@ -23,6 +23,7 @@
 .go-up-button {
 	@extend .shadow-base;
 	@extend .center-content;
+	@include main.hover-bg(var(--bg-dark));
 
 	position: absolute;
 	right: 1rem;
@@ -30,7 +31,6 @@
 
 	transition: opacity 250ms ease;
 
-	background-color: var(--bg-dark);
 	border: 1px solid var(--border);
 	border-radius: 50%;
 
