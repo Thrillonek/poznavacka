@@ -2,22 +2,26 @@ import { useMemo } from 'react';
 import { capitalize } from 'src/utils';
 import '../assets/_SettingsCategories.scss';
 import { useSettingsModeStore } from '../data/stores';
+import type { SettingsModes } from '../types/stores';
 
 export default function SettingsCategories() {
-	const { mode: currentMode, setMode } = useSettingsModeStore((store) => store);
+	const currentMode = useSettingsModeStore((store) => store.mode);
+	const setMode = useSettingsModeStore((store) => store.setMode);
 
 	const btnProps = useMemo(
-		() => (mode: string) => {
+		() => (mode: SettingsModes) => {
 			return {
 				'data-active': currentMode == mode,
 				className: 'settings-category',
-				onClick: () => setMode(mode),
+				onClick: () => {
+					setMode(mode);
+				},
 			};
 		},
 		[currentMode]
 	);
 
-	function SettingsCategory({ mode }: { mode: string }) {
+	function SettingsCategory({ mode }: { mode: SettingsModes }) {
 		return <button {...btnProps(mode)}>{capitalize(mode)}</button>;
 	}
 

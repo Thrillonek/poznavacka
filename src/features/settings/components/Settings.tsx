@@ -15,6 +15,8 @@ export default function Settings() {
 	const closeSettings = useModeStore((store) => store.closeSettings);
 
 	const settingsMode = useSettingsModeStore((store) => store.mode);
+	const isContentOpen = useSettingsModeStore((store) => store.isContentOpen);
+	const toggleContent = useSettingsModeStore((store) => store.toggleContent);
 
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
@@ -22,7 +24,7 @@ export default function Settings() {
 				<div className='settings-categories'>
 					<SettingsCategories />
 				</div>
-				<div className='settings-content'>
+				<div data-visible={isContentOpen} className='settings-content'>
 					<div>
 						<h1 className='settings-page-header'>{capitalize(settingsMode)}</h1>
 						{settingsMode == 'obecné' && <GeneralSettings />}
@@ -83,6 +85,9 @@ export default function Settings() {
 				</div>
 				<button onClick={() => closeSettings()} className='settings-close'>
 					<Icon icon='mdi:close' />
+				</button>
+				<button onClick={() => toggleContent(false)} className='settings-close settings-back'>
+					<Icon icon='mdi:arrow-back' />
 				</button>
 			</div>
 		</div>

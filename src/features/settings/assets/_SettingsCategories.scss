@@ -15,8 +15,10 @@
 	text-align: left;
 	color: var(--text-main);
 
-	&[data-active='true'] {
-		color: var(--accent);
-		background-color: var(--accent-muted);
+	@media (min-width: 768px) {
+		&[data-active='true'] {
+			color: var(--accent);
+			background-color: var(--accent-muted);
+		}
 	}
 }
