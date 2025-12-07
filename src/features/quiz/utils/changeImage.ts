@@ -6,7 +6,7 @@ import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
 import { betterRNG, getMinMax } from './index';
 
 /**
- * Changes the current image in the quiz, toggles the filename reveal and handles errors.
+ * Changes the current image in the quiz, toggles the filename reveal state based on `showImage` param and handles errors.
  * @param [options] - Optional object with properties:
  *   - showImage - Whether to show the new image or not. Default is false.
  *   - complete - Only set to true when the file was added to the `completedFiles` array. Default is false.
@@ -15,7 +15,7 @@ import { betterRNG, getMinMax } from './index';
 export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean } = {}) {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
-	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();
+	const { setFileIndex, toggleFileNameRevealed, completeFileLoading } = useQuizFileStore.getState();
 
 	const files = getFiles();
 
@@ -33,6 +33,9 @@ export function changeImage({ showImage = false, complete: isFileCompleted = fal
 	previousFiles?.push(newIndex);
 
 	setFileIndex(newIndex);
+	if ((document.querySelector('.quiz-image-viewer img') as HTMLImageElement)?.naturalWidth) {
+		completeFileLoading();
+	}
 }
 
 function generateNewIndex({ min, max, isFileCompleted, settings }: { min: number; max: number; isFileCompleted: boolean; settings: SettingsStore['settings'] }) {

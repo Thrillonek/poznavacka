@@ -6,7 +6,9 @@ import '../assets/_QuizImageViewer.scss';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 
 function ImageViewer() {
-	const { fileName, completeFileLoading } = useQuizFileStore((store) => store);
+	const fileName = useQuizFileStore((store) => store.fileName);
+	const completeFileLoading = useQuizFileStore((store) => store.completeFileLoading);
+	// const isFileLoaded = useQuizFileStore((store) => store.isFileLoaded);
 
 	return (
 		<>
