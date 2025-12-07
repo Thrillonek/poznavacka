@@ -35,7 +35,7 @@ function QuizSettings() {
 
 			<div className='settings-section'>
 				<h3>Ostatní</h3>
-				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.devMode} onToggle={() => updateCoreSettings('devMode', !settings.devMode)} />
+				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.quiz.devMode} onToggle={() => updateCoreSettings('devMode', !settings.quiz.devMode)} />
 			</div>
 		</>
 	);

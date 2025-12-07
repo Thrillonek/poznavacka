@@ -92,13 +92,13 @@
 	display: none;
 }
 
-.settings-content[data-visible='true'] {
-	& ~ .settings-close {
-		display: none;
-	}
+@media not all and (min-width: 768px) {
+	.settings-content[data-visible='true'] {
+		& ~ .settings-close {
+			display: none;
+		}
 
-	& ~ .settings-back {
-		@media not all and (min-width: 768px) {
+		& ~ .settings-back {
 			display: flex;
 		}
 	}

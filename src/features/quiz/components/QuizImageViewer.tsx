@@ -43,14 +43,14 @@ function NameViewer() {
 				return (updatedDisplayedText = nameFromPath(fileName!));
 			}
 
-			if (settings.devMode && fileIndex) return (updatedDisplayedText = fileIndex.toString());
+			if (settings.quiz.devMode && fileIndex) return (updatedDisplayedText = fileIndex.toString());
 		}
 
 		updateDisplayedText();
 
 		setDisplayedText(updatedDisplayedText);
 		setDisplayedSubtext(updatedDisplayedSubtext);
-	}, [error, isFileLoaded, isFileNameRevealed, settings.devMode, fileName, poznavacka]);
+	}, [error, isFileLoaded, isFileNameRevealed, settings.quiz.devMode, fileName, poznavacka]);
 
 	return (
 		<div className='center-content'>

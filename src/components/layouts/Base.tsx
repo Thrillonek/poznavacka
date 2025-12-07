@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import 'src/assets/_Base.scss';
-import { useModeStore, usePoznavackaStore, useSwipeLockStore } from 'src/data';
+import { useModeStore, usePoznavackaStore, useSettingsStore, useSwipeLockStore } from 'src/data';
 import { useSettingsModeStore } from 'src/features/settings/data/stores';
 import { useAddEventListener, useInitiateSwipeEvent } from 'src/hooks';
 import { getContent, isObject } from 'src/utils';
@@ -12,6 +12,7 @@ export default function Base() {
 	const { mode, setMode } = useModeStore((store) => store);
 	const isLocked = useSwipeLockStore((state) => state.isLocked);
 	const setSettingsMode = useSettingsModeStore((store) => store.setMode);
+	const settings = useSettingsStore((store) => store.settings);
 
 	useInitiateSwipeEvent();
 
@@ -28,8 +29,10 @@ export default function Base() {
 	);
 
 	useEffect(() => {
-		if (mode == 'quiz') setSettingsMode('kvíz');
-		if (mode == 'list') setSettingsMode('seznam');
+		if (settings.autoSwitchSettingsMode) {
+			if (mode == 'quiz') setSettingsMode('kvíz');
+			if (mode == 'list') setSettingsMode('seznam');
+		}
 	}, [mode]);
 
 	return (

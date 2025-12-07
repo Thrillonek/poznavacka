@@ -36,12 +36,13 @@ export type SettingsStore = {
 			random: boolean;
 			min: number;
 			max: number;
+			devMode: boolean;
 		};
 		list: {
 			showFiles: 'all' | 'completed' | 'uncompleted';
 		};
 		removeDuplicates: boolean;
-		devMode: boolean;
+		autoSwitchSettingsMode: boolean;
 	};
 	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
 	updateQuizSettings: (key: keyof SettingsStore['settings']['quiz'], value: Basic) => void;
