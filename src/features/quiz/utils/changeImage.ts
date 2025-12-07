@@ -23,7 +23,7 @@ export function changeImage({ showImage = false, complete: isFileCompleted = fal
 
 	const { min, max } = getMinMax({ presets, files, settings });
 
-	const isValid = handleErrors({ files, settings, min, max });
+	const isValid = handleErrors({ settings, min, max });
 	if (!isValid) return;
 
 	//generace indexu nového
@@ -51,8 +51,9 @@ function generateNewIndex({ min, max, isFileCompleted, settings }: { min: number
 	return idx;
 }
 
-function handleErrors({ files, settings, min, max }: { files: string[]; settings: SettingsStore['settings']; min: number; max: number }) {
+function handleErrors({ settings, min, max }: { settings: SettingsStore['settings']; min: number; max: number }) {
 	const setError = useQuizErrorStore.getState().setError;
+	const files = getFiles();
 
 	function invalidate(message: string) {
 		setError(message);

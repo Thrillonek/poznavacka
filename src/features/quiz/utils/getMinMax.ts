@@ -8,9 +8,9 @@ import type { SettingsStore } from 'src/types/stores';
 export function getMinMax({ presets, files, settings }: { presets: number[]; files: string[]; settings: SettingsStore['settings'] }) {
 	let min: number, max: number;
 
-	if (settings?.quiz.mode == 'custom') {
-		min = settings?.quiz.min || 1;
-		max = settings?.quiz.max || files.length;
+	if (settings.quiz.mode == 'custom') {
+		min = settings.quiz.min || 1;
+		max = settings.quiz.max || files.length;
 	} else {
 		/*if (settings?.quiz.mode == 'preset')*/
 		min = 1;

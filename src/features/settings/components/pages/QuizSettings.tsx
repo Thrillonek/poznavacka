@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
 import RangeInput from '../ui/RangeInput';
@@ -13,10 +12,6 @@ function QuizSettings() {
 	const updateMax = (useMax: number) => updateQuizSettings('max', useMax);
 
 	const files = getFiles();
-
-	useEffect(() => {
-		if (files.length > 0) updateQuizSettings('max', files.length);
-	}, [files.length]);
 
 	return (
 		<>

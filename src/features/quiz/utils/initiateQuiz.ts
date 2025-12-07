@@ -5,15 +5,15 @@ import { getMinMax } from './getMinMax';
 
 /**
  * Prepares the quiz for the change of `poznavacka` variable.
- * Generates a new array of indexes for the quiz. The result depends on selected mode.
- * It also resets `previousIndex`.
- *
- * The function also skips files that are in the `completedFiles` array.
+ * Generates a new array of indexes for the quiz, skiping indexes of files that are in the `completedFiles` array.
+ * The result depends on selected mode (preset, custom).
+ * It also resets `previousIndex` and changes the maximum value of the range.
  */
 export function initiateQuiz() {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
 	const completedFiles = useCompletedFilesStore.getState().completedFiles;
+	const updateQuizSettings = useSettingsStore.getState().updateQuizSettings;
 	const files = getFiles();
 
 	previousIndex.current = undefined;
@@ -21,6 +21,8 @@ export function initiateQuiz() {
 	let { min, max } = getMinMax({ presets, files, settings });
 
 	let range = max - min + 1;
+
+	updateQuizSettings('max', files.length);
 
 	fileIndexList.recent = [];
 	fileIndexList.main = [];
