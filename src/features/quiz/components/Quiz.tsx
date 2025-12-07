@@ -21,7 +21,7 @@ function Quiz() {
 	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
 
 	function handleKeyDown(e: KeyboardEvent) {
-		if (mode !== 'quiz') return;
+		if (mode !== 'quiz') return console.log(mode);
 		if (e.key == settings.keybinds.change) {
 			changeImage();
 		}
@@ -33,7 +33,7 @@ function Quiz() {
 		}
 	}
 
-	useAddEventListener('keydown', handleKeyDown, [settings.keybinds]);
+	useAddEventListener('keydown', handleKeyDown, [settings.keybinds, mode]);
 
 	return (
 		<div className='quiz-container'>
