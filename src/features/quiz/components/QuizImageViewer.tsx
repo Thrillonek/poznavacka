@@ -8,12 +8,19 @@ import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 function ImageViewer() {
 	const fileName = useQuizFileStore((store) => store.fileName);
 	const completeFileLoading = useQuizFileStore((store) => store.completeFileLoading);
-	// const isFileLoaded = useQuizFileStore((store) => store.isFileLoaded);
+	const isFileLoaded = useQuizFileStore((store) => store.isFileLoaded);
+
+	useEffect(() => {
+		const image = document.querySelector('.quiz-image-viewer img') as HTMLImageElement;
+		if (!isFileLoaded && image?.naturalWidth > 0 && image.complete) {
+			completeFileLoading();
+		}
+	}, [isFileLoaded]);
 
 	return (
 		<>
 			<div className='quiz-image-viewer'>
-				<ImageFit onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
+				<ImageFit key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
 			</div>
 		</>
 	);

@@ -18,7 +18,7 @@ function Quiz() {
 	useEffect(() => {
 		initiateQuiz();
 		changeImage();
-	}, [poznavacka, settings.quiz, settings.removeDuplicates]);
+	}, [poznavacka, settings.quiz.min, settings.quiz.max, settings.quiz.random, settings.removeDuplicates]);
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (mode !== 'quiz') return console.log(mode);

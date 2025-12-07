@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import classes from 'src/assets/_ImageFit.module.scss';
 
 function ImageFit({ src, alt, onLoad, calcFit }: { src: string; alt?: string; onLoad?: () => void; calcFit?: boolean }) {
 	const containerRef = useRef<HTMLElement>();
 	const imageRef = useRef<HTMLImageElement>();
+
+	const [isError, setIsError] = useState(false);
 
 	function calcSize() {
 		if (calcFit === false) return;
@@ -26,6 +28,8 @@ function ImageFit({ src, alt, onLoad, calcFit }: { src: string; alt?: string; on
 		calcSize();
 	}
 
+	useEffect(() => () => setIsError(false), []);
+
 	useEffect(() => {
 		calcSize();
 
@@ -37,7 +41,7 @@ function ImageFit({ src, alt, onLoad, calcFit }: { src: string; alt?: string; on
 
 	return (
 		<div ref={containerRef as any} id='image-fit-container' className={classes['image-fit-container']}>
-			<img onLoad={handleImageLoad} ref={imageRef as any} id='image-fit' src={src} alt={alt} />
+			<img onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef as any} id='image-fit' src={src} alt={alt} />
 		</div>
 	);
 }
