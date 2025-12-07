@@ -53,14 +53,14 @@ function RangeInput(props: RangeInputProps) {
 	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
 
 	return (
-		<div onPointerDown={(e) => handleRangePointerDown(e, refs, props, setActiveRange)} tabIndex={0} onKeyDown={handleSubmitForm} className={classes['container']}>
+		<div tabIndex={0} onKeyDown={handleSubmitForm} className={classes['container']}>
 			<div className={classes['input-container']}>
 				<label className={classes['input-label']} htmlFor='min'>
 					Min
 				</label>
 				<input id='min' ref={minRef as LegacyRef<any>} onBlur={() => adjustMin(minRef, props)} onFocus={(e) => e.target.select()} className={classes.input} type='text' defaultValue={min} />
 			</div>
-			<div className={classes['range-container']}>
+			<div onPointerDown={(e) => handleRangePointerDown(e, refs, props, setActiveRange)} className={classes['range-container']}>
 				<div ref={rangeSliderRef as LegacyRef<any>} className={classes['range-slider']}>
 					<div style={{ left: calcPosition(min) }} ref={minRangeRef as LegacyRef<any>} className={classes['range-thumb']}>
 						<div />
