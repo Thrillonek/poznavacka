@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
-import { useModeStore } from 'src/data';
+import { useEffect } from 'react';
+import { useModeStore, useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsPages.scss';
@@ -17,6 +18,17 @@ export default function Settings() {
 	const settingsMode = useSettingsModeStore((store) => store.mode);
 	const isContentOpen = useSettingsModeStore((store) => store.isContentOpen);
 	const toggleContent = useSettingsModeStore((store) => store.toggleContent);
+
+	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
+	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
+
+	useEffect(() => {
+		if (isSettingsOpen) {
+			lockSwiping();
+		} else {
+			unlockSwiping();
+		}
+	}, [isSettingsOpen]);
 
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
