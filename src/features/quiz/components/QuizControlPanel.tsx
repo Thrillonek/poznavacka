@@ -16,7 +16,7 @@ function QuizControlPanel() {
 			<div className='quiz-control-panel-container'>
 				<div className='quiz-control-panel'>
 					<button onClick={showPreviousFile} className={'control-button ' + (!(previousFiles.length > 1) ? 'disabled' : '')}>
-						<Icon icon='mdi:undo' />
+						<Icon icon='mdi:undo' className={isPreviousAvailable || !settings.quiz.random ? '' : '-scale-x-100'} />
 						<span>{isPreviousAvailable || !settings.quiz.random ? 'Předchozí' : 'Zpět'}</span>
 					</button>
 					<button onClick={addFileToCompleted} className='control-button complete-button'>
