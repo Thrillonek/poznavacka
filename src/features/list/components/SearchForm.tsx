@@ -41,6 +41,11 @@ function SearchForm() {
 		if (!['list-search-container', 'search-form-results'].some((item) => document.getElementById(item)?.contains(e.target as HTMLElement))) setIsSearchInputFocused(false);
 	});
 
+	function deleteInput() {
+		setSearchInput('');
+		inputRef.current!.focus();
+	}
+
 	return (
 		<div data-visible={isSearchInputFocused} id='list-search-container' className='search-form-container'>
 			<button onClick={() => setIsSearchInputFocused(true)} className='md:hidden search-form-open search-icon'>
@@ -54,7 +59,7 @@ function SearchForm() {
 					<Icon icon='mdi:arrow-back' />
 				</button>
 				<input onFocus={() => setIsSearchInputFocused(true)} ref={inputRef as LegacyRef<HTMLInputElement>} placeholder='Hledat' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='search-input' />
-				<button data-hidden={!searchInput} onClick={() => setSearchInput('')} className='search-icon'>
+				<button data-hidden={!searchInput} onClick={deleteInput} className='search-icon'>
 					<Icon icon='mdi:close' />
 				</button>
 			</form>

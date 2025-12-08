@@ -34,7 +34,8 @@
 		min-height: 3rem;
 	}
 
-	&:not([data-visible='true']) {
+	&:not([data-visible='true']),
+	&:not(:has(button)) {
 		opacity: 0;
 		pointer-events: none;
 		transform: translateY(-1rem);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useCompletedFilesStore, useSettingsStore } from 'src/data';
 import { getFiles, nameFromPath } from 'src/utils';
 import '../assets/_SearchFormResults.scss';
 import { useListSearchStore } from '../data/stores';
@@ -10,6 +11,9 @@ function SearchFormResults() {
 	const isSearchInputFocused = useListSearchStore((store) => store.isSearchInputFocused);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
 	const setSearchedItem = useListSearchStore((store) => store.setSearchedItem);
+
+	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
+	const settings = useSettingsStore((store) => store.settings);
 
 	const [searchedArray, setSearchedArray] = useState<string[]>();
 
@@ -26,7 +30,6 @@ function SearchFormResults() {
 	const checkSearchedArray = searchedArray && searchedArray.length > 0;
 
 	function verifyConditions() {
-		if (!searchedArray || searchedArray.length == 0) return false;
 		if (!isSearchInputFocused || !searchInput) return false;
 		return true;
 	}
@@ -36,6 +39,8 @@ function SearchFormResults() {
 			{checkSearchedArray &&
 				searchedArray.map((file, idx) => {
 					const fileIndex = getFiles().indexOf(file);
+					if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
+					if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
 					if (idx < 10)
 						return (
 							<button onClick={() => scrollToSearchResult(file)}>
