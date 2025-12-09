@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useMemo } from 'react';
+import SwitchInput from 'src/components/form/SwitchInput';
 import ImageFit from 'src/components/ui/ImageFit';
 import { useCompletedFilesStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
@@ -18,6 +19,8 @@ function SelectedFile() {
 	// const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
+	const addFileToCompleted = useCompletedFilesStore((store) => store.addFileToCompleted);
+	const removeFileFromCompleted = useCompletedFilesStore((store) => store.removeFileFromCompleted);
 
 	const files = getFiles();
 
@@ -42,6 +45,15 @@ function SelectedFile() {
 	useLockSwiping();
 
 	const calcFit = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) <= 1, [chosenFile]);
+
+	function toggleCompletedFile() {
+		const isCompleted = completedFiles.includes(chosenFile!);
+		if (isCompleted) {
+			removeFileFromCompleted(chosenFile!);
+		} else {
+			addFileToCompleted(chosenFile!);
+		}
+	}
 
 	return (
 		<div data-visible={isChosenFileSet} className='selected-file-container'>
@@ -76,10 +88,7 @@ function SelectedFile() {
 						</button>
 					</div>
 					<div className='selected-file-divider' />
-					<div data-success={completedFiles.includes(chosenFile!)} className='selected-file-stat'>
-						<p>Naučeno</p>
-						<Icon icon={completedFiles.includes(chosenFile!) ? 'mdi:check-circle' : 'mdi:close-circle'} />
-					</div>
+					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(chosenFile!)} onToggle={toggleCompletedFile} />
 					{/* {getFolderName(poznavacka!) == 'hmyz' && <p className='text-muted text-lg text-center'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>} */}
 				</div>
 			</div>
