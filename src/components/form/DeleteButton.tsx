@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import classes from '../../assets/ui/_DeleteButton.module.scss';
+import classes from '../../assets/form/_DeleteButton.module.scss';
 
 type DeleteButtonProps = {
 	title: string;

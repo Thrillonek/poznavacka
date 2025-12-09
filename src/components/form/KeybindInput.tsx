@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import type { SettingsStore } from 'src/types/stores';
-import classes from '../../assets/ui/_KeybindInput.module.scss';
-import { getKey } from '../../utils';
+import { getKey } from 'src/utils/form/getKey';
+import classes from '../../assets/form/_KeybindInput.module.scss';
 
 type SwitchInputProps = {
 	title: string;

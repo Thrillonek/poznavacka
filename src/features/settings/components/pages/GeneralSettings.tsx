@@ -1,6 +1,6 @@
+import DeleteButton from 'src/components/form/DeleteButton';
+import SwitchInput from 'src/components/form/SwitchInput';
 import { useCompletedFilesStore, useInformationStore, useSettingsStore } from 'src/data';
-import DeleteButton from '../ui/DeleteButton';
-import SwitchInput from '../ui/SwitchInput';
 
 function GeneralSettings() {
 	const settings = useSettingsStore((store) => store.settings);

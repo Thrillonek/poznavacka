@@ -1,5 +1,5 @@
+import SelectionInput from 'src/components/form/SelectionInput';
 import { useSettingsStore } from 'src/data';
-import SelectionInput from '../ui/SelectionInput';
 
 function ListSettings() {
 	const settings = useSettingsStore((store) => store.settings);

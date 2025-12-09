@@ -1,5 +1,5 @@
 import type { MutableRefObject } from 'react';
-import type { RangeInputProps } from '../../components/ui/RangeInput';
+import type { RangeInputProps } from '../../components/form/RangeInput';
 
 export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>, props: RangeInputProps) {
 	const { value } = minRef.current!;

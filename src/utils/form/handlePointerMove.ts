@@ -1,5 +1,5 @@
 import type { MutableRefObject, PointerEvent } from 'react';
-import type { RangeInputProps } from '../../components/ui/RangeInput';
+import type { RangeInputProps } from '../../components/form/RangeInput';
 
 type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
 export function handlePointerMove(e: PointerEvent, refs: Refs, props: RangeInputProps, activeRange: string) {

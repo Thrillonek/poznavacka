@@ -1,8 +1,8 @@
+import RangeInput from 'src/components/form/RangeInput';
+import SelectionInput from 'src/components/form/SelectionInput';
+import SwitchInput from 'src/components/form/SwitchInput';
 import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
-import RangeInput from '../ui/RangeInput';
-import SelectionInput from '../ui/SelectionInput';
-import SwitchInput from '../ui/SwitchInput';
 
 function QuizSettings() {
 	const settings = useSettingsStore((store) => store.settings);

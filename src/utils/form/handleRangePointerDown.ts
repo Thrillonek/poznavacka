@@ -1,5 +1,5 @@
 import type { MutableRefObject, PointerEvent } from 'react';
-import type { RangeInputProps } from '../../components/ui/RangeInput';
+import type { RangeInputProps } from '../../components/form/RangeInput';
 
 type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
 export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Refs, props: RangeInputProps, setActiveRange: (x: string) => void) {

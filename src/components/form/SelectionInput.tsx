@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import classes from '../../assets/ui/_SelectionInput.module.scss';
+import classes from '../../assets/form/_SelectionInput.module.scss';
 
 type SwitchInputProps = {
 	title: string;

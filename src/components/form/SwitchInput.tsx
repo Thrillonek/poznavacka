@@ -1,4 +1,4 @@
-import classes from '../../assets/ui/_SwitchInput.module.scss';
+import classes from '../../assets/form/_SwitchInput.module.scss';
 
 type SwitchInputProps = {
 	title: string;

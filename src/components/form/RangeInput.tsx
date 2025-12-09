@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type LegacyRef } from 'react';
 import { useAddEventListener } from 'src/hooks';
-import classes from '../../assets/ui/_RangeInput.module.scss';
-import { handlePointerMove } from '../../utils';
-import { adjustMax, adjustMin } from '../../utils/event-handlers/adjustMinMax';
-import { handleRangePointerDown } from '../../utils/event-handlers/handleRangePointerDown';
+import { adjustMax, adjustMin } from 'src/utils/form/adjustMinMax';
+import { handlePointerMove } from 'src/utils/form/handlePointerMove';
+import { handleRangePointerDown } from 'src/utils/form/handleRangePointerDown';
+import classes from '../../assets/form/_RangeInput.module.scss';
 
 export type RangeInputProps = {
 	min: number;

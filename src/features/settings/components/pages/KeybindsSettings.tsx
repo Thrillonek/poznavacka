@@ -1,7 +1,7 @@
+import DeleteButton from 'src/components/form/DeleteButton';
+import KeybindInput from 'src/components/form/KeybindInput';
 import { useInformationStore, useSettingsStore } from 'src/data';
 import { restoreDefaultKeybinds } from '../../utils';
-import DeleteButton from '../ui/DeleteButton';
-import KeybindInput from '../ui/KeybindInput';
 
 function KeybindsSettings() {
 	const settings = useSettingsStore((store) => store.settings);

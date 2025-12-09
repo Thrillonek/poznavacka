@@ -59,6 +59,7 @@ export type PresetStore = {
 export type CompletedFilesStore = {
 	completedFiles: string[];
 	addFileToCompleted: (file: string) => void;
+	removeFileFromCompleted: (file: string) => void;
 	clearCompletedFiles: () => void;
 };
 
