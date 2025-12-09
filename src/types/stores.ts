@@ -68,3 +68,10 @@ export type MenuElementStore = {
 	toggleHideMenu: (mode: boolean) => void;
 	setElement: (element: JSXElementConstructor<any> | null) => void;
 };
+
+export type InformationStore = {
+	title: string;
+	isVisible: boolean;
+	setInformation: (title: string) => void;
+	hideInformation: () => void;
+};

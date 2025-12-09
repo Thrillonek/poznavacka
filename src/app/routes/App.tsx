@@ -4,6 +4,7 @@ import ModeMenu from 'src/components/ui/ModeMenu';
 import MenuBar from 'src/features/file-system/components/MenuBar';
 import Sidebar from 'src/features/file-system/components/Sidebar';
 import Settings from 'src/features/settings/components/Settings';
+import Toast from '../../components/ui/Toast';
 
 export default function App() {
 	// useEffect(() => {
@@ -66,6 +67,7 @@ export default function App() {
 	return (
 		<>
 			<main>
+				<Toast />
 				<Settings />
 				<Sidebar />
 				<div className='main-content'>

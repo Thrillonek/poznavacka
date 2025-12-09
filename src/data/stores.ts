@@ -1,4 +1,4 @@
-import type { CompletedFilesStore, MenuElementStore, ModeStore, PoznavackaStore, PresetStore, SettingsStore, SwipeLockStore } from 'src/types/stores';
+import type { CompletedFilesStore, InformationStore, MenuElementStore, ModeStore, PoznavackaStore, PresetStore, SettingsStore, SwipeLockStore } from 'src/types/stores';
 import { create } from 'zustand';
 
 export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
@@ -80,4 +80,11 @@ export const useMenuElementStore = create<MenuElementStore>((set) => ({
 			return { isMenuHidden: mode ? true : false };
 		}),
 	setElement: (element) => set({ Element: element }),
+}));
+
+export const useInformationStore = create<InformationStore>()((set) => ({
+	title: '',
+	isVisible: false,
+	setInformation: (title) => set({ title, isVisible: true }),
+	hideInformation: () => set({ isVisible: false }),
 }));
