@@ -67,7 +67,7 @@
 			border-radius: 50%;
 			transition: background-color 200ms ease;
 
-			&:hover {
+			@include main.on-hover() {
 				@include main.lighten(var(--accent), 0.1);
 			}
 		}

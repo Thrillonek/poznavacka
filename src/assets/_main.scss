@@ -34,7 +34,7 @@ main {
 	#{$property}: $color;
 	transition: #{$property} 100ms ease;
 
-	&:hover {
+	@include on-hover() {
 		#{$property}: oklch(from $color calc(l + 0.033) c h);
 	}
 }
@@ -43,7 +43,7 @@ main {
 	color: var(--text-muted);
 	transition: color 100ms ease;
 
-	&:hover {
+	@include on-hover() {
 		color: var(--text-main);
 	}
 }
@@ -75,6 +75,14 @@ main {
 
 		& > div {
 			transform: scale(0.9);
+		}
+	}
+}
+
+@mixin on-hover {
+	@media (hover: hover) and (pointer: fine) {
+		&:hover {
+			@content;
 		}
 	}
 }
