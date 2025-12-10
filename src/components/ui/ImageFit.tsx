@@ -40,7 +40,7 @@ function ImageFit({ src, alt, onLoad, calcFit }: { src: string; alt?: string; on
 	}, [containerRef.current, calcFit]);
 
 	return (
-		<div ref={containerRef as any} id='image-fit-container' className={classes['image-fit-container']}>
+		<div ref={containerRef as any} id='image-fit-container' data-loaded={false} className={classes['image-fit-container']}>
 			<img onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef as any} id='image-fit' src={src} alt={alt} />
 		</div>
 	);
