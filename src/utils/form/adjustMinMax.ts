@@ -19,6 +19,8 @@ export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>
 	if (/\D/g.test(value) || value.length === 0 || parseInt(value) > set.length) {
 		return setMax(set.length);
 	}
+
 	if (parseInt(value) <= min) return setMax(min + 1);
 	setMax(parseInt(value));
+	console.log(value);
 }

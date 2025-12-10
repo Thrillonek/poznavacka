@@ -8,8 +8,8 @@ function QuizSettings() {
 	const settings = useSettingsStore((store) => store.settings);
 	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
 
-	const updateMin = (useMin: number) => updateQuizSettings('min', useMin);
-	const updateMax = (useMax: number) => updateQuizSettings('max', useMax);
+	const updateMin = (newMin: number) => updateQuizSettings('min', newMin);
+	const updateMax = (newMax: number) => updateQuizSettings('max', newMax);
 
 	const files = getFiles();
 

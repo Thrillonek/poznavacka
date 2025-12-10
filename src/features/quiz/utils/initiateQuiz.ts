@@ -13,7 +13,6 @@ export function initiateQuiz() {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
 	const completedFiles = useCompletedFilesStore.getState().completedFiles;
-	const updateQuizSettings = useSettingsStore.getState().updateQuizSettings;
 	const files = getFiles();
 
 	previousIndex.current = undefined;
@@ -21,8 +20,6 @@ export function initiateQuiz() {
 	let { min, max } = getMinMax({ presets, files, settings });
 
 	let range = max - min + 1;
-
-	updateQuizSettings('max', files.length);
 
 	fileIndexList.recent = [];
 	fileIndexList.main = [];
