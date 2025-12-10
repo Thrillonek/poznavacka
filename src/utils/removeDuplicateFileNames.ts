@@ -1,5 +1,6 @@
 import type { Folder } from 'src/types/variables';
-import { getContent, getFolderName, isObject } from './objectManipulation';
+import { getFiles } from './getFiles';
+import { getFolderName } from './objectManipulation';
 
 /**
  * Removes duplicate file names from the given file system object without respect to numbers.
@@ -11,15 +12,14 @@ import { getContent, getFolderName, isObject } from './objectManipulation';
 export function removeDuplicateFileNames(fileSystem: Folder) {
 	if (!fileSystem) return;
 	let uniqueItems: string[] = [];
-	let poznavackaItems: string[] = getContent(fileSystem);
+	let poznavackaItems: string[] = getFiles();
 	let newPoznavackaItems: string[] = [];
 	poznavackaItems.forEach((item) => {
-		if (!isObject(item)) {
-			let itemWithoutNum = item.replaceAll(/\d+/g, '');
-			if (!uniqueItems.includes(itemWithoutNum)) {
-				newPoznavackaItems.push(item);
-				uniqueItems.push(itemWithoutNum);
-			}
+		let itemWithoutNum = item.replaceAll(/[0-9+-]/g, '');
+		if (!uniqueItems.includes(itemWithoutNum)) {
+			console.log(item, itemWithoutNum);
+			newPoznavackaItems.push(item);
+			uniqueItems.push(itemWithoutNum);
 		}
 	});
 	let newFileSystem: Folder = { [getFolderName(fileSystem)]: newPoznavackaItems };
