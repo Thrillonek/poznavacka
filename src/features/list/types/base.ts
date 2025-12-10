@@ -17,3 +17,8 @@ export type ListSearchStore = {
 	setSearchedItem: (item: string) => void;
 	setIsSearchInputFocused: (condition: boolean) => void;
 };
+
+export type ListFilesStore = {
+	files: Record<number, string>;
+	setFiles: (newFiles: Record<number, string>) => void;
+};

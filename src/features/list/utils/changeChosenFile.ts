@@ -1,6 +1,4 @@
-import { usePoznavackaStore } from 'src/data';
-import { getContent } from 'src/utils';
-import { useChosenFileStore } from '../data/stores';
+import { useChosenFileStore, useListFilesStore } from '../data/stores';
 import { scrollListToItem } from './scrollListToItem';
 
 /**
@@ -9,10 +7,13 @@ import { scrollListToItem } from './scrollListToItem';
  */
 export function changeChosenFile(condition: 'left' | 'right') {
 	const { chosenFile, setChosenFile } = useChosenFileStore.getState();
-	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
-	let files = getContent(poznavacka!);
-	let idx = chosenFile && files.indexOf(chosenFile);
+	const listFiles = useListFilesStore.getState().files;
+
+	if (!chosenFile) return;
+
+	let files = Object.values(listFiles);
+	let idx = files.indexOf(chosenFile);
 
 	if (condition === 'right') {
 		idx == files.length - 1 ? (idx = 0) : idx++;

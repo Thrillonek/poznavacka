@@ -4,10 +4,10 @@ import SwitchInput from 'src/components/form/SwitchInput';
 import ImageFit from 'src/components/ui/ImageFit';
 import { useCompletedFilesStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFiles, isObject, nameFromPath } from 'src/utils';
+import { getFiles, getKeyByValue, nameFromPath } from 'src/utils';
 import '../assets/_SelectedFileComponents.scss';
 import '../assets/_SelectedFileLayout.scss';
-import { useChosenFileStore } from '../data/stores';
+import { useChosenFileStore, useListFilesStore } from '../data/stores';
 import { useLockSwiping } from '../hooks/useLockSwiping';
 import { changeChosenFile } from '../utils/changeChosenFile';
 
@@ -21,6 +21,8 @@ function SelectedFile() {
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const addFileToCompleted = useCompletedFilesStore((store) => store.addFileToCompleted);
 	const removeFileFromCompleted = useCompletedFilesStore((store) => store.removeFileFromCompleted);
+
+	const listFiles = useListFilesStore((store) => store.files);
 
 	const files = getFiles();
 
@@ -61,20 +63,18 @@ function SelectedFile() {
 				<button onClick={() => setChosenFile(undefined)}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<p>{files.indexOf(chosenFile!) + 1}</p>
+				<p>{parseInt(getKeyByValue(listFiles, chosenFile!) as string) + 1}</p>
 			</div>
 			<div className='selected-file-grid'>
 				<div>
-					<div className='selected-file-slider' style={{ left: `-${files.indexOf(chosenFile!) * 100}%` }}>
-						{files
-							.filter((f) => !isObject(f))
-							.map((file, idx) => {
-								return (
-									<div key={idx} className='selected-img-container' style={{ left: `${files.indexOf(file) * 100}%` }}>
-										<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Chyba v načítání obrázku :('} calcFit={calcFit(file)} />
-									</div>
-								);
-							})}
+					<div className='selected-file-slider' style={{ left: `-${parseInt(getKeyByValue(listFiles, chosenFile!) as string) * 100}%` }}>
+						{Object.entries(listFiles).map(([idx, file]) => {
+							return (
+								<div key={idx} className='selected-img-container' style={{ left: `${parseInt(getKeyByValue(listFiles, file) as string) * 100}%` }}>
+									<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Chyba v načítání obrázku :('} calcFit={calcFit(file)} />
+								</div>
+							);
+						})}
 					</div>
 				</div>
 				<div className='flex flex-col gap-y-4'>

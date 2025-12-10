@@ -1,24 +1,24 @@
 import type { UIEvent } from 'react';
 import { useEffect, useState } from 'react';
-import { useCompletedFilesStore, useMenuElementStore, useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
-import { getFiles, getFolderName, isObject } from 'src/utils';
+import { useMenuElementStore, useModeStore, usePoznavackaStore } from 'src/data';
+import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
-import { useChosenFileStore } from '../data/stores';
+import { useChosenFileStore, useListFilesStore } from '../data/stores';
+import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
 import SelectedFile from './SelectedFile';
 
 export default function List() {
-	const settings = useSettingsStore((store) => store.settings);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
-	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const setElement = useMenuElementStore((store) => store.setElement);
 	const mode = useModeStore((store) => store.mode);
-
-	const files = getFiles();
+	const listFiles = useListFilesStore((store) => store.files);
 
 	const [scrollY, setScrollY] = useState<number>();
+
+	useUpdateFiles();
 
 	useEffect(() => {
 		if (mode == 'list') {
@@ -61,14 +61,10 @@ export default function List() {
 
 			{/* List */}
 			<div id='list' onScroll={handleScroll} className='list-container'>
-				{files
-					.filter((f) => !isObject(f))
-					.map((file, idx) => {
-						if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
-						if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
-						let props = { idx, file };
-						return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
-					})}
+				{Object.entries(listFiles).map(([idx, file]) => {
+					let props = { idx: parseInt(idx), file };
+					return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
+				})}
 			</div>
 
 			{/* Scroll Up Button */}
