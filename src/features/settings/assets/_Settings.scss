@@ -9,6 +9,8 @@
 }
 
 .settings-container {
+	--button-size: 2rem;
+
 	display: flex;
 	border-radius: 2rem;
 	overflow: hidden;
@@ -17,14 +19,6 @@
 	height: 80%;
 
 	container: settings-container / inline-size;
-
-	@media not all and (min-width: 768px) {
-		position: fixed;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		border-radius: 0;
-	}
 }
 
 .settings-categories {
@@ -36,36 +30,16 @@
 	padding: 2rem 1rem;
 	background-color: var(--bg-base);
 	border-right: 1px solid var(--border);
-
-	@media not all and (min-width: 768px) {
-		position: absolute;
-		inset: 0;
-		width: 100vw;
-
-		transition: transform 200ms ease;
-
-		&:has(~ .settings-content[data-visible='true']) {
-			transform: translateX(-5rem);
-		}
-	}
 }
 
 .settings-content {
 	padding: 1rem 0.5rem 1rem 0;
 	flex-grow: 1;
 	background-color: var(--bg-dark);
+}
 
-	@media not all and (min-width: 768px) {
-		position: absolute;
-		inset: 0;
-		width: 100vw;
-
-		transition: transform 200ms ease;
-
-		&:not([data-visible='true']) {
-			transform: translateX(100%);
-		}
-	}
+.settings-status-bar {
+	display: none;
 }
 
 .settings-close {
@@ -76,30 +50,14 @@
 	top: 1.5rem;
 	right: 1.5rem;
 
-	width: 2rem;
-	height: 2rem;
+	width: var(--button-size);
+	height: var(--button-size);
 	border-radius: 0.5rem;
 
 	font-size: 1.25rem;
 	color: var(--text-muted);
-
-	@media not all and (min-width: 768px) {
-		@include main.hover-bg(var(--bg-light));
-	}
 }
 
 .settings-back {
 	display: none;
-}
-
-@media not all and (min-width: 768px) {
-	.settings-content[data-visible='true'] {
-		& ~ .settings-close {
-			display: none;
-		}
-
-		& ~ .settings-back {
-			display: flex;
-		}
-	}
 }

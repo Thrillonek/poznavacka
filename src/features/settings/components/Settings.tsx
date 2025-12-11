@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useModeStore, useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
+import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
 import { useSettingsModeStore } from '../data/stores';
 import GeneralSettings from './pages/GeneralSettings';
@@ -32,11 +33,23 @@ export default function Settings() {
 
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
-			<div onClick={(e) => e.stopPropagation()} className='settings-container'>
+			<div data-content-open={isContentOpen} onClick={(e) => e.stopPropagation()} className='settings-container'>
+				<div className='settings-status-bar'>
+					<button onClick={() => toggleContent(false)} className='settings-close settings-back'>
+						<Icon icon='mdi:arrow-back' />
+					</button>
+					<button onClick={() => closeSettings()} className='settings-close'>
+						<Icon icon='mdi:close' />
+					</button>
+					<h3>{capitalize(isContentOpen ? settingsMode : 'Nastavení')}</h3>
+				</div>
+				<button onClick={() => closeSettings()} className='max-md:hidden settings-close'>
+					<Icon icon='mdi:close' />
+				</button>
 				<div className='settings-categories'>
 					<SettingsCategories />
 				</div>
-				<div data-visible={isContentOpen} className='settings-content'>
+				<div className='settings-content'>
 					<div>
 						<h1 className='settings-page-header'>{capitalize(settingsMode)}</h1>
 						{settingsMode == 'obecné' && <GeneralSettings />}
@@ -44,63 +57,7 @@ export default function Settings() {
 						{settingsMode == 'seznam' && <ListSettings />}
 						{settingsMode == 'klávesové zkratky' && <KeybindsSettings />}
 					</div>
-
-					{/* <ConfirmModal />
-
-					<div className='gap-x-8 gap-y-12 grid lg:grid-cols-2'>
-						<div className='flex flex-col gap-4'>
-							<h2 className='text-2xl'>Kvíz</h2>
-							<div className='flex flex-col w-full'>
-								<h2 className='mt-4 mb-1 text-neutral-300 text-lg'>Způsob generace obrázků</h2>
-								<div className='relative gap-px grid grid-cols-2 bg-blue-500 rounded-xl [&>button]:w-full'>
-									<button onClick={() => updateQuizSettings('random', true)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-r-0 rounded-l-lg ' + (random && '!text-blue-300 !border-blue-500 faint-bg')}>
-										Náhodně
-									</button>
-									<button onClick={() => updateQuizSettings('random', false)} className={'z-10 text-neutral-400 py-2 outline-none border border-neutral-500 bg-neutral-700 border-l-0 rounded-r-lg ' + (!random && '!text-blue-300 !border-blue-500 faint-bg')}>
-										Postupně
-									</button>
-								</div>
-							</div>
-							{poznavacka && (
-								<div className='flex flex-col'>
-									<MinMaxControl />
-									<PresetMenu />
-								</div>
-							)}
-
-							<KeybindControl />
-							<ExtraSettings />
-
-							<div className='flex mt-4 pt-4 border-neutral-600 border-t'>
-								<button className='btn-danger' onClick={openModal}>
-									Odstranit všechno naučené
-								</button>
-							</div>
-						</div>
-						<div>
-							<h2 className='mb-6 text-2xl'>Seznam</h2>
-
-							<div className='flex items-center'>
-								<Checkbox
-									sx={{
-										color: blue[800],
-										'&.Mui-checked': {
-											color: blue[600],
-										},
-									}}
-									onChange={(e) => updateListSettings('hideCompleted', e.target.checked)}
-								></Checkbox>
-								<p className='font-semibold text-neutral-300'>Skrýt obrázky, které jsou naučené</p>
-							</div>
-						</div>
-					</div> */}
 				</div>
-				<button onClick={() => closeSettings()} className='settings-close'>
-					<Icon icon='mdi:close' />
-				</button>
-				<button onClick={() => toggleContent(false)} className='settings-close settings-back'>
-					<Icon icon='mdi:arrow-back' />
-				</button>
 			</div>
 		</div>
 	);
