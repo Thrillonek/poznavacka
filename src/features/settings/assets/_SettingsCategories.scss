@@ -14,17 +14,31 @@
 .settings-category {
 	@include main.hover-bg(var(--bg-dark));
 
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
 	border-radius: 0.5rem;
-	padding: 0.5rem 1rem;
+	padding: 0.5rem;
 	text-align: left;
-	color: var(--text-main);
+	color: var(--text-muted);
 	font-weight: 500;
 
 	@media (min-width: 768px) {
 		&[data-active='true'] {
 			color: var(--accent);
 			background-color: var(--accent-muted);
+
+			&:hover {
+				background-color: var(--accent-muted);
+			}
 		}
+
+		& *:not(span, p) {
+			display: none;
+		}
+
+		padding: 0.5rem 1rem;
 
 		@include main.hover-bg(var(--bg-base));
 	}
