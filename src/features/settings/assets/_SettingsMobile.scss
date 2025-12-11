@@ -14,12 +14,9 @@
 	.settings-categories {
 		padding: 1rem;
 		background-color: var(--bg-dark) !important;
+		border: none;
 
 		transition: transform 200ms ease;
-
-		&:has(~ .settings-content[data-visible='true']) {
-			transform: translateX(-5rem);
-		}
 	}
 
 	.settings-content {
@@ -73,6 +70,9 @@
 		}
 		.settings-content {
 			transform: translateX(0);
+		}
+		.settings-categories {
+			transform: translateX(-5rem);
 		}
 	}
 }
