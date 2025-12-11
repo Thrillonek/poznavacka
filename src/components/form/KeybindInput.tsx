@@ -17,9 +17,7 @@ function KeybindInput({ title, keybindName, keybinds, setKeybind }: SwitchInputP
 	const [error, setError] = useState('');
 	const [showedText, setShowedText] = useState('');
 
-	useEffect(() => {
-		return () => setIsListeningForKeys(false);
-	}, []);
+	useEffect(() => () => setIsListeningForKeys(false), []);
 
 	useEffect(() => {
 		if (error) {
