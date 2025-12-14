@@ -8,7 +8,7 @@ export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
 }));
 
 export const useModeStore = create<ModeStore>()((set) => ({
-	mode: 'list',
+	mode: 'quiz',
 	isSettingsOpen: false,
 	closeSettings: () => set({ isSettingsOpen: false }),
 	setMode: (newMode: ModeStore['mode'] | 'settings') =>
