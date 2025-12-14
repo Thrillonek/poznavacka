@@ -46,7 +46,7 @@ function SelectedFile() {
 	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
 	useLockSwiping();
 
-	const calcFit = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) <= 1, [chosenFile]);
+	const isImageCloseToView = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) <= 1, [chosenFile]);
 
 	function toggleCompletedFile() {
 		const isCompleted = completedFiles.includes(chosenFile!);
@@ -69,9 +69,10 @@ function SelectedFile() {
 				<div>
 					<div className='selected-file-slider' style={{ left: `-${parseInt(getKeyByValue(listFiles, chosenFile!) as string) * 100}%` }}>
 						{Object.entries(listFiles).map(([idx, file]) => {
+							if (!chosenFile || !isImageCloseToView(file)) return null;
 							return (
 								<div key={idx} className='selected-img-container' style={{ left: `${parseInt(getKeyByValue(listFiles, file) as string) * 100}%` }}>
-									<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Chyba v načítání obrázku :('} calcFit={calcFit(file)} />
+									<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Chyba v načítání obrázku :('} calcFit={isImageCloseToView(file)} />
 								</div>
 							);
 						})}

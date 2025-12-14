@@ -34,19 +34,6 @@ export default function List() {
 		setChosenFile(undefined);
 	}, [poznavacka]);
 
-	// UPDATES CATEGORY ON ENLARGED IMAGE
-	// useEffect(() => {
-	// 	if (chosenFile) {
-	// 		let newCategory;
-	// 		for (const [key, val] of Object.entries(plantGroupNames)) {
-	// 			if (files.indexOf(chosenFile) >= key - 1) {
-	// 				newCategory = val;
-	// 			} else break;
-	// 		}
-	// 		setCategory(newCategory);
-	// 	}
-	// }, [chosenFile]);
-
 	function handleScroll(e: UIEvent) {
 		setScrollY(e.currentTarget.scrollTop);
 	}
@@ -60,6 +47,7 @@ export default function List() {
 			<SelectedFile />
 
 			{/* List */}
+
 			<div id='list' onScroll={handleScroll} className='list-container'>
 				{Object.entries(listFiles).map(([idx, file]) => {
 					let props = { idx: parseInt(idx), file };

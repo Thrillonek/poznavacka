@@ -24,7 +24,6 @@
 		"list-files": "^1.1.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"react-resizable-panels": "^3.0.6",
 		"react-router": "^7.9.1",
 		"vercel-php": "^0.3.6",
 		"vite-plugin-php": "^1.0.65",
