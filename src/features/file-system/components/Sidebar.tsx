@@ -28,7 +28,7 @@ export default function Sidebar() {
 						})}
 				</div>
 			</div>
-			<div>
+			<div className='sm:hidden lg:block'>
 				<ModeMenu />
 			</div>
 		</div>
