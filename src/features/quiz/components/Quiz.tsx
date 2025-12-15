@@ -8,7 +8,7 @@ import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
 
-function Quiz() {
+function Quiz(props: any) {
 	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
@@ -42,7 +42,7 @@ function Quiz() {
 	useAddEventListener('keydown', handleKeyDown, [settings.keybinds, mode]);
 
 	return (
-		<div className='quiz-container'>
+		<div style={props.style} className='quiz-container'>
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />

@@ -9,7 +9,7 @@ import ListItem from './ListItem';
 import SearchForm from './SearchForm';
 import SelectedFile from './SelectedFile';
 
-export default function List() {
+export default function List(props: any) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const setElement = useMenuElementStore((store) => store.setElement);
@@ -43,7 +43,7 @@ export default function List() {
 	}
 
 	return (
-		<div className='list-layout-container'>
+		<div style={props.style} className='list-layout-container'>
 			<SelectedFile />
 
 			{/* List */}
