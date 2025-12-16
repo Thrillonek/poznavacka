@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import 'src/assets/_Base.scss';
 import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useSettingsModeStore } from 'src/features/settings/data/stores';
-import { useInitiateSwipeEvent } from 'src/hooks';
 import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
@@ -12,8 +11,6 @@ export default function Base() {
 	const mode = useModeStore((store) => store.mode);
 	const setSettingsMode = useSettingsModeStore((store) => store.setMode);
 	const settings = useSettingsStore((store) => store.settings);
-
-	useInitiateSwipeEvent();
 
 	useEffect(() => {
 		if (settings.autoSwitchSettingsMode) {
