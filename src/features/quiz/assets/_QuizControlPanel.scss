@@ -1,25 +1,23 @@
 @use 'src/assets/main';
 
 .quiz-control-panel-container {
+	@extend .center-content;
+
 	width: min(100%, 500px);
 	max-height: 100%;
 	aspect-ratio: 2 / 1;
 
-	container: quiz-control-panel / inline-size;
+	container: quiz-control-panel / size;
 }
 
 .quiz-control-panel {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	gap: 1rem;
+	gap: min(1rem, calc(16cqw / 5), calc(32cqh / 5));
 
-	width: 100%;
 	height: 100%;
-
-	@container quiz-control-panel (width <= 500px) {
-		gap: calc(16cqw / 5);
-	}
+	aspect-ratio: 2 / 1;
 }
 
 .control-button {
@@ -27,7 +25,7 @@
 
 	@extend .center-content;
 	flex-direction: column;
-	row-gap: 0.5rem;
+	row-gap: min(0.5rem, calc(8cqw / 5), calc(16cqh / 5));
 
 	border-radius: 0.5rem;
 	color: var(--text-muted);
@@ -35,11 +33,7 @@
 	width: 100%;
 	height: 100%;
 
-	font-size: 1rem;
-	@container quiz-control-panel (width <= 500px) {
-		font-size: calc(16cqw / 5);
-		row-gap: calc(8cqw / 5);
-	}
+	font-size: min(1rem, calc(16cqw / 5), calc(32cqh / 5));
 
 	& > *:not(span) {
 		font-size: 2.5em;
