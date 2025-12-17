@@ -22,9 +22,9 @@ function ImageViewer() {
 	}, [isFileLoaded]);
 
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
-		setImageOffset((getDragRatio(e.detail.deltaX) as number) * 250);
+		if (e.detail.isTouch) setImageOffset((getDragRatio(e.detail.deltaX) as number) * 250);
 	});
-	useAddEventListener('pointerup', () => setImageOffset(0));
+	useAddEventListener('touchend', () => setImageOffset(0));
 
 	return (
 		<>

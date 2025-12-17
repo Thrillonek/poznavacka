@@ -4,10 +4,11 @@ import { useEffect } from 'react';
  * Creates the custom:drag event on the document element.
  */
 export function useInitiateDragEvent() {
+	let isTouch = window.matchMedia('(pointer: coarse)').matches;
+
 	useEffect(() => {
 		let startX: number, startY: number;
 		let isActive = false;
-		let isTouch = window.matchMedia('(pointer: coarse)').matches;
 
 		let handlePointerDown = (e: PointerEvent) => {
 			startX = e.clientX;

@@ -27,13 +27,13 @@ export function useHandleSwiping() {
 		'custom:drag',
 		(e: CustomEvent) => {
 			if (!isModeQuiz) return;
-			offsetRef.current = e.detail.deltaX;
+			if (e.detail.isTouch) offsetRef.current = e.detail.deltaX;
 		},
 		[mode]
 	);
 
 	useAddEventListener(
-		'pointerup',
+		'touchend',
 		() => {
 			if (!isModeQuiz) return;
 

@@ -44,13 +44,13 @@ function Quiz(props: any) {
 
 	useAddEventListener('keydown', handleKeyDown, [settings.keybinds, mode]);
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
-		// if (!e.detail.isTouch) return;
+		if (!e.detail.isTouch) return;
 
 		setCompleteOpacity(e.detail.deltaX < -20 ? -((getDragRatio(e.detail.deltaX) as number) * 2.5) : 0);
 
 		setDangerOpacity(e.detail.deltaX > 20 ? (getDragRatio(e.detail.deltaX) as number) * 2.5 : 0);
 	});
-	useAddEventListener('pointerup', () => {
+	useAddEventListener('touchend', () => {
 		setCompleteOpacity(0);
 		setDangerOpacity(0);
 	});
