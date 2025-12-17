@@ -11,6 +11,8 @@ export function useInitiateSwipeEvent() {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
 			startMS = Date.now();
+			changeX = 0;
+			changeY = 0;
 		};
 
 		let handleTouchMove = (e: TouchEvent) => {

@@ -36,12 +36,11 @@ export function useHandleSwiping() {
 		'pointerup',
 		() => {
 			if (!isModeQuiz) return;
-			try {
-				if (offsetRef.current > offsetLimit) changeImage();
-				if (offsetRef.current < -offsetLimit) addFileToCompleted();
-			} finally {
-				offsetRef.current = 0;
-			}
+
+			if (offsetRef.current > offsetLimit) changeImage();
+			if (offsetRef.current < -offsetLimit) addFileToCompleted();
+
+			offsetRef.current = 0;
 		},
 		[mode]
 	);
