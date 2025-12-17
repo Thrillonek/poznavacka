@@ -10,22 +10,24 @@ export function useHandleSwiping() {
 
 	const isModeQuiz = useMemo(() => mode == 'quiz', [mode]);
 
-	if (!isModeQuiz) return;
-
 	const mainContentWidth = document.querySelector('.main-content')?.clientWidth || window.innerWidth;
 	const offsetLimit = mainContentWidth / 5;
 
 	useAddEventListener('custom:swipe', (e: CustomEvent) => {
+		if (!isModeQuiz) return;
 		if (e.detail.direction == 'left') changeImage();
 		if (e.detail.direction == 'right') addFileToCompleted();
 	});
 
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
-		if (e.detail.isTouch) offsetRef.current = e.detail.deltaX;
+		if (!isModeQuiz) return;
+		offsetRef.current = e.detail.deltaX;
 	});
 
-	useAddEventListener('touchend', () => {
+	useAddEventListener('pointerup', () => {
+		if (!isModeQuiz) return;
 		try {
+			console.log(offsetLimit, offsetRef.current);
 			if (offsetRef.current > offsetLimit) changeImage();
 			if (offsetRef.current < -offsetLimit) addFileToCompleted();
 		} finally {
