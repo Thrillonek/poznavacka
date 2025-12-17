@@ -6,7 +6,8 @@ import { useEffect } from 'react';
 export function useInitiateDragEvent() {
 	useEffect(() => {
 		let startX: number, startY: number;
-		let isActive: boolean = false;
+		let isActive = false;
+		let isTouch = window.matchMedia('(pointer: coarse)').matches;
 
 		let handlePointerDown = (e: PointerEvent) => {
 			startX = e.clientX;
@@ -19,7 +20,7 @@ export function useInitiateDragEvent() {
 			let deltaX = e.clientX - startX;
 			let deltaY = e.clientY - startY;
 
-			const swipeEvent = new CustomEvent('custom:drag', { detail: { deltaX, deltaY } });
+			const swipeEvent = new CustomEvent('custom:drag', { detail: { deltaX, deltaY, isTouch } });
 			document.dispatchEvent(swipeEvent);
 		};
 
