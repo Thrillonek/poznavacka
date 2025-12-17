@@ -16,6 +16,8 @@ export function useInitiateDragEvent() {
 		};
 
 		let handlePointerMove = (e: PointerEvent) => {
+			e.preventDefault();
+
 			if (!startX || !startY || !isActive) return;
 			let deltaX = e.clientX - startX;
 			let deltaY = e.clientY - startY;

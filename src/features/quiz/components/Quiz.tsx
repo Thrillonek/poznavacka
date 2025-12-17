@@ -56,7 +56,7 @@ function Quiz(props: any) {
 	});
 
 	return (
-		<div style={props.style} className='quiz-container'>
+		<div tabIndex={0} style={props.style} className='quiz-container'>
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />
