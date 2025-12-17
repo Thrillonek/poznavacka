@@ -1,27 +1,18 @@
 import { Icon } from '@iconify/react';
-import { useModeStore, useSettingsStore } from 'src/data';
-import { useAddEventListener } from 'src/hooks';
+import { useSettingsStore } from 'src/data';
 import '../assets/_QuizControlPanel.scss';
 import { useQuizFileStore } from '../data/stores';
 import { previousFiles } from '../data/variables';
+import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, showPreviousFile } from '../utils';
 
 function QuizControlPanel() {
 	const { toggleFileNameRevealed, fileIndex, isFileNameRevealed } = useQuizFileStore((store) => store);
 	const settings = useSettingsStore((store) => store.settings);
-	const mode = useModeStore((store) => store.mode);
 
 	let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
 
-	useAddEventListener(
-		'custom:swipe',
-		(e: CustomEvent) => {
-			if (mode != 'quiz') return;
-			if (e.detail.direction == 'left') changeImage();
-			if (e.detail.direction == 'right') addFileToCompleted();
-		},
-		[mode]
-	);
+	useHandleSwiping();
 
 	return (
 		<div className='center-content'>

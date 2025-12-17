@@ -7,15 +7,39 @@
 	display: grid;
 	grid-template-rows: repeat(8, 1fr);
 
-	& > *:first-of-type {
+	position: relative;
+
+	& > *:nth-child(1) {
 		grid-row: span 4;
 	}
 
-	& > *:last-of-type {
+	& > *:nth-child(3) {
 		grid-row: span 3;
 	}
 
 	& > * {
 		padding: 0.25rem;
 	}
+}
+
+.quiz-indicator {
+	--opacity: 0;
+	--base-color: var(--success);
+	--color: oklch(from var(--base-color) calc(l - 0.1) c h / var(--opacity));
+
+	position: absolute;
+	height: 100%;
+	top: 0;
+
+	&[data-left='true'] {
+		left: 0;
+	}
+
+	&[data-right='true'] {
+		right: 0;
+	}
+
+	width: 0;
+	padding: 0;
+	box-shadow: 0 0 20vw 1rem var(--color);
 }
