@@ -5,6 +5,7 @@ import { useAddEventListener } from 'src/hooks';
 import { getFolderName, getGroupName, nameFromPath } from 'src/utils';
 import '../assets/_QuizImageViewer.scss';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
+import { getDragRatio } from '../utils';
 
 function ImageViewer() {
 	const fileName = useQuizFileStore((store) => store.fileName);
@@ -21,9 +22,9 @@ function ImageViewer() {
 	}, [isFileLoaded]);
 
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
-		if (e.detail.isTouch) setImageOffset(e.detail.deltaX / 5);
+		setImageOffset((getDragRatio(e.detail.deltaX) as number) * 250);
 	});
-	useAddEventListener('touchend', () => setImageOffset(0));
+	useAddEventListener('pointerup', () => setImageOffset(0));
 
 	return (
 		<>

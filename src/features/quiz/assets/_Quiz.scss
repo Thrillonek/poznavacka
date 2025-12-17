@@ -25,7 +25,7 @@
 .quiz-indicator {
 	--opacity: 0;
 	--base-color: var(--success);
-	--color: oklch(from var(--base-color) calc(l - 0.1) c h / var(--opacity));
+	--color: oklch(from var(--base-color) l c h / var(--opacity));
 
 	position: absolute;
 	height: 100%;

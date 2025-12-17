@@ -4,7 +4,7 @@ import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils';
 import '../assets/_Quiz.scss';
 import { useQuizFileStore } from '../data/stores';
-import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
+import { addFileToCompleted, changeImage, getDragRatio, initiateQuiz } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
 
@@ -44,11 +44,11 @@ function Quiz(props: any) {
 
 	useAddEventListener('keydown', handleKeyDown, [settings.keybinds, mode]);
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
-		if (!e.detail.isTouch) return;
-		if (e.detail.deltaX < 0) setCompleteOpacity(e.detail.deltaX / -200);
-		if (e.detail.deltaX > 0) setDangerOpacity(e.detail.deltaX / 200);
+		// if (!e.detail.isTouch) return;
+		if (e.detail.deltaX < -20) setCompleteOpacity(-((getDragRatio(e.detail.deltaX) as number) * 3));
+		if (e.detail.deltaX > 20) setDangerOpacity((getDragRatio(e.detail.deltaX) as number) * 3);
 	});
-	useAddEventListener('touchend', () => {
+	useAddEventListener('pointerup', () => {
 		setCompleteOpacity(0);
 		setDangerOpacity(0);
 	});

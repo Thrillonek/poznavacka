@@ -12,8 +12,8 @@ export function useHandleSwiping() {
 
 	if (!isModeQuiz) return;
 
-	const mainContent = document.querySelector('.main-content');
-	const offsetLimit = mainContent ? mainContent.clientWidth / 4 : 300;
+	const mainContentWidth = document.querySelector('.main-content')?.clientWidth || window.innerWidth;
+	const offsetLimit = mainContentWidth / 5;
 
 	useAddEventListener('custom:swipe', (e: CustomEvent) => {
 		if (e.detail.direction == 'left') changeImage();
