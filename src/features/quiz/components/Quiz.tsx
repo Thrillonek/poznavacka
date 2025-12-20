@@ -3,8 +3,9 @@ import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils';
 import '../assets/_Quiz.scss';
+import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore } from '../data/stores';
-import { addFileToCompleted, changeImage, getDragRatio, initiateQuiz } from '../utils';
+import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
 
@@ -18,8 +19,7 @@ function Quiz(props: any) {
 
 	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
 
-	const [completeOpacity, setCompleteOpacity] = useState(0);
-	const [dangerOpacity, setDangerOpacity] = useState(0);
+	const [visibleSide, setVisibleSide] = useState<'complete' | 'change' | undefined>();
 
 	useEffect(() => {
 		updateQuizSettings('max', getFiles().length);
@@ -46,13 +46,19 @@ function Quiz(props: any) {
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
 		if (!e.detail.isTouch) return;
 
-		setCompleteOpacity(e.detail.deltaX < -20 ? -((getDragRatio(e.detail.deltaX) as number) * 2.5) : 0);
-
-		setDangerOpacity(e.detail.deltaX > 20 ? (getDragRatio(e.detail.deltaX) as number) * 2.5 : 0);
+		if (e.detail.deltaX < -quizDragOffsetLimit) {
+			//LEFT SIDE
+			setVisibleSide('complete');
+		} else if (e.detail.deltaX > quizDragOffsetLimit) {
+			//RIGHT SIDE
+			setVisibleSide('change');
+		} else {
+			setVisibleSide(undefined);
+		}
 	});
+
 	useAddEventListener('touchend', () => {
-		setCompleteOpacity(0);
-		setDangerOpacity(0);
+		setVisibleSide(undefined);
 	});
 
 	return (
@@ -60,8 +66,8 @@ function Quiz(props: any) {
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />
-			<div style={{ '--opacity': completeOpacity } as CSSProperties} data-left className='quiz-indicator'></div>
-			<div style={{ '--opacity': dangerOpacity, '--base-color': 'var(--danger)' } as CSSProperties} data-right className='quiz-indicator'></div>
+			<div style={{ opacity: visibleSide == 'complete' ? 1 : 0 } as CSSProperties} data-left className='quiz-indicator'></div>
+			<div style={{ opacity: visibleSide == 'change' ? 1 : 0, '--color': 'var(--danger)' } as CSSProperties} data-right className='quiz-indicator'></div>
 		</div>
 	);
 }

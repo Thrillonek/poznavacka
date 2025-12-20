@@ -25,13 +25,13 @@
 }
 
 .quiz-indicator {
-	--opacity: 0;
-	--base-color: var(--success);
-	--color: oklch(from var(--base-color) l c h / var(--opacity));
+	--color: var(--success);
 
 	position: absolute;
 	height: 100%;
 	top: 0;
+
+	transition: opacity 200ms ease;
 
 	&[data-left='true'] {
 		left: 0;

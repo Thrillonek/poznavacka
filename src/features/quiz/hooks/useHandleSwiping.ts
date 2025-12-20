@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useModeStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
+import { quizDragOffsetLimit as offsetLimit } from '../data/constants';
 import { addFileToCompleted, changeImage } from '../utils';
 
 export function useHandleSwiping() {
@@ -10,23 +11,11 @@ export function useHandleSwiping() {
 
 	const isModeQuiz = mode == 'quiz';
 
-	const mainContentWidth = document.querySelector('.main-content')?.getBoundingClientRect().width || window.innerWidth;
-	const offsetLimit = mainContentWidth / 5;
-
-	useAddEventListener(
-		'custom:swipe',
-		(e: CustomEvent) => {
-			if (!isModeQuiz) return;
-			if (e.detail.direction == 'left') changeImage();
-			if (e.detail.direction == 'right') addFileToCompleted();
-		},
-		[mode]
-	);
-
 	useAddEventListener(
 		'custom:drag',
 		(e: CustomEvent) => {
 			if (!isModeQuiz) return;
+
 			if (e.detail.isTouch) offsetRef.current = e.detail.deltaX;
 		},
 		[mode]

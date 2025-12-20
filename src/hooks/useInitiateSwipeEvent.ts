@@ -5,40 +5,40 @@ import { useEffect } from 'react';
  */
 export function useInitiateSwipeEvent() {
 	useEffect(() => {
-		let startX: number, startY: number, changeX: number, changeY: number, startMS: number;
+		let startX: number, startY: number, deltaX: number, deltaY: number, startMS: number;
 
 		let handleTouchStart = (e: TouchEvent) => {
 			startX = e.touches[0].clientX;
 			startY = e.touches[0].clientY;
 			startMS = Date.now();
-			changeX = 0;
-			changeY = 0;
+			deltaX = 0;
+			deltaY = 0;
 		};
 
 		let handleTouchMove = (e: TouchEvent) => {
 			if (!startX) return;
-			let deltaX = e.touches[0].clientX;
-			let deltaY = e.touches[0].clientY;
-			changeX = deltaX - startX;
-			changeY = deltaY - startY;
+			let newX = e.touches[0].clientX;
+			let newY = e.touches[0].clientY;
+			deltaX = newX - startX;
+			deltaY = newY - startY;
 		};
 
 		let handleTouchEnd = () => {
 			if (Date.now() - startMS > 500) return; // PREVENTS EVENT IF SWIPE IS TOO SLOW
-			if (Math.abs(changeY) < 20 && Math.abs(changeX) < 20) return; // PREVENTS EVENT IF SWIPE IS TOO INSIGNIFICANT
-			if (Math.abs(Math.abs(changeX) - Math.abs(changeY)) < 20) return; // PREVENTS SWIPE IF THE DIRECTION IS NOT UNAMBIGUOUS
+			if (Math.abs(deltaY) < 20 && Math.abs(deltaX) < 20) return; // PREVENTS EVENT IF SWIPE IS TOO INSIGNIFICANT
+			if (Math.abs(Math.abs(deltaX) - Math.abs(deltaY)) < 20) return; // PREVENTS SWIPE IF THE DIRECTION IS NOT UNAMBIGUOUS
 
 			let direction;
-			if (Math.abs(changeY) < Math.abs(changeX)) {
-				if (changeX > 0) {
+			if (Math.abs(deltaY) < Math.abs(deltaX)) {
+				if (deltaX > 0) {
 					direction = 'right';
-				} else if (changeX < 0) {
+				} else if (deltaX < 0) {
 					direction = 'left';
 				}
-			} else if (Math.abs(changeY) > Math.abs(changeX)) {
-				if (changeY > 0) {
+			} else if (Math.abs(deltaY) > Math.abs(deltaX)) {
+				if (deltaY > 0) {
 					direction = 'down';
-				} else if (changeY < 0) {
+				} else if (deltaY < 0) {
 					direction = 'up';
 				}
 			}

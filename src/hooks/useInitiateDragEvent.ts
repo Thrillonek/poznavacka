@@ -7,12 +7,13 @@ export function useInitiateDragEvent() {
 	let isTouch = window.matchMedia('(pointer: coarse)').matches;
 
 	useEffect(() => {
-		let startX: number, startY: number;
+		let startX: number, startY: number, startTime: number;
 		let isActive = false;
 
 		let handlePointerDown = (e: PointerEvent) => {
 			startX = e.clientX;
 			startY = e.clientY;
+			startTime = Date.now();
 			isActive = true;
 		};
 
@@ -22,8 +23,9 @@ export function useInitiateDragEvent() {
 			if (!startX || !startY || !isActive) return;
 			let deltaX = e.clientX - startX;
 			let deltaY = e.clientY - startY;
+			let deltaTime = Date.now() - startTime;
 
-			const swipeEvent = new CustomEvent('custom:drag', { detail: { deltaX, deltaY, isTouch } });
+			const swipeEvent = new CustomEvent('custom:drag', { detail: { deltaX, deltaY, isTouch, deltaTime } });
 			document.dispatchEvent(swipeEvent);
 		};
 
