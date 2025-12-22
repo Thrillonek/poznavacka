@@ -1,5 +1,5 @@
 import { usePresetStore, useSettingsStore } from 'src/data';
-import type { SettingsStore } from 'src/types/stores';
+import type { SettingsStore } from 'src/types/settings';
 import { getFiles } from 'src/utils/getFiles';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
 import { fileIndexList, previousFiles, previousIndex } from '../data/variables';

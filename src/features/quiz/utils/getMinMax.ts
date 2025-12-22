@@ -1,4 +1,4 @@
-import type { SettingsStore } from 'src/types/stores';
+import type { SettingsStore } from 'src/types/settings';
 
 /**
  * Returns the minimum and maximum value of the range, based on selected settings.

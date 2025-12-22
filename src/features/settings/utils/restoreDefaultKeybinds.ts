@@ -1,5 +1,5 @@
 import { useSettingsStore } from 'src/data';
-import type { SettingsStore } from 'src/types/stores';
+import type { SettingsStore } from 'src/types/settings';
 import { defaultKeybinds } from '../data/constants';
 
 /**

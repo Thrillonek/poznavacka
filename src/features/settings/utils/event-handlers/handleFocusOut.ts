@@ -1,4 +1,4 @@
-import { useSettingsStore } from 'src/data/stores';
+import { useSettingsStore } from 'src/data';
 
 export function handleFocusOut(files: string[]) {
 	const { min, max } = useSettingsStore.getState().settings.quiz;

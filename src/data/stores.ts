@@ -1,4 +1,4 @@
-import type { CompletedFilesStore, InformationStore, MenuElementStore, ModeStore, PoznavackaStore, PresetStore, SettingsStore, SwipeLockStore } from 'src/types/stores';
+import type { CompletedFilesStore, InformationStore, MenuElementStore, ModeStore, PoznavackaStore, PresetStore, SwipeLockStore } from 'src/types/stores';
 import { create } from 'zustand';
 
 export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
@@ -23,33 +23,6 @@ export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({
 	basePoznavacka: null,
 	setPoznavacka: (newPoznavacka) => set({ basePoznavacka: newPoznavacka }),
 	updatePoznavacka: (newPoznavacka) => set({ poznavacka: newPoznavacka }),
-}));
-
-export const useSettingsStore = create<SettingsStore>()((set) => ({
-	settings: {
-		keybinds: {
-			change: 'ArrowUp',
-			reveal: 'ArrowDown',
-			complete: 'ArrowRight',
-		},
-		quiz: {
-			mode: 'custom',
-			random: false,
-			min: 1,
-			max: 10,
-			devMode: false,
-		},
-		list: {
-			showFiles: 'all',
-		},
-		removeDuplicates: false,
-		autoSwitchSettingsMode: false,
-	},
-	setKeybind: (keybind, newValue) => set((state) => ({ settings: { ...state.settings, keybinds: { ...state.settings.keybinds, [keybind]: newValue } } })),
-	updateQuizSettings: (key, value) => set((state) => ({ settings: { ...state.settings, quiz: { ...state.settings.quiz, [key]: value } } })),
-	updateCoreSettings: (key, value) => set((state) => ({ settings: { ...state.settings, [key]: value } })),
-	updateListSettings: (key, value) => set((state) => ({ settings: { ...state.settings, list: { ...state.settings.list, [key]: value } } })),
-	setSettings: (newSettings) => set({ settings: newSettings }),
 }));
 
 export const usePresetStore = create<PresetStore>()((set) => ({
