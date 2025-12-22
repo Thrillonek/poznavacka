@@ -6,6 +6,7 @@ import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
 import { useSettingsModeStore } from '../data/stores';
+import ColorPickerSettings from './pages/ColorPickerSettings';
 import GeneralSettings from './pages/GeneralSettings';
 import KeybindsSettings from './pages/KeybindsSettings';
 import ListSettings from './pages/ListSettings';
@@ -56,6 +57,7 @@ export default function Settings() {
 						{settingsMode == 'kvíz' && <QuizSettings />}
 						{settingsMode == 'seznam' && <ListSettings />}
 						{settingsMode == 'klávesové zkratky' && <KeybindsSettings />}
+						{settingsMode == 'vzhled' && <ColorPickerSettings />}
 					</div>
 				</div>
 			</div>

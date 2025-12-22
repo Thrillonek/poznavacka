@@ -34,12 +34,16 @@
 			}
 		}
 
-		& *:not(span, p) {
-			display: none;
-		}
-
 		padding: 0.5rem 1rem;
 
 		@include main.hover-bg(var(--bg-base));
+	}
+}
+
+.settings-category-icon {
+	font-size: 1.5rem;
+
+	@media (min-width: 768px) {
+		display: none;
 	}
 }
