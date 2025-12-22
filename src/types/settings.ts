@@ -20,12 +20,12 @@ export type SettingsStore = {
 		colorPicker: {
 			preset: string;
 		};
-		removeDuplicates: boolean;
-		autoSwitchSettingsMode: boolean;
+		general: {
+			removeDuplicates: boolean;
+			autoSwitchSettingsMode: boolean;
+		};
 	};
 	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
-	updateQuizSettings: (key: keyof SettingsStore['settings']['quiz'], value: Basic) => void;
-	updateCoreSettings: (key: keyof SettingsStore['settings'], value: Basic) => void;
-	updateListSettings: (key: keyof SettingsStore['settings']['list'], value: SettingsStore['settings']['list']['showFiles']) => void;
 	setSettings: (newSettings: any) => void;
+	updateSettings: <category extends keyof SettingsStore['settings']>(category: category, key: keyof SettingsStore['settings'][category], value: Basic) => void;
 };

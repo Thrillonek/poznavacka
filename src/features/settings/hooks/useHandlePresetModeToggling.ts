@@ -10,14 +10,14 @@ import { usePresetMenuStore } from '../data/stores';
 export function useHandlePresetModeToggling() {
 	const presets = usePresetStore((store) => store.presets);
 	const isPresetMenuOpen = usePresetMenuStore((store) => store.isPresetMenuOpen);
-	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
+	const updateSettings = useSettingsStore((store) => store.updateSettings);
 	const settings = useSettingsStore((store) => store.settings);
 
 	useEffect(() => {
 		if (presets.length > 0 && isPresetMenuOpen) {
-			if (settings.quiz.mode != 'preset') updateQuizSettings('mode', 'preset');
+			if (settings.quiz.mode != 'preset') updateSettings('quiz', 'mode', 'preset');
 		} else {
-			if (settings.quiz.mode != 'custom') updateQuizSettings('mode', 'custom');
+			if (settings.quiz.mode != 'custom') updateSettings('quiz', 'mode', 'custom');
 		}
 	}, [presets.length, isPresetMenuOpen, settings.quiz.mode]);
 }

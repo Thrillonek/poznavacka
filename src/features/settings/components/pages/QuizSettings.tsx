@@ -6,10 +6,10 @@ import { getFiles } from 'src/utils';
 
 function QuizSettings() {
 	const settings = useSettingsStore((store) => store.settings);
-	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
+	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
-	const updateMin = (newMin: number) => updateQuizSettings('min', newMin);
-	const updateMax = (newMax: number) => updateQuizSettings('max', newMax);
+	const updateMin = (newMin: number) => updateSettings('quiz', 'min', newMin);
+	const updateMax = (newMax: number) => updateSettings('quiz', 'max', newMax);
 
 	const files = getFiles();
 
@@ -17,8 +17,8 @@ function QuizSettings() {
 		<>
 			<div className='settings-section'>
 				<h3>Způsob generace obrázků</h3>
-				<SelectionInput title='Postupně' type='radio' active={!settings.quiz.random} onSelect={() => updateQuizSettings('random', false)} />
-				<SelectionInput title='Náhodně' type='radio' active={settings.quiz.random} onSelect={() => updateQuizSettings('random', true)} />
+				<SelectionInput title='Postupně' type='radio' active={!settings.quiz.random} onSelect={() => updateSettings('quiz', 'random', false)} />
+				<SelectionInput title='Náhodně' type='radio' active={settings.quiz.random} onSelect={() => updateSettings('quiz', 'random', true)} />
 			</div>
 			{files.length > 0 && (
 				<div className='settings-section'>
@@ -29,7 +29,7 @@ function QuizSettings() {
 
 			<div className='settings-section'>
 				<h3>Ostatní</h3>
-				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.quiz.devMode} onToggle={() => updateQuizSettings('devMode', !settings.quiz.devMode)} />
+				<SwitchInput title='Vývojářský režim' description='Zobrazit index obrázku ve kvízu' active={settings.quiz.devMode} onToggle={() => updateSettings('quiz', 'devMode', !settings.quiz.devMode)} />
 			</div>
 		</>
 	);

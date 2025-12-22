@@ -21,12 +21,15 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 		colorPicker: {
 			preset: 'dark',
 		},
-		removeDuplicates: false,
-		autoSwitchSettingsMode: false,
+		general: {
+			removeDuplicates: false,
+			autoSwitchSettingsMode: false,
+		},
 	},
 	setKeybind: (keybind, newValue) => set((state) => ({ settings: { ...state.settings, keybinds: { ...state.settings.keybinds, [keybind]: newValue } } })),
-	updateQuizSettings: (key, value) => set((state) => ({ settings: { ...state.settings, quiz: { ...state.settings.quiz, [key]: value } } })),
-	updateCoreSettings: (key, value) => set((state) => ({ settings: { ...state.settings, [key]: value } })),
-	updateListSettings: (key, value) => set((state) => ({ settings: { ...state.settings, list: { ...state.settings.list, [key]: value } } })),
 	setSettings: (newSettings) => set({ settings: newSettings }),
+	updateSettings: (category, key, value) =>
+		set((state) => {
+			return { settings: { ...state.settings, [category]: { ...state.settings[category], [key]: value } } };
+		}),
 }));

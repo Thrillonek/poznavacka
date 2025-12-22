@@ -17,12 +17,12 @@ function Quiz(props: any) {
 
 	const mode = useModeStore((store) => store.mode);
 
-	const updateQuizSettings = useSettingsStore((store) => store.updateQuizSettings);
+	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
 	const [visibleSide, setVisibleSide] = useState<'complete' | 'change' | undefined>();
 
 	useEffect(() => {
-		updateQuizSettings('max', getFiles().length);
+		updateSettings('quiz', 'max', getFiles().length);
 	}, [poznavacka]);
 
 	useEffect(() => {
