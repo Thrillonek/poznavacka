@@ -11,6 +11,7 @@ function ColorPickerSettings() {
 				<h3>Motivy</h3>
 				<SelectionInput title='Tmavý' active={settings.colorPicker.preset === 'dark'} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', 'dark')} />
 				<SelectionInput title='Světlý' active={settings.colorPicker.preset === 'light'} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', 'light')} />
+				<SelectionInput title='Nedělej to' active={settings.colorPicker.preset === 'ULTRALIGHT'} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', 'ULTRALIGHT')} />
 			</div>
 		</>
 	);

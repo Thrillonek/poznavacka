@@ -23,6 +23,17 @@ export function useChangeTheme(theme: string) {
 				border: 'oklch(0.6 0 264)',
 			});
 		}
+
+		if (theme == 'ULTRALIGHT') {
+			setColorVariables('light', {
+				bgDark: 'oklch(1 0 264)',
+				bgNormal: 'oklch(1 0 264)',
+				bgLight: 'oklch(1 0 264)',
+				textMain: 'oklch(0 0 264)',
+				textMuted: 'oklch(0 0 264)',
+				border: 'oklch(1 0 264)',
+			});
+		}
 	}, [theme]);
 }
 
