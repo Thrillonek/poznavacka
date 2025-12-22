@@ -1,6 +1,7 @@
 import type { SettingsStore } from 'src/types/settings';
 import { create } from 'zustand';
 
+//PRESERVE SETTINGS HOOK ONLY WORKS IF SETTINGS ARE DIVIDED INTO CATEGORIES AND EACH CATEGORY HAS PROPERTIES ONLY DIRECTLY INSIDE IT
 export const useSettingsStore = create<SettingsStore>()((set) => ({
 	settings: {
 		keybinds: {
