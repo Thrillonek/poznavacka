@@ -35,7 +35,7 @@
 		position: relative;
 
 		& > * {
-			color: var(--text-main);
+			color: oklch(0.9 0 0);
 		}
 
 		&::after {
@@ -54,7 +54,7 @@
 			border-radius: 50%;
 			width: 50%;
 			aspect-ratio: 1 / 1;
-			background-color: var(--text-main);
+			background-color: oklch(0.9 0 0);
 
 			transform: scale(0);
 			transition: transform 200ms ease;
