@@ -25,7 +25,6 @@ export type SettingsStore = {
 			autoSwitchSettingsMode: boolean;
 		};
 	};
-	setKeybind: (keybind: keyof SettingsStore['settings']['keybinds'], newValue: string) => void;
 	setSettings: (newSettings: any) => void;
 	updateSettings: <category extends keyof SettingsStore['settings']>(category: category, key: keyof SettingsStore['settings'][category], value: Basic) => void;
 };

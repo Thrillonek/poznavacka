@@ -3,7 +3,7 @@ import { useSettingsStore } from 'src/data';
 
 export function usePreserveSettings() {
 	const settings = useSettingsStore((store) => store.settings);
-	const setSettings = useSettingsStore((store) => store.setSettings);
+	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
 	const firstRenderRef = useRef(true);
 
@@ -19,7 +19,15 @@ export function usePreserveSettings() {
 			let savedSettings = localStorage.getItem('poznavacka-settings');
 			if (typeof savedSettings == 'string' && savedSettings.length > 0) {
 				let savedSettingsObject = JSON.parse(savedSettings);
-				setSettings(savedSettingsObject);
+
+				Object.keys(savedSettingsObject).forEach((category: any) => {
+					if (!Object.keys(settings).includes(category)) return;
+
+					Object.keys(savedSettingsObject[category]).forEach((key) => {
+						if ((settings as any)[category][key] == null) return;
+						updateSettings(category, key, savedSettingsObject[category][key]);
+					});
+				});
 			}
 		}
 

@@ -27,7 +27,6 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 			autoSwitchSettingsMode: false,
 		},
 	},
-	setKeybind: (keybind, newValue) => set((state) => ({ settings: { ...state.settings, keybinds: { ...state.settings.keybinds, [keybind]: newValue } } })),
 	setSettings: (newSettings) => set({ settings: newSettings }),
 	updateSettings: (category, key, value) =>
 		set((state) => {
