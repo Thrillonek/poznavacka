@@ -16,8 +16,8 @@ export function usePreserveSettings() {
 
 			if (firstRenderRef.current) firstRenderRef.current = false;
 
-			if (localStorage.getItem('poznavacka-settings')) {
-				let savedSettings = localStorage.getItem('poznavacka-settings') as string;
+			let savedSettings = localStorage.getItem('poznavacka-settings');
+			if (typeof savedSettings == 'string' && savedSettings.length > 0) {
 				let savedSettingsObject = JSON.parse(savedSettings);
 				setSettings(savedSettingsObject);
 			}

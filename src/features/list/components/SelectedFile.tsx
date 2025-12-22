@@ -47,6 +47,7 @@ function SelectedFile() {
 	useLockSwiping();
 
 	const isImageCloseToView = useMemo(() => (file: string) => Math.abs(files.indexOf(file) - files.indexOf(chosenFile!)) <= 1, [chosenFile]);
+	const isChosenFileDefined = typeof chosenFile == 'string';
 
 	function toggleCompletedFile() {
 		const isCompleted = completedFiles.includes(chosenFile!);
@@ -63,7 +64,7 @@ function SelectedFile() {
 				<button onClick={() => setChosenFile(undefined)}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<p>{parseInt(getKeyByValue(listFiles, chosenFile!) as string) + 1}</p>
+				{isChosenFileDefined && <p>{parseInt(getKeyByValue(listFiles, chosenFile!) as string) + 1}</p>}
 			</div>
 			<div className='selected-file-grid'>
 				<div>
