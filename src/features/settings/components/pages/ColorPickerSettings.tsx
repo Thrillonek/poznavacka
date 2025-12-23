@@ -18,11 +18,15 @@ function ColorPickerSettings() {
 			</div>
 			<div className='settings-section'>
 				<h3>Vlastní motiv</h3>
-				<SelectionInput title={'Vlastní'} active={settings.colorPicker.preset === 'custom'} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', 'custom')} />
-				<h4 className='pl-2 text-muted'>Sytost</h4>
-				<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} />
-				<h4 className='pl-2 text-muted'>Odstín</h4>
-				<RangeInput value={settings.colorPicker.hue} size={360} setValue={(newValue) => updateSettings('colorPicker', 'hue', newValue)} />
+				<SelectionInput title={'Zapnout'} active={settings.colorPicker.preset === 'custom'} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', 'custom')} />
+				{settings.colorPicker.preset === 'custom' && (
+					<>
+						<h4 className='pl-2 text-muted'>Sytost</h4>
+						<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} />
+						<h4 className='pl-2 text-muted'>Odstín</h4>
+						<RangeInput value={settings.colorPicker.hue} size={360} setValue={(newValue) => updateSettings('colorPicker', 'hue', newValue)} />
+					</>
+				)}
 			</div>
 		</>
 	);

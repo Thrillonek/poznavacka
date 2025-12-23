@@ -7,7 +7,6 @@ export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Re
 
 	const minInputRect = refs.minRangeRef.current!.getBoundingClientRect();
 	const maxInputRect = refs.maxRangeRef.current!.getBoundingClientRect();
-	const rangeInputRect = refs.rangeSliderRef.current!.getBoundingClientRect();
 
 	const minInputCenter = minInputRect.left + minInputRect.width / 2;
 	const maxInputCenter = maxInputRect.left + maxInputRect.width / 2;
@@ -15,7 +14,7 @@ export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Re
 	const deltaMin = Math.abs(e.clientX - minInputCenter);
 	const deltaMax = Math.abs(e.clientX - maxInputCenter);
 
-	const relativePosition = (e.clientX - rangeInputRect.left) / rangeInputRect.width;
+	const relativePosition = getRelativePosition(e, refs.rangeSliderRef as MutableRefObject<HTMLDivElement>);
 
 	let result = Math.round(props.set.length * relativePosition);
 	if (result > props.set.length) result = props.set.length;
@@ -29,3 +28,8 @@ export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Re
 		props.setMin(result);
 	}
 }
+
+export const getRelativePosition = (e: PointerEvent, ref: MutableRefObject<HTMLDivElement>) => {
+	const rangeInputRect = ref.current.getBoundingClientRect();
+	return (e.clientX - rangeInputRect.left) / rangeInputRect.width;
+};

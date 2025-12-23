@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState, type KeyboardEvent, type LegacyRef } from 'react';
+import { useEffect, useRef, useState, type MutableRefObject, type PointerEvent } from 'react';
 import { useAddEventListener } from 'src/hooks';
-import { adjustMin, adjustValue } from 'src/utils/form/adjustMinMax';
-import { handlePointerMove } from 'src/utils/form/handlePointerMove';
-import { handleRangePointerDown } from 'src/utils/form/handleRangePointerDown';
-import classes from '../../assets/form/_RangeInput.module.scss';
+import { getRelativePosition } from 'src/utils/form/handleRangePointerDown';
+import classes from '../../assets/form/_MinMaxInput.module.scss';
+import rangeClasses from '../../assets/form/_RangeInput.module.scss';
 
 export type RangeInputProps = {
 	value: number;
@@ -12,36 +11,45 @@ export type RangeInputProps = {
 };
 
 function RangeInput(props: RangeInputProps) {
-	const { value, size } = props; // setMin and setMax are used in util functions below
+	const { value, size, setValue } = props; // setMin and setMax are used in util functions below
 
 	const valueRef = useRef<HTMLInputElement>();
+	const rangeSliderRef = useRef<HTMLDivElement>();
 
-	const [activeRange, setActiveRange] = useState('');
+	const [isRangeActive, setIsRangeActive] = useState(false);
 
 	useEffect(() => {
 		valueRef.current!.value = value.toString();
 	}, [value]);
 
-	function handleSubmitForm(e: KeyboardEvent<HTMLDivElement>) {
-		if (e.key !== 'Enter') return;
-		adjustValue(props);
-	}
-
 	function calcPosition(num: number) {
-		const calculation = (num - 1) / (size - 1);
+		const calculation = num / size;
 		return `calc(${calculation * 100}% - ${calculation * 3}px)`;
 	}
 
-	useAddEventListener('pointerup', () => setActiveRange(''));
-	useAddEventListener('pointermove', () => {}, [activeRange]);
-	useAddEventListener('touchmove', (e) => activeRange && e.preventDefault(), [activeRange], { passive: false });
+	useAddEventListener('pointerup', () => setIsRangeActive(false));
+	useAddEventListener('pointermove', (e) => isRangeActive && handleValueChange(e), [isRangeActive]);
+	useAddEventListener('touchmove', (e) => isRangeActive && e.preventDefault(), [isRangeActive], { passive: false });
+
+	const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
+		setIsRangeActive(true);
+		handleValueChange(e);
+	};
+
+	const handleValueChange = (e: PointerEvent<HTMLDivElement>) => {
+		if (!isRangeActive) return;
+
+		const newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
+		if (newValue < 0 || newValue > size) return;
+		return setValue(newValue);
+	};
 
 	return (
-		<div tabIndex={0} onKeyDown={handleSubmitForm} className={classes['container']}>
-			<div onPointerDown={() => {}} className={classes['range-container']}>
-				<div className={classes['range-slider']}>
-					<div style={{ left: calcPosition(value) }} ref={valueRef as LegacyRef<any>} className={classes['range-thumb']}>
-						<div />
+		<div className={classes['container']}>
+			<div onPointerDown={handlePointerDown} className={classes['range-container']}>
+				<div ref={rangeSliderRef as any} className={classes['range-slider']}>
+					<div style={{ left: calcPosition(value) }} ref={valueRef as any} className={classes['range-thumb']}>
+						<div className={rangeClasses['range-thumb-circle']} data-value={value} data-visible={isRangeActive} />
 					</div>
 				</div>
 			</div>

@@ -3,7 +3,7 @@ import { useAddEventListener } from 'src/hooks';
 import { adjustMax, adjustMin } from 'src/utils/form/adjustMinMax';
 import { handlePointerMove } from 'src/utils/form/handlePointerMove';
 import { handleRangePointerDown } from 'src/utils/form/handleRangePointerDown';
-import classes from '../../assets/form/_RangeInput.module.scss';
+import classes from '../../assets/form/_MinMaxInput.module.scss';
 
 export type MinMaxInputProps = {
 	min: number;
