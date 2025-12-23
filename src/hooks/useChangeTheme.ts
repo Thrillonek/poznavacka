@@ -1,39 +1,17 @@
 import { useEffect } from 'react';
+import { themes } from 'src/data/themes';
 
 export function useChangeTheme(theme: string) {
 	useEffect(() => {
-		if (theme == 'dark') {
-			setColorVariables('dark', {
-				bgDark: 'oklch(0.1822 0 0)',
-				bgNormal: 'oklch(0.2178 0 0)',
-				bgLight: 'oklch(0.2603 0 0)',
-				textMain: 'oklch(0.9491 0 0)',
-				textMuted: 'oklch(0.6993 0 0)',
-				border: 'oklch(0.4017 0 0)',
-			});
-		}
+		Object.keys(themes).forEach((key) => {
+			if (key !== theme) return;
+			let lightness: 'dark' | 'light' = 'dark';
 
-		if (theme == 'light') {
-			setColorVariables('light', {
-				bgDark: 'oklch(0.92 0 264)',
-				bgNormal: 'oklch(0.96 0 264)',
-				bgLight: 'oklch(1 0 264)',
-				textMain: 'oklch(0.15 0 264)',
-				textMuted: 'oklch(0.4 0 264)',
-				border: 'oklch(0.6 0 264)',
-			});
-		}
+			const lightnessValue = themes[key as keyof typeof themes].bgNormal.split('(')[1].split(' ')[0];
+			if (parseFloat(lightnessValue) > 0.5) lightness = 'light';
 
-		if (theme == 'ULTRALIGHT') {
-			setColorVariables('light', {
-				bgDark: 'oklch(1 0 264)',
-				bgNormal: 'oklch(1 0 264)',
-				bgLight: 'oklch(1 0 264)',
-				textMain: 'oklch(0 0 264)',
-				textMuted: 'oklch(0 0 264)',
-				border: 'oklch(1 0 264)',
-			});
-		}
+			setColorVariables(lightness, themes[key as keyof typeof themes]);
+		});
 	}, [theme]);
 }
 

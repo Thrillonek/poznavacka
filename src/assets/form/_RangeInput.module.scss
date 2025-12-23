@@ -21,7 +21,7 @@
 	}
 
 	.input {
-		background-color: var(--bg-base);
+		background: var(--bg-base);
 		color: var(--text-muted);
 		border-radius: 0.5rem;
 		padding: 0.25rem 0.5rem;
@@ -47,7 +47,7 @@
 
 		height: 5px;
 		width: 100%;
-		background-color: var(--accent-muted);
+		background: var(--accent-muted);
 		border-radius: 1000px;
 		padding: 1px;
 	}
@@ -62,11 +62,11 @@
 
 		& > div {
 			position: absolute;
-			background-color: var(--accent);
+			background: var(--accent);
 			height: 1rem;
 			aspect-ratio: 1 / 1;
 			border-radius: 50%;
-			transition: background-color 200ms ease;
+			transition: background 200ms ease;
 
 			@include main.on-hover() {
 				@include main.lighten(var(--accent), 0.1);
@@ -75,7 +75,7 @@
 	}
 
 	.range-active {
-		background-color: var(--accent);
+		background: var(--accent);
 		position: absolute;
 		height: 100%;
 	}

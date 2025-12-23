@@ -22,7 +22,7 @@
 			border-color: var(--accent);
 		}
 
-		background-color: var(--accent-muted);
+		background: var(--accent-muted);
 	}
 
 	&[data-searched='true'] {
@@ -52,7 +52,7 @@
 		object-fit: cover;
 
 		color: transparent;
-		background-color: var(--border);
+		background: var(--border);
 	}
 }
 

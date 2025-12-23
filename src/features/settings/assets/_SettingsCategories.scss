@@ -27,10 +27,10 @@
 	@media (min-width: 768px) {
 		&[data-active='true'] {
 			color: var(--accent);
-			background-color: var(--accent-muted);
+			background: var(--accent-muted);
 
 			&:hover {
-				background-color: var(--accent-muted);
+				background: var(--accent-muted);
 			}
 		}
 

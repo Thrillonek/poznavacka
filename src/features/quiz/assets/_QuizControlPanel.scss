@@ -45,7 +45,7 @@
 
 	&.complete-button {
 		@include main.on-hover() {
-			background-color: oklch(from var(--success) calc(l - 0.3) calc(c - 0.15) h);
+			background: oklch(from var(--success) calc(l - 0.3) calc(c - 0.15) h);
 			color: var(--success);
 		}
 	}

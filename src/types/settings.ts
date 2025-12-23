@@ -19,6 +19,8 @@ export type SettingsStore = {
 		};
 		colorPicker: {
 			preset: string;
+			chroma: number;
+			hue: number;
 		};
 		general: {
 			removeDuplicates: boolean;

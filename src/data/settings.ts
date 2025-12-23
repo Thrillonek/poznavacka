@@ -21,6 +21,8 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 		},
 		colorPicker: {
 			preset: 'dark',
+			chroma: 0,
+			hue: 0,
 		},
 		general: {
 			removeDuplicates: false,

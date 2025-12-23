@@ -3,7 +3,7 @@
 .settings-modal {
 	@include main.modal;
 	& > div {
-		background-color: var(--bg-dark);
+		background: var(--bg-dark);
 		color: var(--text-main);
 	}
 }
@@ -28,14 +28,14 @@
 
 	min-width: 250px;
 	padding: 2rem 1rem;
-	background-color: var(--bg-base);
+	background: var(--bg-base);
 	border-right: 1px solid var(--border);
 }
 
 .settings-content {
 	padding: 1rem 0.5rem 1rem 0;
 	flex-grow: 1;
-	background-color: var(--bg-dark);
+	background: var(--bg-dark);
 	height: 100%;
 }
 
