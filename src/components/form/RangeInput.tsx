@@ -41,8 +41,9 @@ function RangeInput(props: RangeInputProps) {
 	const handleValueChange = (e: PointerEvent<HTMLDivElement>) => {
 		if (!isRangeActive) return;
 
-		const newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
-		if (newValue < 0 || newValue > size) return;
+		let newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
+		if (newValue < 0) newValue = 0;
+		if (newValue > size) newValue = size;
 		return setValue(newValue);
 	};
 
