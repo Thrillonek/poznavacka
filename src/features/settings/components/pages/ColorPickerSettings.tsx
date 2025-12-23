@@ -22,9 +22,9 @@ function ColorPickerSettings() {
 				{settings.colorPicker.preset === 'custom' && (
 					<>
 						<h4 className='pl-2 text-muted'>Sytost</h4>
-						<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} tooltipText={`${settings.colorPicker.chroma}%`} />
+						<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} tooltipText={`${settings.colorPicker.chroma}%`} containerStyle={{ background: `linear-gradient(to right, oklch(0.22 0 0), oklch(0.5 .1 ${settings.colorPicker.hue}))` }} />
 						<h4 className='pl-2 text-muted'>Odstín</h4>
-						<RangeInput value={settings.colorPicker.hue} size={360} setValue={(newValue) => updateSettings('colorPicker', 'hue', newValue)} tooltipText={''} />
+						<RangeInput value={settings.colorPicker.hue} size={360} setValue={(newValue) => updateSettings('colorPicker', 'hue', newValue)} tooltipText={''} containerStyle={{ background: 'linear-gradient(90deg in oklch longer hue, oklch(0.35 0.075 0), oklch(0.35 0.075 0))' }} />
 					</>
 				)}
 			</div>
