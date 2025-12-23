@@ -1,7 +1,7 @@
 @use 'src/assets/main';
 
 .range-thumb-circle {
-	&::before {
+	&:not([data-value=''])::before {
 		@extend .center-content;
 		@extend .shadow-base;
 

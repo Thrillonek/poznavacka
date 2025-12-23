@@ -8,11 +8,11 @@ export type RangeInputProps = {
 	value: number;
 	size: number;
 	setValue: (value: number) => void;
-	tooltipFormat?: (text: string) => string;
+	tooltipText?: string;
 };
 
 function RangeInput(props: RangeInputProps) {
-	const { value, size, setValue, tooltipFormat } = props; // setMin and setMax are used in util functions below
+	const { value, size, setValue, tooltipText } = props; // setMin and setMax are used in util functions below
 
 	const valueRef = useRef<HTMLInputElement>();
 	const rangeSliderRef = useRef<HTMLDivElement>();
@@ -50,7 +50,7 @@ function RangeInput(props: RangeInputProps) {
 			<div onPointerDown={handlePointerDown} className={classes['range-container']}>
 				<div ref={rangeSliderRef as any} className={classes['range-slider']}>
 					<div style={{ left: calcPosition(value) }} ref={valueRef as any} className={classes['range-thumb']}>
-						<div className={rangeClasses['range-thumb-circle']} data-value={tooltipFormat ? tooltipFormat(value.toString()) : value} data-visible={isRangeActive} />
+						<div className={rangeClasses['range-thumb-circle']} data-value={tooltipText != undefined ? tooltipText : value} data-visible={isRangeActive} />
 					</div>
 				</div>
 			</div>
