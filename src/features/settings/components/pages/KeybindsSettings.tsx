@@ -21,7 +21,6 @@ function KeybindsSettings() {
 				<KeybindInput title='Odhalit jméno' keybindName='reveal' keybinds={settings.keybinds} setKeybind={(key, value) => updateSettings('keybinds', key, value)} />
 				<KeybindInput title='Označit obrázek jako naučený' keybindName='complete' keybinds={settings.keybinds} setKeybind={(key, value) => updateSettings('keybinds', key, value)} />
 			</div>
-			<div className='bg-[--border] w-full h-px' />
 			<DeleteButton title='Obnovit původní klávesové zkratky' text='Všechny vaše úpravy se tímto vymažou' confirmText='Obnovit' onConfirm={() => confirmRestoreDefaultKeybinds()} />
 		</>
 	);

@@ -53,6 +53,7 @@ export default function Settings() {
 				<div className='settings-content'>
 					<div>
 						<h1 className='settings-page-header'>{capitalize(settingsMode)}</h1>
+
 						{settingsMode == 'obecné' && <GeneralSettings />}
 						{settingsMode == 'kvíz' && <QuizSettings />}
 						{settingsMode == 'seznam' && <ListSettings />}
