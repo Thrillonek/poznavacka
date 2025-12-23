@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import ImageFit from 'src/components/ui/ImageFit';
 import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useAddEventListener } from 'src/hooks';
 import { getFolderName, getGroupName, nameFromPath } from 'src/utils';
 import '../assets/_QuizImageViewer.scss';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
+import { getDragRatio } from '../utils';
 
 function ImageViewer() {
 	const fileName = useQuizFileStore((store) => store.fileName);
 	const completeFileLoading = useQuizFileStore((store) => store.completeFileLoading);
 	const isFileLoaded = useQuizFileStore((store) => store.isFileLoaded);
+
+	const [imageOffset, setImageOffset] = useState(0);
 
 	useEffect(() => {
 		const image = document.querySelector('.quiz-image-viewer img') as HTMLImageElement;
@@ -17,10 +21,15 @@ function ImageViewer() {
 		}
 	}, [isFileLoaded]);
 
+	useAddEventListener('custom:drag', (e: CustomEvent) => {
+		if (e.detail.isTouch) setImageOffset((getDragRatio(e.detail.deltaX) as number) * 250);
+	});
+	useAddEventListener('touchend', () => setImageOffset(0));
+
 	return (
 		<>
 			<div className='quiz-image-viewer'>
-				<ImageFit key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
+				<ImageFit style={{ transform: `translateX(${imageOffset}px)` }} key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
 			</div>
 		</>
 	);

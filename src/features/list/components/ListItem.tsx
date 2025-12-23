@@ -12,15 +12,23 @@ function ListItem({ file, idx }: ListItemProps) {
 	const searchedItem = useListSearchStore((store) => store.searchedItem);
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 
-	const [isOnScreen, setIsOnScreen] = useState(false);
+	const [isElementVisible, setElementVisible] = useState(false);
 
 	const listItemRef = useRef<HTMLImageElement>();
 
 	useEffect(() => {
+		let isItemVisible = false;
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
-					setIsOnScreen(entry.isIntersecting);
+					if (entry.isIntersecting) {
+						isItemVisible = true;
+						setTimeout(() => {
+							if (isItemVisible) setElementVisible(true);
+						}, 500);
+					} else {
+						isItemVisible = false;
+					}
 				},
 				{ threshold: 1 }
 			);
@@ -33,17 +41,13 @@ function ListItem({ file, idx }: ListItemProps) {
 	return (
 		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()}>
 			<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} data-searched={searchedItem === file} data-completed={completedFiles.includes(file)} className='list-item-container'>
-				{isOnScreen && (
-					<>
-						<div className='flex items-center gap-4'>
-							<div className='list-item-number'>
-								<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
-							</div>
-							<p className='list-item-text'>{nameFromPath(file)}</p>
-						</div>
-						<img loading='lazy' key={getFolderName(poznavacka!) + idx} src={file.replace(' ', '%20').replace('+', '%2b')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
-					</>
-				)}
+				<div className='flex items-center gap-4'>
+					<div className='list-item-number'>
+						<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
+					</div>
+					<p className='list-item-text'>{nameFromPath(file)}</p>
+				</div>
+				<img loading='lazy' key={getFolderName(poznavacka!) + idx} src={isElementVisible ? file.replace(' ', '%20').replace('+', '%2b') : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);

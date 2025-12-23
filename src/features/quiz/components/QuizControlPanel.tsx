@@ -3,6 +3,7 @@ import { useSettingsStore } from 'src/data';
 import '../assets/_QuizControlPanel.scss';
 import { useQuizFileStore } from '../data/stores';
 import { previousFiles } from '../data/variables';
+import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, showPreviousFile } from '../utils';
 
 function QuizControlPanel() {
@@ -10,6 +11,8 @@ function QuizControlPanel() {
 	const settings = useSettingsStore((store) => store.settings);
 
 	let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
+
+	useHandleSwiping();
 
 	return (
 		<div className='center-content'>

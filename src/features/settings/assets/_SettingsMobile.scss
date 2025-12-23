@@ -13,7 +13,7 @@
 
 	.settings-categories {
 		padding: 1rem;
-		background-color: var(--bg-dark) !important;
+		background: var(--bg-dark) !important;
 		border: none;
 
 		transition: transform 200ms ease;
@@ -42,7 +42,7 @@
 		height: fit-content;
 		z-index: 1;
 		box-shadow: 0 5px 15px 0px rgb(0, 0, 0, 0.2), 0 2px 5px 0px rgb(0, 0, 0, 0.2);
-		background-color: var(--bg-dark);
+		background: var(--bg-dark);
 
 		& > h3 {
 			font-weight: 700;

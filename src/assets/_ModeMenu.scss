@@ -7,7 +7,7 @@
 
 	&:not(.disabled) > button.active,
 	& > button[data-settings].active {
-		background-color: var(--accent-muted);
+		background: var(--accent-muted);
 		color: var(--accent);
 	}
 

@@ -1,8 +1,8 @@
 import type { MutableRefObject, PointerEvent } from 'react';
-import type { RangeInputProps } from '../../components/form/RangeInput';
+import type { MinMaxInputProps } from 'src/components/form/MinMaxInput';
 
 type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
-export function handlePointerMove(e: PointerEvent, refs: Refs, props: RangeInputProps, activeRange: string) {
+export function handlePointerMove(e: PointerEvent, refs: Refs, props: MinMaxInputProps, activeRange: string) {
 	if (!activeRange) return;
 	if (!refs.rangeSliderRef.current) return;
 

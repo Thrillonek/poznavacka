@@ -7,7 +7,7 @@
 	height: 100%;
 
 	&:not([data-loaded='true']) {
-		background-color: var(--border);
+		background: var(--border);
 		border-radius: 0.5rem;
 	}
 

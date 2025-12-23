@@ -27,19 +27,23 @@
 	@media (min-width: 768px) {
 		&[data-active='true'] {
 			color: var(--accent);
-			background-color: var(--accent-muted);
+			background: var(--accent-muted);
 
 			&:hover {
-				background-color: var(--accent-muted);
+				background: var(--accent-muted);
 			}
-		}
-
-		& *:not(span, p) {
-			display: none;
 		}
 
 		padding: 0.5rem 1rem;
 
 		@include main.hover-bg(var(--bg-base));
+	}
+}
+
+.settings-category-icon {
+	font-size: 1.5rem;
+
+	@media (min-width: 768px) {
+		display: none;
 	}
 }

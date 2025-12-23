@@ -1,0 +1,47 @@
+import { useEffect } from 'react';
+
+/**
+ * Creates the custom:drag event on the document element.
+ */
+export function useInitiateDragEvent() {
+	let isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+	useEffect(() => {
+		let startX: number, startY: number, startTime: number;
+		let isActive = false;
+
+		let handlePointerDown = (e: PointerEvent) => {
+			startX = e.clientX;
+			startY = e.clientY;
+			startTime = Date.now();
+			isActive = true;
+		};
+
+		let handlePointerMove = (e: PointerEvent) => {
+			e.preventDefault();
+
+			if (!startX || !startY || !isActive) return;
+			let deltaX = e.clientX - startX;
+			let deltaY = e.clientY - startY;
+			let deltaTime = Date.now() - startTime;
+
+			const swipeEvent = new CustomEvent('custom:drag', { detail: { deltaX, deltaY, isTouch, deltaTime } });
+			document.dispatchEvent(swipeEvent);
+		};
+
+		let handlePointerUp = () => {
+			isActive = false;
+		};
+
+		const eventController = new AbortController();
+		let signal = eventController.signal;
+
+		document.addEventListener('pointerdown', handlePointerDown, { passive: false, signal });
+		document.addEventListener('pointermove', handlePointerMove, { passive: false, signal });
+		document.addEventListener('pointerup', handlePointerUp, { signal });
+
+		return () => {
+			eventController.abort();
+		};
+	}, []);
+}

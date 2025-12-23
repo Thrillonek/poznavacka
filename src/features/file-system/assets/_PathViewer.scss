@@ -17,14 +17,14 @@
 .path-viewer {
 	@extend .shadow-base;
 
-	background-color: var(--bg-base);
+	background: var(--bg-base);
 	border-radius: 0.5rem;
 	padding: 0.25rem;
 
 	& > div {
 		border-radius: 0.25rem;
 		border: 1px solid var(--border);
-		background-color: var(--bg-dark);
+		background: var(--bg-dark);
 
 		display: flex;
 		flex-direction: column;

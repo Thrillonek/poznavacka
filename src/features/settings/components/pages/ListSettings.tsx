@@ -3,15 +3,15 @@ import { useSettingsStore } from 'src/data';
 
 function ListSettings() {
 	const settings = useSettingsStore((store) => store.settings);
-	const updateListSettings = useSettingsStore((store) => store.updateListSettings);
+	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
 	return (
 		<>
 			<div className='settings-section'>
 				<h3>Ukazovat soubory...</h3>
-				<SelectionInput title='Ukázat všechno' active={settings.list.showFiles == 'all'} type='radio' onSelect={() => updateListSettings('showFiles', 'all')} />
-				<SelectionInput title='Skrýt splněné' active={settings.list.showFiles == 'uncompleted'} type='radio' onSelect={() => updateListSettings('showFiles', 'uncompleted')} />
-				<SelectionInput title='Ukázat jen splněné' active={settings.list.showFiles == 'completed'} type='radio' onSelect={() => updateListSettings('showFiles', 'completed')} />
+				<SelectionInput title='Ukázat všechno' active={settings.list.showFiles == 'all'} type='radio' onSelect={() => updateSettings('list', 'showFiles', 'all')} />
+				<SelectionInput title='Skrýt splněné' active={settings.list.showFiles == 'uncompleted'} type='radio' onSelect={() => updateSettings('list', 'showFiles', 'uncompleted')} />
+				<SelectionInput title='Ukázat jen splněné' active={settings.list.showFiles == 'completed'} type='radio' onSelect={() => updateSettings('list', 'showFiles', 'completed')} />
 			</div>
 		</>
 	);

@@ -1,21 +1,49 @@
 .quiz-container {
-	background-color: var(--bg-dark);
+	background: var(--bg-dark);
 	padding: 2rem;
 	height: 100%;
 	width: 100%;
 
+	touch-action: none;
+
 	display: grid;
 	grid-template-rows: repeat(8, 1fr);
 
-	& > *:first-of-type {
+	position: relative;
+
+	& > *:nth-child(1) {
 		grid-row: span 4;
 	}
 
-	& > *:last-of-type {
+	& > *:nth-child(3) {
 		grid-row: span 3;
 	}
 
 	& > * {
 		padding: 0.25rem;
 	}
+}
+
+.quiz-indicator {
+	--color: var(--success);
+
+	position: absolute;
+	height: 100%;
+	top: 0;
+
+	transition: opacity 200ms ease;
+
+	&[data-left='true'] {
+		left: 0;
+	}
+
+	&[data-right='true'] {
+		right: 0;
+	}
+
+	--shadow-width: 1.5rem;
+
+	width: 0;
+	padding: 0;
+	box-shadow: 0 0 calc(25vw - var(--shadow-width)) var(--shadow-width) var(--color);
 }

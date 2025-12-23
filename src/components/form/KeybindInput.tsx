@@ -1,7 +1,7 @@
 // import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import { useAddEventListener } from 'src/hooks';
-import type { SettingsStore } from 'src/types/stores';
+import type { SettingsStore } from 'src/types/settings';
 import { getKey } from 'src/utils/form/getKey';
 import classes from '../../assets/form/_KeybindInput.module.scss';
 

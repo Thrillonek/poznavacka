@@ -12,7 +12,7 @@
 		color: var(--text-muted);
 
 		&.active {
-			background-color: var(--accent-muted);
+			background: var(--accent-muted);
 			color: var(--accent);
 		}
 	}
