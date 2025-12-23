@@ -1,18 +1,29 @@
 import { useEffect } from 'react';
 import { themes } from 'src/data/themes';
 
-export function useChangeTheme(theme: string) {
+export function useChangeTheme(colorPicker: Record<string, string | number>) {
 	useEffect(() => {
-		Object.keys(themes).forEach((key) => {
-			if (key !== theme) return;
-			let lightness: 'dark' | 'light' = 'dark';
+		if (colorPicker.preset === 'custom') {
+			setColorVariables('dark', {
+				bgDark: `oklch(0.18 ${(colorPicker.chroma as number) / 1000} ${colorPicker.hue})`,
+				bgNormal: `oklch(0.22 ${(colorPicker.chroma as number) / 1000} ${colorPicker.hue})`,
+				bgLight: `oklch(0.26 ${(colorPicker.chroma as number) / 1000} ${colorPicker.hue})`,
+				textMain: `oklch(0.95 ${(colorPicker.chroma as number) / 1000} ${colorPicker.hue})`,
+				textMuted: `oklch(0.7 ${(colorPicker.chroma as number) / 1000} ${colorPicker.hue})`,
+				border: `oklch(0.4 ${(colorPicker.chroma as number) / 500} ${colorPicker.hue})`,
+			});
+		} else {
+			Object.keys(themes).forEach((key) => {
+				if (key !== colorPicker.preset) return;
+				let lightness: 'dark' | 'light' = 'dark';
 
-			const lightnessValue = themes[key as keyof typeof themes].bgNormal.split('(')[1].split(' ')[0];
-			if (parseFloat(lightnessValue) > 0.5) lightness = 'light';
+				const lightnessValue = themes[key as keyof typeof themes].bgNormal.split('(')[1].split(' ')[0];
+				if (parseFloat(lightnessValue) > 0.5) lightness = 'light';
 
-			setColorVariables(lightness, themes[key as keyof typeof themes]);
-		});
-	}, [theme]);
+				setColorVariables(lightness, themes[key as keyof typeof themes]);
+			});
+		}
+	}, [colorPicker]);
 }
 
 function setColorVariables(lightness: 'dark' | 'light', { bgDark, bgNormal, bgLight, textMain, textMuted, border }: Record<string, string>) {

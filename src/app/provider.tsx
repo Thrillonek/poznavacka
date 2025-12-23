@@ -11,7 +11,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 	useInitiateSwipeEvent();
 	useInitiateDragEvent();
 	usePreserveSettings();
-	useChangeTheme(settings.colorPicker.preset);
+	useChangeTheme(settings.colorPicker);
 
 	return <>{children}</>;
 }

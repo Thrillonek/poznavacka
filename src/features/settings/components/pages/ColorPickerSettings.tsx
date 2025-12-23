@@ -22,7 +22,7 @@ function ColorPickerSettings() {
 				{settings.colorPicker.preset === 'custom' && (
 					<>
 						<h4 className='pl-2 text-muted'>Sytost</h4>
-						<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} />
+						<RangeInput value={settings.colorPicker.chroma} size={100} setValue={(newValue) => updateSettings('colorPicker', 'chroma', newValue)} tooltipFormat={(text) => `${text}%`} />
 						<h4 className='pl-2 text-muted'>Odstín</h4>
 						<RangeInput value={settings.colorPicker.hue} size={360} setValue={(newValue) => updateSettings('colorPicker', 'hue', newValue)} />
 					</>
