@@ -26,13 +26,4 @@ export const themes = {
 		border: 'oklch(1 0 264)',
 		title: 'Nedělej to',
 	},
-	pink: {
-		bgDark: 'oklch(0.1 0.05 326)',
-		bgNormal: 'oklch(0.15 0.05 326)',
-		bgLight: 'oklch(0.2 0.05 326)',
-		textMain: 'oklch(0.96 0.1 326)',
-		textMuted: 'oklch(0.76 0.1 326)',
-		border: 'oklch(0.4 0.1 326)',
-		title: 'Růžová',
-	},
 };

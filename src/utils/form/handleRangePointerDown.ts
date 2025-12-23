@@ -1,8 +1,8 @@
 import type { MutableRefObject, PointerEvent } from 'react';
-import type { RangeInputProps } from '../../components/form/RangeInput';
+import type { MinMaxInputProps } from 'src/components/form/MinMaxInput';
 
 type Refs = Record<string, MutableRefObject<HTMLDivElement | undefined>>;
-export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Refs, props: RangeInputProps, setActiveRange: (x: string) => void) {
+export function handleRangePointerDown(e: PointerEvent<HTMLDivElement>, refs: Refs, props: MinMaxInputProps, setActiveRange: (x: string) => void) {
 	if (Object.values(refs).some((val) => val.current == undefined)) return;
 
 	const minInputRect = refs.minRangeRef.current!.getBoundingClientRect();

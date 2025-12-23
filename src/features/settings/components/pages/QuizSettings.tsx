@@ -1,4 +1,4 @@
-import RangeInput from 'src/components/form/RangeInput';
+import MinMaxInput from 'src/components/form/MinMaxInput';
 import SelectionInput from 'src/components/form/SelectionInput';
 import SwitchInput from 'src/components/form/SwitchInput';
 import { useSettingsStore } from 'src/data';
@@ -23,7 +23,7 @@ function QuizSettings() {
 			{files.length > 0 && (
 				<div className='settings-section'>
 					<h3>Zkoušená sada</h3>
-					<RangeInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
+					<MinMaxInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
 				</div>
 			)}
 

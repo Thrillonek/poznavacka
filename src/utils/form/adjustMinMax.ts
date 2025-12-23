@@ -1,7 +1,8 @@
 import type { MutableRefObject } from 'react';
-import type { RangeInputProps } from '../../components/form/RangeInput';
+import type { MinMaxInputProps } from 'src/components/form/MinMaxInput';
+import type { RangeInputProps } from 'src/components/form/RangeInput';
 
-export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>, props: RangeInputProps) {
+export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>, props: MinMaxInputProps) {
 	const { value } = minRef.current!;
 	const { setMin, max } = props;
 
@@ -12,7 +13,7 @@ export function adjustMin(minRef: MutableRefObject<HTMLInputElement | undefined>
 	setMin(parseInt(value));
 }
 
-export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>, props: RangeInputProps) {
+export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>, props: MinMaxInputProps) {
 	const { value } = maxRef.current!;
 	const { set, setMax, min } = props;
 
@@ -22,5 +23,9 @@ export function adjustMax(maxRef: MutableRefObject<HTMLInputElement | undefined>
 
 	if (parseInt(value) <= min) return setMax(min + 1);
 	setMax(parseInt(value));
-	console.log(value);
+}
+
+export function adjustValue(props: RangeInputProps) {
+	// const { size, value, setValue } = props;
+	// setValue(parseInt(inputValue));
 }
