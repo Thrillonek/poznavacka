@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { allowedFileExtensions, usePoznavackaStore, useSettingsStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
+import { getContent, getFolderName, isObject } from 'src/utils';
 import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames';
 
 /**
@@ -8,7 +9,6 @@ import { removeDuplicateFileNames } from 'src/utils/removeDuplicateFileNames';
  */
 export function useUpdatePoznavacka() {
 	const basePoznavacka = usePoznavackaStore((state) => state.basePoznavacka);
-	const updatePoznavacka = usePoznavackaStore((state) => state.updatePoznavacka);
 	const settings = useSettingsStore((state) => state.settings);
 
 	const poznavackaWithoutDuplicates = useRef<Folder>();
@@ -18,13 +18,26 @@ export function useUpdatePoznavacka() {
 	}, [basePoznavacka]);
 
 	useEffect(() => {
-		if (settings.removeDuplicates) {
+		if (settings.general.removeDuplicates) {
 			if (poznavackaWithoutDuplicates.current == null) {
 				poznavackaWithoutDuplicates.current = removeDuplicateFileNames(basePoznavacka);
 			}
-			updatePoznavacka(poznavackaWithoutDuplicates.current);
+			filterAndUpdatePoznavacka(poznavackaWithoutDuplicates.current);
 		} else {
-			updatePoznavacka(basePoznavacka);
+			filterAndUpdatePoznavacka(basePoznavacka);
 		}
-	}, [settings.removeDuplicates, basePoznavacka]);
+	}, [settings.general.removeDuplicates, basePoznavacka]);
+}
+
+function filterAndUpdatePoznavacka(poznavacka: Folder) {
+	const updatePoznavacka = usePoznavackaStore.getState().updatePoznavacka;
+
+	if (poznavacka)
+		updatePoznavacka({
+			[getFolderName(poznavacka)]: getContent<string[]>(poznavacka).filter((item) => {
+				if (!isObject(item)) {
+					return allowedFileExtensions.some((f) => item.endsWith(f));
+				}
+			}),
+		});
 }

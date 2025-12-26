@@ -17,7 +17,7 @@ export var getFolderName = (obj: Record<string, any>): string => obj && Object.k
  *
  * @param obj The object to check
  */
-export var getContent = (obj: Record<string, any>): any => obj && Object.values(obj)[0];
+export var getContent = <output = any>(obj: Record<string, any>): output => obj && Object.values(obj)[0];
 
 /**
  * Returns the key of the input value in the object.
