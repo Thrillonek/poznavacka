@@ -19,7 +19,7 @@ function FSButton() {
 	return (
 		<div className='flex justify-between'>
 			<div className='flex items-center gap-x-2'>
-				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : '!hidden')} onClick={() => fileSystemGoBack()}>
+				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden!')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
 				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
@@ -29,7 +29,7 @@ function FSButton() {
 					<Icon icon='mdi:chevron-right' />
 				</button>
 			</div>
-			<button onClick={() => closeMenu()} className='lg:!hidden sidebar-head-button square'>
+			<button onClick={() => closeMenu()} className='lg:hidden! sidebar-head-button square'>
 				<Icon icon='mdi:close' />
 			</button>
 		</div>

@@ -11,7 +11,7 @@
 		padding: 0.5rem 1rem;
 		color: var(--text-muted);
 
-		&.active {
+		&[data-active='true'] {
 			background: var(--accent-muted);
 			color: var(--accent);
 		}

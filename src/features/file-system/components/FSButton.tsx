@@ -11,9 +11,9 @@ function FSButton({ content }: { content: Folder }) {
 
 	return (
 		<div onClick={() => handleFolderChange(content)} className={'sidebar-option'}>
-			<button className={getFolderName(poznavacka!) == getFolderName(content!) ? 'active' : ''}>{capitalize(getFolderName(content!))}</button>
+			<button data-active={getFolderName(poznavacka!) == getFolderName(content!)}>{capitalize(getFolderName(content!))}</button>
 			{getContent(content!).some((f: Folder | string) => isObject(f)) && (
-				<button onClick={(e) => toggleFolderNesting(content, e)} className={getFolderName(poznavacka!) == getFolderName(content!) && getContent(poznavacka!) != getContent(content!) ? 'active' : ''}>
+				<button onClick={(e) => toggleFolderNesting(content, e)} data-active={getFolderName(poznavacka!) == getFolderName(content!) && getContent(poznavacka!) != getContent(content!)}>
 					<Icon icon='mdi:folder-eye'></Icon>
 				</button>
 			)}
