@@ -32,7 +32,7 @@ export function useUpdatePoznavacka() {
 function filterAndUpdatePoznavacka(poznavacka: Folder) {
 	const updatePoznavacka = usePoznavackaStore.getState().updatePoznavacka;
 
-	if (poznavacka)
+	if (poznavacka) {
 		updatePoznavacka({
 			[getFolderName(poznavacka)]: getContent<string[]>(poznavacka).filter((item) => {
 				if (!isObject(item)) {
@@ -40,4 +40,5 @@ function filterAndUpdatePoznavacka(poznavacka: Folder) {
 				}
 			}),
 		});
+	} else updatePoznavacka(null);
 }

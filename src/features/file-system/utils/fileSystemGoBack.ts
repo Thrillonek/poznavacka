@@ -14,7 +14,7 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
 
 	let currentArr: Folder[] = fileSystem;
-	let currentObject;
+	let currentObject: Folder = null;
 
 	let pathCutNumber: number = 1;
 	if (level) pathCutNumber = path.length - path.indexOf(level) - 1;
@@ -29,6 +29,7 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 
 		if (level && level == i) break;
 	}
+
 	// method is current when trying to view the content of the current folder (dir)
 	if (!current) {
 		// pathCutNumber is 1 if level is undefined

@@ -13,7 +13,7 @@ export default function Base() {
 	const settings = useSettingsStore((store) => store.settings);
 
 	useEffect(() => {
-		if (settings.autoSwitchSettingsMode) {
+		if (settings.general.autoSwitchSettingsMode) {
 			if (mode == 'quiz') setSettingsMode('kvíz');
 			if (mode == 'list') setSettingsMode('seznam');
 		}
