@@ -11,13 +11,14 @@ import { getFolderName } from './objectManipulation';
  */
 export function removeDuplicateFileNames(fileSystem: Folder) {
 	if (!fileSystem) return;
+
 	let uniqueItems: string[] = [];
-	let poznavackaItems: string[] = getFiles();
+	let poznavackaItems: string[] = getFiles(true);
 	let newPoznavackaItems: string[] = [];
+
 	poznavackaItems.forEach((item) => {
 		let itemWithoutNum = item.replaceAll(/[0-9+-]/g, '');
 		if (!uniqueItems.includes(itemWithoutNum)) {
-			console.log(item, itemWithoutNum);
 			newPoznavackaItems.push(item);
 			uniqueItems.push(itemWithoutNum);
 		}

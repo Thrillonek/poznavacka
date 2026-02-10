@@ -1,3 +1,5 @@
 @import 'tailwindcss';
 
-@config 'root/tailwind.config.ts';
+@theme {
+	--shadow-round: 0px 0px 10px 0px rgb(0, 0, 0, 0.3);
+}

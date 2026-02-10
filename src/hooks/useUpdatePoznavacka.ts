@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { allowedFileExtensions, usePoznavackaStore, useSettingsStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
 import { getContent, getFolderName, isObject } from 'src/utils';
@@ -11,21 +11,14 @@ export function useUpdatePoznavacka() {
 	const basePoznavacka = usePoznavackaStore((state) => state.basePoznavacka);
 	const settings = useSettingsStore((state) => state.settings);
 
-	const poznavackaWithoutDuplicates = useRef<Folder>();
-
 	useEffect(() => {
-		poznavackaWithoutDuplicates.current = null;
-	}, [basePoznavacka]);
-
-	useEffect(() => {
+		let updatedPoznavacka = basePoznavacka;
 		if (settings.general.removeDuplicates) {
-			if (poznavackaWithoutDuplicates.current == null) {
-				poznavackaWithoutDuplicates.current = removeDuplicateFileNames(basePoznavacka);
-			}
-			filterAndUpdatePoznavacka(poznavackaWithoutDuplicates.current);
-		} else {
-			filterAndUpdatePoznavacka(basePoznavacka);
+			updatedPoznavacka = removeDuplicateFileNames(basePoznavacka);
 		}
+		console.log(removeDuplicateFileNames(basePoznavacka));
+
+		filterAndUpdatePoznavacka(updatedPoznavacka);
 	}, [settings.general.removeDuplicates, basePoznavacka]);
 }
 
