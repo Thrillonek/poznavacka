@@ -1,12 +1,13 @@
+import type { categories } from '../data/categories';
+
 export type PresetMenuStore = {
 	isPresetMenuOpen: boolean;
 	togglePresetMenu: () => void;
 };
 
-export type SettingsModes = 'obecné' | 'kvíz' | 'seznam' | 'klávesové zkratky' | 'vzhled';
 export type SettingsModeStore = {
-	mode: SettingsModes;
+	mode: keyof typeof categories;
 	isContentOpen: boolean;
-	setMode: (mode: SettingsModes) => void;
+	setMode: (mode: keyof typeof categories) => void;
 	toggleContent: (condition: boolean) => void;
 };

@@ -4,7 +4,7 @@
 	font-weight: 700;
 	color: var(--text-muted);
 	font-size: 0.875rem;
-	padding-left: 0.25rem;
+	padding-left: 0.5rem;
 
 	@media not all and (min-width: 768px) {
 		display: none;
@@ -44,6 +44,10 @@
 	font-size: 1.5rem;
 
 	@media (min-width: 768px) {
-		display: none;
+		font-size: 1.25rem;
+
+		&:last-child {
+			display: none;
+		}
 	}
 }
