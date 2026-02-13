@@ -14,21 +14,22 @@ export function usePreserveSettings() {
 				return;
 			}
 
-			if (firstRenderRef.current) firstRenderRef.current = false;
+			firstRenderRef.current = false;
 
 			let savedSettings = localStorage.getItem('poznavacka-settings');
-			if (typeof savedSettings == 'string' && savedSettings.length > 0) {
-				let savedSettingsObject = JSON.parse(savedSettings);
+			if (typeof savedSettings !== 'string' || savedSettings.length === 0) return;
 
-				Object.keys(savedSettingsObject).forEach((category: any) => {
-					if (!Object.keys(settings).includes(category)) return;
+			let savedSettingsObject = JSON.parse(savedSettings);
 
-					Object.keys(savedSettingsObject[category]).forEach((key) => {
-						if ((settings as any)[category][key] == null) return;
-						updateSettings(category, key, savedSettingsObject[category][key]);
-					});
+			type keyofSettings = keyof typeof settings;
+			type keyofSettingsCategory = keyof (typeof settings)[keyofSettings];
+
+			(Object.keys(settings) as keyofSettings[]).forEach((category) => {
+				Object.keys(settings[category]).forEach((property) => {
+					if (savedSettingsObject[category]?.[property] == null) return;
+					updateSettings(category, property as keyofSettingsCategory, savedSettingsObject[category][property]);
 				});
-			}
+			});
 		}
 
 		execute();
