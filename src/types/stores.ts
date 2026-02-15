@@ -32,7 +32,7 @@ export type CompletedFilesStore = {
 	completedFiles: string[];
 	addFileToCompleted: (file: string) => void;
 	removeFileFromCompleted: (file: string) => void;
-	clearCompletedFiles: () => void;
+	clearCompletedFiles: (callback?: (x: string) => boolean) => void;
 	setCompletedFiles: (files: string[]) => void;
 };
 
