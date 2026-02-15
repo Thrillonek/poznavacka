@@ -33,6 +33,7 @@ export type CompletedFilesStore = {
 	addFileToCompleted: (file: string) => void;
 	removeFileFromCompleted: (file: string) => void;
 	clearCompletedFiles: () => void;
+	setCompletedFiles: (files: string[]) => void;
 };
 
 export type MenuElementStore = {

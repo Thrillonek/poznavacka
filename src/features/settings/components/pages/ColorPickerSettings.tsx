@@ -11,9 +11,9 @@ function ColorPickerSettings() {
 		<>
 			<div className='settings-section'>
 				<h3>Motivy</h3>
-				{Object.keys(themes).map((key) => {
+				{Object.keys(themes).map((key, idx) => {
 					const typeSafeKey = key as keyof typeof themes;
-					return <SelectionInput title={themes[typeSafeKey].title} active={settings.colorPicker.preset === typeSafeKey} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', typeSafeKey)} />;
+					return <SelectionInput key={idx} title={themes[typeSafeKey].title} active={settings.colorPicker.preset === typeSafeKey} type='radio' onSelect={() => updateSettings('colorPicker', 'preset', typeSafeKey)} />;
 				})}
 			</div>
 			<div className='settings-section'>
