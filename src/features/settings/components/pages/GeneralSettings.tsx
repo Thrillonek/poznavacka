@@ -20,7 +20,8 @@ function GeneralSettings() {
 	}
 
 	function confirmClearCompletedFilesInCurrentFolder() {
-		clearCompletedFiles((x) => !x.includes(path.join('/') + '/' + getFolderName(poznavacka!)));
+		let poznavackaSuffix = getFolderName(poznavacka!) !== path.at(-1) ? '/' + getFolderName(poznavacka!) : '';
+		clearCompletedFiles((x) => !x.includes(path.join('/') + poznavackaSuffix));
 		setInformation('Naučené obrazky v této složce byly úspěšně resetovány.');
 	}
 
