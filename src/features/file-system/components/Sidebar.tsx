@@ -14,7 +14,7 @@ export default function Sidebar() {
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
 			<PathViewer />
-			<div className='flex flex-col gap-6'>
+			<div className='flex flex-col gap-4'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1'>
 					{selectedFolder!
@@ -28,8 +28,12 @@ export default function Sidebar() {
 						})}
 				</div>
 			</div>
-			<div className='sm:hidden lg:block'>
-				<ModeMenu />
+
+			<div>
+				<div className='sm:hidden lg:block'>
+					<ModeMenu />
+				</div>
+				{window.location.hostname.includes('test') && <div className='bg-light shadow-round mt-1 p-1 rounded-lg font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
 			</div>
 		</div>
 	);
