@@ -14,9 +14,9 @@ export default function Sidebar() {
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
 			<PathViewer />
-			<div className='flex flex-col gap-4'>
+			<div className='flex flex-col gap-4 overflow-hidden grow'>
 				<FSHeadBar />
-				<div className='flex flex-col gap-1'>
+				<div className='flex flex-col gap-1 overflow-auto grow'>
 					{selectedFolder!
 						.filter((content) => isObject(content))
 						.map((content, idx) => {

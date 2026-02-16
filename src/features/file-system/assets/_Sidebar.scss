@@ -9,9 +9,12 @@
 	user-select: none;
 	z-index: 10;
 
+	height: 100%;
+
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	row-gap: 0.5rem;
 
 	@media not all and (min-width: 1024px) {
 		padding: 0.5rem;
