@@ -20,7 +20,7 @@ function ListItem({ file, idx }: ListItemProps) {
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
-					setElementVisible(entry.isIntersecting);
+					if (entry.isIntersecting) setElementVisible(true);
 				},
 				{ threshold: 1 },
 			);
@@ -30,7 +30,7 @@ function ListItem({ file, idx }: ListItemProps) {
 		return () => observer.disconnect();
 	}, [listItemRef.current]);
 
-	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?${encodeURI(file)}?w=50&h=50` : file), [file]);
+	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=50&h=50` : file), [file]);
 
 	return (
 		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()}>
