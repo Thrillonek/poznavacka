@@ -73,7 +73,7 @@ function SelectedFile() {
 							if (!chosenFile || !isImageCloseToView(file)) return null;
 							return (
 								<div key={idx} className='selected-img-container' style={{ left: `${parseInt(getKeyByValue(listFiles, file) as string) * 100}%` }}>
-									<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} alt={'Chyba v načítání obrázku :('} calcFit={isImageCloseToView(file)} />
+									<ImageFit src={file.replace(' ', '%20').replace('+', '%2b')} important={isImageCloseToView(file)} alt={'Chyba v načítání obrázku :('} calcFit={isImageCloseToView(file)} />
 								</div>
 							);
 						})}

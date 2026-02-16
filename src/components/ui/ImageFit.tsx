@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ImgHTMLAttributes } from 'react';
 import classes from 'src/assets/_ImageFit.module.scss';
 
 type ImageFitProps = {
-	src: string;
-	alt?: string;
 	onLoad?: () => void;
 	calcFit?: boolean;
 	allowLoading?: boolean;
-	style?: React.CSSProperties;
-};
+	important?: boolean;
+} & ImgHTMLAttributes<HTMLImageElement>;
 
-function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style }: ImageFitProps) {
+function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, important }: ImageFitProps) {
 	const containerRef = useRef<HTMLElement>();
 	const imageRef = useRef<HTMLImageElement>();
 
@@ -49,8 +47,8 @@ function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style }: Ima
 	}, [containerRef.current, calcFit]);
 
 	return (
-		<div ref={containerRef as any} id='image-fit-container' data-loaded={false} className={classes['image-fit-container']}>
-			<img style={style} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef as any} id='image-fit' src={allowLoading ? src : ''} alt={alt} />
+		<div ref={containerRef as any} data-loaded={false} className={classes['image-fit-container']}>
+			<img style={style} fetchPriority={important ? 'high' : 'auto'} loading={important ? 'eager' : 'lazy'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef as any} src={allowLoading ? src : ''} alt={alt} />
 		</div>
 	);
 }
