@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
+import { useAddEventListener } from 'src/hooks';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
@@ -30,7 +31,7 @@ function ListItem({ file, idx }: ListItemProps) {
 		return () => observer.disconnect();
 	}, [listItemRef.current]);
 
-	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?${encodeURI(file)}?w=50&h=50` : file), [file]);
+	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?${window.location.host}/${encodeURI(file)}?w=50&h=50` : file), [file]);
 
 	return (
 		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()}>
