@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
-import { useAddEventListener } from 'src/hooks';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
