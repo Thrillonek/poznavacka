@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { fileSystem, usePoznavackaStore } from 'src/data';
-import { useFileSystemStore } from 'src/features/file-system/data/stores';
 import type { Folder } from 'src/types/variables';
 import { capitalize, getContent, getFolderName } from 'src/utils';
+import { useFileSystemStore, useMenuStore } from '../data/stores';
 
 type SavedPath = {
 	path: string[];
@@ -14,6 +14,8 @@ export function usePreservePath() {
 	const addToPath = useFileSystemStore((store) => store.addToPath);
 	const setSelectedFolder = useFileSystemStore((store) => store.setSelectedFolder);
 	const setFolderName = useFileSystemStore((store) => store.setFolderName);
+
+	const closeMenu = useMenuStore((store) => store.close);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setPoznavacka = usePoznavackaStore((store) => store.setPoznavacka);
@@ -46,7 +48,13 @@ export function usePreservePath() {
 
 			setSelectedFolder(currentFolder ? getContent(currentFolder) : fileSystem);
 			setFolderName(currentFolder ? capitalize(getFolderName(currentFolder)) : '');
-			setPoznavacka(currentFolder && savedPath.poznavacka ? getNextFolder(getContent(currentFolder), [savedPath.poznavacka]) : null);
+
+			if (currentFolder && savedPath.poznavacka) {
+				setPoznavacka(getNextFolder(getContent(currentFolder), [savedPath.poznavacka]));
+				closeMenu();
+			} else {
+				setPoznavacka(null);
+			}
 		}
 
 		execute();

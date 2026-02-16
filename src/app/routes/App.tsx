@@ -12,7 +12,10 @@ export default function App() {
 	const [_, setSearchParams] = useSearchParams();
 
 	useEffect(() => {
-		setSearchParams({ mode: 'quiz' });
+		setSearchParams((params) => {
+			if (!params.get('mode')) params.set('mode', 'quiz');
+			return params;
+		});
 	}, []);
 
 	return (
