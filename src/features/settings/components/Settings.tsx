@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useEffect } from 'react';
-import { useModeStore, useSwipeLockStore } from 'src/data';
+import { useSettingsModalStore, useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
@@ -11,8 +11,8 @@ import { categories } from '../data/categories';
 import SettingsCategories from './SettingsCategories';
 
 export default function Settings() {
-	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
-	const closeSettings = useModeStore((store) => store.closeSettings);
+	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
+	const closeSettings = useSettingsModalStore((store) => store.closeSettings);
 
 	const settingsMode = useSettingsModeStore((store) => store.mode);
 	const isContentOpen = useSettingsModeStore((store) => store.isContentOpen);

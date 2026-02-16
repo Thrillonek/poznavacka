@@ -1,5 +1,6 @@
-import { useEffect, useState, type CSSProperties } from 'react';
-import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useSearchParams } from 'react-router';
+import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils';
 import '../assets/_Quiz.scss';
@@ -15,7 +16,8 @@ function Quiz(props: any) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const settings = useSettingsStore((store) => store.settings);
 
-	const mode = useModeStore((store) => store.mode);
+	const [searchParams, _] = useSearchParams();
+	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const updateSettings = useSettingsStore((store) => store.updateSettings);
 

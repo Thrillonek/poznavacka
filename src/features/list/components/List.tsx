@@ -1,6 +1,7 @@
 import type { UIEvent } from 'react';
-import { useEffect, useState } from 'react';
-import { useMenuElementStore, useModeStore, usePoznavackaStore } from 'src/data';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router';
+import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
 import { useChosenFileStore, useListFilesStore } from '../data/stores';
@@ -13,8 +14,10 @@ export default function List(props: any) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const setElement = useMenuElementStore((store) => store.setElement);
-	const mode = useModeStore((store) => store.mode);
 	const listFiles = useListFilesStore((store) => store.files);
+
+	const [searchParams, _] = useSearchParams();
+	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [scrollY, setScrollY] = useState<number>();
 

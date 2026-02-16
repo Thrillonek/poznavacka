@@ -1,11 +1,12 @@
-import { useRef } from 'react';
-import { useModeStore } from 'src/data';
+import { useMemo, useRef } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAddEventListener } from 'src/hooks';
 import { quizDragOffsetLimit as offsetLimit } from '../data/constants';
 import { addFileToCompleted, changeImage } from '../utils';
 
 export function useHandleSwiping() {
-	const mode = useModeStore((store) => store.mode);
+	const [searchParams, _] = useSearchParams();
+	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const offsetRef = useRef(0);
 
@@ -18,7 +19,7 @@ export function useHandleSwiping() {
 
 			if (e.detail.isTouch) offsetRef.current = e.detail.deltaX;
 		},
-		[mode]
+		[mode],
 	);
 
 	useAddEventListener(
@@ -31,6 +32,6 @@ export function useHandleSwiping() {
 
 			offsetRef.current = 0;
 		},
-		[mode]
+		[mode],
 	);
 }

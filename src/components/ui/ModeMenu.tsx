@@ -1,13 +1,19 @@
 import { Icon } from '@iconify/react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 import 'src/assets/_ModeMenu.scss';
-import { useModeStore, usePoznavackaStore } from 'src/data/stores';
+import { usePoznavackaStore, useSettingsModalStore } from 'src/data/stores';
+import type { Modes } from 'src/types/stores';
 import { getFiles } from 'src/utils';
 
 function ModeMenu() {
-	const mode = useModeStore((store) => store.mode);
-	const setMode = useModeStore((store) => store.setMode);
-	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
+	const setMode = useCallback((newMode: Modes) => setSearchParams({ mode: newMode }), []);
+
+	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
+	const openSettings = useSettingsModalStore((store) => store.openSettings);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka!);
 
@@ -23,7 +29,7 @@ function ModeMenu() {
 				<Icon icon='mdi:format-list-bulleted-square' />
 				<span>Seznam</span>
 			</button>
-			<button data-settings onClick={() => setMode('settings')} className={isSettingsOpen ? 'active' : ''}>
+			<button data-settings onClick={() => openSettings()} className={isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:gear' />
 				<span>Nastavení</span>
 			</button>
