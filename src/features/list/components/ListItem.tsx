@@ -20,7 +20,7 @@ function ListItem({ file, idx }: ListItemProps) {
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
-					setElementVisible(entry.isIntersecting);
+					if (entry.isIntersecting) setElementVisible(true);
 				},
 				{ threshold: 1 },
 			);
