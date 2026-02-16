@@ -9,9 +9,6 @@
 	&:not([data-loaded='true']) {
 		background: var(--border);
 		border-radius: 0.5rem;
-		aspect-ratio: 16 / 9;
-		width: auto;
-		max-width: 100%;
 	}
 
 	& > img {
