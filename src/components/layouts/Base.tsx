@@ -15,9 +15,14 @@ export default function Base() {
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	useEffect(() => {
+		function handleUpdateSearchParams(sparams: URLSearchParams, mode: string) {
+			sparams.set('settings', mode);
+			return sparams;
+		}
+
 		if (settings.general.autoSwitchSettingsMode) {
-			if (mode == 'quiz') setSearchParams({ mode: 'kvíz' });
-			if (mode == 'list') setSearchParams({ mode: 'seznam' });
+			if (mode === 'quiz') setSearchParams((p) => handleUpdateSearchParams(p, 'kvíz'));
+			if (mode === 'list') setSearchParams((p) => handleUpdateSearchParams(p, 'seznam'));
 		}
 	}, [mode]);
 

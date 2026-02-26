@@ -23,10 +23,7 @@ function SettingsCategory({ mode }: { mode: CategoryName }) {
 
 	const currentMode = useMemo(() => searchParams.get('settings'), [searchParams]);
 	function setMode(mode: CategoryName) {
-		setSearchParams((searchParams) => {
-			searchParams.set('settings', mode);
-			return searchParams;
-		});
+		setSearchParams({ ...Object.fromEntries(searchParams.entries()), settings: mode });
 	}
 
 	const btnProps = useCallback(
@@ -39,7 +36,7 @@ function SettingsCategory({ mode }: { mode: CategoryName }) {
 				},
 			};
 		},
-		[currentMode],
+		[currentMode, searchParams],
 	);
 
 	return (

@@ -10,7 +10,7 @@ function ModeMenu() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
-	const setMode = useCallback((newMode: Modes) => setSearchParams({ mode: newMode }), []);
+	const setMode = useCallback((newMode: Modes) => setSearchParams({ ...Object.fromEntries(searchParams.entries()), mode: newMode }), [searchParams]);
 
 	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
 	const openSettings = useSettingsModalStore((store) => store.openSettings);
