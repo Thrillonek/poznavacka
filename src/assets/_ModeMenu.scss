@@ -18,7 +18,7 @@
 
 	& > button {
 		@extend .center-content;
-		@include main.hover-bg(var(--bg-base));
+		@include main.hover-bg(var(--bg-light));
 
 		flex-direction: column;
 

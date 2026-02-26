@@ -1,9 +1,9 @@
 import { Icon } from '@iconify/react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 import { capitalize } from 'src/utils';
 import '../assets/_SettingsCategories.scss';
 import { categories } from '../data/categories';
-import { useSettingsModeStore } from '../data/stores';
 
 type CategoryName = keyof typeof categories;
 
@@ -19,13 +19,20 @@ export default function SettingsCategories() {
 }
 
 function SettingsCategory({ mode }: { mode: CategoryName }) {
-	const currentMode = useSettingsModeStore((store) => store.mode);
-	const setMode = useSettingsModeStore((store) => store.setMode);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const currentMode = useMemo(() => searchParams.get('settings'), [searchParams]);
+	function setMode(mode: CategoryName) {
+		setSearchParams((searchParams) => {
+			searchParams.set('settings', mode);
+			return searchParams;
+		});
+	}
 
 	const btnProps = useCallback(
 		(mode: CategoryName) => {
 			return {
-				'data-active': currentMode == mode,
+				'data-active': currentMode == mode || (currentMode == null && mode == 'obecné'),
 				className: 'settings-category',
 				onClick: () => {
 					setMode(mode);

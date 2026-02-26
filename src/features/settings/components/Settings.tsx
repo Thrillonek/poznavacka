@@ -1,12 +1,12 @@
 import { Icon } from '@iconify/react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useSettingsModalStore, useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
-import { useSettingsModeStore } from '../data/stores';
 
+import { useSearchParams } from 'react-router';
 import { categories } from '../data/categories';
 import SettingsCategories from './SettingsCategories';
 
@@ -14,9 +14,10 @@ export default function Settings() {
 	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
 	const closeSettings = useSettingsModalStore((store) => store.closeSettings);
 
-	const settingsMode = useSettingsModeStore((store) => store.mode);
-	const isContentOpen = useSettingsModeStore((store) => store.isContentOpen);
-	const toggleContent = useSettingsModeStore((store) => store.toggleContent);
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const isContentOpen = useMemo(() => searchParams.get('settings')?.split('-')[0] !== 'x' || false, [searchParams]);
+	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'obecné', [searchParams]);
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
@@ -29,11 +30,20 @@ export default function Settings() {
 		}
 	}, [isSettingsOpen]);
 
+	function closeSettingsCategory() {
+		if (isContentOpen) {
+			setSearchParams((searchParams) => {
+				searchParams.set('settings', 'x-' + searchParams.get('settings'));
+				return searchParams;
+			});
+		}
+	}
+
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
 			<div data-content-open={isContentOpen} onClick={(e) => e.stopPropagation()} className='settings-container'>
 				<div className='settings-status-bar'>
-					<button onClick={() => toggleContent(false)} className='settings-close settings-back'>
+					<button onClick={() => closeSettingsCategory()} className='settings-close settings-back'>
 						<Icon icon='mdi:arrow-back' />
 					</button>
 					<button onClick={() => closeSettings()} className='settings-close'>
@@ -54,7 +64,7 @@ export default function Settings() {
 						{Object.keys(categories).map((category) => {
 							const Component = categories[category as keyof typeof categories].component;
 
-							if (settingsMode == category) return <Component key={category} />;
+							if (settingsMode == category || (settingsMode == null && category == 'obecné')) return <Component key={category} />;
 						})}
 					</div>
 				</div>
