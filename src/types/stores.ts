@@ -8,11 +8,6 @@ export type SwipeLockStore = {
 };
 
 export type Modes = 'list' | 'quiz';
-export type SettingsModalStore = {
-	isSettingsOpen: boolean;
-	closeSettings: () => void;
-	openSettings: () => void;
-};
 
 export type PoznavackaStore = {
 	poznavacka: Folder;

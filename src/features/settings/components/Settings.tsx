@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
 import { useEffect, useMemo } from 'react';
-import { useSettingsModalStore, useSwipeLockStore } from 'src/data';
+import { useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
@@ -11,10 +11,9 @@ import { categories } from '../data/categories';
 import SettingsCategories from './SettingsCategories';
 
 export default function Settings() {
-	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
-	const closeSettings = useSettingsModalStore((store) => store.closeSettings);
-
 	const [searchParams, setSearchParams] = useSearchParams();
+
+	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
 	const isContentOpen = useMemo(() => searchParams.get('settings')?.split('-')[0] !== 'x' || false, [searchParams]);
 	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'obecné', [searchParams]);
@@ -29,6 +28,16 @@ export default function Settings() {
 			unlockSwiping();
 		}
 	}, [isSettingsOpen]);
+
+	function closeSettings() {
+		setSearchParams((searchParams) => {
+			const settings = searchParams.get('settings');
+			if (!settings) return searchParams;
+
+			searchParams.set('settings', 'z-' + (settings.startsWith('x-') ? settings.slice(2) : settings));
+			return searchParams;
+		});
+	}
 
 	function closeSettingsCategory() {
 		if (isContentOpen) {

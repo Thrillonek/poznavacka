@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 import 'src/assets/_ModeMenu.scss';
-import { usePoznavackaStore, useSettingsModalStore } from 'src/data/stores';
+import { usePoznavackaStore } from 'src/data/stores';
 import type { Modes } from 'src/types/stores';
 import { getFiles } from 'src/utils';
 
@@ -12,12 +12,19 @@ function ModeMenu() {
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 	const setMode = useCallback((newMode: Modes) => setSearchParams({ ...Object.fromEntries(searchParams.entries()), mode: newMode }), [searchParams]);
 
-	const isSettingsOpen = useSettingsModalStore((store) => store.isSettingsOpen);
-	const openSettings = useSettingsModalStore((store) => store.openSettings);
+	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka!);
 
 	const files = useMemo(() => poznavacka && getFiles(), [poznavacka]);
+
+	function openSettings() {
+		setSearchParams((sparams) => {
+			if (!sparams.get('settings')) sparams.set('settings', 'obecné');
+			if (sparams.get('settings')?.startsWith('z-')) sparams.set('settings', sparams.get('settings')!.slice(2));
+			return sparams;
+		});
+	}
 
 	return (
 		<div className={'shadow-base mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>

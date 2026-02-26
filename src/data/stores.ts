@@ -1,16 +1,10 @@
-import type { CompletedFilesStore, InformationStore, MenuElementStore, PoznavackaStore, PresetStore, SettingsModalStore, SwipeLockStore } from 'src/types/stores';
+import type { CompletedFilesStore, InformationStore, MenuElementStore, PoznavackaStore, PresetStore, SwipeLockStore } from 'src/types/stores';
 import { create } from 'zustand';
 
 export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
 	isLocked: false,
 	lockSwiping: () => set({ isLocked: true }),
 	unlockSwiping: () => set({ isLocked: false }),
-}));
-
-export const useSettingsModalStore = create<SettingsModalStore>()((set) => ({
-	isSettingsOpen: false,
-	closeSettings: () => set({ isSettingsOpen: false }),
-	openSettings: () => set({ isSettingsOpen: true }),
 }));
 
 export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({
