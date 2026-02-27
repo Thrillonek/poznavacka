@@ -64,7 +64,18 @@ export default function Settings() {
 					<Icon icon='mdi:close' />
 				</button>
 				<div className='settings-categories'>
-					<SettingsCategories />
+					<div className='flex flex-col gap-2'>
+						<SettingsCategories />
+					</div>
+					{window.location.hostname === 'poznavacka-test.netlify.app' ? (
+						<a href='https://poznavacka.netlify.app' className='text-muted text-sm text-center underline'>
+							Odkaz na stabilní verzi
+						</a>
+					) : (
+						<a href='https://poznavacka-test.netlify.app' className='text-muted text-sm text-center underline'>
+							Odkaz na nejnovější (beta) verzi
+						</a>
+					)}
 				</div>
 				<div className='settings-content'>
 					<div>

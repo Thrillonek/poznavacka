@@ -24,7 +24,7 @@
 .settings-categories {
 	display: flex;
 	flex-direction: column;
-	row-gap: 0.5rem;
+	justify-content: space-between;
 
 	min-width: 250px;
 	padding: 2rem 1rem;
