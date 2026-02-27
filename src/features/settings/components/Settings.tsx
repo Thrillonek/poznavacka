@@ -15,7 +15,7 @@ export default function Settings() {
 
 	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
-	const isContentOpen = useMemo(() => searchParams.get('settings')?.split('-')[0] !== 'x' || false, [searchParams]);
+	const isContentOpen = useMemo(() => searchParams.get('settings')?.search(/[xz]-/) === -1 || false, [searchParams]);
 	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'obecné', [searchParams]);
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
