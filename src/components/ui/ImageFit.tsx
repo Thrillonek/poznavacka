@@ -8,7 +8,7 @@ type ImageFitProps = {
 	important?: boolean;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
-function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, important }: ImageFitProps) {
+function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, important, ...props }: ImageFitProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
 
@@ -48,7 +48,7 @@ function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, impor
 
 	return (
 		<div ref={containerRef} data-loaded={false} className={classes['image-fit-container']}>
-			<img style={style} fetchPriority={important ? 'high' : 'auto'} loading={important ? 'eager' : 'lazy'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={allowLoading ? src : ''} alt={alt} />
+			<img style={style} fetchPriority={important ? 'high' : 'auto'} loading={important ? 'eager' : 'lazy'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={allowLoading ? src : ''} alt={alt} {...props} />
 		</div>
 	);
 }

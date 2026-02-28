@@ -11,6 +11,7 @@ function ImageViewer() {
 	const fileName = useQuizFileStore((store) => store.fileName);
 	const completeFileLoading = useQuizFileStore((store) => store.completeFileLoading);
 	const isFileLoaded = useQuizFileStore((store) => store.isFileLoaded);
+	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
 	const [imageOffset, setImageOffset] = useState(0);
 
@@ -29,7 +30,7 @@ function ImageViewer() {
 	return (
 		<>
 			<div className='quiz-image-viewer'>
-				<ImageFit style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
+				<ImageFit className='cursor-pointer' onClick={() => toggleFileNameRevealed()} style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
 			</div>
 		</>
 	);
