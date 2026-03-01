@@ -17,12 +17,12 @@ function FSButton() {
 	const openPathViewer = usePathViewerStore((store) => store.open);
 
 	return (
-		<div className='flex justify-between'>
-			<div className='flex items-center gap-x-2'>
+		<div className='flex justify-between gap-x-4 max-w-full overflow-hidden'>
+			<div className='flex items-center gap-x-2 overflow-hidden grow'>
 				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden!')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name ' + (poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() ? 'active' : '')}>
+				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name'} data-active={poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase()}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
 				<button onClick={() => openPathViewer()} className='h-full sidebar-head-button'>
