@@ -1,22 +1,22 @@
 import { Icon } from '@iconify/react';
-import { useEffect } from 'react';
-import { useModeStore, useSwipeLockStore } from 'src/data';
+import { useEffect, useMemo } from 'react';
+import { useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
-import { useSettingsModeStore } from '../data/stores';
 
+import { useSearchParams } from 'react-router';
 import { categories } from '../data/categories';
 import SettingsCategories from './SettingsCategories';
 
 export default function Settings() {
-	const isSettingsOpen = useModeStore((store) => store.isSettingsOpen);
-	const closeSettings = useModeStore((store) => store.closeSettings);
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	const settingsMode = useSettingsModeStore((store) => store.mode);
-	const isContentOpen = useSettingsModeStore((store) => store.isContentOpen);
-	const toggleContent = useSettingsModeStore((store) => store.toggleContent);
+	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
+
+	const isContentOpen = useMemo(() => searchParams.get('settings')?.search(/[xz]-/) === -1 || false, [searchParams]);
+	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'obecné', [searchParams]);
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
@@ -29,11 +29,30 @@ export default function Settings() {
 		}
 	}, [isSettingsOpen]);
 
+	function closeSettings() {
+		setSearchParams((searchParams) => {
+			const settings = searchParams.get('settings');
+			if (!settings) return searchParams;
+
+			searchParams.set('settings', 'z-' + (settings.startsWith('x-') ? settings.slice(2) : settings));
+			return searchParams;
+		});
+	}
+
+	function closeSettingsCategory() {
+		if (isContentOpen) {
+			setSearchParams((searchParams) => {
+				searchParams.set('settings', 'x-' + searchParams.get('settings'));
+				return searchParams;
+			});
+		}
+	}
+
 	return (
 		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
 			<div data-content-open={isContentOpen} onClick={(e) => e.stopPropagation()} className='settings-container'>
 				<div className='settings-status-bar'>
-					<button onClick={() => toggleContent(false)} className='settings-close settings-back'>
+					<button onClick={() => closeSettingsCategory()} className='settings-close settings-back'>
 						<Icon icon='mdi:arrow-back' />
 					</button>
 					<button onClick={() => closeSettings()} className='settings-close'>
@@ -45,7 +64,18 @@ export default function Settings() {
 					<Icon icon='mdi:close' />
 				</button>
 				<div className='settings-categories'>
-					<SettingsCategories />
+					<div className='flex flex-col gap-2 overflow-y-auto'>
+						<SettingsCategories />
+					</div>
+					{window.location.hostname === 'poznavacka-test.netlify.app' ? (
+						<a href='https://poznavacka.netlify.app' className='text-muted text-sm text-center underline'>
+							Odkaz na stabilní verzi
+						</a>
+					) : (
+						<a href='https://poznavacka-test.netlify.app' className='text-muted text-sm text-center underline'>
+							Odkaz na nejnovější (beta) verzi
+						</a>
+					)}
 				</div>
 				<div className='settings-content'>
 					<div>
@@ -54,7 +84,7 @@ export default function Settings() {
 						{Object.keys(categories).map((category) => {
 							const Component = categories[category as keyof typeof categories].component;
 
-							if (settingsMode == category) return <Component key={category} />;
+							if (settingsMode == category || (settingsMode == null && category == 'obecné')) return <Component key={category} />;
 						})}
 					</div>
 				</div>

@@ -16,7 +16,6 @@ export function useUpdatePoznavacka() {
 		if (settings.general.removeDuplicates) {
 			updatedPoznavacka = removeDuplicateFileNames(basePoznavacka);
 		}
-		console.log(removeDuplicateFileNames(basePoznavacka));
 
 		filterAndUpdatePoznavacka(updatedPoznavacka);
 	}, [settings.general.removeDuplicates, basePoznavacka]);

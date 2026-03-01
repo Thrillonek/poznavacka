@@ -16,6 +16,9 @@
 		background: var(--bg-dark) !important;
 		border: none;
 
+		flex-grow: 1;
+		overflow-y: hidden;
+
 		transition: transform 200ms ease;
 	}
 
@@ -41,7 +44,9 @@
 		width: 100%;
 		height: fit-content;
 		z-index: 1;
-		box-shadow: 0 5px 15px 0px rgb(0, 0, 0, 0.2), 0 2px 5px 0px rgb(0, 0, 0, 0.2);
+		box-shadow:
+			0 5px 15px 0px rgb(0, 0, 0, 0.2),
+			0 2px 5px 0px rgb(0, 0, 0, 0.2);
 		background: var(--bg-dark);
 
 		& > h3 {

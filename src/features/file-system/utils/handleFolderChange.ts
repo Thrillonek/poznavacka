@@ -17,7 +17,7 @@ export function handleFolderChange(pozn: Folder) {
 	let content: Folder[] | string[] = getContent(pozn!);
 	if (content.some((c) => isObject(c))) {
 		addToPath(getFolderName(pozn!));
-		setSelectedFolder(getContent(pozn!));
+		setSelectedFolder(content as Folder[]);
 		setFolderName(capitalize(getFolderName(pozn!)));
 	} else closeMenu();
 }

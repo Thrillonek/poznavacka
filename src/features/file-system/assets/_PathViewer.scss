@@ -7,7 +7,7 @@
 	align-items: start;
 	column-gap: 0.5rem;
 
-	max-width: calc(100vw - 1rem);
+	width: calc(100% - 1rem);
 
 	&.hide {
 		display: none;
@@ -21,16 +21,22 @@
 	border-radius: 0.5rem;
 	padding: 0.25rem;
 
+	width: 100%;
+	overflow: hidden;
+	display: flex;
+
 	& > div {
 		border-radius: 0.25rem;
 		border: 1px solid var(--border);
 		background: var(--bg-dark);
 
-		display: flex;
-		flex-direction: column;
-		row-gap: 0.5rem;
-
+		width: 100%;
+		overflow: hidden;
 		padding: 1rem;
+
+		& > div {
+			overflow: auto;
+		}
 	}
 }
 

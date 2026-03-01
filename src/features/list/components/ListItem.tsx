@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
@@ -17,26 +17,20 @@ function ListItem({ file, idx }: ListItemProps) {
 	const listItemRef = useRef<HTMLImageElement>();
 
 	useEffect(() => {
-		let isItemVisible = false;
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
-					if (entry.isIntersecting) {
-						isItemVisible = true;
-						setTimeout(() => {
-							if (isItemVisible) setElementVisible(true);
-						}, 500);
-					} else {
-						isItemVisible = false;
-					}
+					if (entry.isIntersecting) setElementVisible(true);
 				},
-				{ threshold: 1 }
+				{ threshold: 1 },
 			);
 		});
 
 		if (listItemRef.current) observer.observe(listItemRef.current);
 		return () => observer.disconnect();
 	}, [listItemRef.current]);
+
+	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=64&h=64&output=webp` : file), [file]);
 
 	return (
 		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()}>
@@ -47,7 +41,7 @@ function ListItem({ file, idx }: ListItemProps) {
 					</div>
 					<p className='list-item-text'>{nameFromPath(file)}</p>
 				</div>
-				<img loading='lazy' key={getFolderName(poznavacka!) + idx} src={isElementVisible ? file.replace(' ', '%20').replace('+', '%2b') : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				<img loading='lazy' decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={isElementVisible ? resizedFile : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);

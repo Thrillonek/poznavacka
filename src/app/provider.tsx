@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from 'react';
 import 'src/assets/_global.scss';
 import { useSettingsStore } from 'src/data';
-import { useInitiateDragEvent, useInitiateSwipeEvent, usePreserveSettings, useUpdatePoznavacka } from 'src/hooks';
+import { useInitiateDragEvent, useInitiateSwipeEvent, usePreserve, useUpdatePoznavacka } from 'src/hooks';
 import { useChangeTheme } from 'src/hooks/useChangeTheme';
 
 export function AppProvider({ children }: PropsWithChildren) {
@@ -12,7 +12,7 @@ export function AppProvider({ children }: PropsWithChildren) {
 	useInitiateSwipeEvent();
 	useInitiateDragEvent();
 
-	usePreserveSettings();
+	usePreserve();
 	useChangeTheme(settings.colorPicker);
 
 	return <>{children}</>;

@@ -7,13 +7,7 @@ export type SwipeLockStore = {
 	unlockSwiping: () => void;
 };
 
-export type Modes = 'list' | 'quiz' | 'settings';
-export type ModeStore = {
-	mode: Exclude<Modes, 'settings'>;
-	isSettingsOpen: boolean;
-	closeSettings: () => void;
-	setMode: (mode: Modes) => void;
-};
+export type Modes = 'list' | 'quiz';
 
 export type PoznavackaStore = {
 	poznavacka: Folder;
@@ -32,7 +26,8 @@ export type CompletedFilesStore = {
 	completedFiles: string[];
 	addFileToCompleted: (file: string) => void;
 	removeFileFromCompleted: (file: string) => void;
-	clearCompletedFiles: () => void;
+	clearCompletedFiles: (callback?: (x: string) => boolean) => void;
+	setCompletedFiles: (files: string[]) => void;
 };
 
 export type MenuElementStore = {

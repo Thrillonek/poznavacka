@@ -21,7 +21,7 @@
 }
 
 .control-button {
-	@include main.hover-bg(var(--bg-base));
+	@include main.hover-bg(var(--bg-light));
 
 	@extend .center-content;
 	flex-direction: column;

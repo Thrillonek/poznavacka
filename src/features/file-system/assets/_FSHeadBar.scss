@@ -14,8 +14,13 @@
 
 	&.folder-name {
 		padding: 0.25rem 0.5rem;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 
-		&.active {
+		display: block;
+
+		&[data-active='true'] {
 			background: var(--accent-muted);
 			color: var(--accent);
 		}

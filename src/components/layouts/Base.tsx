@@ -1,21 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 import 'src/assets/_Base.scss';
-import { useModeStore, usePoznavackaStore, useSettingsStore } from 'src/data';
-import { useSettingsModeStore } from 'src/features/settings/data/stores';
+import { usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getContent, isObject } from 'src/utils';
 import List from '../../features/list/components/List';
 import Quiz from '../../features/quiz/components/Quiz';
 
 export default function Base() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const mode = useModeStore((store) => store.mode);
-	const setSettingsMode = useSettingsModeStore((store) => store.setMode);
 	const settings = useSettingsStore((store) => store.settings);
 
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
+
 	useEffect(() => {
+		function handleUpdateSearchParams(sparams: URLSearchParams, mode: string) {
+			sparams.set('settings', mode);
+			return sparams;
+		}
+
 		if (settings.general.autoSwitchSettingsMode) {
-			if (mode == 'quiz') setSettingsMode('kvíz');
-			if (mode == 'list') setSettingsMode('seznam');
+			if (mode === 'quiz') setSearchParams((p) => handleUpdateSearchParams(p, 'kvíz'));
+			if (mode === 'list') setSearchParams((p) => handleUpdateSearchParams(p, 'seznam'));
 		}
 	}, [mode]);
 

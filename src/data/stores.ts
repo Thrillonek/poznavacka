@@ -1,21 +1,10 @@
-import type { CompletedFilesStore, InformationStore, MenuElementStore, ModeStore, PoznavackaStore, PresetStore, SwipeLockStore } from 'src/types/stores';
+import type { CompletedFilesStore, InformationStore, MenuElementStore, PoznavackaStore, PresetStore, SwipeLockStore } from 'src/types/stores';
 import { create } from 'zustand';
 
 export const useSwipeLockStore = create<SwipeLockStore>()((set) => ({
 	isLocked: false,
 	lockSwiping: () => set({ isLocked: true }),
 	unlockSwiping: () => set({ isLocked: false }),
-}));
-
-export const useModeStore = create<ModeStore>()((set) => ({
-	mode: 'quiz',
-	isSettingsOpen: false,
-	closeSettings: () => set({ isSettingsOpen: false }),
-	setMode: (newMode: ModeStore['mode'] | 'settings') =>
-		set(() => {
-			if (newMode == 'settings') return { isSettingsOpen: true };
-			return { mode: newMode, isSettingsOpen: false };
-		}),
 }));
 
 export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({
@@ -43,7 +32,8 @@ export const useCompletedFilesStore = create<CompletedFilesStore>()((set) => ({
 	completedFiles: [],
 	addFileToCompleted: (file) => set((state: any) => ({ completedFiles: [...state.completedFiles, file] })),
 	removeFileFromCompleted: (file) => set((state: any) => ({ completedFiles: state.completedFiles.filter((item: string) => item != file) })),
-	clearCompletedFiles: () => set({ completedFiles: [] }),
+	clearCompletedFiles: (callback) => (callback ? set((state) => ({ completedFiles: state.completedFiles.filter(callback) })) : set({ completedFiles: [] })),
+	setCompletedFiles: (files) => set({ completedFiles: files }),
 }));
 
 export const useMenuElementStore = create<MenuElementStore>((set) => ({
