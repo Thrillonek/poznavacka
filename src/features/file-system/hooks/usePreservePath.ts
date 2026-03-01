@@ -12,6 +12,7 @@ type SavedPath = {
 export function usePreservePath() {
 	const path = useFileSystemStore((store) => store.path);
 	const addToPath = useFileSystemStore((store) => store.addToPath);
+	const cutPath = useFileSystemStore((store) => store.cutPath);
 	const setSelectedFolder = useFileSystemStore((store) => store.setSelectedFolder);
 	const setFolderName = useFileSystemStore((store) => store.setFolderName);
 
@@ -26,6 +27,13 @@ export function usePreservePath() {
 		function execute() {
 			function getNextFolder(folderContent: Folder[], path: string[], idx: number = 0) {
 				const folder = folderContent.find((f) => getFolderName(f!) == path[idx]);
+				if (!folder) {
+					for (let _ in path) {
+						cutPath();
+					}
+					return null;
+				}
+
 				if (idx < path.length - 1) {
 					return getNextFolder(getContent(folder!), path, idx + 1);
 				} else return folder;
@@ -38,6 +46,7 @@ export function usePreservePath() {
 
 			firstRenderRef.current = false;
 
+			// FIRST RENDER
 			let savedPath: string | SavedPath | null = localStorage.getItem('poznavacka-path');
 			if (!savedPath) return;
 
