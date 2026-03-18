@@ -11,27 +11,25 @@
 		"start": "nodemon index.js"
 	},
 	"dependencies": {
-		"@emotion/styled": "^11.14.1",
 		"@iconify/react": "^5.2.1",
 		"@mui/material": "^7.3.9",
-		"@tailwindcss/vite": "^4.2.1",
+		"@tailwindcss/vite": "^4.2.2",
 		"@vercel/analytics": "^1.6.1",
 		"axios": "^1.13.6",
 		"cheerio": "^1.2.0",
 		"cors": "^2.8.6",
 		"express": "^4.22.1",
-		"fast-xml-parser": "^4.5.4",
 		"js-cookie": "^3.0.5",
 		"list-files": "^1.1.4",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"vercel-php": "^0.3.8",
 		"vite-plugin-php": "^1.0.651",
-		"zustand": "^5.0.11"
+		"zustand": "^5.0.12"
 	},
 	"devDependencies": {
-		"@eslint/js": "^9.39.3",
-		"@types/node": "^24.11.0",
+		"@eslint/js": "^9.39.4",
+		"@types/node": "^24.12.0",
 		"@types/react": "^18.3.28",
 		"@types/react-dom": "^18.3.7",
 		"@vitejs/plugin-react": "^4.7.0",
@@ -42,10 +40,10 @@
 		"globals": "^16.5.0",
 		"nodemon": "^3.1.14",
 		"react-router": "^7.13.1",
-		"sass": "^1.97.3",
-		"tailwindcss": "^4.2.1",
+		"sass": "^1.98.0",
+		"tailwindcss": "^4.2.2",
 		"typescript": "^5.9.3",
-		"typescript-eslint": "^8.56.1",
+		"typescript-eslint": "^8.57.1",
 		"vite": "^7.3.1"
 	}
 }
