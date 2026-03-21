@@ -16,6 +16,7 @@ export type SettingsStore = {
 		};
 		list: {
 			showFiles: 'all' | 'completed' | 'uncompleted';
+			showSelectedFileAnimations: boolean;
 		};
 		colorPicker: {
 			preset: string;

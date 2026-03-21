@@ -21,7 +21,9 @@
 		inset: 0;
 		z-index: 40;
 		width: 100%;
-		transition: opacity 200ms ease, transform 200ms ease;
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease;
 
 		&:not([data-visible='true']) {
 			opacity: 0;
@@ -73,7 +75,10 @@ div:has(> .selected-file-slider) {
 	height: 100%;
 	width: 100%;
 	position: relative;
-	transition: left 300ms ease;
+	& > div {
+		position: absolute;
+		inset: 0;
+	}
 }
 
 .selected-file-name-frame {

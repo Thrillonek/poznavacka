@@ -13,6 +13,7 @@ import SelectedFile from './SelectedFile';
 export default function List(props: any) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 	const setElement = useMenuElementStore((store) => store.setElement);
 	const listFiles = useListFilesStore((store) => store.files);
 
@@ -47,7 +48,7 @@ export default function List(props: any) {
 
 	return (
 		<div style={props.style} className='list-layout-container'>
-			<SelectedFile />
+			{chosenFile && <SelectedFile />}
 
 			{/* List */}
 

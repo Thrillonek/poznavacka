@@ -18,6 +18,7 @@ export const useSettingsStore = create<SettingsStore>()((set) => ({
 		},
 		list: {
 			showFiles: 'all',
+			showSelectedFileAnimations: false,
 		},
 		colorPicker: {
 			preset: 'dark',
