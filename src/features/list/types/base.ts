@@ -11,10 +11,8 @@ export type ChosenFileStore = {
 
 export type ListSearchStore = {
 	searchInput: string;
-	searchedItem?: string;
 	isSearchInputFocused: boolean;
 	setSearchInput: (input: string) => void;
-	setSearchedItem: (item: string) => void;
 	setIsSearchInputFocused: (condition: boolean) => void;
 };
 

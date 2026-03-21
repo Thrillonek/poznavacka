@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { type FormEvent, type LegacyRef, useEffect, useRef } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_SearchForm.scss';
-import { useListSearchStore } from '../data/stores';
+import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import { scrollListToItem } from '../utils/scrollListToItem';
 import { searchItem } from '../utils/searchItem';
 import SearchFormResults from './SearchFormResults';
@@ -12,20 +12,16 @@ function SearchForm() {
 	const setSearchInput = useListSearchStore((store) => store.setSearchInput);
 	const isSearchInputFocused = useListSearchStore((store) => store.isSearchInputFocused);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
-	const searchedItem = useListSearchStore((store) => store.searchedItem);
-	const setSearchedItem = useListSearchStore((store) => store.setSearchedItem);
+	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
 	const inputRef = useRef<HTMLInputElement>();
 
 	function submitForm(e: FormEvent) {
-		scrollListToItem(searchItem(e) as string);
-		setSearchedItem(searchItem(e) as string);
+		const searchedItem = searchItem(e) as string;
+		scrollListToItem(searchedItem);
 		setIsSearchInputFocused(false);
+		setChosenFile(searchedItem);
 	}
-
-	useEffect(() => {
-		if (searchedItem) setSearchedItem('');
-	}, [searchInput]);
 
 	useEffect(() => {
 		if (isSearchInputFocused) {
