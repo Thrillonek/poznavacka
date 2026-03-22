@@ -21,7 +21,7 @@ function ModeMenu() {
 	function openSettings() {
 		setSearchParams((sparams) => {
 			if (!sparams.get('settings')) sparams.set('settings', 'obecné');
-			if (sparams.get('settings')?.startsWith('z-')) sparams.set('settings', 'x-' + sparams.get('settings')!.slice(1));
+			if (sparams.get('settings')?.startsWith('z-')) sparams.set('settings', 'x-' + sparams.get('settings')!.split('-').at(-1));
 			return sparams;
 		});
 	}

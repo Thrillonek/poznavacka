@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, type PointerEvent } from 'react';
 import { useSwipeLockStore } from 'src/data';
 import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
@@ -20,6 +20,8 @@ export default function Settings() {
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
+
+	const clickedOutsideModalRef = useRef<boolean>();
 
 	useEffect(() => {
 		if (isSettingsOpen) {
@@ -48,9 +50,14 @@ export default function Settings() {
 		}
 	}
 
+	const closeModalProps = {
+		onPointerDown: (e: PointerEvent) => e.target === e.currentTarget && (clickedOutsideModalRef.current = true),
+		onPointerUp: (e: PointerEvent) => e.target === e.currentTarget && clickedOutsideModalRef.current && closeSettings(),
+	};
+
 	return (
-		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
-			<div data-content-open={isContentOpen} onClick={(e) => e.stopPropagation()} className='settings-container'>
+		<div {...closeModalProps} data-open={isSettingsOpen} className='settings-modal'>
+			<div data-content-open={isContentOpen} className='settings-container'>
 				<div className='settings-status-bar'>
 					<button onClick={() => closeSettingsCategory()} className='settings-close settings-back'>
 						<Icon icon='mdi:arrow-back' />
