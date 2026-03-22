@@ -8,7 +8,7 @@ function Stats() {
 
 	return (
 		<>
-			<div className='flex flex-wrap gap-4'>
+			<div className='flex flex-wrap gap-4 *:grow'>
 				<Card title='Délka zvolené poznávačky' content={poznavacka ? getContent(poznavacka).length : '?'} />
 				<Card title='Počet naučených obrázků' content={completedFiles.length.toString()} />
 				<Card title='Naučené obrázky v této poznávačce' content={poznavacka ? completedFiles.filter((x) => getContent(poznavacka).includes(x)).length.toString() : '0'} />

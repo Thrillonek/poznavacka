@@ -37,8 +37,8 @@ function ModeMenu() {
 				<span>Seznam</span>
 			</button>
 			<button data-settings onClick={() => openSettings()} className={isSettingsOpen ? 'active' : ''}>
-				<Icon icon='mdi:gear' />
-				<span>Nastavení</span>
+				<Icon icon='mdi:dots-horizontal' />
+				<span>Více</span>
 			</button>
 		</div>
 	);

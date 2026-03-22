@@ -28,3 +28,19 @@ export var getContent = <output = any>(obj: Record<string, any>): output => obj 
 export function getKeyByValue(object: Record<any, any>, value: any) {
 	return Object.keys(object).find((key) => object[key] === value);
 }
+
+/**
+ * Edits the given object according to the callback.
+ *
+ * @param object The object to find the key in
+ * @param callback The function that edits the object
+ */
+export function editObject<T extends Record<string, any>>(object: T, callback: (key: keyof T, value: T[keyof T]) => [keyof T, T[keyof T] | undefined] | [string, any]) {
+	return Object.fromEntries(
+		Object.entries(object)
+			.map(([key, value]) => {
+				return callback(key, value);
+			})
+			.filter(([_, value]) => value !== undefined),
+	);
+}
