@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef, type PointerEvent } from 'react';
 import { useSwipeLockStore } from 'src/data';
-import { capitalize } from 'src/utils';
+import { capitalize, editObject } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
@@ -20,6 +20,8 @@ export default function Settings() {
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
+
+	const clickedOutsideModalRef = useRef<boolean>();
 
 	useEffect(() => {
 		if (isSettingsOpen) {
@@ -48,9 +50,14 @@ export default function Settings() {
 		}
 	}
 
+	const closeModalProps = {
+		onPointerDown: (e: PointerEvent) => e.target === e.currentTarget && (clickedOutsideModalRef.current = true),
+		onPointerUp: (e: PointerEvent) => e.target === e.currentTarget && clickedOutsideModalRef.current && closeSettings(),
+	};
+
 	return (
-		<div onClick={() => closeSettings()} data-open={isSettingsOpen} className='settings-modal'>
-			<div data-content-open={isContentOpen} onClick={(e) => e.stopPropagation()} className='settings-container'>
+		<div {...closeModalProps} data-open={isSettingsOpen} className='settings-modal'>
+			<div data-content-open={isContentOpen} className='settings-container'>
 				<div className='settings-status-bar'>
 					<button onClick={() => closeSettingsCategory()} className='settings-close settings-back'>
 						<Icon icon='mdi:arrow-back' />
@@ -58,13 +65,13 @@ export default function Settings() {
 					<button onClick={() => closeSettings()} className='settings-close'>
 						<Icon icon='mdi:close' />
 					</button>
-					<h3>{capitalize(isContentOpen ? settingsMode : 'Nastavení')}</h3>
+					<h3>{capitalize(isContentOpen ? settingsMode : 'Více')}</h3>
 				</div>
 				<button onClick={() => closeSettings()} className='max-md:hidden settings-close'>
 					<Icon icon='mdi:close' />
 				</button>
 				<div className='settings-categories'>
-					<div className='flex flex-col gap-2 overflow-y-auto'>
+					<div className='flex flex-col gap-4 overflow-y-auto'>
 						<SettingsCategories />
 					</div>
 					{window.location.hostname === 'poznavacka-test.netlify.app' ? (
@@ -81,10 +88,10 @@ export default function Settings() {
 					<div>
 						<h1 className='settings-page-header'>{capitalize(settingsMode)}</h1>
 
-						{Object.keys(categories).map((category) => {
-							const Component = categories[category as keyof typeof categories].component;
+						{Object.entries(categories).map(([category, content]) => {
+							const Component = content.component;
 
-							if (settingsMode == category || (settingsMode == null && category == 'obecné')) return <Component key={category} />;
+							if (settingsMode === category || (settingsMode == null && category == 'obecné')) return <Component key={category} />;
 						})}
 					</div>
 				</div>

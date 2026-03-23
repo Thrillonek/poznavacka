@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useCompletedFilesStore, useSettingsStore } from 'src/data';
 import { getFiles, nameFromPath } from 'src/utils';
 import '../assets/_SearchFormResults.scss';
-import { useListSearchStore } from '../data/stores';
+import { useChosenFileStore, useListSearchStore } from '../data/stores';
 import { scrollListToItem } from '../utils/scrollListToItem';
 import { searchItem } from '../utils/searchItem';
 
@@ -10,7 +10,7 @@ function SearchFormResults() {
 	const searchInput = useListSearchStore((store) => store.searchInput);
 	const isSearchInputFocused = useListSearchStore((store) => store.isSearchInputFocused);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
-	const setSearchedItem = useListSearchStore((store) => store.setSearchedItem);
+	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const settings = useSettingsStore((store) => store.settings);
@@ -20,7 +20,7 @@ function SearchFormResults() {
 	function scrollToSearchResult(file: string) {
 		scrollListToItem(file);
 		setIsSearchInputFocused(false);
-		setSearchedItem(file);
+		setChosenFile(file);
 	}
 
 	useEffect(() => {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Vrstva_1" data-name="Vrstva 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 160 160">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #202060;
+        filter: url(#drop-shadow-1);
+        stroke: #838bf9;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        fill: #838bf9;
+      }
+    </style>
+    <filter id="drop-shadow-1" x="70" y="71" width="81" height="80" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="2"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#000" flood-opacity=".75"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <rect class="cls-1" x="86.64" y="85.16" width="47.82" height="47.82" rx="4" ry="4"/>
+  <path class="cls-2" d="M103.21,106.32l-12.76,22.1h27.25l-12.76-22.1c-.38-.67-1.35-.67-1.73,0Z"/>
+  <path class="cls-2" d="M117.43,109.22l-11.09,19.2h23.91l-11.09-19.2c-.38-.67-1.35-.67-1.73,0Z"/>
+  <circle class="cls-2" cx="119.08" cy="95.91" r="6.23"/>
+  <path class="cls-2" d="M22.31,135.97V24.03c0-.55.45-1,1-1h43.72c10.36,0,18.58.6,24.64,1.82s11.12,3.16,15.2,5.84c5.26,3.56,9.18,7.97,11.76,13.23s3.87,11.5,3.87,18.72c0,12.74-3.77,22.49-11.29,29.28-7.53,6.78-18.39,10.17-32.56,10.17h-20.89c-.55,0-1,.45-1,1v32.88c0,.55-.45,1-1,1H23.31c-.55,0-1-.45-1-1ZM56.74,73.24c0,.55.45,1,1,1h10.76c7.63,0,12.74-.85,15.32-2.55s3.87-4.72,3.87-9.05-1.24-7.43-3.71-9.13-7.63-2.55-15.47-2.55h-10.76c-.55,0-1,.45-1,1v21.28Z"/>
+</svg>

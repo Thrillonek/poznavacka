@@ -1,0 +1,22 @@
+.card {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background: var(--bg-base);
+	box-shadow: var(--shadow-round_);
+	row-gap: 0.5rem;
+
+	min-width: fit-content;
+
+	& > .title {
+		font-size: 1rem;
+		color: var(--text-muted);
+	}
+
+	& > .content {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: var(--text-main);
+	}
+}

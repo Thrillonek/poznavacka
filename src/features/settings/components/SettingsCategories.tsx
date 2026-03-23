@@ -3,16 +3,20 @@ import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router';
 import { capitalize } from 'src/utils';
 import '../assets/_SettingsCategories.scss';
-import { categories } from '../data/categories';
+import { categories, nestedCategories } from '../data/categories';
 
 type CategoryName = keyof typeof categories;
 
 export default function SettingsCategories() {
 	return (
 		<>
-			<h2 className='settings-header'>Nastavení</h2>
-			{(Object.keys(categories) as CategoryName[]).map((category) => (
-				<SettingsCategory key={category} mode={category} />
+			{(Object.keys(nestedCategories) as (keyof typeof nestedCategories)[]).map((category) => (
+				<div className='flex flex-col gap-2' key={category}>
+					<h2 className='settings-header'>{capitalize(category)}</h2>
+					{Object.keys(nestedCategories[category]).map((subcategory) => (
+						<SettingsCategory key={category} mode={subcategory as CategoryName} />
+					))}
+				</div>
 			))}
 		</>
 	);
