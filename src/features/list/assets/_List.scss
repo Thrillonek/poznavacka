@@ -13,7 +13,7 @@
 	align-items: flex-start;
 	flex-direction: column;
 	row-gap: 0.5rem;
-	flex: 1 0 auto;
+	flex: 1 1 100%;
 }
 
 .selected-file-container[data-visible='true'] ~ .list-container {
