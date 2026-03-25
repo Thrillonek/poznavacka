@@ -33,9 +33,9 @@ function ListItem({ file, idx }: ListItemProps) {
 	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=64&h=64&output=webp` : file), [file]);
 
 	return (
-		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()}>
+		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()} className='w-full'>
 			<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} className='list-item-container'>
-				<div className='relative flex items-center gap-4'>
+				<div className='relative flex justify-start items-center gap-4'>
 					{completedFiles.includes(file) && (
 						<div className='top-1 left-1 absolute text-lime-500'>
 							<Icon icon='mdi:check' />

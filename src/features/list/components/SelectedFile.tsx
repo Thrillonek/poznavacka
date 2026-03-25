@@ -7,7 +7,6 @@ import { getFiles, getKeyByValue, nameFromPath } from 'src/utils';
 import '../assets/_SelectedFileComponents.scss';
 import '../assets/_SelectedFileLayout.scss';
 import { useChosenFileStore, useListFilesStore } from '../data/stores';
-import { useLockSwiping } from '../hooks/useLockSwiping';
 import { changeChosenFile } from '../utils/changeChosenFile';
 
 function SelectedFile() {
@@ -41,9 +40,6 @@ function SelectedFile() {
 		if (direction == 'right') changeChosenFile('left');
 		if (direction == 'down') setChosenFile(undefined);
 	}
-
-	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
-	useLockSwiping();
 
 	const isChosenFileDefined = typeof chosenFile == 'string';
 
