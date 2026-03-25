@@ -12,7 +12,7 @@ export function useLockSwiping() {
 
 	useEffect(() => {
 		if (isChosenFileSet) {
-			if (window.innerWidth < 1024) toggleHideMenu(true);
+			if (window.innerWidth < 800) toggleHideMenu(true);
 			lockSwiping();
 		} else {
 			unlockSwiping();

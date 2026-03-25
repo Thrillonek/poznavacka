@@ -5,6 +5,7 @@ import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
 import { useChosenFileStore, useListFilesStore } from '../data/stores';
+import { useLockSwiping } from '../hooks/useLockSwiping';
 import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
@@ -45,6 +46,9 @@ export default function List(props: any) {
 	function scrollToTop() {
 		if (scrollY! > 100) document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' });
 	}
+
+	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
+	useLockSwiping();
 
 	return (
 		<div style={props.style} className='list-layout-container'>
