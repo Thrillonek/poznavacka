@@ -1,18 +1,19 @@
+// @ts-ignore
 import fs from 'fs';
 
-function sortingAlg(a, b) {
+function sortingAlg(a: any, b: any) {
 	if (/\d/.test(a.slice(0, 3)) && /\d/.test(b.slice(0, 3))) {
 		return parseInt(a.replace(/\D/g, '')) - parseInt(b.replaceAll(/\D/g, ''));
 	}
 	return a - b;
 }
 
-export function getPoznavackaFiles(dir) {
-	var results = [];
+export function getPoznavackaFiles(dir: string) {
+	var results: (string | Record<string, any>)[] = [];
 
 	fs.readdirSync(dir)
 		.sort(sortingAlg)
-		.forEach((file) => {
+		.forEach((file: string) => {
 			file = dir + '/' + file;
 			var stat = fs.statSync(file);
 
@@ -23,4 +24,9 @@ export function getPoznavackaFiles(dir) {
 		});
 
 	return results;
+}
+
+export async function getPoznavackaFilesAsync(dir: string) {
+	'use server';
+	return new Promise((resolve) => resolve(getPoznavackaFiles(dir)));
 }

@@ -19,15 +19,15 @@ export default function Sidebar() {
 			<div className='flex flex-col gap-4 overflow-hidden grow'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
-					{selectedFolder!.some((f) => !isObject(f)) && (
+					{selectedFolder?.some((f) => !isObject(f)) && (
 						<div onClick={() => closeMenu()} className='sm:hidden! sidebar-option'>
 							<button className='flex justify-between items-center font-normal! text-base!'>
 								Prohlédnout obsah této složky <Icon icon='mdi:arrow-right' className='text-xl' />
 							</button>
 						</div>
 					)}
-					{selectedFolder!
-						.filter((content) => isObject(content))
+					{selectedFolder
+						?.filter((content) => isObject(content))
 						.map((content, idx) => {
 							let props = {
 								content,
