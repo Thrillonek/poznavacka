@@ -35,11 +35,11 @@ function RangeInput(props: RangeInputProps) {
 
 	const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
 		setIsRangeActive(true);
-		handleValueChange(e);
+		handleValueChange(e, true);
 	};
 
-	const handleValueChange = (e: PointerEvent<HTMLDivElement>) => {
-		if (!isRangeActive) return;
+	const handleValueChange = (e: PointerEvent<HTMLDivElement>, ignorePointerUp = false) => {
+		if (!isRangeActive && !ignorePointerUp) return;
 
 		let newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
 		if (newValue < 0) newValue = 0;

@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useCompletedFilesStore, useSettingsStore } from 'src/data';
+import { useEffect, useRef, useState } from 'react';
+import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { getFiles, nameFromPath } from 'src/utils';
 import '../assets/_SearchFormResults.scss';
 import { useChosenFileStore, useListSearchStore } from '../data/stores';
@@ -15,6 +15,10 @@ function SearchFormResults() {
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const settings = useSettingsStore((store) => store.settings);
 
+	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+
+	const searchFormResultsRef = useRef<HTMLDivElement>(null);
+
 	const [searchedArray, setSearchedArray] = useState<string[]>();
 
 	function scrollToSearchResult(file: string) {
@@ -25,7 +29,7 @@ function SearchFormResults() {
 
 	useEffect(() => {
 		setSearchedArray(searchItem(undefined, true) as string[]);
-	}, [searchInput]);
+	}, [searchInput, poznavacka]);
 
 	const checkSearchedArray = searchedArray && searchedArray.length > 0;
 
@@ -34,22 +38,25 @@ function SearchFormResults() {
 		return true;
 	}
 
+	useEffect(() => {
+		if (isSearchInputFocused) searchFormResultsRef.current?.scrollTo(0, 0);
+	}, [isSearchInputFocused]);
+
 	return (
-		<div data-visible={verifyConditions()} id='search-form-results' className='search-form-results'>
+		<div data-visible={verifyConditions()} ref={searchFormResultsRef} id='search-form-results' className='search-form-results'>
 			{checkSearchedArray &&
-				searchedArray.map((file, idx) => {
+				searchedArray.map((file) => {
 					const fileIndex = getFiles().indexOf(file);
 					if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
 					if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
-					if (idx < 10)
-						return (
-							<button onClick={() => scrollToSearchResult(file)}>
-								<div className='list-item-number'>
-									<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
-								</div>
-								<p className='ml-2'>{nameFromPath(file)}</p>
-							</button>
-						);
+					return (
+						<button onClick={() => scrollToSearchResult(file)}>
+							<div className='list-item-number'>
+								<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
+							</div>
+							<p className='ml-2'>{nameFromPath(file)}</p>
+						</button>
+					);
 				})}
 		</div>
 	);

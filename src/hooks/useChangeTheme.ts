@@ -34,9 +34,11 @@ function setColorVariables(lightness: 'dark' | 'light', { bgDark, bgNormal, bgLi
 	document.documentElement.style.setProperty('--text-muted', textMuted);
 	document.documentElement.style.setProperty('--border', border);
 
-	let accent = lightness == 'dark' ? 'oklch(0.6802 0.1606 278.08)' : 'oklch(0.4296 0.1606 278.08)';
+	let accent = lightness == 'dark' ? 'oklch(0.6802 0.1606 278.08)' : 'oklch(0.5 0.1606 278.08)';
 	let accentMuted = lightness == 'dark' ? 'oklch(0.3296 0.0529 280.15)' : 'oklch(0.8002 0.0529 280.15)';
+	let shadowOpacity = lightness == 'dark' ? 0.25 : 0.05;
 
 	document.documentElement.style.setProperty('--accent', accent);
 	document.documentElement.style.setProperty('--accent-muted', accentMuted);
+	document.documentElement.style.setProperty('--shadow-opacity', shadowOpacity.toString());
 }

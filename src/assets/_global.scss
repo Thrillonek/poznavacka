@@ -13,6 +13,8 @@
 	--accent: oklch(0.6802 0.1606 278.08);
 	--accent-muted: oklch(0.3296 0.0529 280.15);
 
+	--shadow-opacity: 0.25;
+
 	--danger: oklch(50% 0.19576 28.524);
 	--success: oklch(56.651% 0.19204 142.351);
 }
@@ -54,5 +56,7 @@ button {
 }
 
 .shadow-base {
-	box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.25), 0 2px 5px 0px rgba(0, 0, 0, 0.25);
+	box-shadow:
+		0 5px 15px 0px rgba(0, 0, 0, var(--shadow-opacity)),
+		0 2px 5px 0px rgba(0, 0, 0, var(--shadow-opacity));
 }

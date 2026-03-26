@@ -1,3 +1,4 @@
+import { Icon } from '@iconify/react';
 import ModeMenu from 'src/components/ui/ModeMenu';
 import { isObject } from 'src/utils';
 import '../assets/_Sidebar.scss';
@@ -8,6 +9,7 @@ import PathViewer from './PathViewer';
 
 export default function Sidebar() {
 	const isMenuOpened = useMenuStore((store) => store.isOpened);
+	const closeMenu = useMenuStore((store) => store.close);
 
 	const selectedFolder = useFileSystemStore((store) => store.selectedFolder);
 
@@ -17,6 +19,13 @@ export default function Sidebar() {
 			<div className='flex flex-col gap-4 overflow-hidden grow'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
+					{selectedFolder!.some((f) => !isObject(f)) && (
+						<div onClick={() => closeMenu()} className='sm:hidden! sidebar-option'>
+							<button className='flex justify-between items-center font-normal! text-base!'>
+								Prohlédnout obsah této složky <Icon icon='mdi:arrow-right' className='text-xl' />
+							</button>
+						</div>
+					)}
 					{selectedFolder!
 						.filter((content) => isObject(content))
 						.map((content, idx) => {
