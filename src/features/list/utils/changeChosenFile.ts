@@ -17,15 +17,12 @@ export function changeChosenFile(condition: 'left' | 'right') {
 	let files = Object.values(listFiles);
 	let idx = files.indexOf(chosenFile);
 
-	let carousel, previous, current, next, translateDistance;
+	let carousel = document.getElementById('selected-file-carousel')!;
+	let previous = carousel.children[0] as HTMLElement;
+	let current = carousel.children[1] as HTMLElement;
+	let next = carousel.children[2] as HTMLElement;
 
-	if (settings.list.showSelectedFileAnimations) {
-		carousel = document.getElementById('selected-file-carousel')!;
-		previous = carousel.children[0] as HTMLElement;
-		current = carousel.children[1] as HTMLElement;
-		next = carousel.children[2] as HTMLElement;
-		translateDistance = 20;
-	}
+	let translateDistance = 20;
 
 	if (condition === 'right') {
 		idx++;
