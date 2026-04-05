@@ -33,6 +33,7 @@ function Quiz(props: any) {
 	}, [poznavacka, settings.quiz.min, settings.quiz.max, settings.quiz.random]);
 
 	function handleKeyDown(e: KeyboardEvent) {
+		if (mode !== 'quiz') return;
 		if (e.key == settings.keybinds.change) {
 			changeImage();
 		}
