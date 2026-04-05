@@ -68,7 +68,7 @@ function SelectedFile() {
 				</button>
 				{isChosenFileDefined && <p>{parseInt(getKeyByValue(listFiles, chosenFile) as string) + 1}</p>}
 			</div>
-			<div className='selected-file-grid'>
+			<div className='selected-file-grid overflow-hidden'>
 				<div>
 					<div id='selected-file-carousel' className='selected-file-slider'>
 						<div className='opacity-0 scale-90 -translate-x-20'>
@@ -94,7 +94,7 @@ function SelectedFile() {
 						</div>
 					</div>
 				</div>
-				<div className='flex flex-col gap-y-4'>
+				<div className='flex flex-col gap-y-4 overflow-auto'>
 					<div className='selected-file-name-frame'>
 						<button className='selected-file-swapper' onClick={() => changeChosenFile('left')}>
 							<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
@@ -109,9 +109,10 @@ function SelectedFile() {
 						</button>
 					</div>
 					<div className='selected-file-divider' />
-					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(chosenFile!)} onToggle={toggleCompletedFile} />
-					<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
-					{/* {getFolderName(poznavacka!) == 'hmyz' && <p className='text-muted text-lg text-center'>Řád: {getGroupName(files.indexOf(chosenFile!), insectGroupNames)}</p>} */}
+					<div className='flex flex-col gap-4 grow'>
+						<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(chosenFile!)} onToggle={toggleCompletedFile} />
+						<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
+					</div>
 				</div>
 			</div>
 		</div>
