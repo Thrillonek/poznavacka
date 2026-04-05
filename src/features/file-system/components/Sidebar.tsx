@@ -16,7 +16,7 @@ export default function Sidebar() {
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
 			<PathViewer />
-			<div className='flex flex-col gap-4 overflow-hidden grow'>
+			<div className='flex flex-col gap-4 min-h-0 grow'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
 					{selectedFolder?.some((f) => !isObject(f)) && (

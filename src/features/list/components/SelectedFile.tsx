@@ -68,7 +68,7 @@ function SelectedFile() {
 				</button>
 				{isChosenFileDefined && <p>{parseInt(getKeyByValue(listFiles, chosenFile) as string) + 1}</p>}
 			</div>
-			<div className='selected-file-grid overflow-hidden'>
+			<div className='selected-file-grid min-h-0'>
 				<div>
 					<div id='selected-file-carousel' className='selected-file-slider'>
 						<div className='opacity-0 scale-90 -translate-x-20'>
