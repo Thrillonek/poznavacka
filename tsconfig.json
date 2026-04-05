@@ -1,7 +1,7 @@
 {
 	"files": [],
 	"compilerOptions": {
-		"baseUrl": ".",
+		"outDir": ".",
 		"paths": {
 			"src": ["./src"],
 			"public": ["./public"]
