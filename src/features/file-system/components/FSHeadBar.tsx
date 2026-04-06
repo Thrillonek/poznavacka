@@ -17,7 +17,7 @@ function FSButton() {
 	const openPathViewer = usePathViewerStore((store) => store.open);
 
 	return (
-		<div className='flex justify-between gap-x-4 max-w-full overflow-hidden'>
+		<div className='flex justify-between gap-x-4 max-w-full overflow-hidden shrink-0'>
 			<div className='flex items-center gap-x-2 overflow-hidden grow'>
 				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden!')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />

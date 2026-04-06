@@ -19,14 +19,6 @@
 	--success: oklch(56.651% 0.19204 142.351);
 }
 
-button {
-	cursor: pointer;
-}
-
-*[tabIndex] {
-	outline: 1px solid transparent !important;
-}
-
 .text-muted {
 	color: var(--text-muted) !important;
 }

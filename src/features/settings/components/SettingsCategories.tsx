@@ -14,7 +14,7 @@ export default function SettingsCategories() {
 				<div className='flex flex-col gap-2' key={category}>
 					<h2 className='settings-header'>{capitalize(category)}</h2>
 					{Object.keys(nestedCategories[category]).map((subcategory) => (
-						<SettingsCategory key={category} mode={subcategory as CategoryName} />
+						<SettingsCategory key={subcategory} mode={subcategory as CategoryName} />
 					))}
 				</div>
 			))}

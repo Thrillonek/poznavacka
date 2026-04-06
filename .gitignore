@@ -26,6 +26,9 @@ x-slides
 *.sln
 *.sw?
 *.xml
+.next
+
+next-env.d.ts
 
 .vercel
 

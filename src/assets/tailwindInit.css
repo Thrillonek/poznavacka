@@ -3,3 +3,16 @@
 @theme {
 	--shadow-round: 0px 0px 10px 0px rgb(0, 0, 0, 0.3);
 }
+
+*[tabIndex] {
+	outline: 1px solid transparent !important;
+}
+
+button {
+	cursor: pointer;
+}
+
+main {
+	display: flex;
+	height: 100svh;
+}

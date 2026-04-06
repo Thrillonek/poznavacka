@@ -19,13 +19,7 @@
 		"strict": true,
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true,
-
-		"baseUrl": ".",
-		"paths": {
-			"src": ["./src"],
-			"public": ["./public"]
-		}
+		"noUncheckedSideEffectImports": true
 	},
 	"include": ["vite.config.ts"]
 }

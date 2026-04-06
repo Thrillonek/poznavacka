@@ -21,6 +21,7 @@
 		"express": "^4.22.1",
 		"js-cookie": "^3.0.5",
 		"list-files": "^1.1.4",
+		"next": "^16.2.1",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"vercel-php": "^0.3.8",

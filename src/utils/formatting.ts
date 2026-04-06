@@ -21,7 +21,8 @@ export function nameFromPath(pathString: string) {
 	pathString = arr[arr.length - 1];
 	pathString = pathString
 		.substring(0, pathString.lastIndexOf('.'))
-		.replaceAll(/[0-9+_]/g, '')
+		.replaceAll(/[0-9+]/g, '')
+		.replaceAll('_', ' ')
 		.replace('-', ' - ');
 	return capitalize(pathString);
 }

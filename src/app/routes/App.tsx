@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import 'src/assets/_main.scss';
