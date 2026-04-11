@@ -23,6 +23,14 @@ export type FileSystemStore = {
 	setFolderName: (name: string | null) => void;
 };
 
+export type SelectMultipleStore = {
+	isSelecting: boolean;
+	toggleSelection: (cond?: boolean) => void;
+	selectedItems: string[];
+	addSelectedItem: (item: string) => void;
+	removeSelectedItem: (item: string) => void;
+};
+
 // export const useFileSystemStore = create((set) => ({
 //   selectedFolder: fileSystem,
 //   path: [],

@@ -8,25 +8,31 @@ import { useMenuStore } from '../data/stores';
  * Function, that takes the selected folder and shows every file inside itself and inside its subfolders.
  * If the nesting is already turned on, it changes to showing only the files directly inside the folder.
  * @param content - The folder to look through.
- * @param event - The event that triggered the function call.
+ * @param settings:
+ * - mutatePoznavacka - If the function should change the `poznavacka` state or just return the nested value.
  */
-export function toggleFolderNesting(content: Folder, event: FormEvent) {
+export function toggleFolderNesting(content: Folder) {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
 
 	const closeMenu = useMenuStore.getState().close;
 
-	event.stopPropagation();
 	if (poznavacka != content) setPoznavacka(content);
 
-	let arr: FolderContent = getContent(content!);
+	let arr: FolderContent = extractNestedContent(content);
+
+	let newPoznavacka: Folder = { [getFolderName(content!)]: arr };
+
+	setPoznavacka(newPoznavacka);
+	closeMenu();
+}
+
+export function extractNestedContent(content: Folder): string[] {
+	let arr: Array<Object | string> = getContent(content!);
 	while (arr.some((f) => isObject(f))) {
 		let obj = arr.find((f) => isObject(f));
 		arr = arr.concat(getContent(obj as object));
 		arr.splice(arr.indexOf(obj!), 1);
 	}
-
-	let newPoznavacka: Folder = { [getFolderName(content!)]: arr };
-	setPoznavacka(newPoznavacka);
-	closeMenu();
+	return arr as string[];
 }

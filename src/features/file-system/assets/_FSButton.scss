@@ -15,6 +15,11 @@
 			background: var(--accent-muted);
 			color: var(--accent);
 		}
+
+		&[data-active-gradient='true'] {
+			background: linear-gradient(to right, var(--accent-muted), transparent);
+			color: var(--accent);
+		}
 	}
 
 	& > button:first-of-type {
