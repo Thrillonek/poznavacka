@@ -1,9 +1,10 @@
 import { Icon } from '@iconify/react';
+import { useEffect } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
 import { isObject } from 'src/utils';
 import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
-import { useHandleSelectMultipleToggle } from '../hooks/useHandleSelecMultipleToggle';
+import { useHandleSelectMultipleToggle } from '../hooks/useHandleSelectMultipleToggle';
 import { viewCurrentFolderContent } from '../utils/viewCurrentFolderContent';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';

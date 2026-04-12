@@ -12,9 +12,7 @@ import { useFileSystemStore, useSelectMultipleStore } from '../data/stores';
 export function fileSystemGoBack(current?: boolean, level?: string) {
 	const { path, cutPath, setSelectedFolder, setFolderName } = useFileSystemStore.getState();
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
-	const toggleSelection = useSelectMultipleStore.getState().toggleSelection;
-
-	toggleSelection(false);
+	const isSelectingMultiple = useSelectMultipleStore.getState().isSelecting;
 
 	let currentArr: Folder[] = fileSystem;
 	let currentObject: Folder = null;
@@ -48,5 +46,5 @@ export function fileSystemGoBack(current?: boolean, level?: string) {
 		}
 	}
 
-	setPoznavacka(currentObject);
+	if (!isSelectingMultiple) setPoznavacka(currentObject);
 }

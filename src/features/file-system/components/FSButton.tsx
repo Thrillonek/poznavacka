@@ -21,10 +21,9 @@ function FSButton({ content }: { content: Folder }) {
 		<div className={'sidebar-option'}>
 			<button className='flex justify-between items-center' onClick={() => handleFolderChange(content)} data-active={isActive}>
 				<span>{capitalize(getFolderName(content!))}</span>
-				{isSelecting && includesObject && <Icon icon='mdi:folder' />}
 			</button>
-			{includesObject && !isSelecting && (
-				<button onClick={(e) => toggleFolderNesting(content)} data-active={isActive && getContent(poznavacka!) != getContent(content!)}>
+			{includesObject && (
+				<button onClick={() => toggleFolderNesting(content)} data-active={isActive && getContent(poznavacka!) != getContent(content!)}>
 					<Icon icon='mdi:folder-eye' />
 				</button>
 			)}

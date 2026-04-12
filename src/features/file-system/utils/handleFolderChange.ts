@@ -15,19 +15,19 @@ export function handleFolderChange(pozn: Folder) {
 	const closeMenu = useMenuStore.getState().close;
 	const { isSelecting, selectedItems } = useSelectMultipleStore.getState();
 
-	if (isSelecting) {
-		if (selectedItems.includes(getFolderName(pozn!))) {
-			removeSet(pozn!);
-		} else {
-			addSet(pozn!);
-		}
+	if (!isSelecting) setPoznavacka(pozn);
+	let content: Folder[] | string[] = getContent(pozn!);
+	if (content.some((c) => isObject(c))) {
+		addToPath(getFolderName(pozn!));
+		setSelectedFolder(content as Folder[]);
+		setFolderName(capitalize(getFolderName(pozn!)));
 	} else {
-		setPoznavacka(pozn);
-		let content: Folder[] | string[] = getContent(pozn!);
-		if (content.some((c) => isObject(c))) {
-			addToPath(getFolderName(pozn!));
-			setSelectedFolder(content as Folder[]);
-			setFolderName(capitalize(getFolderName(pozn!)));
+		if (isSelecting) {
+			if (selectedItems.includes(getFolderName(pozn!))) {
+				removeSet(pozn);
+			} else {
+				addSet(pozn);
+			}
 		} else closeMenu();
 	}
 }
