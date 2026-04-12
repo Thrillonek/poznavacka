@@ -1,11 +1,9 @@
 import { Icon } from '@iconify/react';
-import { useEffect } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
-import { getContent, isObject } from 'src/utils';
+import { isObject } from 'src/utils';
 import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
-import { useHandleSelectMultipleToggle } from '../hooks/useHandleSelectMultipleToggle';
 import { viewCurrentFolderContent } from '../utils/viewCurrentFolderContent';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';
@@ -20,8 +18,6 @@ export default function Sidebar() {
 	const isSelectingMultiple = useSelectMultipleStore((store) => store.isSelecting);
 	const toggleSelectMultiple = useSelectMultipleStore((store) => store.toggleSelection);
 	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
-
-	useHandleSelectMultipleToggle();
 
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>

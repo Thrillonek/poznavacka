@@ -5,28 +5,25 @@ import type { Folder } from 'src/types/variables';
 import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
 import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_FSButton.scss';
-import { useFileSystemStore, useSelectMultipleStore } from '../data/stores';
 import { handleFolderChange } from '../utils/handleFolderChange';
 import { extractNestedContent, toggleFolderNesting } from '../utils/toggleFolderNesting';
 
 function FSButton({ folder }: { folder: Folder }) {
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-
-	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
+	const poznavacka = usePoznavackaStore((state) => state.poznavacka);
 
 	const includesObject = getContent(folder!).some((f: Folder | string) => isObject(f));
 
-	let isActive = isSelecting ? checkPoznavackaIncludes(getContent(folder!)) : getFolderName(poznavacka!) === getFolderName(folder!);
-
 	const extractedNestedContent = useMemo(() => extractNestedContent(folder), [folder]);
+
+	let isActive = useMemo(() => checkPoznavackaIncludes(getContent(folder!)), [folder, poznavacka]);
 
 	return (
 		<div className={'sidebar-option'}>
-			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive}>
+			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive || (checkPoznavackaIncludes(extractedNestedContent) && includesObject)}>
 				<span>{capitalize(getFolderName(folder!))}</span>
 			</button>
 			{includesObject && (
-				<button onClick={() => toggleFolderNesting(folder)} data-active={isActive && checkPoznavackaIncludes(extractedNestedContent)}>
+				<button onClick={() => toggleFolderNesting(folder)} data-active={checkPoznavackaIncludes(extractedNestedContent)}>
 					<Icon icon='mdi:folder-eye' />
 				</button>
 			)}

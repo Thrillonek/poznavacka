@@ -32,11 +32,11 @@ export function removeSet(content: Folder, extractNested = true) {
 export function toggleSet(content: Folder, extractNested = true) {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
-	console.log(getContent(content!), getContent(poznavacka!));
-
-	if (!poznavacka || checkPoznavackaIncludes(getContent(content!))) {
+	if (!poznavacka || checkPoznavackaIncludes(extractNestedContent(content!))) {
 		removeSet(content, extractNested);
+		console.log('removing set');
 	} else {
 		addSet(content, extractNested);
+		console.log('adding set');
 	}
 }
