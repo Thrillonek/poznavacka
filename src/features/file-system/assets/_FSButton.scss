@@ -28,15 +28,10 @@
 
 	&:not(.normal-styling) > button:first-of-type {
 		text-align: left;
-		font-weight: bold;
-		font-size: 1.25rem;
+		font-weight: 600;
 	}
 
 	& > button:nth-of-type(2) {
 		@extend .center-content;
-
-		& > * {
-			font-size: 1.25rem;
-		}
 	}
 }
