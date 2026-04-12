@@ -22,12 +22,14 @@ export function toggleFolderNesting(folder: Folder) {
 	if (isSelectingMultiple) {
 		toggleSet(folder);
 	} else {
-		if (checkPoznavackaIncludes(getContent(folder!))) {
+		let extractedContent = extractNestedContent(folder);
+
+		if (checkPoznavackaIncludes(extractedContent)) {
 			setPoznavacka(folder);
 			return;
 		}
 
-		let arr: FolderContent = extractNestedContent(folder);
+		let arr: FolderContent = extractedContent;
 		let newPoznavacka: Folder = { [getFolderName(folder!)]: arr };
 
 		setPoznavacka(newPoznavacka);
