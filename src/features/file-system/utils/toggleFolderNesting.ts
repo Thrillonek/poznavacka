@@ -2,9 +2,9 @@ import type { FormEvent } from 'react';
 import { usePoznavackaStore } from 'src/data';
 import type { Folder, FolderContent } from 'src/types/variables';
 import { getContent, getFolderName, isObject } from 'src/utils';
-import { compareArrays } from 'src/utils/compareArrays';
+import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import { useMenuStore, useSelectMultipleStore } from '../data/stores';
-import { addSet, removeSet } from './selectMultipleFunctionMutators';
+import { addSet, removeSet, toggleSet } from './selectMultipleFunctionMutators';
 
 /**
  * Function, that takes the selected folder and shows every file inside itself and inside its subfolders.
@@ -14,24 +14,19 @@ import { addSet, removeSet } from './selectMultipleFunctionMutators';
  * - mutatePoznavacka - If the function should change the `poznavacka` state or just return the nested value.
  */
 export function toggleFolderNesting(folder: Folder) {
-	const poznavacka = usePoznavackaStore.getState().poznavacka;
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
-	const { isSelecting: isSelectingMultiple, selectedItems } = useSelectMultipleStore.getState();
+	const { isSelecting: isSelectingMultiple } = useSelectMultipleStore.getState();
 
 	const closeMenu = useMenuStore.getState().close;
 
-	if (compareArrays(getContent(poznavacka!), extractNestedContent(folder))) {
-		setPoznavacka(folder);
-		return;
-	}
-
 	if (isSelectingMultiple) {
-		if (selectedItems.includes(getFolderName(folder!))) {
-			removeSet(folder);
-		} else {
-			addSet(folder);
-		}
+		toggleSet(folder);
 	} else {
+		if (checkPoznavackaIncludes(getContent(folder!))) {
+			setPoznavacka(folder);
+			return;
+		}
+
 		let arr: FolderContent = extractNestedContent(folder);
 		let newPoznavacka: Folder = { [getFolderName(folder!)]: arr };
 

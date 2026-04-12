@@ -28,7 +28,7 @@ function filterAndUpdatePoznavacka(poznavacka: Folder) {
 		updatePoznavacka({
 			[getFolderName(poznavacka)]: getContent<string[]>(poznavacka).filter((item) => {
 				if (!isObject(item)) {
-					return allowedFileExtensions.some((f) => item.endsWith(f));
+					return allowedFileExtensions.some((f) => item.toLowerCase().endsWith(f));
 				}
 			}),
 		});

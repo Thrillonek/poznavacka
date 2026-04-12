@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react';
 import { useEffect } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
-import { isObject } from 'src/utils';
+import { getContent, isObject } from 'src/utils';
+import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
 import { useHandleSelectMultipleToggle } from '../hooks/useHandleSelectMultipleToggle';
@@ -18,7 +19,6 @@ export default function Sidebar() {
 
 	const isSelectingMultiple = useSelectMultipleStore((store) => store.isSelecting);
 	const toggleSelectMultiple = useSelectMultipleStore((store) => store.toggleSelection);
-	const selectedItems = useSelectMultipleStore((store) => store.selectedItems);
 	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
 
 	useHandleSelectMultipleToggle();
@@ -47,7 +47,7 @@ export default function Sidebar() {
 					</div>
 					{selectedFolder?.some((f) => !isObject(f)) && (
 						<div className={'sidebar-option normal-styling ' + (!isSelectingMultiple ? 'sm:hidden!' : '')}>
-							<button data-active={isSelectingMultiple && selectedItems.includes('this')} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
+							<button data-active={isSelectingMultiple && checkPoznavackaIncludes(selectedFolder)} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
 								<span>{isSelecting ? 'O' : 'Prohlédnout o'}bsah této složky</span> {!isSelectingMultiple && <Icon icon='mdi:arrow-right' className='text-xl' />}
 							</button>
 						</div>

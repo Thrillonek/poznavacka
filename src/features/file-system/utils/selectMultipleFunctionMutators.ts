@@ -1,12 +1,11 @@
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
-import { getContent, getFolderName } from 'src/utils';
-import { useSelectMultipleStore } from '../data/stores';
+import { getContent } from 'src/utils';
+import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import { extractNestedContent } from './toggleFolderNesting';
 
 function mutateSet(operation: 'add' | 'remove', content: Folder, extractNested: boolean) {
 	if (!content) return;
-	const { addSelectedItem, removeSelectedItem } = useSelectMultipleStore.getState();
 	const { poznavacka, setPoznavacka } = usePoznavackaStore.getState();
 
 	const additionalImages = extractNested ? extractNestedContent(content) : (getContent(content).filter((f: any): f is string => typeof f === 'string') as string[]);
@@ -14,14 +13,12 @@ function mutateSet(operation: 'add' | 'remove', content: Folder, extractNested: 
 
 	if (operation === 'add') {
 		newPoznavacka.push(...additionalImages);
-		addSelectedItem(getFolderName(content));
 	}
 	if (operation === 'remove') {
 		newPoznavacka = newPoznavacka.filter((f: string) => !additionalImages.includes(f));
-		removeSelectedItem(getFolderName(content));
 	}
 
-	setPoznavacka({ multiple: newPoznavacka });
+	setPoznavacka({ multiple: [...new Set(newPoznavacka)] });
 }
 
 export function addSet(content: Folder, extractNested = true) {
@@ -30,4 +27,16 @@ export function addSet(content: Folder, extractNested = true) {
 
 export function removeSet(content: Folder, extractNested = true) {
 	mutateSet('remove', content, extractNested);
+}
+
+export function toggleSet(content: Folder, extractNested = true) {
+	const poznavacka = usePoznavackaStore.getState().poznavacka;
+
+	console.log(getContent(content!), getContent(poznavacka!));
+
+	if (!poznavacka || checkPoznavackaIncludes(getContent(content!))) {
+		removeSet(content, extractNested);
+	} else {
+		addSet(content, extractNested);
+	}
 }
