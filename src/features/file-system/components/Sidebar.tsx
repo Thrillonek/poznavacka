@@ -34,15 +34,15 @@ export default function Sidebar() {
 					<div className='sidebar-option normal-styling'>
 						<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex justify-between items-center'>
 							<span>Vybrat více poznávaček</span>
-							{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' className='text-xl' />}
+							{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' />}
 						</button>
 						{isSelectingMultiple && (
 							<>
 								<button onClick={() => toggleSelectMultiple(false)}>
-									<Icon icon='mdi:close' className='text-xl' />
+									<Icon icon='mdi:close' />
 								</button>
 								<button className='sm:hidden' onClick={() => closeMenu()}>
-									<Icon icon='mdi:arrow-right' className='text-xl' />
+									<Icon icon='mdi:arrow-right' />
 								</button>
 							</>
 						)}
@@ -55,9 +55,8 @@ export default function Sidebar() {
 						</div>
 					)}
 				</div>
+				<div className='h-px w-full bg-(--border)' />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
-					<h2 className='pl-1 text-muted text-sm'>Poznávačky v této složce</h2>
-
 					{selectedFolder
 						?.filter((content) => isObject(content))
 						.map((content, idx) => {

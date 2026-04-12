@@ -19,7 +19,7 @@ function FSButton({ folder }: { folder: Folder }) {
 
 	return (
 		<div className={'sidebar-option'}>
-			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive || (checkPoznavackaIncludes(extractedNestedContent) && includesObject)}>
+			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive || (getContent(poznavacka!).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
 				<span>{capitalize(getFolderName(folder!))}</span>
 			</button>
 			{includesObject && (
