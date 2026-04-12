@@ -60,7 +60,7 @@ export default function Sidebar() {
 						?.filter((content) => isObject(content))
 						.map((content, idx) => {
 							let props = {
-								content,
+								folder: content,
 								idx,
 							};
 							return <FSButton key={'option-' + idx} {...props} />;
