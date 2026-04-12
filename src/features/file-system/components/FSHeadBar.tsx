@@ -19,7 +19,10 @@ function FSButton() {
 	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
 
 	return (
-		<div className='flex justify-between gap-x-4 max-w-full overflow-hidden shrink-0'>
+		<div className='flex gap-x-4 max-w-full overflow-hidden shrink-0'>
+			<button onClick={() => closeMenu()} className='lg:hidden! sidebar-head-button square'>
+				<Icon icon='mdi:close' />
+			</button>
 			<div className='flex items-center gap-x-2 overflow-hidden grow'>
 				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden!')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
@@ -27,13 +30,10 @@ function FSButton() {
 				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name'} data-active={poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() && !isSelecting}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
-				<button onClick={() => openPathViewer()} className='h-full sidebar-head-button'>
-					<Icon icon='mdi:chevron-right' />
+				<button onClick={() => openPathViewer()} className='h-full sidebar-head-button square'>
+					<Icon icon='mdi:chevron-down' />
 				</button>
 			</div>
-			<button onClick={() => closeMenu()} className='lg:hidden! sidebar-head-button square'>
-				<Icon icon='mdi:close' />
-			</button>
 		</div>
 	);
 }

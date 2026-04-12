@@ -20,13 +20,16 @@
 			background: linear-gradient(to right, var(--accent-muted), transparent);
 			color: var(--accent);
 		}
+
+		&:first-of-type {
+			flex: 1;
+		}
 	}
 
-	& > button:first-of-type {
+	&:not(.normal-styling) > button:first-of-type {
 		text-align: left;
 		font-weight: bold;
 		font-size: 1.25rem;
-		width: 100%;
 	}
 
 	& > button:nth-of-type(2) {

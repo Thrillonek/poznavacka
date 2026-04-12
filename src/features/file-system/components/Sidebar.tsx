@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react';
-import { useEffect } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
 import { isObject } from 'src/utils';
 import '../assets/_Sidebar.scss';
@@ -16,9 +15,10 @@ export default function Sidebar() {
 
 	const selectedFolder = useFileSystemStore((store) => store.selectedFolder);
 
-	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
+	const isSelectingMultiple = useSelectMultipleStore((store) => store.isSelecting);
 	const toggleSelectMultiple = useSelectMultipleStore((store) => store.toggleSelection);
 	const selectedItems = useSelectMultipleStore((store) => store.selectedItems);
+	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
 
 	useHandleSelectMultipleToggle();
 
@@ -27,13 +27,13 @@ export default function Sidebar() {
 			<PathViewer />
 			<div className='flex flex-col gap-4 min-h-0 grow'>
 				<FSHeadBar />
-				<div className='flex flex-col gap-1 overflow-auto grow'>
-					<div className='sidebar-option'>
-						<button data-active-gradient={isSelecting} onClick={() => toggleSelectMultiple()} className='flex justify-between items-center font-normal! text-base!'>
+				<div className='flex flex-col gap-1'>
+					<div className='sidebar-option normal-styling'>
+						<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex justify-between items-center'>
 							<span>Vybrat více poznávaček</span>
-							{!isSelecting && <Icon icon='mdi:folder-multiple-plus' className='text-xl' />}
+							{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' className='text-xl' />}
 						</button>
-						{isSelecting && (
+						{isSelectingMultiple && (
 							<>
 								<button onClick={() => toggleSelectMultiple(false)}>
 									<Icon icon='mdi:close' className='text-xl' />
@@ -45,12 +45,16 @@ export default function Sidebar() {
 						)}
 					</div>
 					{selectedFolder?.some((f) => !isObject(f)) && (
-						<div className={'sidebar-option ' + (!isSelecting ? 'sm:hidden!' : '')}>
-							<button data-active={isSelecting && selectedItems.includes('this')} onClick={viewCurrentFolderContent} className='flex justify-between items-center font-normal! text-base!'>
-								<span>{isSelecting ? 'O' : 'Prohlédnout o'}bsah této složky</span> {!isSelecting && <Icon icon='mdi:arrow-right' className='text-xl' />}
+						<div className={'sidebar-option normal-styling ' + (!isSelectingMultiple ? 'sm:hidden!' : '')}>
+							<button data-active={isSelectingMultiple && selectedItems.includes('this')} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
+								<span>{isSelecting ? 'O' : 'Prohlédnout o'}bsah této složky</span> {!isSelectingMultiple && <Icon icon='mdi:arrow-right' className='text-xl' />}
 							</button>
 						</div>
 					)}
+				</div>
+				<div className='flex flex-col gap-1 overflow-auto grow'>
+					<h2 className='pl-1 text-muted text-sm'>Poznávačky v této složce</h2>
+
 					{selectedFolder
 						?.filter((content) => isObject(content))
 						.map((content, idx) => {
