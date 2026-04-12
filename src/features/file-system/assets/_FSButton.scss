@@ -5,6 +5,14 @@
 	column-gap: 0.25rem;
 	justify-content: space-between;
 
+	&:not(.normal-styling) > button {
+		&:first-of-type {
+			text-align: left;
+			font-weight: 600;
+		}
+		color: var(--text-main);
+	}
+
 	& > button {
 		@include main.hover-bg(var(--bg-base));
 		border-radius: 0.5rem;
@@ -24,11 +32,6 @@
 		&:first-of-type {
 			flex: 1;
 		}
-	}
-
-	&:not(.normal-styling) > button:first-of-type {
-		text-align: left;
-		font-weight: 600;
 	}
 
 	& > button:nth-of-type(2) {

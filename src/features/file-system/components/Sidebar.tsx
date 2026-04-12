@@ -39,7 +39,7 @@ export default function Sidebar() {
 								<button onClick={() => toggleSelectMultiple(false)}>
 									<Icon icon='mdi:close' className='text-xl' />
 								</button>
-								<button onClick={() => closeMenu()}>
+								<button className='sm:hidden' onClick={() => closeMenu()}>
 									<Icon icon='mdi:arrow-right' className='text-xl' />
 								</button>
 							</>
