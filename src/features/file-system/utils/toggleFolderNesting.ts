@@ -14,7 +14,7 @@ import { addSet, removeSet, toggleSet } from './selectMultipleFunctionMutators';
  * - mutatePoznavacka - If the function should change the `poznavacka` state or just return the nested value.
  */
 export function toggleFolderNesting(folder: Folder) {
-	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
+	const { setPoznavacka, poznavacka } = usePoznavackaStore.getState();
 	const { isSelecting: isSelectingMultiple } = useSelectMultipleStore.getState();
 
 	const closeMenu = useMenuStore.getState().close;
@@ -24,7 +24,7 @@ export function toggleFolderNesting(folder: Folder) {
 	} else {
 		let extractedContent = extractNestedContent(folder);
 
-		if (checkPoznavackaIncludes(extractedContent)) {
+		if (checkPoznavackaIncludes(extractedContent, poznavacka)) {
 			setPoznavacka(folder);
 			return;
 		}

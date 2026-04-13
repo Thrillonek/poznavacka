@@ -15,7 +15,7 @@ function FSButton({ folder }: { folder: Folder }) {
 
 	const extractedNestedContent = useMemo(() => extractNestedContent(folder), [folder]);
 
-	let isActive = useMemo(() => checkPoznavackaIncludes(getContent(folder!)), [folder, poznavacka]);
+	let isActive = useMemo(() => checkPoznavackaIncludes(getContent(folder!), poznavacka), [folder, poznavacka]);
 
 	return (
 		<div className={'sidebar-option'}>
@@ -23,7 +23,7 @@ function FSButton({ folder }: { folder: Folder }) {
 				<span>{capitalize(getFolderName(folder!))}</span>
 			</button>
 			{includesObject && (
-				<button onClick={() => toggleFolderNesting(folder)} data-active={checkPoznavackaIncludes(extractedNestedContent)}>
+				<button onClick={() => toggleFolderNesting(folder)} data-active={checkPoznavackaIncludes(extractedNestedContent, poznavacka!)}>
 					<Icon icon='mdi:folder-eye' />
 				</button>
 			)}

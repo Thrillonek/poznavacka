@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
 import { usePoznavackaStore } from 'src/data';
 import { isObject } from 'src/utils';
@@ -23,7 +23,7 @@ export default function Sidebar() {
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
-	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder), [poznavacka]);
+	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder, poznavacka), [poznavacka]);
 
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>

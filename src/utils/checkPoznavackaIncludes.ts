@@ -1,9 +1,12 @@
-import { usePoznavackaStore } from 'src/data';
+import type { Folder } from 'src/types/variables';
 import { getContent } from './objectManipulation';
 
-export function checkPoznavackaIncludes(arr: any[]): boolean {
-	const poznavacka = usePoznavackaStore.getState().poznavacka;
-
+/**
+ * Checks if the given array of strings is included in the `poznavacka` state
+ * @param arr The array to check
+ * @param poznavacka Poznavacka state - has to be here to trigger a re-render
+ */
+export function checkPoznavackaIncludes(arr: any[], poznavacka: Folder): boolean {
 	arr = arr.filter((item) => {
 		if (typeof item !== 'string') return false;
 		return true;

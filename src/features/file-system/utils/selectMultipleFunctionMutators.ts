@@ -9,7 +9,7 @@ function mutateSet(operation: 'add' | 'remove', content: Folder, extractNested: 
 	const { poznavacka, setPoznavacka } = usePoznavackaStore.getState();
 
 	const additionalImages = extractNested ? extractNestedContent(content) : (getContent(content).filter((f: any): f is string => typeof f === 'string') as string[]);
-	let newPoznavacka = poznavacka ? (getContent(poznavacka) as string[]) : [];
+	let newPoznavacka = poznavacka ? [...(getContent(poznavacka) as string[])] : [];
 
 	if (operation === 'add') {
 		newPoznavacka.push(...additionalImages);
@@ -32,7 +32,7 @@ export function removeSet(content: Folder, extractNested = true) {
 export function toggleSet(content: Folder, extractNested = true) {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
-	if (!poznavacka || checkPoznavackaIncludes(extractNested ? extractNestedContent(content!) : (getContent(content!) as string[]))) {
+	if (!poznavacka || checkPoznavackaIncludes(extractNested ? extractNestedContent(content!) : (getContent(content!) as string[]), poznavacka)) {
 		removeSet(content, extractNested);
 		console.log('removing set');
 	} else {
