@@ -34,9 +34,7 @@ export function toggleSet(content: Folder, extractNested = true) {
 
 	if (!poznavacka || checkPoznavackaIncludes(extractNested ? extractNestedContent(content!) : (getContent(content!) as string[]), poznavacka)) {
 		removeSet(content, extractNested);
-		console.log('removing set');
 	} else {
 		addSet(content, extractNested);
-		console.log('adding set');
 	}
 }
