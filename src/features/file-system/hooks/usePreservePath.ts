@@ -6,7 +6,7 @@ import { useFileSystemStore, useMenuStore } from '../data/stores';
 
 type SavedPath = {
 	path: string[];
-	poznavacka: string | null;
+	poznavacka: Folder;
 };
 
 export function usePreservePath() {
@@ -40,7 +40,7 @@ export function usePreservePath() {
 			}
 
 			if (!firstRenderRef.current) {
-				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka: poznavacka ? getFolderName(poznavacka) : null }));
+				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka }));
 				return;
 			}
 
@@ -59,7 +59,7 @@ export function usePreservePath() {
 			setFolderName(currentFolder ? capitalize(getFolderName(currentFolder)) : '');
 
 			if (currentFolder && savedPath.poznavacka) {
-				setPoznavacka(getNextFolder(getContent(currentFolder), [savedPath.poznavacka]));
+				setPoznavacka(savedPath.poznavacka);
 				closeMenu();
 			} else {
 				setPoznavacka(null);

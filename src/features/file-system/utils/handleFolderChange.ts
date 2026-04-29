@@ -1,7 +1,8 @@
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
 import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
-import { useFileSystemStore, useMenuStore } from '../data/stores';
+import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
+import { toggleSet } from './selectMultipleFunctionMutators';
 
 /**
  * Updates the viewed file system to the selected folder.
@@ -12,12 +13,18 @@ export function handleFolderChange(pozn: Folder) {
 	const setPoznavacka = usePoznavackaStore.getState().setPoznavacka;
 	const { addToPath, setSelectedFolder, setFolderName } = useFileSystemStore.getState();
 	const closeMenu = useMenuStore.getState().close;
+	const { isSelecting } = useSelectMultipleStore.getState();
 
-	setPoznavacka(pozn);
-	let content: Folder[] | string[] = getContent(pozn!);
+	if (!isSelecting) setPoznavacka(pozn);
+
+	let content: (Folder | string)[] = getContent(pozn!);
 	if (content.some((c) => isObject(c))) {
 		addToPath(getFolderName(pozn!));
 		setSelectedFolder(content as Folder[]);
 		setFolderName(capitalize(getFolderName(pozn!)));
-	} else closeMenu();
+	} else {
+		if (isSelecting) {
+			toggleSet(pozn);
+		} else closeMenu();
+	}
 }

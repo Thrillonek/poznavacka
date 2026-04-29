@@ -26,11 +26,7 @@ function filterAndUpdatePoznavacka(poznavacka: Folder) {
 
 	if (poznavacka) {
 		updatePoznavacka({
-			[getFolderName(poznavacka)]: getContent<string[]>(poznavacka).filter((item) => {
-				if (!isObject(item)) {
-					return allowedFileExtensions.some((f) => item.endsWith(f));
-				}
-			}),
+			[getFolderName(poznavacka)]: getContent<string[]>(poznavacka),
 		});
 	} else updatePoznavacka(null);
 }

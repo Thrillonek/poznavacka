@@ -1,20 +1,30 @@
 import { Icon } from '@iconify/react';
+import { useMemo } from 'react';
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
 import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
+import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_FSButton.scss';
 import { handleFolderChange } from '../utils/handleFolderChange';
-import { toggleFolderNesting } from '../utils/toggleFolderNesting';
+import { extractNestedContent, toggleFolderNesting } from '../utils/toggleFolderNesting';
 
-function FSButton({ content }: { content: Folder }) {
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
+function FSButton({ folder }: { folder: Folder }) {
+	const poznavacka = usePoznavackaStore((state) => state.poznavacka);
+
+	const includesObject = getContent(folder!).some((f: Folder | string) => isObject(f));
+
+	const extractedNestedContent = useMemo(() => extractNestedContent(folder), [folder]);
+
+	let isActive = useMemo(() => checkPoznavackaIncludes(getContent(folder!), poznavacka), [folder, poznavacka]);
 
 	return (
-		<div onClick={() => handleFolderChange(content)} className={'sidebar-option'}>
-			<button data-active={getFolderName(poznavacka!) == getFolderName(content!)}>{capitalize(getFolderName(content!))}</button>
-			{getContent(content!).some((f: Folder | string) => isObject(f)) && (
-				<button onClick={(e) => toggleFolderNesting(content, e)} data-active={getFolderName(poznavacka!) == getFolderName(content!) && getContent(poznavacka!) != getContent(content!)}>
-					<Icon icon='mdi:folder-eye'></Icon>
+		<div className={'sidebar-option'}>
+			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive || (poznavacka && getContent(poznavacka).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
+				<span>{capitalize(getFolderName(folder!))}</span>
+			</button>
+			{includesObject && (
+				<button onClick={() => toggleFolderNesting(folder)} data-active={checkPoznavackaIncludes(extractedNestedContent, poznavacka!)}>
+					<Icon icon='mdi:folder-eye' />
 				</button>
 			)}
 		</div>
