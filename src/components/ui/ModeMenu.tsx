@@ -6,7 +6,7 @@ import { usePoznavackaStore } from 'src/data/stores';
 import type { Modes } from 'src/types/stores';
 import { getFiles } from 'src/utils';
 
-function ModeMenu() {
+function ModeMenu({ closeMenu }: { closeMenu?: () => void }) {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
@@ -26,13 +26,18 @@ function ModeMenu() {
 		});
 	}
 
+	function updateMode(newMode: Modes) {
+		setMode(newMode);
+		if (closeMenu) closeMenu();
+	}
+
 	return (
 		<div className={'shadow-base mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>
-			<button onClick={() => setMode('quiz')} className={mode == 'quiz' && !isSettingsOpen ? 'active' : ''}>
+			<button onClick={() => updateMode('quiz')} className={mode == 'quiz' && !isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:brain' />
 				<span>Kvíz</span>
 			</button>
-			<button onClick={() => setMode('list')} className={mode == 'list' && !isSettingsOpen ? 'active' : ''}>
+			<button onClick={() => updateMode('list')} className={mode == 'list' && !isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:format-list-bulleted-square' />
 				<span>Seznam</span>
 			</button>

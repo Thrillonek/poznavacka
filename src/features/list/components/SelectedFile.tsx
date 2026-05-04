@@ -38,7 +38,6 @@ function SelectedFile() {
 		let direction = e.detail.direction;
 		if (direction == 'left') changeChosenFile('right');
 		if (direction == 'right') changeChosenFile('left');
-		if (direction == 'down') setChosenFile(undefined);
 	}
 
 	const isChosenFileDefined = typeof chosenFile == 'string';
