@@ -28,7 +28,7 @@ export default function Base() {
 
 	return (
 		<div className='relative bg-dark fill-space overflow-x-hidden'>
-			{poznavacka && getContent(poznavacka!).filter((f: any) => !isObject(f)).length > 0 ? (
+			{poznavacka && getContent(poznavacka).filter((f: any) => !isObject(f)).length > 0 ? (
 				<>
 					<Quiz style={mode == 'list' ? { display: 'none' } : {}} />
 					<List style={mode == 'quiz' ? { display: 'none' } : {}} />

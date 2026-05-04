@@ -9,6 +9,7 @@ import MenuBar from 'src/features/file-system/components/MenuBar';
 import Sidebar from 'src/features/file-system/components/Sidebar';
 import Settings from 'src/features/settings/components/Settings';
 import Toast from '../../components/ui/Toast';
+import ErrorBoundary from '../ErrorBoundary';
 
 export default function App() {
 	const [_, setSearchParams] = useSearchParams();
@@ -21,19 +22,19 @@ export default function App() {
 	}, []);
 
 	return (
-		<>
-			<main>
+		<main>
+			<ErrorBoundary>
 				<Toast />
-				<Settings />
-				<Sidebar />
-				<div className='main-content'>
-					<MenuBar />
-					<Base />
-					<div className='lg:hidden z-30 bg-inherit p-2'>
-						<ModeMenu />
-					</div>
+			</ErrorBoundary>
+			<Settings />
+			<Sidebar />
+			<div className='main-content'>
+				<MenuBar />
+				<Base />
+				<div className='lg:hidden z-30 bg-inherit p-2'>
+					<ModeMenu />
 				</div>
-			</main>
-		</>
+			</div>
+		</main>
 	);
 }
