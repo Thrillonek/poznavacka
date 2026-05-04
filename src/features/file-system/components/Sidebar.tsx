@@ -71,7 +71,7 @@ export default function Sidebar() {
 
 			<div>
 				<div className='sm:hidden lg:block'>
-					<ModeMenu />
+					<ModeMenu closeMenu={closeMenu} />
 				</div>
 				{window.location.hostname.includes('test') && <div className='bg-light shadow-round mt-1 p-1 rounded-lg font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
 			</div>
