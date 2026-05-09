@@ -27,8 +27,8 @@ export function useHandleSwiping() {
 		() => {
 			if (!isModeQuiz) return;
 
-			if (offsetRef.current > offsetLimit) changeImage();
-			if (offsetRef.current < -offsetLimit) addFileToCompleted();
+			if (offsetRef.current > offsetLimit) addFileToCompleted(); // right
+			if (offsetRef.current < -offsetLimit) changeImage(); // left
 
 			offsetRef.current = 0;
 		},

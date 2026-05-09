@@ -78,8 +78,8 @@ function Quiz(props: any) {
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />
-			<div style={{ opacity: visibleSide == 'complete' ? 1 : 0 } as CSSProperties} data-left className='quiz-indicator'></div>
-			<div style={{ opacity: visibleSide == 'change' ? 1 : 0, '--color': 'var(--danger)' } as CSSProperties} data-right className='quiz-indicator'></div>
+			<div style={{ opacity: visibleSide == 'complete' ? 1 : 0 } as CSSProperties} data-right className='quiz-indicator'></div>
+			<div style={{ opacity: visibleSide == 'change' ? 1 : 0, '--color': 'var(--danger)' } as CSSProperties} data-left className='quiz-indicator'></div>
 		</div>
 	);
 }
