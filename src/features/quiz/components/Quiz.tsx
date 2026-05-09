@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { useSearchParams } from 'react-router';
-import { usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils';
+import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import '../assets/_Quiz.scss';
 import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore } from '../data/stores';
@@ -21,6 +22,8 @@ function Quiz(props: any) {
 
 	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
+	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
+
 	const [visibleSide, setVisibleSide] = useState<'complete' | 'change' | undefined>();
 
 	useEffect(() => {
@@ -31,6 +34,12 @@ function Quiz(props: any) {
 		initiateQuiz();
 		changeImage();
 	}, [poznavacka, settings.quiz.min, settings.quiz.max, settings.quiz.random]);
+
+	useEffect(() => {
+		if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
+			initiateQuiz();
+		}
+	}, [completedFiles]);
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (mode !== 'quiz') return;

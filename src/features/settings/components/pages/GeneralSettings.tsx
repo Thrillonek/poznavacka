@@ -1,8 +1,7 @@
 import DeleteButton from 'src/components/form/DeleteButton';
 import SwitchInput from 'src/components/form/SwitchInput';
 import { useCompletedFilesStore, useInformationStore, usePoznavackaStore, useSettingsStore } from 'src/data';
-import { useFileSystemStore } from 'src/features/file-system/data/stores';
-import { getFolderName } from 'src/utils';
+import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 
 function GeneralSettings() {
 	const settings = useSettingsStore((store) => store.settings);
@@ -11,17 +10,13 @@ function GeneralSettings() {
 	const clearCompletedFiles = useCompletedFilesStore((store) => store.clearCompletedFiles);
 	const setInformation = useInformationStore((store) => store.setInformation);
 
-	const path = useFileSystemStore((store) => store.path);
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-
 	function confirmClearCompletedFiles() {
 		clearCompletedFiles();
 		setInformation('Naučené obrazky byly úspěšně resetovány.');
 	}
 
 	function confirmClearCompletedFilesInCurrentFolder() {
-		let poznavackaSuffix = getFolderName(poznavacka!) !== path.at(-1) ? '/' + getFolderName(poznavacka!) : '';
-		clearCompletedFiles((x) => !x.includes(path.join('/') + poznavackaSuffix));
+		clearCompletedFiles((x) => !isFileInCurrentFolder(x));
 		setInformation('Naučené obrazky v této složce byly úspěšně resetovány.');
 	}
 
