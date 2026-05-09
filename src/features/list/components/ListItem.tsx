@@ -36,17 +36,20 @@ function ListItem({ file, idx }: ListItemProps) {
 		<div ref={listItemRef as any} id={'list-item-' + (idx + 1).toString()} className='w-full'>
 			<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} className='list-item-container'>
 				<div className='relative flex justify-start items-center gap-4'>
-					{completedFiles.includes(file) && (
-						<div className='top-1 left-1 absolute text-lime-500'>
-							<Icon icon='mdi:check' />
-						</div>
-					)}
 					<div className='list-item-number'>
 						<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
 					</div>
 					<p className='list-item-text'>{nameFromPath(file)}</p>
 				</div>
-				<img loading='lazy' decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={isElementVisible ? resizedFile : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+
+				<div className='flex items-center gap-4 shrink-0'>
+					{completedFiles.includes(file) && (
+						<div className='text-lime-500'>
+							<Icon className='text-2xl' icon='mdi:checkbox-marked-circle-outline' />
+						</div>
+					)}
+					<img loading='lazy' decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={isElementVisible ? resizedFile : ''} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				</div>
 			</div>
 		</div>
 	);
