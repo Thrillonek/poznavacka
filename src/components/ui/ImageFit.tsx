@@ -44,7 +44,7 @@ function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, impor
 		if (containerRef.current) resizeObserver.observe(containerRef.current);
 
 		return () => resizeObserver.disconnect();
-	}, [containerRef.current, calcFit]);
+	}, [containerRef.current, calcFit, src]);
 
 	return (
 		<div ref={containerRef} data-loaded={false} className={classes['image-fit-container']}>

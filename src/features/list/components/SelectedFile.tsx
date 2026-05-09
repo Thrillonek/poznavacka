@@ -80,7 +80,7 @@ function SelectedFile() {
 							/>
 						</div>
 						<div className='z-10'>
-							<ImageFit src={chosenFile!.replace(' ', '%20').replace('+', '%2b')} important alt={'Chyba v načítání obrázku :('} />
+							<ImageFit calcFit src={chosenFile!.replace(' ', '%20').replace('+', '%2b')} important alt={'Chyba v načítání obrázku :('} />
 						</div>
 						<div className='opacity-0 scale-90 translate-x-20'>
 							<ImageFit
