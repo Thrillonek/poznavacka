@@ -7,6 +7,8 @@ import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import '../assets/_Quiz.scss';
 import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore } from '../data/stores';
+import { fileIndexList } from '../data/variables';
+import { useUpdateOnCompletedFiles } from '../hooks/useUpdateOnCompletedFiles';
 import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
@@ -72,6 +74,8 @@ function Quiz(props: any) {
 	useAddEventListener('touchend', () => {
 		setVisibleSide(undefined);
 	});
+
+	useUpdateOnCompletedFiles();
 
 	return (
 		<div tabIndex={0} style={props.style} className='quiz-container'>

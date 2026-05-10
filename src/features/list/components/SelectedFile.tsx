@@ -49,6 +49,8 @@ function SelectedFile() {
 		} else {
 			addFileToCompleted(chosenFile!);
 		}
+		const event = new CustomEvent('custom:completedFilesChange', { detail: { file: chosenFile, isCompleted: !isCompleted } });
+		document.dispatchEvent(event);
 	}
 
 	const files = getFiles();
