@@ -27,7 +27,7 @@ function DeleteButton({ title, text, confirmText, onConfirm }: DeleteButtonProps
 					<button onClick={() => setIsModalOpen(false)} className={classes['modal-btn-close']}>
 						<Icon icon='mdi:close' />
 					</button>
-					<div>
+					<div className='flex flex-col gap-2'>
 						<h2>Opravdu chceš {title.toLowerCase()}?</h2>
 						<p>{text}</p>
 					</div>
