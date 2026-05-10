@@ -62,10 +62,10 @@ function Quiz(props: any) {
 
 		if (e.detail.deltaX < -quizDragOffsetLimit) {
 			//LEFT SIDE
-			setVisibleSide('complete');
+			setVisibleSide('change');
 		} else if (e.detail.deltaX > quizDragOffsetLimit) {
 			//RIGHT SIDE
-			setVisibleSide('change');
+			setVisibleSide('complete');
 		} else {
 			setVisibleSide(undefined);
 		}
