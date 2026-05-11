@@ -1,11 +1,12 @@
 import { Icon } from '@iconify/react';
 import { useEffect, useMemo } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
-import { usePoznavackaStore } from 'src/data';
-import { isObject } from 'src/utils';
+import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
+import { getContent, getFolderName, isObject } from 'src/utils';
 import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
+import { showOnlyCompletedFiles } from '../utils/showOnlyCompletedFiles';
 import { viewCurrentFolderContent } from '../utils/viewCurrentFolderContent';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';
@@ -23,6 +24,8 @@ export default function Sidebar() {
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
+	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
+
 	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder, poznavacka), [poznavacka]);
 
 	return (
@@ -32,9 +35,15 @@ export default function Sidebar() {
 				<FSHeadBar />
 				<div className='flex flex-col gap-1'>
 					<div className='sidebar-option normal-styling'>
-						<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex justify-between items-center'>
-							<span>Vybrat více poznávaček</span>
+						<button data-active={poznavacka && getContent(poznavacka) === completedFiles && getFolderName(poznavacka) === '*completed*'} onClick={() => showOnlyCompletedFiles()} className='flex items-center gap-4'>
+							<Icon icon='mdi:checkbox-multiple-marked-circle-outline' />
+							<span>Zobrazit všechny naučené</span>
+						</button>
+					</div>
+					<div className='sidebar-option normal-styling'>
+						<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex items-center gap-4'>
 							{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' />}
+							<span>Vybrat více poznávaček</span>
 						</button>
 						{isSelectingMultiple && (
 							<>
