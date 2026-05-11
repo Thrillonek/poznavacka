@@ -20,7 +20,7 @@ function ModeMenu({ closeMenu }: { closeMenu?: () => void }) {
 
 	function openSettings() {
 		setSearchParams((sparams) => {
-			if (!sparams.get('settings')) sparams.set('settings', 'x-obecné');
+			if (!sparams.get('settings')) sparams.set('settings', 'x-kvíz');
 			if (sparams.get('settings')?.startsWith('z-')) sparams.set('settings', 'x-' + sparams.get('settings')!.split('-').at(-1));
 			return sparams;
 		});

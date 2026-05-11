@@ -33,7 +33,7 @@ function SettingsCategory({ mode }: { mode: CategoryName }) {
 	const btnProps = useCallback(
 		(mode: CategoryName) => {
 			return {
-				'data-active': currentMode?.includes(mode) || (currentMode == null && mode == 'obecné'),
+				'data-active': currentMode?.includes(mode) || (currentMode == null && mode == 'kvíz'),
 				className: 'settings-category',
 				onClick: () => {
 					setMode(mode);

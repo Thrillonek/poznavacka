@@ -16,7 +16,7 @@ export default function Settings() {
 	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
 	const isContentOpen = useMemo(() => searchParams.get('settings')?.search(/[xz]-/) === -1 || false, [searchParams]);
-	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'obecné', [searchParams]);
+	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'kvíz', [searchParams]);
 
 	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
 	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
@@ -91,7 +91,7 @@ export default function Settings() {
 						{Object.entries(categories).map(([category, content]) => {
 							const Component = content.component;
 
-							if (settingsMode === category || (settingsMode == null && category == 'obecné')) return <Component key={category} />;
+							if (settingsMode === category || (settingsMode == null && category == 'kvíz')) return <Component key={category} />;
 						})}
 					</div>
 				</div>
