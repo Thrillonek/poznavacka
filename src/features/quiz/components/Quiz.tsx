@@ -8,6 +8,7 @@ import '../assets/_Quiz.scss';
 import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore } from '../data/stores';
 import { fileIndexList } from '../data/variables';
+import { useHandleQuizUpdates } from '../hooks/useHandleQuizUpdates';
 import { useUpdateOnCompletedFiles } from '../hooks/useUpdateOnCompletedFiles';
 import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
@@ -16,32 +17,14 @@ import { ImageViewer, NameViewer } from './QuizImageViewer';
 function Quiz(props: any) {
 	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const settings = useSettingsStore((store) => store.settings);
 
 	const [searchParams, _] = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
-	const updateSettings = useSettingsStore((store) => store.updateSettings);
-
-	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
-
 	const [visibleSide, setVisibleSide] = useState<'complete' | 'change' | undefined>();
 
-	useEffect(() => {
-		updateSettings('quiz', 'max', getFiles().length);
-	}, [poznavacka]);
-
-	useEffect(() => {
-		initiateQuiz();
-		changeImage();
-	}, [poznavacka, settings.quiz.min, settings.quiz.max, settings.quiz.random]);
-
-	useEffect(() => {
-		if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
-			initiateQuiz();
-		}
-	}, [completedFiles]);
+	useHandleQuizUpdates();
 
 	function handleKeyDown(e: KeyboardEvent) {
 		if (mode !== 'quiz') return;
