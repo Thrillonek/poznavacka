@@ -8,14 +8,18 @@ import { getMinMax } from './getMinMax';
  * Generates a new array of indexes for the quiz, skiping indexes of files that are in the `completedFiles` array.
  * The result depends on selected mode (preset, custom).
  * It also resets `previousIndex` and changes the maximum value of the range.
+ *
+ * @param resetIndex - Whether to reset `previousIndex` or not.
  */
-export function initiateQuiz() {
+export function initiateQuiz(resetIndex = true) {
 	const settings = useSettingsStore.getState().settings;
 	const presets = usePresetStore.getState().presets;
 	const completedFiles = useCompletedFilesStore.getState().completedFiles;
 	const files = getFiles();
 
-	previousIndex.current = undefined;
+	if (resetIndex) {
+		previousIndex.current = undefined;
+	}
 
 	let { min, max } = getMinMax({ presets, files, settings });
 
