@@ -1,21 +1,34 @@
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils/getFiles';
+import { useQuizFileStore } from '../data/stores';
 import { fileIndexList } from '../data/variables';
+import { changeImage } from '../utils';
 
-export const useUpdateOnCompletedFiles = () => {
-	useAddEventListener('custom:completedFilesChange', (e) => {
-		const { file, isCompleted }: { file: string; isCompleted: boolean } = e.detail;
-		const files = getFiles();
+export function useUpdateOnCompletedFiles() {
+	const quizVisibleFile = useQuizFileStore((state) => state.fileName);
 
-		Object.keys(fileIndexList).forEach((k) => {
-			let key = k as keyof typeof fileIndexList;
+	useAddEventListener(
+		'custom:completedFilesChange',
+		(e) => {
+			const { file, isCompleted }: { file: string; isCompleted: boolean } = e.detail;
+			const files = getFiles();
 
-			if (fileIndexList[key].some((item) => files[item - 1] == file) && isCompleted) {
-				fileIndexList[key] = fileIndexList[key].filter((item) => files[item - 1] != file);
+			if (isCompleted) {
+				Object.keys(fileIndexList).forEach((k) => {
+					let key = k as keyof typeof fileIndexList;
+
+					if (fileIndexList[key].some((item) => files[item - 1] == file)) {
+						fileIndexList[key] = fileIndexList[key].filter((item) => files[item - 1] != file);
+					}
+				});
+			} else {
+				fileIndexList['main'] = [...fileIndexList['main'], files.indexOf(file) + 1].sort((a, b) => a - b);
 			}
-		});
-		if (!isCompleted) {
-			fileIndexList['main'].push(files.indexOf(file) + 1);
-		}
-	});
-};
+
+			if (quizVisibleFile === file) {
+				changeImage({ complete: true });
+			}
+		},
+		[quizVisibleFile],
+	);
+}
