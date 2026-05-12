@@ -34,6 +34,7 @@ export function initiateQuiz(resetIndex = true) {
 			fileIndexList.main.push(val);
 		}
 	} else if (settings.quiz.mode == 'preset') {
+		//! The preset mode is not available so this part will not ever run
 		for (let i of presets) {
 			for (let val = (i - 1) * 10 + 1; val <= i * 10; val++) {
 				if (completedFiles?.includes(files[val - 1])) continue;

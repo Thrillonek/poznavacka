@@ -26,7 +26,6 @@ export function changeImage({ showImage = false, complete: isFileCompleted = fal
 	const isValid = handleErrors({ settings, min, max });
 	if (!isValid) return;
 
-	//generace indexu nového
 	let newIndex = generateNewIndex({ min, max, isFileCompleted, settings });
 
 	if (previousFiles.length >= 2) previousFiles.shift();
@@ -67,7 +66,7 @@ function handleErrors({ settings, min, max }: { settings: SettingsStore['setting
 		if (max > files.length) invalidate('Horní hranice nemůže být vyšší než ' + files.length);
 	}
 
-	if (fileIndexList.main.length + fileIndexList.recent.length == 0) invalidate('V této sadě už nic nezbylo.');
+	if (fileIndexList.main.length + fileIndexList.recent.length === 0) invalidate('Všechny soubory v této sadě máš naučené!');
 
 	return true;
 }
