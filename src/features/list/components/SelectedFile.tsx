@@ -75,7 +75,7 @@ function SelectedFile() {
 						<div className='opacity-0 scale-90 -translate-x-20'>
 							<ImageFit
 								src={getItemAt(files, files.indexOf(chosenFile!) - 1)
-									.replace(' ', '%20')
+									?.replace(' ', '%20')
 									.replace('+', '%2b')}
 								important
 								alt={'Chyba v načítání obrázku :('}
@@ -87,7 +87,7 @@ function SelectedFile() {
 						<div className='opacity-0 scale-90 translate-x-20'>
 							<ImageFit
 								src={getItemAt(files, files.indexOf(chosenFile!) + 1)
-									.replace(' ', '%20')
+									?.replace(' ', '%20')
 									.replace('+', '%2b')}
 								important
 								alt={'Chyba v načítání obrázku :('}

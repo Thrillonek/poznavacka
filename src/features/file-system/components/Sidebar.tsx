@@ -6,7 +6,7 @@ import { getContent, getFolderName, isObject } from 'src/utils';
 import { checkPoznavackaIncludes } from 'src/utils/checkPoznavackaIncludes';
 import '../assets/_Sidebar.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
-import { showOnlyCompletedFiles } from '../utils/showOnlyCompletedFiles';
+import { useShowOnlyCompletedFiles } from '../hooks/useShowOnlyCompletedFiles';
 import { viewCurrentFolderContent } from '../utils/viewCurrentFolderContent';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';
@@ -27,6 +27,8 @@ export default function Sidebar() {
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
 	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder, poznavacka), [poznavacka]);
+
+	const showOnlyCompletedFiles = useShowOnlyCompletedFiles();
 
 	return (
 		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
