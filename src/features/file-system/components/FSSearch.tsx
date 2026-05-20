@@ -11,7 +11,7 @@ import { searchFS } from '../utils/searchFS';
 export default function FSSearch() {
 	const [isSearching, setIsSearching] = useState(false);
 	const [inputValue, setInputValue] = useState('');
-	const [searchResults, setSearchResults] = useState<any[]>([]);
+	const [searchResults, setSearchResults] = useState<any[] | null>([]);
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const setPath = useFileSystemStore((state) => state.setPath);
@@ -47,6 +47,11 @@ export default function FSSearch() {
 		setInputValue('');
 	}
 
+	function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setInputValue(e.target.value);
+		setSearchResults([]);
+	}
+
 	return (
 		<div className={clsx('sidebar-option normal-styling')}>
 			<button className={clsx('flex items-center gap-4')} onClick={handleButtonClick}>
@@ -62,13 +67,13 @@ export default function FSSearch() {
 					<h3 className='font-semibold text-main text-lg'>Hledat složku</h3>
 				</div>
 				<div className='flex gap-1 w-full bg-dark rounded border border-(--border)'>
-					<input ref={inputRef} value={inputValue} onChange={(e) => setInputValue(e.target.value)} type='text' className='px-2 py-1 outline-none! w-full h-full' />
+					<input ref={inputRef} value={inputValue} onChange={handleInputChange} type='text' className='px-2 py-1 outline-none! w-full h-full' />
 					<button onClick={() => setInputValue('')} className={clsx('p-1', !inputValue && 'pointer-events-none invisible')}>
 						<Icon icon='mdi:close' className='text-xl' />
 					</button>
 				</div>
-				{searchResults.length > 0 && (
-					<div className='flex flex-col gap-2'>
+				{searchResults && searchResults.length > 0 ? (
+					<div className='flex flex-col gap-2 min-h-0 max-h-full overflow-auto'>
 						{searchResults.map((result, index) => (
 							<button onClick={() => handleSetFolder(result)} key={index} className='bg-light-hover p-2 rounded text-start'>
 								<p className='text-xs'>{result.path.split('/').slice(0, -1).join(' / ')} /</p>
@@ -76,6 +81,8 @@ export default function FSSearch() {
 							</button>
 						))}
 					</div>
+				) : (
+					inputValue && searchResults === null && <p className='text-muted'>Žádná složka nenalezena</p>
 				)}
 			</div>
 		</div>

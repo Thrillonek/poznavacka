@@ -25,5 +25,5 @@ export function searchFS(input: string) {
 
 	walk(fileSystem);
 
-	return matches;
+	return matches.length > 0 ? matches : null;
 }
