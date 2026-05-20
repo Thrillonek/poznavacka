@@ -1,0 +1,11 @@
+@use 'src/assets/main';
+
+.fssearch-back {
+	@include main.hover-bg(var(--bg-light));
+	padding: 0.25rem;
+	border-radius: 0.5rem;
+}
+
+.bg-light-hover {
+	@include main.hover-bg(var(--bg-light));
+}

@@ -19,6 +19,7 @@ export type FileSystemStore = {
 	folderName: string | null;
 	addToPath: (item: string) => void;
 	cutPath: () => void;
+	setPath: (path: string[]) => void;
 	setSelectedFolder: (folder: Folder[]) => void;
 	setFolderName: (name: string | null) => void;
 };

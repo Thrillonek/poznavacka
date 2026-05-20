@@ -2,7 +2,7 @@ export const themes = {
 	dark: {
 		bgDark: 'oklch(0.1822 0 0)',
 		bgNormal: 'oklch(0.2178 0 0)',
-		bgLight: 'oklch(0.2603 0 0)',
+		bgLight: 'oklch(0.2803 0 0)',
 		textMain: 'oklch(0.9 0 0)',
 		textMuted: 'oklch(0.75 0 0)',
 		border: 'oklch(0.4017 0 0)',

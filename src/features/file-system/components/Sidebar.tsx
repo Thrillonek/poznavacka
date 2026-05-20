@@ -10,6 +10,7 @@ import { useShowOnlyCompletedFiles } from '../hooks/useShowOnlyCompletedFiles';
 import { viewCurrentFolderContent } from '../utils/viewCurrentFolderContent';
 import FSButton from './FSButton';
 import FSHeadBar from './FSHeadBar';
+import FSSearch from './FSSearch';
 import PathViewer from './PathViewer';
 
 export default function Sidebar() {
@@ -36,6 +37,7 @@ export default function Sidebar() {
 			<div className='flex flex-col gap-4 min-h-0 grow'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1'>
+					<FSSearch />
 					<div className='sidebar-option normal-styling'>
 						<button data-active={poznavacka && getContent(poznavacka) === completedFiles && getFolderName(poznavacka) === '*completed*'} onClick={() => showOnlyCompletedFiles()} className='flex items-center gap-4'>
 							<Icon icon='mdi:checkbox-multiple-marked-circle-outline' />

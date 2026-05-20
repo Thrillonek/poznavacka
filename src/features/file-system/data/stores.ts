@@ -15,6 +15,7 @@ export const useFileSystemStore = create<FileSystemStore>()((set) => ({
 	folderName: null,
 	addToPath: (item) => set((state) => ({ path: [...state.path, item] })),
 	cutPath: () => set((state) => ({ path: state.path.slice(0, state.path.length - 1) })),
+	setPath: (path) => set({ path }),
 	setSelectedFolder: (folder) => set({ selectedFolder: folder }),
 	setFolderName: (name) => set({ folderName: name }),
 }));
