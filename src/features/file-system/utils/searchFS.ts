@@ -12,7 +12,7 @@ export function searchFS(input: string) {
 			for (const [folderName, content] of Object.entries(node)) {
 				const nextPath = [...path, folderName];
 
-				if (input && folderName.startsWith(input)) {
+				if (input && folderName.toLowerCase().startsWith(input.toLowerCase())) {
 					matches.push({ path: nextPath.join('/'), content: content as unknown[] });
 				}
 
