@@ -1,4 +1,5 @@
 import { fileSystem } from 'src/data';
+import { slugify } from 'src/utils/slugify';
 
 export function searchFS(input: string) {
 	const matches: { path: string; content: unknown[] }[] = [];
@@ -12,7 +13,7 @@ export function searchFS(input: string) {
 			for (const [folderName, content] of Object.entries(node)) {
 				const nextPath = [...path, folderName];
 
-				if (input && folderName.toLowerCase().startsWith(input.toLowerCase())) {
+				if (input && slugify(folderName).startsWith(slugify(input))) {
 					matches.push({ path: nextPath.join('/'), content: content as unknown[] });
 				}
 

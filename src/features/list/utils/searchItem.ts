@@ -1,5 +1,6 @@
 import type { FormEvent } from 'react';
 import { nameFromPath } from 'src/utils';
+import { slugify } from 'src/utils/slugify';
 import { getFiles } from '../../../utils/getFiles';
 import { useListSearchStore } from '../data/stores';
 
@@ -16,9 +17,9 @@ export function checkIsSearched(fileName: string, { ignoreEmptyInput }: SearchOp
 	if (!ignoreEmptyInput && !searchInput) return false;
 
 	for (const word of nameFromPath(fileName).split(' ')) {
-		if (word.toLowerCase().startsWith(searchInput.toLowerCase())) return true;
+		if (slugify(word).startsWith(slugify(searchInput))) return true; // for strings
 	}
-	if ((getFiles().indexOf(fileName) + 1).toString().startsWith(searchInput)) return true;
+	if ((getFiles().indexOf(fileName) + 1).toString().startsWith(searchInput)) return true; // for numbers
 
 	return false;
 }
