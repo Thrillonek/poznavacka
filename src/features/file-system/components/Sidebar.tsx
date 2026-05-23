@@ -62,11 +62,13 @@ export default function Sidebar() {
 				</div>
 				<div className='h-px w-full bg-(--border)' />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
-					<div className={'sidebar-option'}>
-						<button data-active={isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
-							<span className='italic'>Obsah této složky</span>
-						</button>
-					</div>
+					{selectedFolder.filter((content) => !isObject(content)).length > 0 && (
+						<div className={'sidebar-option'}>
+							<button data-active={isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
+								<span className='italic'>Obsah této složky</span>
+							</button>
+						</div>
+					)}
 					{selectedFolder
 						?.filter((content) => isObject(content))
 						.map((content, idx) => {
