@@ -64,7 +64,7 @@ export default function Sidebar() {
 				<div className='flex flex-col gap-1 overflow-auto grow'>
 					<div className={'sidebar-option'}>
 						<button data-active={isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
-							<span className='italic'>Obsah této složky</span> {!isSelectingMultiple && <Icon icon='mdi:arrow-right' className='text-xl' />}
+							<span className='italic'>Obsah této složky</span>
 						</button>
 					</div>
 					{selectedFolder
