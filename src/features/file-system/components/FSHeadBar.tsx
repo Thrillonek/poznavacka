@@ -27,7 +27,7 @@ function FSButton() {
 				<button className={'sidebar-head-button square ' + (folderName && path.length > 0 && selectedFolder ? '' : 'hidden!')} onClick={() => fileSystemGoBack()}>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name'} data-active={poznavacka && getFolderName(poznavacka!).toLowerCase() == folderName?.toLowerCase() && !isSelecting}>
+				<button onClick={() => fileSystemGoBack(true)} className={'sidebar-head-button folder-name'}>
 					{path.length > 0 && selectedFolder ? folderName : 'Poznávačky'}
 				</button>
 				<button onClick={() => openPathViewer()} className='h-full sidebar-head-button square'>
