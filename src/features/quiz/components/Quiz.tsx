@@ -1,16 +1,13 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { useSearchParams } from 'react-router';
-import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
+import { useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFiles } from 'src/utils';
-import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import '../assets/_Quiz.scss';
 import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList } from '../data/variables';
 import { useHandleQuizUpdates } from '../hooks/useHandleQuizUpdates';
 import { useUpdateOnCompletedFiles } from '../hooks/useUpdateOnCompletedFiles';
-import { addFileToCompleted, changeImage, initiateQuiz } from '../utils';
+import { addFileToCompleted, changeImage } from '../utils';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
 
@@ -26,7 +23,7 @@ function Quiz(props: any) {
 
 	useHandleQuizUpdates();
 
-	function handleKeyDown(e: KeyboardEvent) {
+	function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
 		if (mode !== 'quiz') return;
 		if (e.key == settings.keybinds.change) {
 			changeImage();
@@ -39,7 +36,6 @@ function Quiz(props: any) {
 		}
 	}
 
-	useAddEventListener('keydown', handleKeyDown, [settings.keybinds, mode]);
 	useAddEventListener('custom:drag', (e: CustomEvent) => {
 		if (!e.detail.isTouch) return;
 
@@ -61,7 +57,7 @@ function Quiz(props: any) {
 	useUpdateOnCompletedFiles();
 
 	return (
-		<div tabIndex={0} style={props.style} className='quiz-container'>
+		<div tabIndex={0} onKeyDown={handleKeyDown} style={props.style} className='quiz-container'>
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />
