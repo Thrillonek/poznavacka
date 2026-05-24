@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useMenuElementStore } from 'src/data';
 import { useChosenFileStore } from '../data/stores';
 
-export function useLockSwiping() {
+export function useToggleMenuVisibility() {
 	const toggleHideMenu = useMenuElementStore((store) => store.toggleHideMenu);
 
 	const isChosenFileSet = useChosenFileStore((store) => store.isSet);
