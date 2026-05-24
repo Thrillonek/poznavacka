@@ -20,6 +20,7 @@ function SearchFormResults() {
 	const searchFormResultsRef = useRef<HTMLDivElement>(null);
 
 	const [searchedArray, setSearchedArray] = useState<string[]>();
+	const [emptySearch, setEmptySearch] = useState(false);
 
 	function scrollToSearchResult(file: string) {
 		scrollListToItem(file);
@@ -27,11 +28,22 @@ function SearchFormResults() {
 		setChosenFile(file);
 	}
 
+	const prevSearchInputRef = useRef<string>();
 	useEffect(() => {
-		setSearchedArray(searchItem(undefined, true) as string[]);
+		setEmptySearch(false);
+		prevSearchInputRef.current = searchInput;
+		setTimeout(() => {
+			if (prevSearchInputRef.current === searchInput) {
+				let newSearchedArray = searchItem(undefined, true) as string[];
+				setSearchedArray(newSearchedArray);
+				if (newSearchedArray.length === 0) {
+					setEmptySearch(true);
+				}
+			}
+		}, 250);
 	}, [searchInput, poznavacka]);
 
-	const checkSearchedArray = searchedArray && searchedArray.length > 0;
+	const existsSearchArray = searchedArray && searchedArray.length > 0;
 
 	function verifyConditions() {
 		if (!isSearchInputFocused || !searchInput) return false;
@@ -44,20 +56,21 @@ function SearchFormResults() {
 
 	return (
 		<div data-visible={verifyConditions()} ref={searchFormResultsRef} id='search-form-results' className='search-form-results'>
-			{checkSearchedArray &&
-				searchedArray.map((file) => {
-					const fileIndex = getFiles().indexOf(file);
-					if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
-					if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
-					return (
-						<button onClick={() => scrollToSearchResult(file)}>
-							<div className='list-item-number'>
-								<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
-							</div>
-							<p className='ml-2'>{nameFromPath(file)}</p>
-						</button>
-					);
-				})}
+			{existsSearchArray
+				? searchedArray.map((file) => {
+						const fileIndex = getFiles().indexOf(file);
+						if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
+						if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
+						return (
+							<button onClick={() => scrollToSearchResult(file)}>
+								<div className='list-item-number'>
+									<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
+								</div>
+								<p className='ml-2'>{nameFromPath(file)}</p>
+							</button>
+						);
+					})
+				: emptySearch && <p>Nic nenalezeno.</p>}
 		</div>
 	);
 }
