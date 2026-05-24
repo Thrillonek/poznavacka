@@ -41,6 +41,7 @@ export default function List(props: any) {
 		setVisibleItems([]);
 	}, [poznavacka]);
 
+	// INTERSECTION OBSERVER VIRTUALISATION YAY
 	const listRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		const observer = new IntersectionObserver((entries) => {
@@ -48,6 +49,8 @@ export default function List(props: any) {
 				(entry) => {
 					if (entry.isIntersecting) {
 						setVisibleItems((prev) => [...prev, parseInt(entry.target.id.replace('list-item-', ''))]);
+					} else {
+						setVisibleItems((prev) => prev.filter((item) => item !== parseInt(entry.target.id.replace('list-item-', ''))));
 					}
 				},
 				{ threshold: 1 },
