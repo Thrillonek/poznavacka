@@ -1,6 +1,8 @@
 export type ListItemProps = {
 	idx: number;
 	file: string;
+	isVisible: boolean;
+	observer?: IntersectionObserver;
 };
 
 export type ChosenFileStore = {

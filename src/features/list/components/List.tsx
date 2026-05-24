@@ -1,5 +1,5 @@
 import type { UIEvent } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
@@ -22,6 +22,9 @@ export default function List(props: any) {
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [scrollY, setScrollY] = useState<number>();
+	const [visibleItems, setVisibleItems] = useState<number[]>([]);
+
+	const observerRef = useRef<IntersectionObserver>();
 
 	useUpdateFiles();
 
@@ -37,7 +40,23 @@ export default function List(props: any) {
 	useEffect(() => {
 		document.getElementById('list')!.scrollTop = 0;
 		setChosenFile(undefined);
+		setVisibleItems([]);
 	}, [poznavacka]);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(
+				(entry) => {
+					if (entry.isIntersecting) setVisibleItems((prev) => [...prev, parseInt(entry.target.id.replace('list-item-', ''))]);
+				},
+				{ threshold: 1 },
+			);
+		});
+
+		observerRef.current = observer;
+
+		return () => observer.disconnect();
+	}, []);
 
 	function handleScroll(e: UIEvent) {
 		setScrollY(e.currentTarget.scrollTop);
@@ -58,7 +77,7 @@ export default function List(props: any) {
 
 			<div id='list' onScroll={handleScroll} className='list-container'>
 				{Object.entries(listFiles).map(([idx, file]) => {
-					let props = { idx: parseInt(idx), file };
+					let props = { idx: parseInt(idx), file, isVisible: visibleItems.includes(parseInt(idx) + 1), observer: observerRef.current };
 					return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
 				})}
 			</div>
