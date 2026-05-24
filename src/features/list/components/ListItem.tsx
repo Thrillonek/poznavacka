@@ -1,27 +1,21 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
 import { useChosenFileStore } from '../data/stores';
 import type { ListItemProps } from '../types/base';
 
-function ListItem({ file, idx, isVisible, observer }: ListItemProps) {
+function ListItem({ file, idx, isVisible }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 
-	const listItemRef = useRef<HTMLImageElement>();
-
-	useEffect(() => {
-		if (listItemRef.current) observer?.observe(listItemRef.current);
-	}, [listItemRef.current, observer]);
-
 	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=64&h=64&output=webp` : file), [file]);
 
 	return (
-		<div ref={listItemRef as any} onClick={() => setChosenFile(file)} data-chosen={isVisible && chosenFile === file} id={'list-item-' + (idx + 1).toString()} className='list-item-container'>
+		<div onClick={() => setChosenFile(file)} data-chosen={isVisible && chosenFile === file} id={'list-item-' + (idx + 1).toString()} className='list-item-container'>
 			{isVisible && (
 				<>
 					<div className='relative flex justify-start items-center gap-4'>

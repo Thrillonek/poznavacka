@@ -24,8 +24,6 @@ export default function List(props: any) {
 	const [scrollY, setScrollY] = useState<number>();
 	const [visibleItems, setVisibleItems] = useState<number[]>([]);
 
-	const observerRef = useRef<IntersectionObserver>();
-
 	useUpdateFiles();
 
 	useEffect(() => {
@@ -43,20 +41,23 @@ export default function List(props: any) {
 		setVisibleItems([]);
 	}, [poznavacka]);
 
+	const listRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		const observer = new IntersectionObserver((entries) => {
 			entries.forEach(
 				(entry) => {
-					if (entry.isIntersecting) setVisibleItems((prev) => [...prev, parseInt(entry.target.id.replace('list-item-', ''))]);
+					if (entry.isIntersecting) {
+						setVisibleItems((prev) => [...prev, parseInt(entry.target.id.replace('list-item-', ''))]);
+					}
 				},
 				{ threshold: 1 },
 			);
 		});
 
-		observerRef.current = observer;
+		listRef.current?.children && Array.from(listRef.current.children).forEach((child) => observer.observe(child));
 
 		return () => observer.disconnect();
-	}, []);
+	}, [listRef.current?.id]);
 
 	function handleScroll(e: UIEvent) {
 		setScrollY(e.currentTarget.scrollTop);
@@ -75,9 +76,9 @@ export default function List(props: any) {
 
 			{/* List */}
 
-			<div id='list' onScroll={handleScroll} className='list-container'>
+			<div ref={listRef} id='list' onScroll={handleScroll} className='list-container'>
 				{Object.entries(listFiles).map(([idx, file]) => {
-					let props = { idx: parseInt(idx), file, isVisible: visibleItems.includes(parseInt(idx) + 1), observer: observerRef.current };
+					let props = { idx: parseInt(idx), file, isVisible: visibleItems.includes(parseInt(idx) + 1) };
 					return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
 				})}
 			</div>
