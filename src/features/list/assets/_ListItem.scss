@@ -4,12 +4,10 @@
 	@include main.hover-bg(var(--bg-dark));
 	transition: none !important;
 
-	--height: 3rem;
-	height: var(--height);
-	flex-shrink: 0;
+	height: 100%;
+	width: 100%;
 
 	box-sizing: border-box;
-	width: 100%;
 	display: flex;
 	justify-content: space-between;
 	column-gap: 1rem;
@@ -37,11 +35,12 @@
 
 	& > div {
 		overflow: hidden;
+		height: 100%;
 	}
 
 	& img {
-		height: var(--height);
-		width: var(--height);
+		height: 100%;
+		aspect-ratio: 1 / 1;
 		border-radius: 0.25rem;
 		object-fit: cover;
 

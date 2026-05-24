@@ -1,5 +1,5 @@
 import type { UIEvent } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
@@ -60,15 +60,15 @@ export default function List(props: any) {
 		listRef.current?.children && Array.from(listRef.current.children).forEach((child) => observer.observe(child));
 
 		return () => observer.disconnect();
-	}, [listRef.current?.id]);
+	}, [listRef.current, listFiles]);
 
-	function handleScroll(e: UIEvent) {
+	const handleScroll = useCallback((e: UIEvent) => {
 		setScrollY(e.currentTarget.scrollTop);
-	}
+	}, []);
 
-	function scrollToTop() {
+	const scrollToTop = useCallback(() => {
 		if (scrollY! > 100) document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' });
-	}
+	}, [scrollY]);
 
 	// HIDES SEARCH FORM MENU WHEN IMAGE IS SELECTED
 	useToggleMenuVisibility();
@@ -81,8 +81,12 @@ export default function List(props: any) {
 
 			<div ref={listRef} id='list' onScroll={handleScroll} className='list-container'>
 				{Object.entries(listFiles).map(([idx, file]) => {
-					let props = { idx: parseInt(idx), file, isVisible: visibleItems.includes(parseInt(idx) + 1) };
-					return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
+					let props = { idx: parseInt(idx), file };
+					return (
+						<div style={{ height: '3rem', flexShrink: 0, width: '100%' }} id={'list-item-' + (props.idx + 1).toString()} key={'list-item-' + getFolderName(poznavacka!) + idx}>
+							{visibleItems.includes(props.idx + 1) && <ListItem {...props} />}
+						</div>
+					);
 				})}
 			</div>
 
