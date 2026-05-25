@@ -1,13 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { fileSystem, usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
-import { capitalize, getContent, getFolderName } from 'src/utils';
+import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
+import { z } from 'zod';
 import { useFileSystemStore, useMenuStore } from '../data/stores';
 
-type SavedPath = {
-	path: string[];
-	poznavacka: Folder;
-};
+const SavedPath = z.object({
+	path: z.array(z.string()),
+	poznavacka: z.string() || z.record(z.string(), z.array(z.any())) || null,
+});
 
 export function usePreservePath() {
 	const path = useFileSystemStore((store) => store.path);
@@ -40,26 +41,52 @@ export function usePreservePath() {
 			}
 
 			if (!firstRenderRef.current) {
-				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka }));
+				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka: poznavacka ? getFolderName(poznavacka) : null }));
 				return;
 			}
 
 			firstRenderRef.current = false;
 
 			// FIRST RENDER
-			let savedPath: string | SavedPath | null = localStorage.getItem('poznavacka-path');
+			let savedPath: string | null = localStorage.getItem('poznavacka-path');
 			if (!savedPath) return;
 
-			savedPath = JSON.parse(savedPath) as SavedPath;
+			let parsedSavedPath;
 
-			savedPath.path.forEach((item) => addToPath(item));
-			const currentFolder = getNextFolder(fileSystem, savedPath.path);
+			try {
+				parsedSavedPath = JSON.parse(savedPath);
+			} catch (error) {
+				console.error('Error parsing saved path:', error);
+				return;
+			}
+
+			try {
+				SavedPath.parse(parsedSavedPath);
+			} catch (error) {
+				console.error('Error parsing saved path:', error);
+				return;
+			}
+
+			parsedSavedPath.path.forEach((item: string) => addToPath(item));
+			const currentFolder = getNextFolder(fileSystem, parsedSavedPath.path);
 
 			setSelectedFolder(currentFolder ? getContent(currentFolder) : fileSystem);
 			setFolderName(currentFolder ? capitalize(getFolderName(currentFolder)) : '');
 
-			if (currentFolder && savedPath.poznavacka) {
-				setPoznavacka(savedPath.poznavacka);
+			if (currentFolder && parsedSavedPath.poznavacka) {
+				if (typeof parsedSavedPath.poznavacka === 'object') {
+					// checks for old save where poznavacka was saved as the entire folder
+					setPoznavacka(parsedSavedPath.poznavacka);
+				} else if (typeof parsedSavedPath.poznavacka === 'string') {
+					// newer version where only the name of the folder is saved and then found in FS
+					if (getFolderName(currentFolder) === parsedSavedPath.poznavacka) {
+						setPoznavacka(currentFolder);
+					} else if (getContent(currentFolder).some((f: Folder | string) => !(typeof f === 'string') && getFolderName(f!) === parsedSavedPath.poznavacka)) {
+						setPoznavacka(getContent(currentFolder).find((f: Folder | string) => !(typeof f === 'string') && getFolderName(f!) === parsedSavedPath.poznavacka));
+					} else {
+						setPoznavacka(null);
+					}
+				}
 				closeMenu();
 			} else {
 				setPoznavacka(null);
