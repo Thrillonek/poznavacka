@@ -17,6 +17,8 @@ function PathViewer() {
 		closePV();
 	}
 
+	const getIsViewingFolder = (folderName?: string) => poznavacka && getFolderName(poznavacka) === (folderName || path.at(-1));
+
 	return (
 		<div className={'path-viewer-container ' + (isPVOpened ? '' : 'hide')}>
 			<div className='path-viewer'>
@@ -25,14 +27,17 @@ function PathViewer() {
 						<button onClick={() => goToFolder('0')} className='path-folder'>
 							Poznávačky
 						</button>
-						{path.map((item, idx) => (
-							<button className='path-folder' key={idx} onClick={() => goToFolder(item)}>
-								<span style={{ marginLeft: `${idx + 1}rem` }}>{capitalize(item)}</span>
-							</button>
-						))}
+						{path.map(
+							(item, idx) =>
+								!getIsViewingFolder(item) && (
+									<button className='path-folder' key={idx} onClick={() => goToFolder(item)}>
+										<span style={{ marginLeft: `${idx + 1}rem` }}>{capitalize(item)}</span>
+									</button>
+								),
+						)}
 						{poznavacka && getContent(poznavacka).some((f: Folder | string) => !isObject(f)) && (
 							<div className='path-folder path-file'>
-								<span style={{ marginLeft: `${path.length + 1}rem` }}>{capitalize(getFolderName(poznavacka!))}</span>
+								<span style={{ marginLeft: `${path.length + (getIsViewingFolder() ? 0 : 1)}rem` }}>{capitalize(getFolderName(poznavacka!))}</span>
 							</div>
 						)}
 					</div>

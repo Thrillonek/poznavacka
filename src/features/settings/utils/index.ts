@@ -1,2 +1,2 @@
-export * from './checkAllPresets';
 export * from './restoreDefaultKeybinds';
+export * from './tweakRange';

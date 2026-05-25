@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import { useMenuElementStore, useSwipeLockStore } from 'src/data';
+import { useMenuElementStore } from 'src/data';
 import { useChosenFileStore } from '../data/stores';
 
-export function useLockSwiping() {
-	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
-	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
-
+export function useToggleMenuVisibility() {
 	const toggleHideMenu = useMenuElementStore((store) => store.toggleHideMenu);
 
 	const isChosenFileSet = useChosenFileStore((store) => store.isSet);
@@ -13,9 +10,7 @@ export function useLockSwiping() {
 	useEffect(() => {
 		if (isChosenFileSet) {
 			if (window.innerWidth < 800) toggleHideMenu(true);
-			lockSwiping();
 		} else {
-			unlockSwiping();
 			toggleHideMenu(false);
 		}
 	}, [isChosenFileSet]);

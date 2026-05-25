@@ -14,7 +14,7 @@ function SearchForm() {
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 
-	const inputRef = useRef<HTMLInputElement>();
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	function submitForm(e: FormEvent) {
 		const searchedItem = searchItem(e) as string;
@@ -54,7 +54,7 @@ function SearchForm() {
 				<button type='button' onClick={() => setIsSearchInputFocused(false)} className='md:hidden search-form-close search-icon'>
 					<Icon icon='mdi:arrow-back' />
 				</button>
-				<input onFocus={() => setIsSearchInputFocused(true)} ref={inputRef as LegacyRef<HTMLInputElement>} placeholder='Hledat' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='search-input' />
+				<input onFocus={() => setIsSearchInputFocused(true)} ref={inputRef} placeholder='Hledat' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='search-input' />
 				<button data-hidden={!searchInput} onClick={deleteInput} className='search-icon'>
 					<Icon icon='mdi:close' />
 				</button>

@@ -21,7 +21,6 @@ export default function Sidebar() {
 
 	const isSelectingMultiple = useSelectMultipleStore((store) => store.isSelecting);
 	const toggleSelectMultiple = useSelectMultipleStore((store) => store.toggleSelection);
-	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
 
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
@@ -60,16 +59,16 @@ export default function Sidebar() {
 							</>
 						)}
 					</div>
-					{selectedFolder?.some((f) => !isObject(f)) && (
-						<div className={'sidebar-option normal-styling ' + (!isSelectingMultiple ? 'sm:hidden!' : '')}>
-							<button data-active={isSelectingMultiple && isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
-								<span>{isSelecting ? 'O' : 'Prohlédnout o'}bsah této složky</span> {!isSelectingMultiple && <Icon icon='mdi:arrow-right' className='text-xl' />}
-							</button>
-						</div>
-					)}
 				</div>
 				<div className='h-px w-full bg-(--border)' />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
+					{selectedFolder.filter((content) => !isObject(content)).length > 0 && (
+						<div className={'sidebar-option'}>
+							<button data-active={isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
+								<span className='italic'>Obsah této složky</span>
+							</button>
+						</div>
+					)}
 					{selectedFolder
 						?.filter((content) => isObject(content))
 						.map((content, idx) => {

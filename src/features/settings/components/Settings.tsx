@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react';
 import { useEffect, useMemo, useRef, type PointerEvent } from 'react';
-import { useSwipeLockStore } from 'src/data';
 import { capitalize, editObject } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
@@ -18,18 +17,7 @@ export default function Settings() {
 	const isContentOpen = useMemo(() => searchParams.get('settings')?.search(/[xz]-/) === -1 || false, [searchParams]);
 	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'kvíz', [searchParams]);
 
-	const lockSwiping = useSwipeLockStore((store) => store.lockSwiping);
-	const unlockSwiping = useSwipeLockStore((store) => store.unlockSwiping);
-
 	const clickedOutsideModalRef = useRef<boolean>();
-
-	useEffect(() => {
-		if (isSettingsOpen) {
-			lockSwiping();
-		} else {
-			unlockSwiping();
-		}
-	}, [isSettingsOpen]);
 
 	function closeSettings() {
 		setSearchParams((searchParams) => {

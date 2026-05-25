@@ -1,11 +1,11 @@
 import type { UIEvent } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
 import { useChosenFileStore, useListFilesStore } from '../data/stores';
-import { useLockSwiping } from '../hooks/useLockSwiping';
+import { useToggleMenuVisibility } from '../hooks/useToggleMenuVisibility';
 import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
@@ -22,6 +22,7 @@ export default function List(props: any) {
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [scrollY, setScrollY] = useState<number>();
+	const [visibleItems, setVisibleItems] = useState<number[]>([]);
 
 	useUpdateFiles();
 
@@ -37,18 +38,40 @@ export default function List(props: any) {
 	useEffect(() => {
 		document.getElementById('list')!.scrollTop = 0;
 		setChosenFile(undefined);
+		setVisibleItems([]);
 	}, [poznavacka]);
 
-	function handleScroll(e: UIEvent) {
+	// INTERSECTION OBSERVER VIRTUALISATION YAY
+	const listRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach(
+				(entry) => {
+					if (entry.isIntersecting) {
+						setVisibleItems((prev) => [...prev, parseInt(entry.target.id.replace('list-item-', ''))]);
+					} else {
+						setVisibleItems((prev) => prev.filter((item) => item !== parseInt(entry.target.id.replace('list-item-', ''))));
+					}
+				},
+				{ threshold: 1 },
+			);
+		});
+
+		listRef.current?.children && Array.from(listRef.current.children).forEach((child) => observer.observe(child));
+
+		return () => observer.disconnect();
+	}, [listRef.current, listFiles]);
+
+	const handleScroll = useCallback((e: UIEvent) => {
 		setScrollY(e.currentTarget.scrollTop);
-	}
+	}, []);
 
-	function scrollToTop() {
+	const scrollToTop = useCallback(() => {
 		if (scrollY! > 100) document.getElementById('list')!.scrollTo({ top: 0, behavior: 'smooth' });
-	}
+	}, [scrollY]);
 
-	// LOCKS MODE CHANGES WHEN IMAGE IS ENLARGED
-	useLockSwiping();
+	// HIDES SEARCH FORM MENU WHEN IMAGE IS SELECTED
+	useToggleMenuVisibility();
 
 	return (
 		<div style={props.style} className='list-layout-container'>
@@ -56,10 +79,14 @@ export default function List(props: any) {
 
 			{/* List */}
 
-			<div id='list' onScroll={handleScroll} className='list-container'>
+			<div ref={listRef} id='list' onScroll={handleScroll} className='list-container'>
 				{Object.entries(listFiles).map(([idx, file]) => {
 					let props = { idx: parseInt(idx), file };
-					return <ListItem key={'list-item-' + getFolderName(poznavacka!) + idx} {...props} />;
+					return (
+						<div style={{ height: '3rem', flexShrink: 0, width: '100%' }} id={'list-item-' + (props.idx + 1).toString()} key={'list-item-' + getFolderName(poznavacka!) + idx}>
+							{visibleItems.includes(props.idx + 1) && <ListItem {...props} />}
+						</div>
+					);
 				})}
 			</div>
 

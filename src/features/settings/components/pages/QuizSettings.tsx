@@ -3,6 +3,7 @@ import SelectionInput from 'src/components/form/SelectionInput';
 import SwitchInput from 'src/components/form/SwitchInput';
 import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
+import { tweakRange } from '../../utils';
 
 function QuizSettings() {
 	const settings = useSettingsStore((store) => store.settings);
@@ -10,6 +11,10 @@ function QuizSettings() {
 
 	const updateMin = (newMin: number) => updateSettings('quiz', 'min', newMin);
 	const updateMax = (newMax: number) => updateSettings('quiz', 'max', newMax);
+	const updateMinMax = (newMin: number, newMax: number) => {
+		updateMin(newMin);
+		updateMax(newMax);
+	};
 
 	const files = getFiles();
 
@@ -24,6 +29,21 @@ function QuizSettings() {
 				<div className='settings-section'>
 					<h3>Zkoušená sada</h3>
 					<MinMaxInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
+					<div className='flex gap-2'>
+						<button onClick={() => updateMinMax(1, 10)} className='settings-standalone-button'>
+							1-10
+						</button>
+						<button onClick={() => tweakRange(-10)} className='settings-standalone-button'>
+							<span className='inline-block rotate-180'>{'->'}</span>
+							{'10'}
+						</button>
+						<button onClick={() => tweakRange(10)} className='settings-standalone-button'>
+							{'->10'}
+						</button>
+						<button onClick={() => updateMinMax(1, 50)} className='settings-standalone-button'>
+							1-50
+						</button>
+					</div>
 				</div>
 			)}
 

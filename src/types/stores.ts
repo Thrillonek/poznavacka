@@ -1,12 +1,6 @@
 import type { JSXElementConstructor } from 'react';
 import type { Folder } from 'src/types/variables';
 
-export type SwipeLockStore = {
-	isLocked: boolean;
-	lockSwiping: () => void;
-	unlockSwiping: () => void;
-};
-
 export type Modes = 'list' | 'quiz';
 
 export type PoznavackaStore = {
