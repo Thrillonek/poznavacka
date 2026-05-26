@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
-import { useEffect, useMemo, useRef, type PointerEvent } from 'react';
-import { capitalize, editObject } from 'src/utils';
+import { useMemo, useRef, type PointerEvent } from 'react';
+import { capitalize } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';

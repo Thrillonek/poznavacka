@@ -7,6 +7,8 @@ import { getContent } from './objectManipulation';
  * @param poznavacka Poznavacka state - has to be here to trigger a re-render
  */
 export function checkPoznavackaIncludes(arr: any[], poznavacka: Folder): boolean {
+	if (!Array.isArray(arr)) return false;
+
 	arr = arr.filter((item) => {
 		if (typeof item !== 'string') return false;
 		return true;
