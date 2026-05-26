@@ -29,20 +29,27 @@ function QuizSettings() {
 				<div className='settings-section'>
 					<h3>Zkoušená sada</h3>
 					<MinMaxInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
-					<div className='flex gap-2'>
-						<button onClick={() => updateMinMax(1, 10)} className='settings-standalone-button'>
-							1-10
-						</button>
-						<button onClick={() => tweakRange(-10)} className='settings-standalone-button'>
-							<span className='inline-block rotate-180'>{'->'}</span>
-							{'10'}
-						</button>
-						<button onClick={() => tweakRange(10)} className='settings-standalone-button'>
-							{'->10'}
-						</button>
-						<button onClick={() => updateMinMax(1, 50)} className='settings-standalone-button'>
-							1-50
-						</button>
+					<div className='flex flex-wrap gap-2'>
+						{[10, 50].map((num) => (
+							<>
+								<button onClick={() => updateMinMax(1, num)} className='settings-standalone-button'>
+									1-{num}
+								</button>
+								<button onClick={() => tweakRange(-num)} className='settings-standalone-button'>
+									<span className='inline-block rotate-180'>{'->'}</span>
+									{num}
+								</button>
+								<button onClick={() => tweakRange(num)} className='settings-standalone-button'>
+									{`->${num}`}
+								</button>
+								<button onClick={() => tweakRange(-num, 'add')} className='settings-standalone-button'>
+									{`-${num}`}
+								</button>
+								<button onClick={() => tweakRange(num, 'add')} className='settings-standalone-button'>
+									{`+${num}`}
+								</button>
+							</>
+						))}
 					</div>
 				</div>
 			)}
