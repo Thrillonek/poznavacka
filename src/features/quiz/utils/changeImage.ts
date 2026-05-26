@@ -1,4 +1,4 @@
-import { usePresetStore, useSettingsStore } from 'src/data';
+import { useSettingsStore } from 'src/data';
 import type { SettingsStore } from 'src/types/settings';
 import { getFiles } from 'src/utils/getFiles';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
@@ -14,14 +14,13 @@ import { betterRNG, getMinMax } from './index';
 
 export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean } = {}) {
 	const settings = useSettingsStore.getState().settings;
-	const presets = usePresetStore.getState().presets;
 	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();
 
 	const files = getFiles();
 
 	toggleFileNameRevealed(showImage);
 
-	const { min, max } = getMinMax({ presets, files, settings });
+	const { min, max } = getMinMax({ files, settings });
 
 	const isValid = handleErrors({ settings, min, max });
 	if (!isValid) return;
