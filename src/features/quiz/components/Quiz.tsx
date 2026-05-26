@@ -78,7 +78,7 @@ function Quiz(props: any) {
 							<Icon icon='mdi:close' className='text-muted text-lg' />
 						</button>
 					</div>
-					<div className='flex flex-col overflow-auto gap-4 p-4'>
+					<div className='flex flex-col overflow-auto h-full gap-4 p-4'>
 						<QuizSettings />
 					</div>
 				</div>
