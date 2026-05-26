@@ -71,7 +71,7 @@ function Quiz(props: any) {
 			</button>
 
 			<div className='md:hidden absolute inset-0 flex items-end bg-black/50 p-4! transition-opacity' style={{ opacity: isSettingsOpen ? 1 : 0, pointerEvents: isSettingsOpen ? 'auto' : 'none' }} onClick={() => setIsSettingsOpen(false)}>
-				<div style={{ transform: !isSettingsOpen ? 'translateY(1rem)' : '' }} onClick={(e) => e.stopPropagation()} className='bg-dark rounded-xl w-full overflow-hidden transition-transform'>
+				<div style={{ transform: !isSettingsOpen ? 'translateY(1rem)' : '' }} onClick={(e) => e.stopPropagation()} className='bg-dark rounded-xl w-full max-h-full overflow-hidden transition-transform'>
 					<div className='flex justify-between items-center border-b border-(--border) bg-base px-4 p-2'>
 						<h2 className='text-main'>Nastavení kvízu</h2>
 						<button onClick={() => setIsSettingsOpen(false)}>
