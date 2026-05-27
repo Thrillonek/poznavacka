@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useSearchParams } from 'next/navigation';
 import { useMemo, useState, type CSSProperties, type KeyboardEvent } from 'react';
-import { useSearchParams } from 'react-router';
 import { useSettingsStore } from 'src/data';
 import QuizSettings from 'src/features/settings/components/pages/QuizSettings';
 import { useAddEventListener } from 'src/hooks';
@@ -18,7 +18,7 @@ function Quiz(props: any) {
 
 	const settings = useSettingsStore((store) => store.settings);
 
-	const [searchParams, _] = useSearchParams();
+	const searchParams = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [visibleSide, setVisibleSide] = useState<'complete' | 'change' | undefined>();

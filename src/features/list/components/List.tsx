@@ -1,6 +1,6 @@
+import { useSearchParams } from 'next/navigation';
 import type { UIEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
@@ -18,7 +18,7 @@ export default function List(props: any) {
 	const setElement = useMenuElementStore((store) => store.setElement);
 	const listFiles = useListFilesStore((store) => store.files);
 
-	const [searchParams, _] = useSearchParams();
+	const searchParams = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [scrollY, setScrollY] = useState<number>();

@@ -7,7 +7,7 @@
 	z-index: 1001;
 
 	position: fixed;
-	top: 1rem;
+	bottom: 1rem;
 	right: 1rem;
 	height: 4rem;
 	min-width: 300px;
@@ -39,7 +39,7 @@
 	}
 
 	&:not([data-visible='true']) {
-		transform: translateY(-200%);
+		transform: translateY(200%);
 	}
 }
 
