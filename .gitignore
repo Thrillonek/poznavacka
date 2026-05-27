@@ -34,3 +34,8 @@ next-env.d.ts
 .vercel
 
 public/*.txt
+
+# nextjs
+.next
+next-env.d.ts
+dist
