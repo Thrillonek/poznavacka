@@ -26,7 +26,7 @@ export default function Sidebar() {
 
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 
-	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder, poznavacka), [poznavacka]);
+	const isCurrentFolderActive = useMemo(() => checkPoznavackaIncludes(selectedFolder, poznavacka), [poznavacka, selectedFolder]);
 
 	const showOnlyCompletedFiles = useShowOnlyCompletedFiles();
 
