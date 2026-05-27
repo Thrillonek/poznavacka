@@ -41,7 +41,7 @@ export function usePreservePath() {
 			}
 
 			if (!firstRenderRef.current) {
-				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka: poznavacka ? getFolderName(poznavacka) : null }));
+				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka }));
 				return;
 			}
 
