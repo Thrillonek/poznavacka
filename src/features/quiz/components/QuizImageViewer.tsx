@@ -30,7 +30,7 @@ function ImageViewer() {
 	return (
 		<>
 			<div className='quiz-image-viewer'>
-				<ImageFit className='cursor-pointer' onClick={() => toggleFileNameRevealed()} style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
+				<ImageFit alt='' className='cursor-pointer' onClick={() => toggleFileNameRevealed()} style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
 			</div>
 		</>
 	);

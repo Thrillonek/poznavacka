@@ -1,14 +1,16 @@
+import Image, { type StaticImageData } from 'next/image';
 import { useEffect, useRef, useState, type ImgHTMLAttributes } from 'react';
 import classes from 'src/assets/_ImageFit.module.scss';
 
 type ImageFitProps = {
+	src: string;
+	alt: string;
 	onLoad?: () => void;
 	calcFit?: boolean;
-	allowLoading?: boolean;
 	important?: boolean;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
-function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, important, ...props }: ImageFitProps) {
+function ImageFit({ src, alt, onLoad, calcFit, style, important, ...props }: ImageFitProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
 
@@ -46,11 +48,12 @@ function ImageFit({ src, alt, onLoad, calcFit, allowLoading = true, style, impor
 		return () => resizeObserver.disconnect();
 	}, [containerRef.current, calcFit, src]);
 
-	return (
-		<div ref={containerRef} data-loaded={false} className={classes['image-fit-container']}>
-			<img style={style} fetchPriority={important ? 'high' : 'auto'} loading={important ? 'eager' : 'lazy'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={allowLoading ? src : ''} alt={alt} {...props} />
-		</div>
-	);
+	if (src && src.length > 0)
+		return (
+			<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
+				<Image style={style} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} quality={75} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={src} alt={alt} />
+			</div>
+		);
 }
 
 export default ImageFit;

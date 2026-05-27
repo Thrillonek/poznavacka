@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
 	distDir: './dist', // Changes the build output directory to `./dist/`.
 	env: {
 		// Next.js injects this string value at build time
-		NEXT_PUBLIC_FILE_SYSTEM: JSON.stringify(getPoznavackaFiles('./public/assets/poznavacky')),
+		NEXT_PUBLIC_FILE_SYSTEM: JSON.stringify(getPoznavackaFiles('./public/poznavacky')),
 	},
 	// rewrites: async () => {
 	// 	return [

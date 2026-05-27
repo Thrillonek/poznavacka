@@ -11,7 +11,7 @@
 		border-radius: 0.5rem;
 	}
 
-	& > img {
+	& > * {
 		@extend .center-content;
 
 		max-width: 100%;
