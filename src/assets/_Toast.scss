@@ -36,6 +36,7 @@
 	@media not all and (min-width: 768px) {
 		width: calc(100vw - 1rem);
 		inset: 0.5rem;
+		top: auto;
 	}
 
 	&:not([data-visible='true']) {

@@ -4,7 +4,7 @@ import type { NextConfig } from 'next';
 import { getPoznavackaFiles } from './functions/getPoznavackaFiles.ts';
 
 const nextConfig: NextConfig = {
-	output: 'export', // Outputs a Single-Page Application (SPA).
+	// output: 'export', // Outputs a Single-Page Application (SPA).
 	distDir: './dist', // Changes the build output directory to `./dist/`.
 	env: {
 		// Next.js injects this string value at build time
