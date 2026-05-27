@@ -1,11 +1,19 @@
-import { BrowserRouter as Router } from 'react-router';
-import 'src/assets/_main.scss';
-import App from './routes/App';
+'use client';
 
-export default async function Page() {
+import dynamic from 'next/dynamic';
+import 'src/assets/_main.scss';
+import { AppProvider } from './provider';
+
+const ClientApp = dynamic(() => import('./ClientApp'), {
+	ssr: false,
+});
+
+const App = () => {
 	return (
-		<Router>
-			<App />
-		</Router>
+		<AppProvider>
+			<ClientApp />
+		</AppProvider>
 	);
-}
+};
+
+export default App;

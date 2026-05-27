@@ -1,3 +1,4 @@
+import { Fragment } from 'react/jsx-runtime';
 import MinMaxInput from 'src/components/form/MinMaxInput';
 import SelectionInput from 'src/components/form/SelectionInput';
 import SwitchInput from 'src/components/form/SwitchInput';
@@ -30,8 +31,8 @@ function QuizSettings() {
 					<h3>Zkoušená sada</h3>
 					<MinMaxInput min={settings.quiz.min} max={settings.quiz.max} set={files} setMin={updateMin} setMax={updateMax} />
 					<div className='flex flex-wrap gap-2'>
-						{[10, 50].map((num) => (
-							<>
+						{[10, 50].map((num, idx) => (
+							<Fragment key={idx}>
 								<button onClick={() => updateMinMax(1, num)} className='settings-standalone-button'>
 									1-{num}
 								</button>
@@ -48,7 +49,7 @@ function QuizSettings() {
 								<button onClick={() => tweakRange(num, 'add')} className='settings-standalone-button'>
 									{`+${num}`}
 								</button>
-							</>
+							</Fragment>
 						))}
 					</div>
 				</div>

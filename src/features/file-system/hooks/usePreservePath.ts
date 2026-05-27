@@ -7,7 +7,10 @@ import { useFileSystemStore, useMenuStore } from '../data/stores';
 
 const SavedPath = z.object({
 	path: z.array(z.string()),
-	poznavacka: z.string() || z.record(z.string(), z.array(z.any())) || null,
+	poznavacka: z
+		.string()
+		.or(z.record(z.string(), z.array(z.any())))
+		.or(z.null()),
 });
 
 export function usePreservePath() {
@@ -41,7 +44,7 @@ export function usePreservePath() {
 			}
 
 			if (!firstRenderRef.current) {
-				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka: poznavacka ? getFolderName(poznavacka) : null }));
+				localStorage.setItem('poznavacka-path', JSON.stringify({ path, poznavacka }));
 				return;
 			}
 
