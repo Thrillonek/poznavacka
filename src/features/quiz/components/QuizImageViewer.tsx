@@ -42,6 +42,7 @@ function NameViewer() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { fileIndex, fileName, isFileLoaded, isFileNameRevealed } = useQuizFileStore((store) => store);
 	const error = useQuizErrorStore((store) => store.error);
+	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
 	// Updates display text according to the current state of the quiz
 	useEffect(() => {
@@ -70,7 +71,7 @@ function NameViewer() {
 	}, [error, isFileLoaded, isFileNameRevealed, settings.quiz.devMode, fileName, poznavacka]);
 
 	return (
-		<div className='center-content'>
+		<div onClick={() => toggleFileNameRevealed()} className='center-content'>
 			<p data-loading={!isFileLoaded} data-error={Boolean(error)} className={'quiz-name-viewer'}>
 				<span className='main-text'>{displayedText}</span>
 				<span className='subtext'>{displayedSubtext}</span>
