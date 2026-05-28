@@ -1,5 +1,5 @@
 import Image, { type StaticImageData } from 'next/image';
-import { useEffect, useRef, useState, type ImgHTMLAttributes } from 'react';
+import { useEffect, useMemo, useRef, useState, type ImgHTMLAttributes } from 'react';
 import classes from 'src/assets/_ImageFit.module.scss';
 
 type ImageFitProps = {
@@ -10,7 +10,7 @@ type ImageFitProps = {
 	important?: boolean;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
-function ImageFit({ src, alt, onLoad, calcFit, style, important, ...props }: ImageFitProps) {
+function ImageFit({ src, alt, onLoad, calcFit, style, important = true, ...props }: ImageFitProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const imageRef = useRef<HTMLImageElement>(null);
 
@@ -31,20 +31,26 @@ function ImageFit({ src, alt, onLoad, calcFit, style, important, ...props }: Ima
 	}
 
 	useEffect(() => {
+		setIsError(false);
+	}, [src]);
+
+	useEffect(() => {
 		calcSize();
 
 		return () => setIsError(false);
 	}, []);
 
-	if (src && src.length > 0) {
-		return (
-			<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
-				<div style={{ aspectRatio: `${dims.width || 16} / ${dims.height || 9}` }} className='relative h-full overflow-hidden'>
-					<Image id={src} fill sizes='(max-width: 960px) 100vw, 60vw' style={{ ...style }} quality={75} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={src} alt={alt} />
-				</div>
+	const image = window.location.href.includes('localhost') ? src : `https://wsrv.nl/?url=${window.location.host + encodeURI(src)}&w=64&h=64&output=webp`;
+
+	console.log(src);
+	return (
+		<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
+			<div style={{ aspectRatio: `${dims.width || 16} / ${dims.height || 9}` }} className='relative h-full overflow-hidden'>
+				{/* <Image key={src} {...dims} style={{ ...style }} quality={75} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={image} alt={alt} /> */}
+				<img key={src} style={{ ...style }} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={image} alt={alt} />
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 export default ImageFit;

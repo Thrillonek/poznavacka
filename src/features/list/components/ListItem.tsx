@@ -28,7 +28,7 @@ function ListItem({ file, idx }: ListItemProps) {
 						<Icon className='text-2xl' icon='mdi:checkbox-marked-circle-outline' />
 					</div>
 				)}
-				<Image loading='lazy' height={48} width={48} quality={50} decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={file} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				<Image loading='lazy' height={48} width={48} quality={50} decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={file.replaceAll(/\+/g, '%2B')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);

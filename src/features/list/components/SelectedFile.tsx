@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import { useMemo } from 'react';
 import SwitchInput from 'src/components/form/SwitchInput';
 import ImageFit from 'src/components/ui/ImageFit';
 import { useCompletedFilesStore, useSettingsStore } from 'src/data';
@@ -61,6 +62,10 @@ function SelectedFile() {
 		} else return array[index % array.length];
 	}
 
+	const prevImage = useMemo(() => getItemAt(files, files.indexOf(chosenFile!) - 1).replaceAll(/\+/g, '%2B'), [files, chosenFile]);
+	const currentImage = useMemo(() => chosenFile!.replaceAll(/\+/g, '%2B'), [chosenFile]);
+	const nextImage = useMemo(() => getItemAt(files, files.indexOf(chosenFile!) + 1).replaceAll(/\+/g, '%2B'), [files, chosenFile]);
+
 	return (
 		<div data-visible={isChosenFileSet} className='selected-file-container'>
 			<div className='selected-file-menu'>
@@ -73,13 +78,13 @@ function SelectedFile() {
 				<div>
 					<div id='selected-file-carousel' className='selected-file-slider'>
 						<div className='opacity-0 scale-90 -translate-x-20'>
-							<ImageFit src={getItemAt(files, files.indexOf(chosenFile!) - 1)} important alt={'Chyba v načítání obrázku :('} />
+							<ImageFit src={prevImage} important alt={'Zvětšený obrázek'} />
 						</div>
 						<div className='z-10'>
-							<ImageFit calcFit src={chosenFile!} important alt={'Chyba v načítání obrázku :('} />
+							<ImageFit calcFit src={currentImage} important alt={'Zvětšený obrázek'} />
 						</div>
 						<div className='opacity-0 scale-90 translate-x-20'>
-							<ImageFit src={getItemAt(files, files.indexOf(chosenFile!) + 1)} important alt={'Chyba v načítání obrázku :('} />
+							<ImageFit src={nextImage} important alt={'Zvětšený obrázek'} />
 						</div>
 					</div>
 				</div>
