@@ -73,25 +73,13 @@ function SelectedFile() {
 				<div>
 					<div id='selected-file-carousel' className='selected-file-slider'>
 						<div className='opacity-0 scale-90 -translate-x-20'>
-							<ImageFit
-								src={getItemAt(files, files.indexOf(chosenFile!) - 1)
-									?.replace(' ', '%20')
-									.replace('+', '%2b')}
-								important
-								alt={'Chyba v načítání obrázku :('}
-							/>
+							<ImageFit src={getItemAt(files, files.indexOf(chosenFile!) - 1)} important alt={'Chyba v načítání obrázku :('} />
 						</div>
 						<div className='z-10'>
-							<ImageFit calcFit src={chosenFile!.replace(' ', '%20').replace('+', '%2b')} important alt={'Chyba v načítání obrázku :('} />
+							<ImageFit calcFit src={chosenFile!} important alt={'Chyba v načítání obrázku :('} />
 						</div>
 						<div className='opacity-0 scale-90 translate-x-20'>
-							<ImageFit
-								src={getItemAt(files, files.indexOf(chosenFile!) + 1)
-									?.replace(' ', '%20')
-									.replace('+', '%2b')}
-								important
-								alt={'Chyba v načítání obrázku :('}
-							/>
+							<ImageFit src={getItemAt(files, files.indexOf(chosenFile!) + 1)} important alt={'Chyba v načítání obrázku :('} />
 						</div>
 					</div>
 				</div>
