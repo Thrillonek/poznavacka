@@ -13,13 +13,16 @@
 
 .selected-file-swapper {
 	@extend .center-content;
-	@include main.hover-text;
+	@include main.hover-bg(var(--bg-base));
+	color: var(--text-muted);
 	position: relative;
 	overflow: hidden;
 
-	--height: 5rem;
+	--height: 2.5rem;
 	height: var(--height);
-	width: calc(var(--height) / 2);
+	aspect-ratio: 1 / 1;
+
+	border-radius: 50%;
 
 	& > * {
 		font-size: var(--height);

@@ -64,10 +64,10 @@ function SelectedFile() {
 	return (
 		<div data-visible={isChosenFileSet} className='selected-file-container'>
 			<div className='selected-file-menu'>
-				<button onClick={() => setChosenFile(undefined)}>
-					<Icon icon='mdi:arrow-back' />
-				</button>
 				{isChosenFileDefined && <p>{parseInt(getKeyByValue(listFiles, chosenFile) as string) + 1}</p>}
+				<button onClick={() => setChosenFile(undefined)}>
+					<Icon icon='mdi:close' />
+				</button>
 			</div>
 			<div className='selected-file-grid min-h-0'>
 				<div>
