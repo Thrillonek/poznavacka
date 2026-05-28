@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
 		// Next.js injects this string value at build time
 		NEXT_PUBLIC_FILE_SYSTEM: JSON.stringify(getPoznavackaFiles('./public/poznavacky')),
 	},
+	images: {
+		qualities: [75, 50],
+	},
 	// rewrites: async () => {
 	// 	return [
 	// 		{

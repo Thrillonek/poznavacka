@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
 import { useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
@@ -11,8 +12,6 @@ function ListItem({ file, idx }: ListItemProps) {
 	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const chosenFile = useChosenFileStore((store) => store.chosenFile);
-
-	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=64&h=64&output=webp` : file), [file]);
 
 	return (
 		<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} className='list-item-container'>
@@ -29,7 +28,7 @@ function ListItem({ file, idx }: ListItemProps) {
 						<Icon className='text-2xl' icon='mdi:checkbox-marked-circle-outline' />
 					</div>
 				)}
-				<img loading='lazy' decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={resizedFile} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				<Image loading='lazy' height={48} width={48} quality={50} decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={file} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);
