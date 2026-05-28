@@ -66,8 +66,8 @@ function Quiz(props: any) {
 			<QuizControlPanel />
 			<div style={{ opacity: visibleSide == 'complete' ? 1 : 0 } as CSSProperties} data-right className='quiz-indicator'></div>
 			<div style={{ opacity: visibleSide == 'change' ? 1 : 0, '--color': 'var(--danger)' } as CSSProperties} data-left className='quiz-indicator'></div>
-			<button className='absolute md:hidden rounded-full bg-light border w-8 aspect-square grid place-items-center border-(--border) right-2 bottom-2' onClick={() => setIsSettingsOpen(true)}>
-				<Icon icon='mdi:gear' className='text-muted text-lg' />
+			<button className='absolute md:hidden rounded-full bg-light border w-10 aspect-square grid place-items-center border-(--border) right-2 bottom-2' onClick={() => setIsSettingsOpen(true)}>
+				<Icon icon='mdi:gear' className='text-muted text-xl' />
 			</button>
 
 			<div className='md:hidden absolute inset-0 flex items-end bg-black/50 p-4! transition-opacity' style={{ opacity: isSettingsOpen ? 1 : 0, pointerEvents: isSettingsOpen ? 'auto' : 'none' }} onClick={() => setIsSettingsOpen(false)}>
