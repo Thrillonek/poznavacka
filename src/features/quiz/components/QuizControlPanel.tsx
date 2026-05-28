@@ -5,6 +5,7 @@ import { useQuizFileStore } from '../data/stores';
 import { previousFiles } from '../data/variables';
 import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, showPreviousFile } from '../utils';
+import QuizIndicators from './QuizIndicators';
 
 function QuizControlPanel() {
 	const { toggleFileNameRevealed, fileIndex, isFileNameRevealed } = useQuizFileStore((store) => store);
@@ -14,7 +15,7 @@ function QuizControlPanel() {
 	useHandleSwiping();
 
 	return (
-		<div className='center-content'>
+		<div className='flex flex-col gap-8 center-content'>
 			<div className='quiz-control-panel'>
 				<button onClick={showPreviousFile} className={'control-button ' + (!(previousFiles.length > 1) ? 'disabled' : '')}>
 					<Icon icon='mdi:arrow-left' />
@@ -29,6 +30,7 @@ function QuizControlPanel() {
 					<Icon icon='mdi:checkbox-marked-circle-outline' />
 				</button>
 			</div>
+			<QuizIndicators />
 		</div>
 	);
 }

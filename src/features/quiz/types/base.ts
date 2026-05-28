@@ -12,3 +12,8 @@ export type QuizFileStore = {
 	completeFileLoading: () => void;
 	toggleFileNameRevealed: (condition?: boolean) => void;
 };
+
+export type QuizSettingsStore = {
+	isVisible: boolean;
+	toggleVisibility: (condition?: boolean) => void;
+};

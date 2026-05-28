@@ -1,6 +1,6 @@
 import { getFiles } from 'src/utils';
 import { create } from 'zustand';
-import type { QuizErrorStore, QuizFileStore } from '../types/base';
+import type { QuizErrorStore, QuizFileStore, QuizSettingsStore } from '../types/base';
 
 export const useQuizErrorStore = create<QuizErrorStore>()((set) => ({
 	error: undefined,
@@ -21,4 +21,12 @@ export const useQuizFileStore = create<QuizFileStore>()((set) => ({
 		if (condition != undefined) return set({ isFileNameRevealed: condition });
 		set((state) => ({ isFileNameRevealed: !state.isFileNameRevealed }));
 	},
+}));
+
+export const useQuizSettingsStore = create<QuizSettingsStore>()((set) => ({
+	isVisible: false,
+	toggleVisibility: (condition?: boolean) =>
+		set((state) => ({
+			isVisible: condition != undefined ? condition : !state.isVisible,
+		})),
 }));
