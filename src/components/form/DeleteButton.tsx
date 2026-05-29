@@ -1,5 +1,3 @@
-import { Icon } from '@iconify/react';
-import { useState } from 'react';
 import classes from 'src/assets/form/_DeleteButton.module.scss';
 import { useModalStore } from 'src/data/modalStore';
 import Modal from './Modal';

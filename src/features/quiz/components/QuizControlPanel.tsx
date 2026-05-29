@@ -1,6 +1,8 @@
 import { Icon } from '@iconify/react';
 import clsx from 'clsx';
+import Modal from 'src/components/form/Modal';
 import { useSettingsStore } from 'src/data';
+import { useModalStore } from 'src/data/modalStore';
 import '../assets/_QuizControlPanel.scss';
 import { useQuizFileStore } from '../data/stores';
 import { fileIndexList, previousFiles } from '../data/variables';
@@ -9,7 +11,10 @@ import { addFileToCompleted, changeImage, initiateQuiz, showPreviousFile } from 
 import QuizIndicators from './QuizIndicators';
 
 function QuizControlPanel() {
-	const { toggleFileNameRevealed, fileIndex, isFileNameRevealed } = useQuizFileStore((store) => store);
+	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
+	const isFileNameRevealed = useQuizFileStore((store) => store.isFileNameRevealed);
+
+	const setModal = useModalStore((store) => store.setModal);
 
 	// let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
 
@@ -34,10 +39,11 @@ function QuizControlPanel() {
 				<button onClick={() => changeImage()} className='control-button'>
 					<Icon icon='mdi:arrow-right' />
 				</button>
-				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : refreshQuiz())} className={clsx('complete-button control-button')}>
+				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : setModal('Resetovat naučené obrázky z výběru'))} className={clsx('complete-button control-button')}>
 					<Icon icon={isEverythingCompleted ? 'mdi:refresh' : 'mdi:checkbox-marked-circle-outline'} />
 				</button>
 			</div>
+			<Modal title='Resetovat naučené obrázky z výběru' text='Tato funkce resetuje naučené obrázky ve vybraném rozsahu.' confirmText='Potvrdit' onConfirm={refreshQuiz} />
 			<QuizIndicators />
 		</div>
 	);
