@@ -11,14 +11,12 @@
 	@include main.hover-bg(var(--bg-light));
 
 	@extend .center-content;
-	flex-direction: column;
-	row-gap: min(0.5rem, calc(8cqw / 5), calc(16cqh / 5));
 
 	border-radius: 0.5rem;
 	color: var(--text-muted);
 	font-weight: bold;
 
-	--height: min(5rem, 15vw);
+	--height: min(4rem, 15vw);
 	height: var(--height);
 	aspect-ratio: 1 / 1;
 

@@ -10,10 +10,11 @@ import { getMinMax } from './getMinMax';
  * It also resets `previousIndex` and changes the maximum value of the range.
  *
  * @param resetIndex - Whether to reset `previousIndex` or not.
+ * @param clearCompleted - Whether to clear the `completedFiles` array or not.
  */
-export function initiateQuiz(resetIndex = true) {
+export function initiateQuiz(resetIndex = true, clearCompleted = false) {
 	const settings = useSettingsStore.getState().settings;
-	const completedFiles = useCompletedFilesStore.getState().completedFiles;
+	const { completedFiles, removeFileFromCompleted } = useCompletedFilesStore.getState();
 	const files = getFiles();
 
 	if (resetIndex) {
@@ -29,7 +30,13 @@ export function initiateQuiz(resetIndex = true) {
 
 	for (let i = 0; i < range; i++) {
 		let val = i + min;
-		if (completedFiles?.includes(files[val - 1])) continue;
+		if (completedFiles?.includes(files[val - 1])) {
+			if (clearCompleted) {
+				removeFileFromCompleted(files[val - 1]);
+			} else {
+				continue;
+			}
+		}
 		fileIndexList.main.push(val);
 	}
 }
