@@ -10,6 +10,7 @@ import { useQuizFileStore, useQuizSettingsStore } from '../data/stores';
 import { useHandleQuizUpdates } from '../hooks/useHandleQuizUpdates';
 import { useUpdateOnCompletedFiles } from '../hooks/useUpdateOnCompletedFiles';
 import { addFileToCompleted, changeImage } from '../utils';
+import PreloadQuiz from './PreloadQuiz';
 import QuizControlPanel from './QuizControlPanel';
 import { ImageViewer, NameViewer } from './QuizImageViewer';
 
@@ -66,6 +67,7 @@ function Quiz(props: any) {
 			<ImageViewer />
 			<NameViewer />
 			<QuizControlPanel />
+			<PreloadQuiz />
 			<div style={{ opacity: visibleSide == 'complete' ? 1 : 0 } as CSSProperties} data-right className='quiz-indicator'></div>
 			<div style={{ opacity: visibleSide == 'change' ? 1 : 0, '--color': 'var(--danger)' } as CSSProperties} data-left className='quiz-indicator'></div>
 

@@ -19,8 +19,6 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 
 	toggleFileNameRevealed(false);
 
-	console.log(fileIndexList['main'], fileIndexList['recent']);
-
 	const { min, max } = getMinMax({ files, settings });
 
 	const isValid = handleErrors({ settings, min, max });
