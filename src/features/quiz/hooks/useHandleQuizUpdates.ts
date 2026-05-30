@@ -4,7 +4,7 @@ import { useDetailedEffect } from 'src/hooks/useDetailedEffect';
 import { getFiles } from 'src/utils';
 import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousIndex } from '../data/variables';
+import { currentIndex, fileIndexList } from '../data/variables';
 import { changeImage, initiateQuiz } from '../utils';
 
 export function useHandleQuizUpdates() {
@@ -72,12 +72,7 @@ export function useHandleQuizUpdates() {
 		(firstRender) => {
 			if (!firstRender) {
 				if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
-					initiateQuiz();
-				}
-				if (index && previousIndex.current) {
-					if (fileIndexList['main'].includes(index) && fileIndexList['main'][previousIndex.current] !== index) {
-						previousIndex.current = fileIndexList['main'].indexOf(index);
-					}
+					initiateQuiz(false);
 				}
 			}
 		},

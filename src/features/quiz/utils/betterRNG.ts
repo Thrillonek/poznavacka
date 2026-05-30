@@ -16,6 +16,11 @@ export function betterRNG(min: number, max: number) {
 	let idx = rng(0, fileIndexList.main.length - 1);
 	let result = fileIndexList.main[idx];
 
+	while (result === null) {
+		idx++;
+		result = fileIndexList.main[idx % fileIndexList.main.length];
+	}
+
 	fileIndexList.recent.push(result);
 	fileIndexList.main.splice(idx, 1);
 

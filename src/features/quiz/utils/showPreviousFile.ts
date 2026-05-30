@@ -1,6 +1,6 @@
 import { useSettingsStore } from 'src/data';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
+import { currentIndex, fileIndexList, previousFiles } from '../data/variables';
 
 /**
  * Shows the previous file in the quiz.
@@ -21,14 +21,19 @@ export function showPreviousFile() {
 			setFileIndex(previousFiles[1]);
 		}
 	} else {
-		let idx;
-		if (previousIndex.current == null || previousIndex.current == 0) {
-			idx = fileIndexList.main.length - 1;
-		} else {
-			idx = previousIndex.current - 1;
+		let index = currentIndex.current ?? 0;
+		function decreaseIndex(index: number) {
+			let newIndex = index - 1;
+			if (newIndex < 0) newIndex = fileIndexList.main.length - 1;
+			currentIndex.current = newIndex;
+
+			if (fileIndexList.main[newIndex] === null) {
+				return decreaseIndex(newIndex);
+			} else {
+				return newIndex;
+			}
 		}
-		previousIndex.current = idx;
-		idx = fileIndexList.main[idx];
-		setFileIndex(idx);
+		index = fileIndexList.main[decreaseIndex(index)]!;
+		setFileIndex(index);
 	}
 }

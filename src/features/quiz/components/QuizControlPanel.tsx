@@ -20,7 +20,7 @@ function QuizControlPanel() {
 
 	useHandleSwiping();
 
-	const isEverythingCompleted = fileIndexList.main.length + fileIndexList.recent.length === 0;
+	const isEverythingCompleted = fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0;
 
 	function refreshQuiz() {
 		initiateQuiz(false, true);
