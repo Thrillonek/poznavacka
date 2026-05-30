@@ -56,7 +56,7 @@ export function useHandleQuizUpdates() {
 	);
 
 	useEffect(() => {
-		changeImage();
+		changeImage({ firstImage: true });
 	}, [poznavacka, settings.quiz.random]);
 
 	useDetailedEffect(

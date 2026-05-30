@@ -5,7 +5,7 @@ import { useSettingsStore } from 'src/data';
 import { useModalStore } from 'src/data/modalStore';
 import '../assets/_QuizControlPanel.scss';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousFiles } from '../data/variables';
+import { currentIndex, fileIndexList, previousFiles } from '../data/variables';
 import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, initiateQuiz, showPreviousFile } from '../utils';
 import QuizIndicators from './QuizIndicators';
@@ -16,6 +16,8 @@ function QuizControlPanel() {
 
 	const setModal = useModalStore((store) => store.setModal);
 
+	const settings = useSettingsStore((store) => store.settings);
+
 	// let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
 
 	useHandleSwiping();
@@ -25,6 +27,11 @@ function QuizControlPanel() {
 	function refreshQuiz() {
 		initiateQuiz(false, true);
 		changeImage();
+	}
+
+	function resetIndex() {
+		currentIndex.current = undefined;
+		changeImage({ firstImage: true });
 	}
 
 	return (
@@ -38,6 +45,9 @@ function QuizControlPanel() {
 				</button>
 				<button onClick={() => changeImage()} className='control-button'>
 					<Icon icon='mdi:arrow-right' />
+				</button>
+				<button onClick={() => resetIndex()} className={clsx('control-button', settings.quiz.random && 'disabled')}>
+					<Icon icon='mdi:undo' />
 				</button>
 				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : setModal('Resetovat naučené obrázky z výběru'))} className={clsx('complete-button control-button')}>
 					<Icon icon={isEverythingCompleted ? 'mdi:refresh' : 'mdi:checkbox-marked-circle-outline'} />
