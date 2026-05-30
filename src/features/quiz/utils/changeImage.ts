@@ -19,7 +19,7 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 
 	toggleFileNameRevealed(false);
 
-	console.log(fileIndexList, fileIndex);
+	console.log(fileIndexList);
 
 	const { min, max } = getMinMax({ files, settings });
 
@@ -38,6 +38,7 @@ function generateNewIndex({ min, max, settings, increase }: { min: number; max: 
 	let index: number;
 	if (settings?.quiz.random) {
 		index = betterRNG(min, max);
+		console.log('Generated index:', index);
 	} else {
 		function increaseIndex(index: number, increase: boolean = true): number {
 			let newIndex = increase ? (index + 1) % fileIndexList.main.length : index;
@@ -50,8 +51,9 @@ function generateNewIndex({ min, max, settings, increase }: { min: number; max: 
 			}
 		}
 		index = increaseIndex(currentIndex.current ?? 0, increase);
+		index = fileIndexList.main[index] as number;
 	}
-	return fileIndexList.main[index]!;
+	return index;
 }
 
 function handleErrors({ settings, min, max }: { settings: SettingsStore['settings']; min: number; max: number }) {
