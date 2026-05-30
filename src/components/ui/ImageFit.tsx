@@ -42,7 +42,6 @@ function ImageFit({ src, alt, onLoad, calcFit, style, important = true, ...props
 
 	const image = window.location.href.includes('localhost') ? src : `https://wsrv.nl/?url=${window.location.host + encodeURI(src)}&q=75&output=webp`;
 
-	console.log(src);
 	return (
 		<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
 			<div style={{ aspectRatio: `${dims.width || 16} / ${dims.height || 9}` }} className='relative h-full overflow-hidden'>

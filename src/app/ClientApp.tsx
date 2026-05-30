@@ -16,7 +16,7 @@ export default function ClientApp() {
 		if (!searchParams.has('mode')) {
 			updateSearchParams({ mode: 'quiz' });
 		}
-	}, []);
+	}, [searchParams]);
 
 	return (
 		<main>

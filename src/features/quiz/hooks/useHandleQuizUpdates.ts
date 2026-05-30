@@ -18,13 +18,23 @@ export function useHandleQuizUpdates() {
 
 	const files = useMemo(() => getFiles(), [poznavacka]);
 
-	useEffect(() => {
-		updateSettings('quiz', 'max', files.length);
-	}, [files.length]);
+	useDetailedEffect(
+		(firstRender) => {
+			if (!firstRender) {
+				updateSettings('quiz', 'max', files.length);
+			}
+		},
+		[files.length],
+	);
 
-	useEffect(() => {
-		updateSettings('quiz', 'min', 1);
-	}, [poznavacka]);
+	useDetailedEffect(
+		(firstRender) => {
+			if (!firstRender) {
+				updateSettings('quiz', 'min', 1);
+			}
+		},
+		[poznavacka],
+	);
 
 	useEffect(() => {
 		initiateQuiz();
