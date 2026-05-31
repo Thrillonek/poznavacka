@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react';
 import { type FormEvent, type LegacyRef, useEffect, useRef } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_SearchForm.scss';
-import { useChosenFileStore, useListSearchStore } from '../data/stores';
+import { useListSearchStore, useSelectedFileStore } from '../data/stores';
 import { scrollListToItem } from '../utils/scrollListToItem';
 import { searchItem } from '../utils/searchItem';
 import SearchFormResults from './SearchFormResults';
@@ -12,7 +12,7 @@ function SearchForm() {
 	const setSearchInput = useListSearchStore((store) => store.setSearchInput);
 	const isSearchInputFocused = useListSearchStore((store) => store.isSearchInputFocused);
 	const setIsSearchInputFocused = useListSearchStore((store) => store.setIsSearchInputFocused);
-	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -20,7 +20,7 @@ function SearchForm() {
 		const searchedItem = searchItem(e) as string;
 		scrollListToItem(searchedItem);
 		setIsSearchInputFocused(false);
-		setChosenFile(searchedItem);
+		setSelectedFile(searchedItem);
 	}
 
 	useEffect(() => {

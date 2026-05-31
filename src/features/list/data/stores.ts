@@ -1,11 +1,11 @@
 import { getFiles } from 'src/utils';
 import { create } from 'zustand';
-import type { ChosenFileStore, ListFilesStore, ListSearchStore } from '../types/base';
+import type { ListFilesStore, ListSearchStore, SelectedFileStore } from '../types/base';
 
-export const useChosenFileStore = create<ChosenFileStore>()((set) => ({
-	chosenFile: undefined,
+export const useSelectedFileStore = create<SelectedFileStore>()((set) => ({
+	selectedFile: undefined,
 	isSet: false,
-	setChosenFile: (file) => set({ chosenFile: file, isSet: file != null }),
+	setSelectedFile: (file) => set({ selectedFile: file, isSet: file != null }),
 }));
 
 export const useListSearchStore = create<ListSearchStore>()((set) => ({

@@ -4,17 +4,17 @@ import { useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
-import { useChosenFileStore } from '../data/stores';
+import { useSelectedFileStore } from '../data/stores';
 import type { ListItemProps } from '../types/base';
 
 function ListItem({ file, idx }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
-	const chosenFile = useChosenFileStore((store) => store.chosenFile);
+	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
 
 	return (
-		<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} className='list-item-container'>
+		<div onClick={() => setSelectedFile(file)} data-chosen={selectedFile === file} className='list-item-container'>
 			<div className='relative flex justify-start items-center gap-4'>
 				<div className='list-item-number'>
 					<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
