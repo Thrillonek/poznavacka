@@ -23,4 +23,6 @@ const nextConfig: NextConfig = {
 	// },
 };
 
+console.log(process.env.NEXT_PUBLIC_FILE_SYSTEM);
+
 export default nextConfig;
