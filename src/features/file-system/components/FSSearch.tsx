@@ -5,8 +5,9 @@ import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
 import { capitalize } from 'src/utils/formatting';
 import '../assets/_FSSearch.scss';
-import { useFileSystemStore, useMenuStore } from '../data/stores';
+import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
 import { searchFS } from '../utils/searchFS';
+import { toggleSet } from '../utils/selectMultipleFunctionMutators';
 
 export default function FSSearch() {
 	const [isSearching, setIsSearching] = useState(false);
@@ -19,6 +20,7 @@ export default function FSSearch() {
 	const setFolderName = useFileSystemStore((state) => state.setFolderName);
 	const setPoznavacka = usePoznavackaStore((state) => state.setPoznavacka);
 	const closeMenu = useMenuStore((state) => state.close);
+	const isSelecting = useSelectMultipleStore((store) => store.isSelecting);
 
 	const lastInputValue = useRef<string>();
 
@@ -42,8 +44,15 @@ export default function FSSearch() {
 		setPath(folderObject.path.split('/'));
 		setFolderName(capitalize(folderObject.path.split('/').at(-1)!) ?? null);
 		setSelectedFolder(folderObject.content);
-		setPoznavacka({ [folderObject.path.split('/').at(-1)!]: folderObject.content } as any);
 		closeMenu();
+
+		const folder = { [folderObject.path.split('/').at(-1)!]: folderObject.content } as any;
+
+		if (isSelecting) {
+			toggleSet(folder, false);
+		} else {
+			setPoznavacka(folder);
+		}
 
 		setIsSearching(false);
 		setInputValue('');

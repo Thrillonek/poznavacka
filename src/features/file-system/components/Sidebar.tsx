@@ -62,7 +62,7 @@ export default function Sidebar() {
 				</div>
 				<div className='h-px w-full bg-(--border)' />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
-					{selectedFolder.filter((content) => !isObject(content)).length > 0 && (
+					{selectedFolder?.filter((content) => !isObject(content)).length > 0 && (
 						<div className={'sidebar-option'}>
 							<button data-active={isCurrentFolderActive} onClick={viewCurrentFolderContent} className='flex justify-between items-center'>
 								<span className='italic'>Obsah této složky</span>

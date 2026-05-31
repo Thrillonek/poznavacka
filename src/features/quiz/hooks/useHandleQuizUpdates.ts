@@ -4,7 +4,7 @@ import { useDetailedEffect } from 'src/hooks/useDetailedEffect';
 import { getFiles } from 'src/utils';
 import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousIndex } from '../data/variables';
+import { currentIndex, fileIndexList } from '../data/variables';
 import { changeImage, initiateQuiz } from '../utils';
 
 export function useHandleQuizUpdates() {
@@ -18,13 +18,23 @@ export function useHandleQuizUpdates() {
 
 	const files = useMemo(() => getFiles(), [poznavacka]);
 
-	useEffect(() => {
-		updateSettings('quiz', 'max', files.length);
-	}, [files.length]);
+	useDetailedEffect(
+		(firstRender) => {
+			if (!firstRender) {
+				updateSettings('quiz', 'max', files.length);
+			}
+		},
+		[files.length],
+	);
 
-	useEffect(() => {
-		updateSettings('quiz', 'min', 1);
-	}, [poznavacka]);
+	useDetailedEffect(
+		(firstRender) => {
+			if (!firstRender) {
+				updateSettings('quiz', 'min', 1);
+			}
+		},
+		[poznavacka],
+	);
 
 	useEffect(() => {
 		initiateQuiz();
@@ -46,7 +56,7 @@ export function useHandleQuizUpdates() {
 	);
 
 	useEffect(() => {
-		changeImage();
+		changeImage({ firstImage: true });
 	}, [poznavacka, settings.quiz.random]);
 
 	useDetailedEffect(
@@ -62,12 +72,7 @@ export function useHandleQuizUpdates() {
 		(firstRender) => {
 			if (!firstRender) {
 				if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
-					initiateQuiz();
-				}
-				if (index && previousIndex.current) {
-					if (fileIndexList['main'].includes(index) && fileIndexList['main'][previousIndex.current] !== index) {
-						previousIndex.current = fileIndexList['main'].indexOf(index);
-					}
+					initiateQuiz(false);
 				}
 			}
 		},

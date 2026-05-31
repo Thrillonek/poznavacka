@@ -4,9 +4,8 @@ import { useEffect } from 'react';
  * Creates the custom:drag event on the document element.
  */
 export function useInitiateDragEvent() {
-	let isTouch = window.matchMedia('(pointer: coarse)').matches;
-
 	useEffect(() => {
+		let isTouch = window.matchMedia('(pointer: coarse)').matches;
 		let startX: number, startY: number, startTime: number;
 		let isActive = false;
 

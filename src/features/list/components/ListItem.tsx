@@ -1,21 +1,20 @@
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
 import { useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';
-import { useChosenFileStore } from '../data/stores';
+import { useSelectedFileStore } from '../data/stores';
 import type { ListItemProps } from '../types/base';
 
 function ListItem({ file, idx }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
-	const chosenFile = useChosenFileStore((store) => store.chosenFile);
-
-	const resizedFile = useMemo(() => (!window.location.href.includes('localhost') ? `https://wsrv.nl/?url=${window.location.host + encodeURI(file)}&w=64&h=64&output=webp` : file), [file]);
+	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
 
 	return (
-		<div onClick={() => setChosenFile(file)} data-chosen={chosenFile === file} className='list-item-container'>
+		<div onClick={() => setSelectedFile(file)} data-chosen={selectedFile === file} className='list-item-container'>
 			<div className='relative flex justify-start items-center gap-4'>
 				<div className='list-item-number'>
 					<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
@@ -29,7 +28,7 @@ function ListItem({ file, idx }: ListItemProps) {
 						<Icon className='text-2xl' icon='mdi:checkbox-marked-circle-outline' />
 					</div>
 				)}
-				<img loading='lazy' decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={resizedFile} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
+				<Image loading='lazy' height={48} width={48} quality={50} decoding='async' fetchPriority='low' key={getFolderName(poznavacka!) + idx} src={file.replaceAll(/\+/g, '%2B')} alt={`${getFolderName(poznavacka!)} - obrázek ${idx + 1}`} />
 			</div>
 		</div>
 	);

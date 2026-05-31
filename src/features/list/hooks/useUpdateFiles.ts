@@ -27,7 +27,7 @@ export function useUpdateFiles() {
 				break;
 		}
 
-		if (condition != null) {
+		if (condition != undefined) {
 			files.forEach((file, idx) => {
 				if (condition(file)) updatedFiles[idx] = file;
 			});

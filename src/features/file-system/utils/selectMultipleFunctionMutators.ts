@@ -29,6 +29,11 @@ export function removeSet(content: Folder, extractNested = true) {
 	mutateSet('remove', content, extractNested);
 }
 
+/**
+ * Toggles a set in poznavacka.
+ * @param content The set.
+ * @param extractNested Whether or not to extract nested content from the set. **Defaults to true.**
+ */
 export function toggleSet(content: Folder, extractNested = true) {
 	const poznavacka = usePoznavackaStore.getState().poznavacka;
 
