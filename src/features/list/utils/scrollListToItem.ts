@@ -8,7 +8,9 @@ export function scrollListToItem(item: string) {
 
 	searchedItemIndex = files.indexOf(item) + 1;
 
-	let searchedElement = document.getElementById('list-item-' + searchedItemIndex)!;
+	let searchedElement = document.getElementById('list-item-' + searchedItemIndex);
+	if (!searchedElement) return;
+
 	let searchedItemRect = searchedElement.getBoundingClientRect();
 	let listRect = list.getBoundingClientRect();
 

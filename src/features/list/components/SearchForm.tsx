@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react';
-import { type FormEvent, type LegacyRef, useEffect, useRef } from 'react';
+import type { MouseEvent } from 'react';
+import { type FormEvent, useEffect, useRef } from 'react';
 import { useAddEventListener } from 'src/hooks';
 import '../assets/_SearchForm.scss';
 import { useListSearchStore, useSelectedFileStore } from '../data/stores';
@@ -37,30 +38,33 @@ function SearchForm() {
 		if (!['list-search-container', 'search-form-results'].some((item) => document.getElementById(item)?.contains(e.target as HTMLElement))) setIsSearchInputFocused(false);
 	});
 
-	function deleteInput() {
+	function deleteInput(e: MouseEvent) {
+		e.preventDefault();
 		setSearchInput('');
 		inputRef.current!.focus();
 	}
 
 	return (
-		<div data-visible={isSearchInputFocused} id='list-search-container' className='search-form-container'>
+		<>
 			<button onClick={() => setIsSearchInputFocused(true)} className='md:hidden search-form-open search-icon'>
 				<Icon icon='mdi:magnify' />
 			</button>
-			<form tabIndex={0} onSubmit={submitForm} className='search-form'>
-				<button onClick={() => inputRef.current?.focus()} className='search-icon'>
-					<Icon icon='mdi:magnify' />
-				</button>
-				<button type='button' onClick={() => setIsSearchInputFocused(false)} className='md:hidden search-form-close search-icon'>
-					<Icon icon='mdi:arrow-back' />
-				</button>
-				<input onFocus={() => setIsSearchInputFocused(true)} ref={inputRef} placeholder='Hledat' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='search-input' />
-				<button data-hidden={!searchInput} onClick={deleteInput} className='search-icon'>
-					<Icon icon='mdi:close' />
-				</button>
-			</form>
-			<SearchFormResults />
-		</div>
+			<div data-visible={isSearchInputFocused} id='list-search-container' className='search-form-container'>
+				<form tabIndex={0} onSubmit={submitForm} className='search-form'>
+					<button onClick={() => inputRef.current?.focus()} className='search-icon'>
+						<Icon icon='mdi:magnify' />
+					</button>
+					<button type='button' onClick={() => setIsSearchInputFocused(false)} className='search-form-close search-icon'>
+						<Icon icon='mdi:close' />
+					</button>
+					<input onFocus={() => setIsSearchInputFocused(true)} ref={inputRef} placeholder='Hledat' onChange={(e) => setSearchInput(e.target.value)} value={searchInput} type='text' className='search-input' />
+					<button data-hidden={!searchInput} onClick={deleteInput} className='search-icon'>
+						<Icon icon='mdi:close' />
+					</button>
+				</form>
+				<SearchFormResults />
+			</div>
+		</>
 	);
 }
 

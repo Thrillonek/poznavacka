@@ -57,12 +57,12 @@ function SearchFormResults() {
 	return (
 		<div data-visible={verifyConditions()} ref={searchFormResultsRef} id='search-form-results' className='search-form-results'>
 			{existsSearchArray
-				? searchedArray.map((file) => {
+				? searchedArray.map((file, idx) => {
 						const fileIndex = getFiles().indexOf(file);
 						if (settings.list.showFiles == 'completed' && !completedFiles.includes(file)) return null;
 						if (settings.list.showFiles == 'uncompleted' && completedFiles.includes(file)) return null;
 						return (
-							<button onClick={() => scrollToSearchResult(file)}>
+							<button key={idx} onClick={() => scrollToSearchResult(file)}>
 								<div className='list-item-number'>
 									<p data-length={(fileIndex + 1).toString().length}>{fileIndex + 1}</p>
 								</div>
