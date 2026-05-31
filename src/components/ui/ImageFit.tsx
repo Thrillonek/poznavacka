@@ -44,7 +44,7 @@ function ImageFit({ src, alt, onLoad, calcFit, style, important = true, ...props
 
 	return (
 		<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
-			<div style={{ aspectRatio: `${dims.width || 16} / ${dims.height || 9}` }} className='relative h-full overflow-hidden'>
+			<div style={{ aspectRatio: `${dims.width || 16} / ${dims.height || 9}` }} className='relative h-full overflow-hidden center-content'>
 				{/* <Image key={src} {...dims} style={{ ...style }} quality={75} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={image} alt={alt} /> */}
 				<img key={src} style={{ ...style }} loading={!important ? 'lazy' : 'eager'} onError={() => setIsError(true)} data-error={isError} onLoad={handleImageLoad} ref={imageRef} src={image} alt={alt} />
 			</div>

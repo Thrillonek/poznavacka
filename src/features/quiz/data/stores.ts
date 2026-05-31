@@ -1,6 +1,6 @@
 import { getFiles } from 'src/utils';
 import { create } from 'zustand';
-import type { QuizErrorStore, QuizFileStore, QuizSettingsStore } from '../types/base';
+import type { QuizErrorStore, QuizFileStore, QuizRandomIndexStore, QuizSettingsStore } from '../types/base';
 
 export const useQuizErrorStore = create<QuizErrorStore>()((set) => ({
 	error: undefined,
@@ -29,4 +29,13 @@ export const useQuizSettingsStore = create<QuizSettingsStore>()((set) => ({
 		set((state) => ({
 			isVisible: condition != undefined ? condition : !state.isVisible,
 		})),
+}));
+
+export const useQuizRandomIndexStore = create<QuizRandomIndexStore>()((set) => ({
+	history: [],
+	current: undefined,
+	preload: [],
+	populate: (newIndexArray) => set({ current: newIndexArray[0], preload: [...newIndexArray.slice(1)] }),
+	pushNewIndex: (newIndex) => set((state) => (state.current ? { history: [state.current, ...state.history.slice(0, 4)], current: state.preload[0], preload: [...state.preload.slice(1, 5), newIndex] } : state)),
+	shiftIndexes: () => set((state) => (state.history.length > 0 && state.current ? { history: state.history.slice(1), current: state.history[0], preload: [state.current, ...state.preload.slice(0, 4)] } : state)),
 }));

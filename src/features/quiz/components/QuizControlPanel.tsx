@@ -4,8 +4,8 @@ import Modal from 'src/components/form/Modal';
 import { useSettingsStore } from 'src/data';
 import { useModalStore } from 'src/data/modalStore';
 import '../assets/_QuizControlPanel.scss';
-import { useQuizFileStore } from '../data/stores';
-import { currentIndex, fileIndexList, previousFiles } from '../data/variables';
+import { useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
+import { currentIndex, fileIndexList } from '../data/variables';
 import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, initiateQuiz, showPreviousFile } from '../utils';
 import QuizIndicators from './QuizIndicators';
@@ -14,11 +14,11 @@ function QuizControlPanel() {
 	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 	const isFileNameRevealed = useQuizFileStore((store) => store.isFileNameRevealed);
 
+	const quizRandomHistory = useQuizRandomIndexStore((store) => store.history);
+
 	const setModal = useModalStore((store) => store.setModal);
 
 	const settings = useSettingsStore((store) => store.settings);
-
-	// let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
 
 	useHandleSwiping();
 
@@ -37,7 +37,7 @@ function QuizControlPanel() {
 	return (
 		<div className='flex flex-col justify-between items-center py-4!'>
 			<div className='quiz-control-panel'>
-				<button onClick={showPreviousFile} className={'control-button ' + (!(previousFiles.length > 1) ? 'disabled' : '')}>
+				<button onClick={showPreviousFile} className={clsx('control-button', settings.quiz.random && quizRandomHistory.length === 0 && 'disabled')}>
 					<Icon icon='mdi:arrow-left' />
 				</button>
 				<button className='control-button' onClick={() => toggleFileNameRevealed()}>
