@@ -8,8 +8,10 @@ import type { SettingsStore } from 'src/types/settings';
 export function getMinMax({ files, settings }: { files: string[]; settings: SettingsStore['settings'] }) {
 	let min: number, max: number;
 
-	min = settings.quiz.min || 1;
-	max = settings.quiz.max || files.length;
+	min = Math.max(settings.quiz.min, 1) || 1;
+	max = Math.min(settings.quiz.max, files.length) || files.length;
+
+	if (settings.quiz.min > settings.quiz.max) return { min: 1, max: files.length };
 
 	return { min, max };
 }

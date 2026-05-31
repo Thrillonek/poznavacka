@@ -21,7 +21,7 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 
 	const { min, max } = getMinMax({ files, settings });
 
-	const isValid = handleErrors({ settings, min, max });
+	const isValid = handleErrors();
 	if (!isValid) return;
 
 	let newIndex = generateNewIndex({ min, max, settings, firstImage });
@@ -58,9 +58,8 @@ function generateNewIndex({ min, max, settings, firstImage }: { min: number; max
 	return index;
 }
 
-function handleErrors({ settings, min, max }: { settings: SettingsStore['settings']; min: number; max: number }) {
+function handleErrors() {
 	const setError = useQuizErrorStore.getState().setError;
-	const files = getFiles();
 
 	function invalidate(message: string) {
 		setError(message);
@@ -68,10 +67,6 @@ function handleErrors({ settings, min, max }: { settings: SettingsStore['setting
 	}
 
 	setError('');
-
-	if (max <= min || (!settings?.quiz.max && min >= files?.length) || (!settings?.quiz.min && max < 1)) invalidate('Dolní hranice musí být nižší než ta horní');
-	if (min < 1) invalidate('Dolní hranice nemůže být nižší než 1');
-	if (max > files.length) invalidate('Horní hranice nemůže být vyšší než ' + files.length);
 
 	if (fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0) invalidate('Všechny soubory v této sadě máš naučené!');
 
