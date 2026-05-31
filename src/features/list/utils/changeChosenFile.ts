@@ -1,21 +1,21 @@
 import { useSettingsStore } from 'src/data';
-import { useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { useChosenFileStore, useListFilesStore } from '../data/stores';
 import { scrollListToItem } from './scrollListToItem';
 
 /**
  * Changes the chosen file in the list. Scrolls the list, so that the file is visible when the user closes the enlarged mode.
  * @param condition - Defines the direction that the carousel will move.
  */
-export function changeSelectedFile(condition: 'left' | 'right') {
-	const { selectedFile, setSelectedFile } = useSelectedFileStore.getState();
+export function changeChosenFile(condition: 'left' | 'right') {
+	const { chosenFile, setChosenFile } = useChosenFileStore.getState();
 	const { settings } = useSettingsStore.getState();
 
 	const listFiles = useListFilesStore.getState().files;
 
-	if (!selectedFile) return;
+	if (!chosenFile) return;
 
 	let files = Object.values(listFiles);
-	let idx = files.indexOf(selectedFile);
+	let idx = files.indexOf(chosenFile);
 
 	let carousel = document.getElementById('selected-file-carousel')!;
 	let previous = carousel.children[0] as HTMLElement;
@@ -49,6 +49,6 @@ export function changeSelectedFile(condition: 'left' | 'right') {
 	idx += files.length;
 	idx %= files.length;
 
-	setSelectedFile(files[idx]);
+	setChosenFile(files[idx]);
 	scrollListToItem(files[idx]);
 }

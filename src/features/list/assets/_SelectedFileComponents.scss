@@ -1,7 +1,7 @@
 @use 'src/assets/main';
 
 .selected-file-name {
-	font-size: 1.25rem;
+	font-size: 1.5rem;
 	font-weight: bold;
 	color: var(--text-main);
 	text-align: center;
@@ -13,16 +13,13 @@
 
 .selected-file-swapper {
 	@extend .center-content;
-	@include main.hover-bg(var(--bg-base));
-	color: var(--text-muted);
+	@include main.hover-text;
 	position: relative;
 	overflow: hidden;
 
-	--height: 2.5rem;
+	--height: 5rem;
 	height: var(--height);
-	aspect-ratio: 1 / 1;
-
-	border-radius: 50%;
+	width: calc(var(--height) / 2);
 
 	& > * {
 		font-size: var(--height);

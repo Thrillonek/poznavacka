@@ -36,8 +36,6 @@ export function searchItem(e?: FormEvent, multiple: boolean = false) {
 
 	const files = getFiles();
 
-	if (!files || !Array.isArray(files) || files.length === 0) return multiple ? [] : undefined;
-
 	let searchedItems = files.filter((f) => checkIsSearched(f));
 
 	if (multiple) {

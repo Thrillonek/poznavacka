@@ -17,7 +17,7 @@ export function viewCurrentFolderContent() {
 	if (isSelecting) {
 		toggleSet({ [folderName || 'Poznávačky']: selectedFolder as any[] }, false);
 	} else {
-		if (!poznavacka || getContent(poznavacka) !== selectedFolder?.filter((f) => !isObject(f))) {
+		if (!poznavacka || getContent(poznavacka) !== selectedFolder.filter((f) => !isObject(f))) {
 			fileSystemGoBack(true);
 		}
 		closeMenu();

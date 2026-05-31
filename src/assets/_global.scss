@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 //! Color values are defined in data/themes.ts.
 :root {
+	font-family: Inter, sans-serif;
+
 	--text-main: oklch(0.9491 0 0);
 	--text-muted: oklch(0.8993 0 0);
 	--border: oklch(0.4017 0 0);

@@ -3,10 +3,10 @@ export type ListItemProps = {
 	file: string;
 };
 
-export type SelectedFileStore = {
-	selectedFile?: string;
+export type ChosenFileStore = {
+	chosenFile?: string;
 	isSet: boolean;
-	setSelectedFile: (file?: string) => void;
+	setChosenFile: (file?: string) => void;
 };
 
 export type ListSearchStore = {

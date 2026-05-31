@@ -16,19 +16,13 @@ export function betterRNG(min: number, max: number) {
 	let idx = rng(0, fileIndexList.main.length - 1);
 	let result = fileIndexList.main[idx];
 
-	while (result === null) {
-		idx++;
-		result = fileIndexList.main[idx % fileIndexList.main.length];
-	}
-
 	fileIndexList.recent.push(result);
 	fileIndexList.main.splice(idx, 1);
 
 	let multiplier = range >= 5 ? 1.33 : 1;
-	if (Math.floor((range - completedFiles.length) / multiplier) <= fileIndexList.recent.filter((v) => v !== null).length) {
-		let nextNum = fileIndexList.recent.filter((v) => v !== null)[0];
-		fileIndexList.main.push(nextNum);
-		fileIndexList.recent.splice(fileIndexList.recent.indexOf(nextNum), 1);
+	if (Math.floor((range - completedFiles.length) / multiplier) <= fileIndexList.recent.length) {
+		fileIndexList.main.push(fileIndexList.recent[0]);
+		fileIndexList.recent.shift();
 	}
 
 	return result;

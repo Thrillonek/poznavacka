@@ -41,17 +41,19 @@
 .selected-file-menu {
 	@extend .center-content;
 	position: relative;
+	font-size: 1.5rem;
 	height: 3rem;
 
 	& > * {
-		font-size: 1.25rem;
+		font-weight: bold;
+		font-size: 1em;
 		color: var(--text-muted);
 	}
 
 	& > button {
-		font-size: 2rem;
+		font-size: 1.5em;
 		position: absolute;
-		right: 0;
+		left: 0;
 		@include main.hover-text;
 	}
 }

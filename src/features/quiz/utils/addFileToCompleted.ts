@@ -16,9 +16,9 @@ export function addFileToCompleted() {
 	if (idx == -1) idx = fileIndexList.main.indexOf(fileIndex);
 
 	if (fileIndexList.recent.includes(fileIndex)) {
-		fileIndexList.recent[idx] = null;
-	} else fileIndexList.main[idx] = null;
+		fileIndexList.recent.splice(idx, 1);
+	} else fileIndexList.main.splice(idx, 1);
 
 	storeFileInCompleted(files[fileIndex - 1]);
-	changeImage();
+	changeImage({ complete: true });
 }

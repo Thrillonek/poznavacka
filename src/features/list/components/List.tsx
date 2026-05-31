@@ -1,10 +1,10 @@
-import { useSearchParams } from 'next/navigation';
 import type { UIEvent } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
-import { useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { useChosenFileStore, useListFilesStore } from '../data/stores';
 import { useToggleMenuVisibility } from '../hooks/useToggleMenuVisibility';
 import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
@@ -13,12 +13,12 @@ import SelectedFile from './SelectedFile';
 
 export default function List(props: any) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
-	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
+	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const chosenFile = useChosenFileStore((store) => store.chosenFile);
 	const setElement = useMenuElementStore((store) => store.setElement);
 	const listFiles = useListFilesStore((store) => store.files);
 
-	const searchParams = useSearchParams();
+	const [searchParams, _] = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const [scrollY, setScrollY] = useState<number>();
@@ -37,7 +37,7 @@ export default function List(props: any) {
 	// RESETS STATE WHEN POZNAVACKA CHANGES
 	useEffect(() => {
 		document.getElementById('list')!.scrollTop = 0;
-		setSelectedFile(undefined);
+		setChosenFile(undefined);
 		setVisibleItems([]);
 	}, [poznavacka]);
 
@@ -75,7 +75,7 @@ export default function List(props: any) {
 
 	return (
 		<div style={props.style} className='list-layout-container'>
-			{selectedFile && <SelectedFile />}
+			{chosenFile && <SelectedFile />}
 
 			{/* List */}
 

@@ -17,17 +17,16 @@ export function useUpdateOnCompletedFiles() {
 				Object.keys(fileIndexList).forEach((k) => {
 					let key = k as keyof typeof fileIndexList;
 
-					if (fileIndexList[key].some((item) => item && files[item - 1] == file)) {
-						fileIndexList[key] = fileIndexList[key].map((item) => (!item || files[item - 1] != file ? item : null));
+					if (fileIndexList[key].some((item) => files[item - 1] == file)) {
+						fileIndexList[key] = fileIndexList[key].filter((item) => files[item - 1] != file);
 					}
 				});
 			} else {
-				fileIndexList['main'][fileIndexList['main'].indexOf(null)] = files.indexOf(file) + 1;
-				fileIndexList['main'] = fileIndexList['main'].sort((a, b) => (a != null && b != null ? a - b : 0));
+				fileIndexList['main'] = [...fileIndexList['main'], files.indexOf(file) + 1].sort((a, b) => a - b);
 			}
 
 			if (quizVisibleFile === file) {
-				changeImage();
+				changeImage({ complete: true });
 			}
 		},
 		[quizVisibleFile],

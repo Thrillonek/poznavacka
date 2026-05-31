@@ -1,32 +1,46 @@
 @use 'src/assets/main';
 
+.quiz-control-panel-container {
+	@extend .center-content;
+
+	width: min(100%, 500px);
+	max-height: 100%;
+	aspect-ratio: 2 / 1;
+
+	container: quiz-control-panel / size;
+}
+
 .quiz-control-panel {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	gap: 1rem;
+	gap: min(1rem, calc(16cqw / 5), calc(32cqh / 5));
+
+	height: 100%;
+	aspect-ratio: 2 / 1;
 }
 
 .control-button {
 	@include main.hover-bg(var(--bg-light));
 
 	@extend .center-content;
+	flex-direction: column;
+	row-gap: min(0.5rem, calc(8cqw / 5), calc(16cqh / 5));
 
 	border-radius: 0.5rem;
 	color: var(--text-muted);
 	font-weight: bold;
+	width: 100%;
+	height: 100%;
 
-	--height: min(4rem, 15vw);
-	height: var(--height);
-	aspect-ratio: 1 / 1;
+	font-size: min(1rem, calc(16cqw / 5), calc(32cqh / 5));
 
-	& > * {
-		font-size: calc(var(--height) / 2);
+	& > *:not(span) {
+		font-size: 2.5em;
 	}
 
-	&.disabled {
-		opacity: 0.5;
-		pointer-events: none;
+	& > span {
+		font-size: 1em;
 	}
 
 	&.complete-button {
@@ -34,10 +48,11 @@
 			background: oklch(from var(--success) calc(l - 0.3) calc(c - 0.15) h);
 			color: var(--success);
 		}
-		border-radius: 50%;
 	}
 
 	&:last-of-type {
-		grid-column: 3;
+		grid-column: span 3;
+		color: var(--accent);
+		@include main.hover-bg(var(--accent-muted));
 	}
 }

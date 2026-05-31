@@ -1,18 +1,16 @@
 import { Icon } from '@iconify/react';
 import { useEffect, useMemo, useRef, type PointerEvent } from 'react';
-import { capitalize } from 'src/utils';
+import { capitalize, editObject } from 'src/utils';
 import '../assets/_Settings.scss';
 import '../assets/_SettingsMobile.scss';
 import '../assets/_SettingsPages.scss';
 
-import { useSearchParams } from 'next/navigation';
-import { useUpdateSearchParams } from 'src/hooks/useUpdateSearchParams';
+import { useSearchParams } from 'react-router';
 import { categories } from '../data/categories';
 import SettingsCategories from './SettingsCategories';
 
 export default function Settings() {
-	const searchParams = useSearchParams();
-	const updateSearchParams = useUpdateSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
@@ -20,20 +18,23 @@ export default function Settings() {
 	const settingsMode = useMemo(() => searchParams.get('settings')?.split('-').at(-1) || 'kvíz', [searchParams]);
 
 	const clickedOutsideModalRef = useRef<boolean>();
-	const isDevelopmentServer = useRef(false);
-
-	useEffect(() => {
-		isDevelopmentServer.current = window.location.hostname === 'poznavacka-test.netlify.app';
-	}, []);
 
 	function closeSettings() {
-		let settings = searchParams.get('settings');
-		if (settings) updateSearchParams({ settings: 'z-' + (settings.startsWith('x-') ? settings.slice(2) : settings) });
+		setSearchParams((searchParams) => {
+			const settings = searchParams.get('settings');
+			if (!settings) return searchParams;
+
+			searchParams.set('settings', 'z-' + (settings.startsWith('x-') ? settings.slice(2) : settings));
+			return searchParams;
+		});
 	}
 
 	function closeSettingsCategory() {
 		if (isContentOpen) {
-			updateSearchParams({ settings: 'x-' + searchParams.get('settings') });
+			setSearchParams((searchParams) => {
+				searchParams.set('settings', 'x-' + searchParams.get('settings'));
+				return searchParams;
+			});
 		}
 	}
 
@@ -61,7 +62,7 @@ export default function Settings() {
 					<div className='flex flex-col gap-4 overflow-y-auto'>
 						<SettingsCategories />
 					</div>
-					{isDevelopmentServer.current ? (
+					{window.location.hostname === 'poznavacka-test.netlify.app' ? (
 						<a href='https://poznavacka.netlify.app' className='text-muted text-sm text-center underline'>
 							Odkaz na stabilní verzi
 						</a>

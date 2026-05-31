@@ -8,6 +8,20 @@ export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({
 	updatePoznavacka: (newPoznavacka) => set({ poznavacka: newPoznavacka }),
 }));
 
+export const usePresetStore = create<PresetStore>()((set) => ({
+	presets: [],
+	togglePreset: (preset, condition) =>
+		set((state) => {
+			if ((state.presets.includes(preset) && condition == undefined) || condition) {
+				return { presets: state.presets.filter((item) => item != preset) };
+			} else {
+				return { presets: [...state.presets, preset] };
+			}
+		}),
+
+	clearPresets: () => set({ presets: [] }),
+}));
+
 export const useCompletedFilesStore = create<CompletedFilesStore>()((set) => ({
 	completedFiles: [],
 	addFileToCompleted: (file) => set((state: any) => ({ completedFiles: [...state.completedFiles, file] })),

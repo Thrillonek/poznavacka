@@ -1,11 +1,11 @@
-import { useSearchParams } from 'next/navigation';
 import { useMemo, useRef } from 'react';
+import { useSearchParams } from 'react-router';
 import { useAddEventListener } from 'src/hooks';
 import { quizDragOffsetLimit as offsetLimit } from '../data/constants';
 import { addFileToCompleted, changeImage } from '../utils';
 
 export function useHandleSwiping() {
-	const searchParams = useSearchParams();
+	const [searchParams, _] = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
 
 	const offsetRef = useRef(0);

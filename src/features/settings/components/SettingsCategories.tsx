@@ -1,7 +1,6 @@
 import { Icon } from '@iconify/react';
-import { useSearchParams } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
-import { useUpdateSearchParams } from 'src/hooks/useUpdateSearchParams';
+import { useSearchParams } from 'react-router';
 import { capitalize } from 'src/utils';
 import '../assets/_SettingsCategories.scss';
 import { categories, nestedCategories } from '../data/categories';
@@ -24,13 +23,11 @@ export default function SettingsCategories() {
 }
 
 function SettingsCategory({ mode }: { mode: CategoryName }) {
-	const searchParams = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const currentMode = useMemo(() => searchParams.get('settings'), [searchParams]);
-	const updateSearchParams = useUpdateSearchParams();
-
 	function setMode(mode: CategoryName) {
-		updateSearchParams({ settings: mode });
+		setSearchParams({ ...Object.fromEntries(searchParams.entries()), settings: mode });
 	}
 
 	const btnProps = useCallback(

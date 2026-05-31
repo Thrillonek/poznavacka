@@ -1,19 +1,14 @@
-'use client';
-
-import dynamic from 'next/dynamic';
+import { BrowserRouter as Router } from 'react-router';
 import 'src/assets/_main.scss';
-import { AppProvider } from './provider';
+import { getPoznavackaFilesAsync } from '../../functions/getPoznavackaFiles';
+import App from './routes/App';
 
-const ClientApp = dynamic(() => import('./ClientApp'), {
-	ssr: false,
-});
+export default async function Page() {
+	const fileSystem = await getPoznavackaFilesAsync('./public/assets/poznavacky');
 
-const App = () => {
 	return (
-		<AppProvider>
-			<ClientApp />
-		</AppProvider>
+		<Router>
+			<App fileSystem={fileSystem} />
+		</Router>
 	);
-};
-
-export default App;
+}

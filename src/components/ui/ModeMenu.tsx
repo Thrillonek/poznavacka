@@ -1,18 +1,16 @@
 import { Icon } from '@iconify/react';
-import { useSearchParams } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router';
 import 'src/assets/_ModeMenu.scss';
 import { usePoznavackaStore } from 'src/data/stores';
-import { useUpdateSearchParams } from 'src/hooks/useUpdateSearchParams';
 import type { Modes } from 'src/types/stores';
 import { getFiles } from 'src/utils';
 
 function ModeMenu({ closeMenu }: { closeMenu?: () => void }) {
-	const searchParams = useSearchParams();
-	const updateSearchParams = useUpdateSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
-	const setMode = useCallback((newMode: Modes) => updateSearchParams({ mode: newMode }), [searchParams]);
+	const setMode = useCallback((newMode: Modes) => setSearchParams({ ...Object.fromEntries(searchParams.entries()), mode: newMode }), [searchParams]);
 
 	const isSettingsOpen = useMemo(() => searchParams.get('settings') != undefined && !searchParams.get('settings')!.startsWith('z-'), [searchParams]);
 
@@ -21,12 +19,11 @@ function ModeMenu({ closeMenu }: { closeMenu?: () => void }) {
 	const files = useMemo(() => poznavacka && getFiles(), [poznavacka]);
 
 	function openSettings() {
-		if (!searchParams.has('settings')) {
-			updateSearchParams({ settings: 'x-kvíz' });
-		}
-		if (searchParams.get('settings')?.startsWith('z-')) {
-			updateSearchParams({ settings: 'x-' + searchParams.get('settings')!.split('-').at(-1) });
-		}
+		setSearchParams((sparams) => {
+			if (!sparams.get('settings')) sparams.set('settings', 'x-kvíz');
+			if (sparams.get('settings')?.startsWith('z-')) sparams.set('settings', 'x-' + sparams.get('settings')!.split('-').at(-1));
+			return sparams;
+		});
 	}
 
 	function updateMode(newMode: Modes) {

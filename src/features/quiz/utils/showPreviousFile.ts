@@ -1,6 +1,6 @@
 import { useSettingsStore } from 'src/data';
-import { useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
-import { currentIndex, fileIndexList } from '../data/variables';
+import { useQuizFileStore } from '../data/stores';
+import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
 
 /**
  * Shows the previous file in the quiz.
@@ -8,27 +8,27 @@ import { currentIndex, fileIndexList } from '../data/variables';
  * Otherwise it can go back to the previous file in the cycle infinitely.
  */
 export function showPreviousFile() {
-	const { setFileIndex } = useQuizFileStore.getState();
-	const { shiftIndexes, history } = useQuizRandomIndexStore.getState();
+	const { setFileIndex, fileIndex } = useQuizFileStore.getState();
 	const settings = useSettingsStore.getState().settings;
 
-	if (settings.quiz.random && history.length > 0) {
-		setFileIndex(history[0]);
-		shiftIndexes();
-	} else {
-		let index = currentIndex.current ?? 0;
-		function decreaseIndex(index: number) {
-			let newIndex = index - 1;
-			if (newIndex < 0) newIndex = fileIndexList.main.length - 1;
-			currentIndex.current = newIndex;
+	let isPreviousAvailable = previousFiles.length > 1 && previousFiles[0] != fileIndex;
 
-			if (fileIndexList.main[newIndex] === null) {
-				return decreaseIndex(newIndex);
-			} else {
-				return newIndex;
-			}
+	if (settings.quiz.random) {
+		if (!(previousFiles.length > 1)) return;
+		if (isPreviousAvailable) {
+			setFileIndex(previousFiles[0]);
+		} else {
+			setFileIndex(previousFiles[1]);
 		}
-		index = fileIndexList.main[decreaseIndex(index)]!;
-		setFileIndex(index);
+	} else {
+		let idx;
+		if (previousIndex.current == null || previousIndex.current == 0) {
+			idx = fileIndexList.main.length - 1;
+		} else {
+			idx = previousIndex.current - 1;
+		}
+		previousIndex.current = idx;
+		idx = fileIndexList.main[idx];
+		setFileIndex(idx);
 	}
 }

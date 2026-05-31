@@ -1,6 +1,6 @@
-import classes from 'src/assets/form/_DeleteButton.module.scss';
-import { useModalStore } from 'src/data/modalStore';
-import Modal from './Modal';
+import { Icon } from '@iconify/react';
+import { useState } from 'react';
+import classes from '../../assets/form/_DeleteButton.module.scss';
 
 type DeleteButtonProps = {
 	title: string;
@@ -10,18 +10,37 @@ type DeleteButtonProps = {
 };
 
 function DeleteButton({ title, text, confirmText, onConfirm }: DeleteButtonProps) {
-	const setModal = useModalStore((state) => state.setModal);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const modalProps = { text, confirmText, onConfirm };
-
-	const deleteBtnTitle = `Opravdu chceš ${title.toLowerCase()}?`;
+	function confirmModal() {
+		setIsModalOpen(false);
+		onConfirm();
+	}
 
 	return (
 		<>
-			<button onClick={() => setModal(deleteBtnTitle)} className={classes['btn-danger']}>
+			<button onClick={() => setIsModalOpen(true)} className={classes['btn-danger']}>
 				{title}
 			</button>
-			<Modal title={deleteBtnTitle} {...modalProps} />
+			<div onClick={() => setIsModalOpen(false)} data-open={isModalOpen} className={classes.modal}>
+				<div onClick={(e) => e.stopPropagation()}>
+					<button onClick={() => setIsModalOpen(false)} className={classes['modal-btn-close']}>
+						<Icon icon='mdi:close' />
+					</button>
+					<div className='flex flex-col gap-2'>
+						<h2>Opravdu chceš {title.toLowerCase()}?</h2>
+						<p>{text}</p>
+					</div>
+					<div className='flex gap-x-4'>
+						<button className={classes['modal-btn-confirm']} onClick={() => confirmModal()}>
+							{confirmText}
+						</button>
+						<button className={classes['modal-btn-cancel']} onClick={() => setIsModalOpen(false)}>
+							Zrušit
+						</button>
+					</div>
+				</div>
+			</div>
 		</>
 	);
 }
