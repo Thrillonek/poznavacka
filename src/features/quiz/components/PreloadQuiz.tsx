@@ -15,6 +15,7 @@ export default function PreloadQuiz() {
 	const [preloadedImages, setPreloadedImages] = useState<string[]>([]);
 
 	useEffect(() => {
+		setPreloadedImages([]);
 		if (fileIndex) {
 			if (settings.quiz.random) {
 				setPreloadedImages(storedPreloadedImages.map((i) => files[i - 1]));
