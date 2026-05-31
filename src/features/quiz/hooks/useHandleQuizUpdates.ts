@@ -21,16 +21,8 @@ export function useHandleQuizUpdates() {
 	useDetailedEffect(
 		(firstRender) => {
 			if (!firstRender) {
-				updateSettings('quiz', 'max', files.length);
-			}
-		},
-		[files.length],
-	);
-
-	useDetailedEffect(
-		(firstRender) => {
-			if (!firstRender) {
 				updateSettings('quiz', 'min', 1);
+				updateSettings('quiz', 'max', files.length);
 			}
 		},
 		[poznavacka],
