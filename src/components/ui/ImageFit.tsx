@@ -40,7 +40,7 @@ function ImageFit({ src, alt, onLoad, calcFit, style, important = true, ...props
 		return () => setIsError(false);
 	}, []);
 
-	const image = window.location.href.includes('localhost') ? src : `https://wsrv.nl/?url=${window.location.host + encodeURI(src)}&q=75&output=webp`;
+	const image = !window.location.href.includes('localhost') ? src : `https://wsrv.nl/?url=${window.location.host + encodeURI(src)}&q=75&output=webp`;
 
 	return (
 		<div ref={containerRef} {...props} data-loaded={false} className={classes['image-fit-container']}>
