@@ -4,7 +4,8 @@
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	grid-template-rows: repeat(2, 1fr);
-	gap: 1rem;
+	--gap: min(1rem, 3.3vw, 2vh);
+	gap: var(--gap);
 }
 
 .control-button {
@@ -16,7 +17,7 @@
 	color: var(--text-muted);
 	font-weight: bold;
 
-	--height: min(4rem, 15vw);
+	--height: calc(var(--gap) * 4);
 	height: var(--height);
 	aspect-ratio: 1 / 1;
 

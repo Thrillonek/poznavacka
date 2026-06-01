@@ -35,7 +35,7 @@ function QuizControlPanel() {
 	}
 
 	return (
-		<div className='flex flex-col justify-between items-center py-4!'>
+		<div className='flex flex-col justify-between items-center gap-4 py-4!'>
 			<div className='quiz-control-panel'>
 				<button onClick={showPreviousFile} className={clsx('control-button', settings.quiz.random && quizRandomHistory.length === 0 && 'disabled')}>
 					<Icon icon='mdi:arrow-left' />
