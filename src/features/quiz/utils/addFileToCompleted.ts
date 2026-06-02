@@ -20,5 +20,5 @@ export function addFileToCompleted() {
 	} else fileIndexList.main[idx] = null;
 
 	storeFileInCompleted(files[fileIndex - 1]);
-	changeImage();
+	changeImage({ complete: true });
 }

@@ -1,5 +1,4 @@
 import { useSettingsStore } from 'src/data';
-import type { SettingsStore } from 'src/types/settings';
 import { getFiles } from 'src/utils/getFiles';
 import { useQuizErrorStore, useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
 import { currentIndex, fileIndexList } from '../data/variables';
@@ -11,7 +10,7 @@ import { betterRNG, getMinMax } from './index';
  *   - showImage - Whether to show the new image or not. Default is false.
  */
 
-export function changeImage({ firstImage = false }: { firstImage?: boolean } = {}) {
+export function changeImage({ firstImage = false, complete = false }: { firstImage?: boolean; complete?: boolean } = {}) {
 	const settings = useSettingsStore.getState().settings;
 	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();
 
@@ -24,13 +23,14 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 	const isValid = handleErrors();
 	if (!isValid) return;
 
-	let newIndex = generateNewIndex({ min, max, settings, firstImage });
+	let newIndex = generateNewIndex({ min, max, firstImage, completed: complete });
 
 	setFileIndex(newIndex);
 }
 
-function generateNewIndex({ min, max, settings, firstImage }: { min: number; max: number; settings: SettingsStore['settings']; firstImage: boolean }) {
-	const { pushNewIndex, preload: preloadedIndexes, current } = useQuizRandomIndexStore.getState();
+function generateNewIndex({ min, max, firstImage, completed }: { min: number; max: number; firstImage: boolean; completed: boolean }) {
+	const { preload: preloadedIndexes, current, setCurrent, setHistory, setPreload } = useQuizRandomIndexStore.getState();
+	const settings = useSettingsStore.getState().settings;
 
 	let index: number;
 	if (settings.quiz.random) {
@@ -38,7 +38,19 @@ function generateNewIndex({ min, max, settings, firstImage }: { min: number; max
 			index = current!;
 		} else {
 			index = preloadedIndexes[0];
-			pushNewIndex(betterRNG(min, max));
+			if (!completed) setHistory((prev) => [current!, ...prev].slice(0, 5));
+			setCurrent(preloadedIndexes[0]);
+			setPreload((prev) => {
+				if (completed) {
+					let newArray = prev.filter((x) => x !== current);
+					for (let i = 0; i < prev.length - newArray.length; i++) {
+						newArray.push(betterRNG(min, max));
+					}
+					return [...newArray, betterRNG(min, max)].slice(1);
+				}
+
+				return [...prev, betterRNG(min, max)].slice(1, 6);
+			});
 		}
 	} else {
 		function increaseIndex(index: number, firstImage: boolean = false): number {

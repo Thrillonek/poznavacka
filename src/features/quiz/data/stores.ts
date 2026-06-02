@@ -39,5 +39,6 @@ export const useQuizRandomIndexStore = create<QuizRandomIndexStore>()((set) => (
 	pushNewIndex: (newIndex) => set((state) => (state.current ? { history: [state.current, ...state.history.slice(0, 4)], current: state.preload[0], preload: [...state.preload.slice(1, 5), newIndex] } : state)),
 	shiftIndexes: () => set((state) => (state.history.length > 0 && state.current ? { history: state.history.slice(1), current: state.history[0], preload: [state.current, ...state.preload.slice(0, 4)] } : state)),
 	setHistory: (newVal) => set((state) => (typeof newVal === 'function' ? { history: newVal(state.history) } : { history: newVal })),
-	setPreload: (newVal) => set((state) => (typeof newVal === 'function' ? { preload: newVal(state.history) } : { preload: newVal })),
+	setCurrent: (newVal) => set({ current: newVal }),
+	setPreload: (newVal) => set((state) => (typeof newVal === 'function' ? { preload: newVal(state.preload) } : { preload: newVal })),
 }));
