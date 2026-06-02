@@ -1,17 +1,27 @@
+import { completeSoftNavigation } from 'next/dist/client/components/segment-cache/navigation';
+import { useEffect } from 'react';
+import { useCompletedFilesStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles } from 'src/utils/getFiles';
-import { useQuizFileStore } from '../data/stores';
+import { useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
 import { fileIndexList } from '../data/variables';
 import { changeImage } from '../utils';
 
 export function useUpdateOnCompletedFiles() {
 	const quizVisibleFile = useQuizFileStore((state) => state.fileName);
 
+	const quizHistory = useQuizRandomIndexStore((state) => state.history);
+	const preload = useQuizRandomIndexStore((state) => state.preload);
+	const setQuizHistory = useQuizRandomIndexStore((state) => state.setHistory);
+	const setPreload = useQuizRandomIndexStore((state) => state.setPreload);
+	const completedFiles = useCompletedFilesStore((state) => state.completedFiles);
+
+	const files = getFiles();
+
 	useAddEventListener(
 		'custom:completedFilesChange',
 		(e) => {
 			const { file, isCompleted }: { file: string; isCompleted: boolean } = e.detail;
-			const files = getFiles();
 
 			if (isCompleted) {
 				Object.keys(fileIndexList).forEach((k) => {
@@ -32,4 +42,15 @@ export function useUpdateOnCompletedFiles() {
 		},
 		[quizVisibleFile],
 	);
+
+	useEffect(() => {
+		const completedIndexInHistory = quizHistory.find((x) => completedFiles.includes(files[x - 1]));
+		const completedIndexInPreload = preload.find((x) => completedFiles.includes(files[x - 1]));
+		if (completedIndexInHistory) {
+			setQuizHistory((prev) => prev.filter((x) => x !== completedIndexInHistory));
+		}
+		if (completedIndexInPreload) {
+			setPreload((prev) => prev.filter((x) => x !== completedIndexInPreload));
+		}
+	}, [quizHistory, preload, completedFiles]);
 }

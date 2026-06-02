@@ -25,4 +25,6 @@ export type QuizRandomIndexStore = {
 	populate: (newIndexArray: number[]) => void;
 	pushNewIndex: (newIndex: number) => void;
 	shiftIndexes: () => void;
+	setHistory: (x: number[] | ((x: number[]) => number[])) => void;
+	setPreload: (x: number[] | ((x: number[]) => number[])) => void;
 };

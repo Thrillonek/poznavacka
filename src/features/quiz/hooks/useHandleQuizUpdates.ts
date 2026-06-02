@@ -65,6 +65,7 @@ export function useHandleQuizUpdates() {
 			if (!firstRender) {
 				if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
 					initiateQuiz(false);
+					changeImage({ firstImage: true });
 				}
 			}
 		},
