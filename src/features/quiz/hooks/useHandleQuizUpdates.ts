@@ -1,3 +1,4 @@
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useDetailedEffect } from 'src/hooks/useDetailedEffect';
@@ -17,6 +18,8 @@ export function useHandleQuizUpdates() {
 
 	const files = useMemo(() => getFiles(), [poznavacka]);
 
+	const searchParams = useSearchParams();
+
 	useDetailedEffect(
 		(firstRender) => {
 			if (!firstRender) {
@@ -30,6 +33,14 @@ export function useHandleQuizUpdates() {
 	useEffect(() => {
 		initiateQuiz();
 	}, [poznavacka, settings.quiz.random]);
+
+	useEffect(() => {
+		if (sessionStorage.getItem('quiz-queue-reset') === 'true') {
+			initiateQuiz(false);
+			changeImage({ firstImage: true });
+			sessionStorage.setItem('quiz-queue-reset', 'false');
+		}
+	}, [searchParams]);
 
 	useDetailedEffect(
 		(firstRender) => {

@@ -8,7 +8,6 @@ import '../assets/_Quiz.scss';
 import { quizDragOffsetLimit } from '../data/constants';
 import { useQuizFileStore, useQuizSettingsStore } from '../data/stores';
 import { useHandleQuizUpdates } from '../hooks/useHandleQuizUpdates';
-import { useUpdateOnCompletedFiles } from '../hooks/useUpdateOnCompletedFiles';
 import { addFileToCompleted, changeImage } from '../utils';
 import PreloadQuiz from './PreloadQuiz';
 import QuizControlPanel from './QuizControlPanel';
@@ -59,8 +58,6 @@ function Quiz(props: any) {
 	useAddEventListener('touchend', () => {
 		setVisibleSide(undefined);
 	});
-
-	useUpdateOnCompletedFiles();
 
 	return (
 		<div tabIndex={0} onKeyDown={handleKeyDown} style={props.style} className='quiz-container'>

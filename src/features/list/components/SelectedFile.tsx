@@ -50,8 +50,7 @@ function SelectedFile() {
 		} else {
 			addFileToCompleted(selectedFile!);
 		}
-		const event = new CustomEvent('custom:completedFilesChange', { detail: { file: selectedFile, isCompleted: !isCompleted } });
-		document.dispatchEvent(event);
+		sessionStorage.setItem('quiz-queue-reset', 'true');
 	}
 
 	const files = getFiles();
