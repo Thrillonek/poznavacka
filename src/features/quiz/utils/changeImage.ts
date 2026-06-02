@@ -30,7 +30,7 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 }
 
 function generateNewIndex({ min, max, settings, firstImage }: { min: number; max: number; settings: SettingsStore['settings']; firstImage: boolean }) {
-	const { populate, pushNewIndex, preload: preloadedIndexes, current, history } = useQuizRandomIndexStore.getState();
+	const { populate, pushNewIndex, preload: preloadedIndexes } = useQuizRandomIndexStore.getState();
 	let index: number;
 	if (settings.quiz.random) {
 		if (firstImage) {
@@ -42,7 +42,7 @@ function generateNewIndex({ min, max, settings, firstImage }: { min: number; max
 			pushNewIndex(betterRNG(min, max));
 		}
 	} else {
-		function increaseIndex(index: number, firstImage: boolean = true): number {
+		function increaseIndex(index: number, firstImage: boolean = false): number {
 			let newIndex = firstImage ? index : (index + 1) % fileIndexList.main.length;
 			currentIndex.current = newIndex;
 
