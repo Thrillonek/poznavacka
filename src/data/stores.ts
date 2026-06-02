@@ -12,7 +12,7 @@ export const useCompletedFilesStore = create<CompletedFilesStore>()((set) => ({
 	completedFiles: [],
 	addFileToCompleted: (file) => set((state: any) => ({ completedFiles: [...state.completedFiles, file] })),
 	removeFileFromCompleted: (file) => set((state: any) => ({ completedFiles: state.completedFiles.filter((item: string) => item != file) })),
-	clearCompletedFiles: (callback) => (callback ? set((state) => ({ completedFiles: state.completedFiles.filter(callback) })) : set({ completedFiles: [] })),
+	clearCompletedFiles: (callback) => (callback ? set((state) => ({ completedFiles: state.completedFiles.filter((f) => !callback(f)) })) : set({ completedFiles: [] })),
 	setCompletedFiles: (files) => set({ completedFiles: files }),
 }));
 
