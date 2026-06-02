@@ -4,7 +4,6 @@ import { useDetailedEffect } from 'src/hooks/useDetailedEffect';
 import { getFiles } from 'src/utils';
 import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import { useQuizFileStore } from '../data/stores';
-import { currentIndex, fileIndexList } from '../data/variables';
 import { changeImage, initiateQuiz } from '../utils';
 
 export function useHandleQuizUpdates() {
@@ -30,21 +29,22 @@ export function useHandleQuizUpdates() {
 
 	useEffect(() => {
 		initiateQuiz();
-	}, [poznavacka, settings.quiz.random, settings.quiz.min]);
+	}, [poznavacka, settings.quiz.random]);
 
 	useDetailedEffect(
 		(firstRender) => {
 			if (!firstRender) {
 				let previousMax = settings.quiz.max;
+				let previousMin = settings.quiz.min;
 				setTimeout(() => {
 					// Prevents a lot of updates when sliding with the max value slider
-					if (settings.quiz.max === previousMax) {
+					if (settings.quiz.max === previousMax || settings.quiz.min === previousMin) {
 						initiateQuiz(false);
 					}
 				}, 250);
 			}
 		},
-		[settings.quiz.max],
+		[settings.quiz.max, settings.quiz.min],
 	);
 
 	useEffect(() => {

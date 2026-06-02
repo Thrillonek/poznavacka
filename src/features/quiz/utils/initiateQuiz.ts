@@ -1,6 +1,8 @@
 import { useCompletedFilesStore, useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
+import { useQuizRandomIndexStore } from '../data/stores';
 import { currentIndex, fileIndexList } from '../data/variables';
+import { betterRNG } from './betterRNG';
 import { getMinMax } from './getMinMax';
 
 /**
@@ -16,6 +18,7 @@ export function initiateQuiz(resetIndex = true, clearCompleted = false) {
 	const settings = useSettingsStore.getState().settings;
 	const { completedFiles, removeFileFromCompleted } = useCompletedFilesStore.getState();
 	const files = getFiles();
+	const { populate } = useQuizRandomIndexStore.getState();
 
 	if (resetIndex) {
 		currentIndex.current = undefined;
@@ -39,4 +42,7 @@ export function initiateQuiz(resetIndex = true, clearCompleted = false) {
 		}
 		fileIndexList.main.push(val);
 	}
+
+	let newIndexes = Array.from({ length: 6 }, () => betterRNG(min, max));
+	populate(newIndexes);
 }

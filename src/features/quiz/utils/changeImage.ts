@@ -30,13 +30,12 @@ export function changeImage({ firstImage = false }: { firstImage?: boolean } = {
 }
 
 function generateNewIndex({ min, max, settings, firstImage }: { min: number; max: number; settings: SettingsStore['settings']; firstImage: boolean }) {
-	const { populate, pushNewIndex, preload: preloadedIndexes } = useQuizRandomIndexStore.getState();
+	const { pushNewIndex, preload: preloadedIndexes, current } = useQuizRandomIndexStore.getState();
+
 	let index: number;
 	if (settings.quiz.random) {
 		if (firstImage) {
-			let newIndexes = Array.from({ length: 4 }, () => betterRNG(min, max));
-			index = newIndexes[0];
-			populate(newIndexes);
+			index = current!;
 		} else {
 			index = preloadedIndexes[0];
 			pushNewIndex(betterRNG(min, max));
