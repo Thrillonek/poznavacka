@@ -43,6 +43,8 @@ export function initiateQuiz(resetIndex = true, clearCompleted = false) {
 		fileIndexList.main.push(val);
 	}
 
-	let newIndexes = Array.from({ length: 6 }, () => betterRNG(min, max));
-	populate(newIndexes);
+	if (settings.quiz.random) {
+		let newIndexes = Array.from({ length: 6 }, () => betterRNG(min, max));
+		populate(newIndexes);
+	}
 }

@@ -31,10 +31,6 @@ export function useHandleQuizUpdates() {
 	);
 
 	useEffect(() => {
-		initiateQuiz();
-	}, [poznavacka, settings.quiz.random]);
-
-	useEffect(() => {
 		if (sessionStorage.getItem('quiz-queue-reset') === 'true') {
 			initiateQuiz(false);
 			changeImage({ firstImage: true });
@@ -51,6 +47,10 @@ export function useHandleQuizUpdates() {
 					// Prevents a lot of updates when sliding with the max value slider
 					if (settings.quiz.max === previousMax || settings.quiz.min === previousMin) {
 						initiateQuiz(false);
+
+						if (!index || index > settings.quiz.max || index < settings.quiz.min) {
+							changeImage();
+						}
 					}
 				}, 250);
 			}
@@ -59,17 +59,9 @@ export function useHandleQuizUpdates() {
 	);
 
 	useEffect(() => {
+		initiateQuiz();
 		changeImage({ firstImage: true });
 	}, [poznavacka, settings.quiz.random]);
-
-	useDetailedEffect(
-		(firstRender) => {
-			if (!firstRender && (!index || index > settings.quiz.max || index < settings.quiz.min)) {
-				changeImage();
-			}
-		},
-		[settings.quiz.min, settings.quiz.max],
-	);
 
 	useDetailedEffect(
 		(firstRender) => {

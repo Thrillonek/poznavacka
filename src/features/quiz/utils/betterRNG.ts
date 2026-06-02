@@ -21,15 +21,17 @@ export function betterRNG(min: number, max: number) {
 		result = fileIndexList.main[idx % fileIndexList.main.length];
 	}
 
-	fileIndexList.recent.push(result);
-	fileIndexList.main.splice(idx, 1);
-
-	let multiplier = range >= 5 ? 1.33 : 1;
-	if (Math.floor((range - completedFiles.length) / multiplier) <= fileIndexList.recent.filter((v) => v !== null).length) {
-		let nextNum = fileIndexList.recent.filter((v) => v !== null)[0];
-		fileIndexList.main.push(nextNum);
-		fileIndexList.recent.splice(fileIndexList.recent.indexOf(nextNum), 1);
+	if (fileIndexList.main.filter((v) => v !== null).length <= 1) {
+		let prevMain = fileIndexList.main;
+		fileIndexList.main = fileIndexList.recent;
+		fileIndexList.recent = prevMain;
+	} else {
+		fileIndexList.recent.push(result);
+		fileIndexList.main.splice(idx, 1);
 	}
+
+	// console.log(`Main: ${fileIndexList.main}`);
+	// console.log(`Recent: ${fileIndexList.recent}`);
 
 	return result;
 }
