@@ -67,45 +67,43 @@ function SelectedFile() {
 
 	return (
 		<div data-visible={isSelectedFileSet} className='selected-file-container'>
-			<div className='selected-file-menu'>
-				{isSelectedFileDefined && <p>{parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1}</p>}
-				<button onClick={() => setSelectedFile(undefined)}>
-					<Icon icon='mdi:close' />
-				</button>
-			</div>
-			<div className='selected-file-grid min-h-0'>
-				<div>
-					<div id='selected-file-carousel' className='selected-file-slider'>
-						<div className='opacity-0 scale-90 -translate-x-20'>
-							<ImageFit src={prevImage} important alt={'Zvětšený obrázek'} />
-						</div>
-						<div className='z-10'>
-							<ImageFit calcFit src={currentImage} important alt={'Zvětšený obrázek'} />
-						</div>
-						<div className='opacity-0 scale-90 translate-x-20'>
-							<ImageFit src={nextImage} important alt={'Zvětšený obrázek'} />
-						</div>
+			<div className='flex flex-col gap-4 bg-base p-4 rounded-2xl w-full min-h-80'>
+				<div className='selected-file-menu'>
+					{isSelectedFileDefined && <p>{parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1}</p>}
+					<button onClick={() => setSelectedFile(undefined)}>
+						<Icon icon='mdi:close' />
+					</button>
+				</div>
+				<div id='selected-file-carousel' className='selected-file-slider'>
+					<div className='opacity-0 scale-90 -translate-x-20'>
+						<ImageFit src={prevImage} important alt={'Zvětšený obrázek'} />
+					</div>
+					<div className='z-10'>
+						<ImageFit calcFit src={currentImage} important alt={'Zvětšený obrázek'} />
+					</div>
+					<div className='opacity-0 scale-90 translate-x-20'>
+						<ImageFit src={nextImage} important alt={'Zvětšený obrázek'} />
 					</div>
 				</div>
-				<div className='flex flex-col gap-y-4 overflow-auto'>
-					<div className='selected-file-name-frame'>
-						<button className='selected-file-swapper' onClick={() => changeSelectedFile('left')}>
-							<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
-								<path fill='currentColor' d='M15.41 16.58L10.83 12l4.58-4.59L14 6l-6 6l6 6z'></path>
-							</svg>
-						</button>
-						<p className='selected-file-name'>{selectedFile && nameFromPath(selectedFile)}</p>
-						<button className='selected-file-swapper' onClick={() => changeSelectedFile('right')}>
-							<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
-								<path fill='currentColor' d='M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z'></path>
-							</svg>
-						</button>
-					</div>
-					<div className='selected-file-divider' />
-					<div className='flex flex-col gap-4 grow'>
-						<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(selectedFile!)} onToggle={toggleCompletedFile} />
-						<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
-					</div>
+
+				<div className='selected-file-name-frame'>
+					<button className='selected-file-swapper' onClick={() => changeSelectedFile('left')}>
+						<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+							<path fill='currentColor' d='M15.41 16.58L10.83 12l4.58-4.59L14 6l-6 6l6 6z'></path>
+						</svg>
+					</button>
+					<p className='selected-file-name'>{selectedFile && nameFromPath(selectedFile)}</p>
+					<button className='selected-file-swapper' onClick={() => changeSelectedFile('right')}>
+						<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+							<path fill='currentColor' d='M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z'></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+			<div className='flex flex-col gap-y-4'>
+				<div className='flex flex-col gap-4 grow'>
+					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(selectedFile!)} onToggle={toggleCompletedFile} />
+					<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
 				</div>
 			</div>
 		</div>
