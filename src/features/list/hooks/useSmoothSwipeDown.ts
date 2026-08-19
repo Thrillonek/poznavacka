@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
-import { useChosenFileStore } from '../data/stores';
+import { useSelectedFileStore } from '../data/stores';
 
 //NOT FINISHED - THE BASE OF A POTENTIAL SMOOTH SWIPE DOWN HOOK - SHOULD VISIBLY REACT TO EVERY TOUCH MOVE ON Y AXIS
 export function useSmoothSwipeDown() {
-	const chosenFile = useChosenFileStore((store) => store.chosenFile);
-	const setChosenFile = useChosenFileStore((store) => store.setChosenFile);
+	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
+	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
 
 	useEffect(() => {
 		let startY: number, changeY: number, startMS: number;
 		let enlarged = document.getElementById('enlarged-img')!;
 		let locked: boolean;
 
-		if (chosenFile) enlarged.style.top = `0px`;
+		if (selectedFile) enlarged.style.top = `0px`;
 
 		let handleTouchStart = (e: TouchEvent) => {
 			startY = e.touches[0].clientY;
@@ -30,12 +30,12 @@ export function useSmoothSwipeDown() {
 		};
 
 		let handleTouchEnd = () => {
-			if (!chosenFile) return;
+			if (!selectedFile) return;
 
 			let currentMS = Date.now();
 
 			if (changeY > 200 || Math.abs(startMS - currentMS) < 100) {
-				setChosenFile(undefined);
+				setSelectedFile(undefined);
 			} else {
 				enlarged.style.top = '0px';
 			}

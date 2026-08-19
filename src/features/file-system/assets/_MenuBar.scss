@@ -1,9 +1,8 @@
 @use 'src/assets/global';
 
 .menu-bar {
-	z-index: 30;
+	z-index: 40;
 	background: var(--bg-dark);
-	border-bottom: 1px solid var(--border);
 	padding: 0.5rem;
 	padding-left: 1rem;
 	color: var(--text-muted);
@@ -16,10 +15,6 @@
 
 	&[data-hidden='true'] {
 		display: none;
-	}
-
-	&:not([data-hidden='true']) {
-		@extend .shadow-base;
 	}
 
 	@media (min-width: 1024px) {

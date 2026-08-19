@@ -1,45 +1,50 @@
-import { useCompletedFilesStore, usePresetStore, useSettingsStore } from 'src/data';
+import { useCompletedFilesStore, useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils';
-import { fileIndexList, previousIndex } from '../data/variables';
+import { useQuizRandomIndexStore } from '../data/stores';
+import { currentIndex, fileIndexList } from '../data/variables';
+import { betterRNG } from './betterRNG';
 import { getMinMax } from './getMinMax';
 
 /**
  * Prepares the quiz for the change of `poznavacka` variable.
  * Generates a new array of indexes for the quiz, skiping indexes of files that are in the `completedFiles` array.
  * The result depends on selected mode (preset, custom).
- * It also resets `previousIndex` and changes the maximum value of the range.
+ * It also resets `currentIndex` and changes the maximum value of the range.
  *
- * @param resetIndex - Whether to reset `previousIndex` or not.
+ * @param resetIndex - Whether to reset `currentIndex` or not.
+ * @param clearCompleted - Whether to clear the `completedFiles` array or not.
  */
-export function initiateQuiz(resetIndex = true) {
+export function initiateQuiz(resetIndex = true, clearCompleted = false) {
 	const settings = useSettingsStore.getState().settings;
-	const presets = usePresetStore.getState().presets;
-	const completedFiles = useCompletedFilesStore.getState().completedFiles;
+	const { completedFiles, removeFileFromCompleted } = useCompletedFilesStore.getState();
 	const files = getFiles();
+	const { populate } = useQuizRandomIndexStore.getState();
 
 	if (resetIndex) {
-		previousIndex.current = undefined;
+		currentIndex.current = undefined;
 	}
 
-	let { min, max } = getMinMax({ presets, files, settings });
+	let { min, max } = getMinMax({ files, settings });
 
 	let range = max - min + 1;
 
 	fileIndexList.recent = [];
 	fileIndexList.main = [];
-	if (settings.quiz.mode == 'custom' || (settings.quiz.mode == 'preset' && presets.length == 0)) {
-		for (let i = 0; i < range; i++) {
-			let val = i + min;
-			if (completedFiles?.includes(files[val - 1])) continue;
-			fileIndexList.main.push(val);
-		}
-	} else if (settings.quiz.mode == 'preset') {
-		//! The preset mode is not available so this part will not ever run
-		for (let i of presets) {
-			for (let val = (i - 1) * 10 + 1; val <= i * 10; val++) {
-				if (completedFiles?.includes(files[val - 1])) continue;
-				fileIndexList.main.push(val);
+
+	for (let i = 0; i < range; i++) {
+		let val: number | null = i + min;
+		if (completedFiles?.includes(files[val - 1])) {
+			if (clearCompleted) {
+				removeFileFromCompleted(files[val - 1]);
+			} else {
+				val = null;
 			}
 		}
+		fileIndexList.main.push(val);
+	}
+
+	if (settings.quiz.random) {
+		let newIndexes = Array.from({ length: 6 }, () => betterRNG(min, max));
+		populate(newIndexes);
 	}
 }

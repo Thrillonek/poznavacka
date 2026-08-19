@@ -12,3 +12,20 @@ export type QuizFileStore = {
 	completeFileLoading: () => void;
 	toggleFileNameRevealed: (condition?: boolean) => void;
 };
+
+export type QuizSettingsStore = {
+	isVisible: boolean;
+	toggleVisibility: (condition?: boolean) => void;
+};
+
+export type QuizRandomIndexStore = {
+	history: number[];
+	current: number | undefined;
+	preload: number[];
+	populate: (newIndexArray: number[]) => void;
+	pushNewIndex: (newIndex: number) => void;
+	shiftIndexes: () => void;
+	setHistory: (x: number[] | ((x: number[]) => number[])) => void;
+	setCurrent: (x?: number) => void;
+	setPreload: (x: number[] | ((x: number[]) => number[])) => void;
+};

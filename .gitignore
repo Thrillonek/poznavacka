@@ -35,3 +35,11 @@ next-env.d.ts
 .netlify
 
 public/*.txt
+
+# nextjs
+.next
+next-env.d.ts
+dist
+
+# Local Netlify folder
+.netlify

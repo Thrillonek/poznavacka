@@ -1,7 +1,7 @@
 @use 'src/assets/main';
 
 .selected-file-name {
-	font-size: 1.5rem;
+	font-size: 1.25rem;
 	font-weight: bold;
 	color: var(--text-main);
 	text-align: center;
@@ -13,25 +13,22 @@
 
 .selected-file-swapper {
 	@extend .center-content;
-	@include main.hover-text;
+	@include main.hover-bg(var(--bg-light));
+	color: var(--text-muted);
 	position: relative;
 	overflow: hidden;
+	flex-shrink: 0;
 
-	--height: 5rem;
+	--height: 2.5rem;
 	height: var(--height);
-	width: calc(var(--height) / 2);
+	aspect-ratio: 1 / 1;
+
+	border-radius: 50%;
 
 	& > * {
 		font-size: var(--height);
 		position: absolute;
 	}
-}
-
-.selected-file-divider {
-	width: 100%;
-	height: 1px;
-	margin: 0 auto;
-	background: var(--border);
 }
 
 .selected-file-stat {

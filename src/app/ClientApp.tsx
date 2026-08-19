@@ -1,31 +1,26 @@
-'use client';
-
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
-import { useSearchParams } from 'react-router';
-import 'src/assets/_main.scss';
 import Base from 'src/components/layouts/Base';
 import ModeMenu from 'src/components/ui/ModeMenu';
+import Toast from 'src/components/ui/Toast';
 import MenuBar from 'src/features/file-system/components/MenuBar';
 import Sidebar from 'src/features/file-system/components/Sidebar';
 import Settings from 'src/features/settings/components/Settings';
-import Toast from '../../components/ui/Toast';
-import ErrorBoundary from '../ErrorBoundary';
+import { useUpdateSearchParams } from 'src/hooks/useUpdateSearchParams';
 
-export default function App() {
-	const [_, setSearchParams] = useSearchParams();
+export default function ClientApp() {
+	const searchParams = useSearchParams();
+	const updateSearchParams = useUpdateSearchParams();
 
 	useEffect(() => {
-		setSearchParams((params) => {
-			if (!params.get('mode')) params.set('mode', 'quiz');
-			return params;
-		});
-	}, []);
+		if (!searchParams.has('mode')) {
+			updateSearchParams({ mode: 'quiz' });
+		}
+	}, [searchParams]);
 
 	return (
 		<main>
-			<ErrorBoundary>
-				<Toast />
-			</ErrorBoundary>
+			<Toast />
 			<Settings />
 			<Sidebar />
 			<div className='main-content'>

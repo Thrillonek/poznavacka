@@ -28,7 +28,7 @@
 
 @mixin hover-bg($color, $property: background) {
 	#{$property}: $color;
-	transition: #{$property} 100ms ease;
+	transition: #{$property} 150ms ease;
 
 	@include on-hover() {
 		#{$property}: oklch(from $color calc(l + 0.066) c h);
@@ -37,7 +37,7 @@
 
 @mixin hover-text {
 	color: var(--text-muted);
-	transition: color 100ms ease;
+	transition: color 150ms ease;
 
 	@include on-hover() {
 		color: var(--text-main);

@@ -29,6 +29,15 @@ function RangeInput(props: RangeInputProps) {
 		return `calc(${calculation * 100}% - ${calculation * 3}px)`;
 	}
 
+	function handleValueChange(e: PointerEvent<HTMLDivElement>, ignorePointerUp = false) {
+		if (!isRangeActive && !ignorePointerUp) return;
+
+		let newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
+		if (newValue < 0) newValue = 0;
+		if (newValue > size) newValue = size;
+		return setValue(newValue);
+	}
+
 	useAddEventListener('pointerup', () => setIsRangeActive(false));
 	useAddEventListener('pointermove', (e) => isRangeActive && handleValueChange(e), [isRangeActive]);
 	useAddEventListener('touchmove', (e) => isRangeActive && e.preventDefault(), [isRangeActive], { passive: false });
@@ -36,15 +45,6 @@ function RangeInput(props: RangeInputProps) {
 	const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
 		setIsRangeActive(true);
 		handleValueChange(e, true);
-	};
-
-	const handleValueChange = (e: PointerEvent<HTMLDivElement>, ignorePointerUp = false) => {
-		if (!isRangeActive && !ignorePointerUp) return;
-
-		let newValue = Math.round(size * getRelativePosition(e, rangeSliderRef as MutableRefObject<HTMLDivElement>));
-		if (newValue < 0) newValue = 0;
-		if (newValue > size) newValue = size;
-		return setValue(newValue);
 	};
 
 	return (

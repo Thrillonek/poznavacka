@@ -1,58 +1,76 @@
-import { usePresetStore, useSettingsStore } from 'src/data';
-import type { SettingsStore } from 'src/types/settings';
+import { useSettingsStore } from 'src/data';
 import { getFiles } from 'src/utils/getFiles';
-import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousFiles, previousIndex } from '../data/variables';
+import { useQuizErrorStore, useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
+import { currentIndex, fileIndexList } from '../data/variables';
 import { betterRNG, getMinMax } from './index';
 
 /**
  * Changes the current image in the quiz, toggles the filename reveal state based on `showImage` param and handles errors.
  * @param [options] - Optional object with properties:
  *   - showImage - Whether to show the new image or not. Default is false.
- *   - complete - Only set to true when the file was added to the `completedFiles` array. Default is false.
  */
 
-export function changeImage({ showImage = false, complete: isFileCompleted = false }: { showImage?: boolean; complete?: boolean } = {}) {
+export function changeImage({ firstImage = false, complete = false }: { firstImage?: boolean; complete?: boolean } = {}) {
 	const settings = useSettingsStore.getState().settings;
-	const presets = usePresetStore.getState().presets;
 	const { setFileIndex, toggleFileNameRevealed } = useQuizFileStore.getState();
 
 	const files = getFiles();
 
-	toggleFileNameRevealed(showImage);
+	toggleFileNameRevealed(false);
 
-	const { min, max } = getMinMax({ presets, files, settings });
+	const { min, max } = getMinMax({ files, settings });
 
-	const isValid = handleErrors({ settings, min, max });
+	const isValid = handleErrors();
 	if (!isValid) return;
 
-	let newIndex = generateNewIndex({ min, max, isFileCompleted, settings });
-
-	if (previousFiles.length >= 2) previousFiles.shift();
-	previousFiles?.push(newIndex);
+	let newIndex = generateNewIndex({ min, max, firstImage, completed: complete });
 
 	setFileIndex(newIndex);
 }
 
-function generateNewIndex({ min, max, isFileCompleted, settings }: { min: number; max: number; isFileCompleted: boolean; settings: SettingsStore['settings'] }) {
-	let idx: number;
-	if (settings?.quiz.random) {
-		idx = betterRNG(min, max);
-	} else {
-		if (previousIndex.current == null || previousIndex.current >= fileIndexList.main.length - (isFileCompleted ? 0 : 1)) {
-			idx = 0;
+function generateNewIndex({ min, max, firstImage, completed }: { min: number; max: number; firstImage: boolean; completed: boolean }) {
+	const { preload: preloadedIndexes, current, setCurrent, setHistory, setPreload } = useQuizRandomIndexStore.getState();
+	const settings = useSettingsStore.getState().settings;
+
+	let index: number;
+	if (settings.quiz.random) {
+		if (firstImage) {
+			index = current!;
 		} else {
-			idx = previousIndex.current + (isFileCompleted ? 0 : 1);
+			index = preloadedIndexes[0];
+			if (!completed) setHistory((prev) => [current!, ...prev].slice(0, 5));
+			setCurrent(preloadedIndexes[0]);
+			setPreload((prev) => {
+				if (completed) {
+					let newArray = prev.filter((x) => x !== current);
+					for (let i = 0; i < prev.length - newArray.length; i++) {
+						newArray.push(betterRNG(min, max));
+					}
+					return [...newArray, betterRNG(min, max)].slice(1);
+				}
+
+				return [...prev, betterRNG(min, max)].slice(1, 6);
+			});
 		}
-		previousIndex.current = idx;
-		idx = fileIndexList.main[idx];
+	} else {
+		function increaseIndex(index: number, firstImage: boolean = false): number {
+			let newIndex = firstImage ? index : (index + 1) % fileIndexList.main.length;
+			currentIndex.current = newIndex;
+
+			if (fileIndexList.main[newIndex] === null) {
+				return increaseIndex(newIndex);
+			} else {
+				return newIndex;
+			}
+		}
+		index = increaseIndex(currentIndex.current ?? 0, firstImage);
+		index = fileIndexList.main[index] as number;
 	}
-	return idx;
+	return index;
 }
 
-function handleErrors({ settings, min, max }: { settings: SettingsStore['settings']; min: number; max: number }) {
+function handleErrors() {
 	const setError = useQuizErrorStore.getState().setError;
-	const files = getFiles();
 
 	function invalidate(message: string) {
 		setError(message);
@@ -60,13 +78,8 @@ function handleErrors({ settings, min, max }: { settings: SettingsStore['setting
 	}
 
 	setError('');
-	if (settings?.quiz.mode == 'custom') {
-		if (max <= min || (!settings?.quiz.max && min >= files?.length) || (!settings?.quiz.min && max < 1)) invalidate('Dolní hranice musí být nižší než ta horní');
-		if (min < 1) invalidate('Dolní hranice nemůže být nižší než 1');
-		if (max > files.length) invalidate('Horní hranice nemůže být vyšší než ' + files.length);
-	}
 
-	if (fileIndexList.main.length + fileIndexList.recent.length === 0) invalidate('Všechny soubory v této sadě máš naučené!');
+	if (fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0) invalidate('Všechny soubory v této sadě máš naučené!');
 
 	return true;
 }

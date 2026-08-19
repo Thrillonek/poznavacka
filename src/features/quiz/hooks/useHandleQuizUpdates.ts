@@ -1,10 +1,10 @@
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useDetailedEffect } from 'src/hooks/useDetailedEffect';
 import { getFiles } from 'src/utils';
 import { isFileInCurrentFolder } from 'src/utils/isFileInCurrentFolder';
 import { useQuizFileStore } from '../data/stores';
-import { fileIndexList, previousIndex } from '../data/variables';
 import { changeImage, initiateQuiz } from '../utils';
 
 export function useHandleQuizUpdates() {
@@ -18,56 +18,57 @@ export function useHandleQuizUpdates() {
 
 	const files = useMemo(() => getFiles(), [poznavacka]);
 
-	useEffect(() => {
-		updateSettings('quiz', 'max', files.length);
-	}, [files.length]);
+	const searchParams = useSearchParams();
+
+	useDetailedEffect(
+		(firstRender) => {
+			if (!firstRender) {
+				updateSettings('quiz', 'min', 1);
+				updateSettings('quiz', 'max', files.length);
+			}
+		},
+		[poznavacka],
+	);
 
 	useEffect(() => {
-		updateSettings('quiz', 'min', 1);
-	}, [poznavacka]);
-
-	useEffect(() => {
-		initiateQuiz();
-	}, [poznavacka, settings.quiz.random, settings.quiz.min]);
+		if (sessionStorage.getItem('quiz-queue-reset') === 'true') {
+			initiateQuiz(false);
+			changeImage({ firstImage: true });
+			sessionStorage.setItem('quiz-queue-reset', 'false');
+		}
+	}, [searchParams]);
 
 	useDetailedEffect(
 		(firstRender) => {
 			if (!firstRender) {
 				let previousMax = settings.quiz.max;
+				let previousMin = settings.quiz.min;
 				setTimeout(() => {
 					// Prevents a lot of updates when sliding with the max value slider
-					if (settings.quiz.max === previousMax) {
+					if (settings.quiz.max === previousMax || settings.quiz.min === previousMin) {
 						initiateQuiz(false);
+
+						if (!index || index > settings.quiz.max || index < settings.quiz.min) {
+							changeImage();
+						}
 					}
 				}, 250);
 			}
 		},
-		[settings.quiz.max],
+		[settings.quiz.max, settings.quiz.min],
 	);
 
 	useEffect(() => {
-		changeImage();
+		initiateQuiz();
+		changeImage({ firstImage: true });
 	}, [poznavacka, settings.quiz.random]);
-
-	useDetailedEffect(
-		(firstRender) => {
-			if (!firstRender && (!index || index > settings.quiz.max || index < settings.quiz.min)) {
-				changeImage();
-			}
-		},
-		[settings.quiz.min, settings.quiz.max],
-	);
 
 	useDetailedEffect(
 		(firstRender) => {
 			if (!firstRender) {
 				if (completedFiles.filter((f) => isFileInCurrentFolder(f)).length == 0) {
-					initiateQuiz();
-				}
-				if (index && previousIndex.current) {
-					if (fileIndexList['main'].includes(index) && fileIndexList['main'][previousIndex.current] !== index) {
-						previousIndex.current = fileIndexList['main'].indexOf(index);
-					}
+					initiateQuiz(false);
+					changeImage({ firstImage: true });
 				}
 			}
 		},

@@ -8,25 +8,11 @@ export const usePoznavackaStore = create<PoznavackaStore>()((set) => ({
 	updatePoznavacka: (newPoznavacka) => set({ poznavacka: newPoznavacka }),
 }));
 
-export const usePresetStore = create<PresetStore>()((set) => ({
-	presets: [],
-	togglePreset: (preset, condition) =>
-		set((state) => {
-			if ((state.presets.includes(preset) && condition == undefined) || condition) {
-				return { presets: state.presets.filter((item) => item != preset) };
-			} else {
-				return { presets: [...state.presets, preset] };
-			}
-		}),
-
-	clearPresets: () => set({ presets: [] }),
-}));
-
 export const useCompletedFilesStore = create<CompletedFilesStore>()((set) => ({
 	completedFiles: [],
 	addFileToCompleted: (file) => set((state: any) => ({ completedFiles: [...state.completedFiles, file] })),
 	removeFileFromCompleted: (file) => set((state: any) => ({ completedFiles: state.completedFiles.filter((item: string) => item != file) })),
-	clearCompletedFiles: (callback) => (callback ? set((state) => ({ completedFiles: state.completedFiles.filter(callback) })) : set({ completedFiles: [] })),
+	clearCompletedFiles: (callback) => (callback ? set((state) => ({ completedFiles: state.completedFiles.filter((f) => !callback(f)) })) : set({ completedFiles: [] })),
 	setCompletedFiles: (files) => set({ completedFiles: files }),
 }));
 

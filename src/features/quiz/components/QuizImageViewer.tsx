@@ -29,9 +29,7 @@ function ImageViewer() {
 
 	return (
 		<>
-			<div className='quiz-image-viewer'>
-				<ImageFit className='cursor-pointer' onClick={() => toggleFileNameRevealed()} style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName?.replace(' ', '%20').replace('+', '%2b')!} />
-			</div>
+			<div className='quiz-image-viewer'>{fileName && <ImageFit alt='' className='cursor-pointer' onClick={() => toggleFileNameRevealed()} style={{ transform: `translateX(${imageOffset}px)` }} important key={fileName} onLoad={completeFileLoading} src={fileName} />}</div>
 		</>
 	);
 }
@@ -44,6 +42,7 @@ function NameViewer() {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const { fileIndex, fileName, isFileLoaded, isFileNameRevealed } = useQuizFileStore((store) => store);
 	const error = useQuizErrorStore((store) => store.error);
+	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
 	// Updates display text according to the current state of the quiz
 	useEffect(() => {
@@ -72,7 +71,7 @@ function NameViewer() {
 	}, [error, isFileLoaded, isFileNameRevealed, settings.quiz.devMode, fileName, poznavacka]);
 
 	return (
-		<div className='center-content'>
+		<div onClick={() => toggleFileNameRevealed()} className='center-content'>
 			<p data-loading={!isFileLoaded} data-error={Boolean(error)} className={'quiz-name-viewer'}>
 				<span className='main-text'>{displayedText}</span>
 				<span className='subtext'>{displayedSubtext}</span>
