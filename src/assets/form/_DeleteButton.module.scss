@@ -3,9 +3,9 @@
 .btn-danger {
 	@include main.hover-bg(var(--danger));
 
-	padding: 1rem 1.5rem;
+	padding: 0.5rem 1rem;
 	font-weight: 500;
-	border-radius: 1rem;
+	border-radius: 0.5rem;
 	width: fit-content;
 
 	@media not all and (min-width: 768px) {
