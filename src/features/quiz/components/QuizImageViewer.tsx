@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import ImageFit from 'src/components/ui/ImageFit';
-import { insectGroupNames, usePoznavackaStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
-import { getFolderName, getGroupName, nameFromPath } from 'src/utils';
 import '../assets/_QuizImageViewer.scss';
 import { useQuizErrorStore, useQuizFileStore } from '../data/stores';
+import { useQuizDisplayedText } from '../hooks/useQuizDisplayedText';
 import { getDragRatio } from '../utils';
 
 function ImageViewer() {
@@ -35,40 +34,13 @@ function ImageViewer() {
 }
 
 function NameViewer() {
-	const [displayedText, setDisplayedText] = useState('');
-	const [displayedSubtext, setDisplayedSubtext] = useState('');
-
-	const settings = useSettingsStore((store) => store.settings);
-	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
-	const { fileIndex, fileName, isFileLoaded, isFileNameRevealed } = useQuizFileStore((store) => store);
+	const { isFileLoaded } = useQuizFileStore((store) => store);
 	const error = useQuizErrorStore((store) => store.error);
 	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 
 	// Updates display text according to the current state of the quiz
-	useEffect(() => {
-		let updatedDisplayedText = '';
-		let updatedDisplayedSubtext = '';
 
-		// The actual conditions that tell what the text should say
-		function updateDisplayedText() {
-			if (error) return (updatedDisplayedText = error);
-			if (!isFileLoaded) return (updatedDisplayedText = 'Načítání...');
-
-			if (isFileNameRevealed) {
-				if (getFolderName(poznavacka!).toLowerCase() == 'hmyz') {
-					updatedDisplayedSubtext = 'Řád: ' + getGroupName(fileIndex! - 1, insectGroupNames);
-				}
-				return (updatedDisplayedText = nameFromPath(fileName!));
-			}
-
-			if (settings.quiz.devMode && fileIndex) return (updatedDisplayedText = fileIndex.toString());
-		}
-
-		updateDisplayedText();
-
-		setDisplayedText(updatedDisplayedText);
-		setDisplayedSubtext(updatedDisplayedSubtext);
-	}, [error, isFileLoaded, isFileNameRevealed, settings.quiz.devMode, fileName, poznavacka]);
+	const { displayedText, displayedSubtext } = useQuizDisplayedText();
 
 	return (
 		<div onClick={() => toggleFileNameRevealed()} className='center-content'>
