@@ -47,7 +47,7 @@ function QuizControlPanel() {
 					<Icon icon='mdi:arrow-right' />
 				</button>
 				<button onClick={() => resetIndex()} className={clsx('control-button', settings.quiz.random && 'disabled')}>
-					<Icon icon='mdi:undo' />
+					<Icon icon='mdi:restart' />
 				</button>
 				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : setModal('Resetovat naučené obrázky z výběru'))} className={clsx('complete-button control-button')}>
 					<Icon icon={isEverythingCompleted ? 'mdi:refresh' : 'mdi:checkbox-marked-circle-outline'} />
