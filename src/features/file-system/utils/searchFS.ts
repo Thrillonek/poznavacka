@@ -13,7 +13,7 @@ export function searchFS(input: string) {
 			for (const [folderName, content] of Object.entries(node)) {
 				const nextPath = [...path, folderName];
 
-				if (input && slugify(folderName).startsWith(slugify(input))) {
+				if (input && RegExp(`(^|\s|[(])${slugify(input)}`).test(slugify(folderName))) {
 					matches.push({ path: nextPath.join('/'), content: content as unknown[] });
 				}
 
