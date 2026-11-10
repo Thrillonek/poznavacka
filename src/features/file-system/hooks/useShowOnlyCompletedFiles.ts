@@ -7,11 +7,14 @@ export function useShowOnlyCompletedFiles() {
 	const setPoznavacka = usePoznavackaStore((store) => store.setPoznavacka);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
+	const poznavackaWithCompletedFiles = { '*completed*': [...completedFiles] };
+
 	useEffect(() => {
+		console.log('a');
 		if (poznavacka && getFolderName(poznavacka) === '*completed*') {
-			setPoznavacka({ '*completed*': completedFiles });
+			setPoznavacka(poznavackaWithCompletedFiles);
 		}
 	}, [completedFiles]);
 
-	return () => setPoznavacka({ '*completed*': completedFiles });
+	return () => setPoznavacka(poznavackaWithCompletedFiles);
 }

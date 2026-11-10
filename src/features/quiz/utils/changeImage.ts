@@ -53,11 +53,16 @@ function generateNewIndex({ min, max, firstImage, completed }: { min: number; ma
 			});
 		}
 	} else {
+		let failSafeCounter = 0;
 		function increaseIndex(index: number, firstImage: boolean = false): number {
 			let newIndex = firstImage ? index : (index + 1) % fileIndexList.main.length;
 			currentIndex.current = newIndex;
 
 			if (fileIndexList.main[newIndex] === null) {
+				failSafeCounter++;
+				if (failSafeCounter > fileIndexList.main.length) {
+					throw new Error('Failed to find a valid index');
+				}
 				return increaseIndex(newIndex);
 			} else {
 				return newIndex;
@@ -69,7 +74,7 @@ function generateNewIndex({ min, max, firstImage, completed }: { min: number; ma
 	return index;
 }
 
-function handleErrors() {
+export function handleErrors() {
 	const setError = useQuizErrorStore.getState().setError;
 
 	function invalidate(message: string) {
@@ -79,7 +84,7 @@ function handleErrors() {
 
 	setError('');
 
-	if (fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0) invalidate('Všechny soubory v této sadě máš naučené!');
+	if (fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0) return invalidate('Všechny soubory v této sadě máš naučené!');
 
 	return true;
 }

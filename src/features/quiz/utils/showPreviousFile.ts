@@ -1,6 +1,7 @@
 import { useSettingsStore } from 'src/data';
 import { useQuizFileStore, useQuizRandomIndexStore } from '../data/stores';
 import { currentIndex, fileIndexList } from '../data/variables';
+import { handleErrors } from './changeImage';
 
 /**
  * Shows the previous file in the quiz.
@@ -11,6 +12,9 @@ export function showPreviousFile() {
 	const { setFileIndex } = useQuizFileStore.getState();
 	const { shiftIndexes, history } = useQuizRandomIndexStore.getState();
 	const settings = useSettingsStore.getState().settings;
+
+	const isValid = handleErrors();
+	if (!isValid) return;
 
 	if (settings.quiz.random && history.length > 0) {
 		setFileIndex(history[0]);
