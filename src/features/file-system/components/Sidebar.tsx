@@ -84,7 +84,7 @@ export default function Sidebar() {
 			<div className='p-0!'>
 				<ModeMenu closeMenu={closeMenu} />
 			</div>
-			{!window.location.hostname.includes('test') && <div className='bg-base shadow p-1! rounded font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
+			{window.location.hostname.includes('test') && <div className='bg-base shadow p-1! rounded font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
 		</div>
 	);
 }
