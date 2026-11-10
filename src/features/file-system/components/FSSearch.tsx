@@ -90,7 +90,10 @@ export default function FSSearch() {
 								<p className='mx-1 text-xs'>{result.path.split('/').slice(0, -1).join(' / ')} /</p>
 								<button onClick={() => handleSetFolder(result)} className='fs-search-result'>
 									<p className='flex flex-nowrap items-center gap-2 font-semibold text-main'>
-										<Icon icon='mdi:folder-image' />
+										<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+											<path d='M0 0h24v24H0z' fill='none' />
+											<path fill='currentColor' d='m5 17l4.5-6l3.5 4.5l2.5-3L19 17m1-11h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2' />
+										</svg>
 										<span>{capitalize(result.path.split('/').at(-1)!)}</span>
 									</p>
 								</button>
