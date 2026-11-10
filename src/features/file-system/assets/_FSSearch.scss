@@ -6,6 +6,10 @@
 	border-radius: 0.5rem;
 }
 
-.bg-light-hover {
-	@include main.hover-bg(var(--bg-light));
+.fs-search-result {
+	@include main.hover-bg(var(--bg-base));
+	border-radius: 0.25rem;
+	border: 1px solid var(--border);
+	text-align: left;
+	padding: 0.5rem 1rem;
 }

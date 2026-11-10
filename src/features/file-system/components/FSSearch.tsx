@@ -70,7 +70,7 @@ export default function FSSearch() {
 				<span>Hledat složku</span>
 			</button>
 
-			<div className={clsx('z-10 absolute inset-0 flex flex-col gap-4 bg-base p-4 text-muted transition-opacity', !isSearching && 'pointer-events-none opacity-0')}>
+			<div className={clsx('z-10 absolute inset-2 flex flex-col gap-4 bg-base p-4 rounded text-muted transition-all duration-300', !isSearching && 'pointer-events-none -translate-x-8 opacity-0')}>
 				<div className='flex items-center gap-2'>
 					<button className='fssearch-back' onClick={() => setIsSearching(false)}>
 						<Icon icon='mdi:arrow-left' className='text-xl' />
@@ -78,18 +78,23 @@ export default function FSSearch() {
 					<h3 className='font-semibold text-main text-lg'>Hledat složku</h3>
 				</div>
 				<div className='flex gap-1 w-full bg-dark rounded border border-(--border)'>
-					<input ref={inputRef} value={inputValue} onChange={handleInputChange} type='text' className='px-2 py-1 outline-none! w-full h-full' />
-					<button onClick={() => setInputValue('')} className={clsx('p-1', !inputValue && 'pointer-events-none invisible')}>
+					<input ref={inputRef} value={inputValue} onChange={handleInputChange} type='text' className='px-4 py-2 outline-none! w-full h-full' />
+					<button onClick={() => setInputValue('')} className={clsx('px-2 py-1', !inputValue && 'pointer-events-none invisible')}>
 						<Icon icon='mdi:close' className='text-xl' />
 					</button>
 				</div>
 				{searchResults && searchResults.length > 0 ? (
-					<div className='flex flex-col gap-2 min-h-0 max-h-full overflow-auto'>
+					<div className='flex flex-col gap-4 min-h-0 max-h-full overflow-auto'>
 						{searchResults.map((result, index) => (
-							<button onClick={() => handleSetFolder(result)} key={index} className='bg-light-hover p-2 rounded text-start'>
-								<p className='text-xs'>{result.path.split('/').slice(0, -1).join(' / ')} /</p>
-								<p className='mt-1 font-semibold text-main'>{capitalize(result.path.split('/').at(-1)!)}</p>
-							</button>
+							<div className='flex flex-col gap-2'>
+								<p className='mx-1 text-xs'>{result.path.split('/').slice(0, -1).join(' / ')} /</p>
+								<button onClick={() => handleSetFolder(result)} key={index} className='fs-search-result'>
+									<p className='flex flex-nowrap items-center gap-2 font-semibold text-main'>
+										<Icon icon='mdi:folder-image' />
+										<span>{capitalize(result.path.split('/').at(-1)!)}</span>
+									</p>
+								</button>
+							</div>
 						))}
 					</div>
 				) : (
