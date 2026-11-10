@@ -86,9 +86,9 @@ export default function FSSearch() {
 				{searchResults && searchResults.length > 0 ? (
 					<div className='flex flex-col gap-4 min-h-0 max-h-full overflow-auto'>
 						{searchResults.map((result, index) => (
-							<div className='flex flex-col gap-2'>
+							<div key={index} className='flex flex-col gap-2'>
 								<p className='mx-1 text-xs'>{result.path.split('/').slice(0, -1).join(' / ')} /</p>
-								<button onClick={() => handleSetFolder(result)} key={index} className='fs-search-result'>
+								<button onClick={() => handleSetFolder(result)} className='fs-search-result'>
 									<p className='flex flex-nowrap items-center gap-2 font-semibold text-main'>
 										<Icon icon='mdi:folder-image' />
 										<span>{capitalize(result.path.split('/').at(-1)!)}</span>

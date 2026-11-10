@@ -10,6 +10,16 @@ import { useHandleSwiping } from '../hooks/useHandleSwiping';
 import { addFileToCompleted, changeImage, initiateQuiz, showPreviousFile } from '../utils';
 import QuizIndicators from './QuizIndicators';
 
+function refreshQuiz() {
+	initiateQuiz(false, true);
+	changeImage();
+}
+
+function resetIndex() {
+	currentIndex.current = undefined;
+	changeImage({ firstImage: true });
+}
+
 function QuizControlPanel() {
 	const toggleFileNameRevealed = useQuizFileStore((store) => store.toggleFileNameRevealed);
 	const isFileNameRevealed = useQuizFileStore((store) => store.isFileNameRevealed);
@@ -23,16 +33,6 @@ function QuizControlPanel() {
 	useHandleSwiping();
 
 	const isEverythingCompleted = fileIndexList.main.filter((v) => v !== null).length + fileIndexList.recent.filter((v) => v !== null).length === 0;
-
-	function refreshQuiz() {
-		initiateQuiz(false, true);
-		changeImage();
-	}
-
-	function resetIndex() {
-		currentIndex.current = undefined;
-		changeImage({ firstImage: true });
-	}
 
 	return (
 		<div className='flex flex-col justify-between items-center gap-4 py-4!'>
@@ -49,7 +49,7 @@ function QuizControlPanel() {
 				<button onClick={() => resetIndex()} className={clsx('control-button', settings.quiz.random && 'disabled')}>
 					<Icon icon='mdi:restart' />
 				</button>
-				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : setModal('Resetovat naučené obrázky z výběru'))} className={clsx('complete-button control-button')}>
+				<button onClick={() => (!isEverythingCompleted ? addFileToCompleted() : setModal('Resetovat naučené obrázky z výběru'))} className={clsx('rounded-full! control-button', !isEverythingCompleted && 'complete-button')}>
 					<Icon icon={isEverythingCompleted ? 'mdi:refresh' : 'mdi:checkbox-marked-circle-outline'} />
 				</button>
 			</div>

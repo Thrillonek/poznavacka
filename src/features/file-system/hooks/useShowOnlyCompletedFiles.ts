@@ -10,7 +10,6 @@ export function useShowOnlyCompletedFiles() {
 	const poznavackaWithCompletedFiles = { '*completed*': completedFiles };
 
 	useEffect(() => {
-		console.log('a');
 		if (poznavacka && getFolderName(poznavacka) === '*completed*') {
 			setPoznavacka(poznavackaWithCompletedFiles);
 		}

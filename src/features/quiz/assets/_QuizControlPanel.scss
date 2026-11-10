@@ -35,7 +35,6 @@
 			background: oklch(from var(--success) calc(l - 0.3) calc(c - 0.15) h);
 			color: var(--success);
 		}
-		border-radius: 50%;
 	}
 
 	&:last-of-type {
