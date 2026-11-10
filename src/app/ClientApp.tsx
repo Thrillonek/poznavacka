@@ -19,7 +19,7 @@ export default function ClientApp() {
 	}, [searchParams]);
 
 	return (
-		<main>
+		<main className='bg-dark'>
 			<Toast />
 			<Settings />
 			<Sidebar />

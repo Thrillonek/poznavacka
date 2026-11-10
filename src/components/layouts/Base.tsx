@@ -27,7 +27,7 @@ export default function Base() {
 	const isPoznavackaDefined = poznavacka && getContent(poznavacka).filter((f: any) => !isObject(f)).length > 0;
 
 	return (
-		<div className='relative bg-dark fill-space overflow-x-hidden'>
+		<div className='relative fill-space overflow-x-hidden'>
 			<>
 				<Quiz style={!isPoznavackaDefined || mode !== 'quiz' ? { display: 'none' } : {}} />
 				<List style={!isPoznavackaDefined || mode !== 'list' ? { display: 'none' } : {}} />
