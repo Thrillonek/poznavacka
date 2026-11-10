@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import clsx from 'clsx';
 import { useEffect, useMemo } from 'react';
 import ModeMenu from 'src/components/ui/ModeMenu';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
@@ -31,36 +32,10 @@ export default function Sidebar() {
 	const showOnlyCompletedFiles = useShowOnlyCompletedFiles();
 
 	return (
-		<div className={'sidebar-container ' + (!isMenuOpened ? 'hide' : '')}>
+		<div className={clsx('sidebar-container', !isMenuOpened && 'hide')}>
 			<PathViewer />
 			<div className='flex flex-col gap-4 min-h-0 grow'>
 				<FSHeadBar />
-				<div className='flex flex-col gap-1'>
-					<FSSearch />
-					<div className='sidebar-option normal-styling'>
-						<button data-active={poznavacka && getContent(poznavacka) === completedFiles && getFolderName(poznavacka) === '*completed*'} onClick={() => showOnlyCompletedFiles()} className='flex items-center gap-4'>
-							<Icon icon='mdi:checkbox-multiple-marked-circle-outline' />
-							<span>Zobrazit všechny naučené</span>
-						</button>
-					</div>
-					<div className='sidebar-option normal-styling'>
-						<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex items-center gap-4'>
-							{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' />}
-							<span>Vybrat více poznávaček</span>
-						</button>
-						{isSelectingMultiple && (
-							<>
-								<button onClick={() => toggleSelectMultiple(false)}>
-									<Icon icon='mdi:close' />
-								</button>
-								<button className='sm:hidden' onClick={() => closeMenu()}>
-									<Icon icon='mdi:arrow-right' />
-								</button>
-							</>
-						)}
-					</div>
-				</div>
-				<div className='h-px w-full bg-(--border)' />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
 					{selectedFolder?.filter((content) => !isObject(content)).length > 0 && (
 						<div className={'sidebar-option'}>
@@ -80,13 +55,36 @@ export default function Sidebar() {
 						})}
 				</div>
 			</div>
-
-			<div>
-				<div className='sm:hidden lg:block'>
-					<ModeMenu closeMenu={closeMenu} />
+			<div className='flex flex-col gap-1'>
+				<FSSearch />
+				<div className='sidebar-option normal-styling'>
+					<button data-active={poznavacka && getContent(poznavacka) === completedFiles && getFolderName(poznavacka) === '*completed*'} onClick={() => showOnlyCompletedFiles()} className='flex items-center gap-4'>
+						<Icon icon='mdi:checkbox-multiple-marked-circle-outline' />
+						<span>Zobrazit jen naučené obrázky</span>
+					</button>
 				</div>
-				{window.location.hostname.includes('test') && <div className='bg-light shadow-round mt-1 p-1 rounded-lg font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
+				<div className='sidebar-option normal-styling'>
+					<button data-active-gradient={isSelectingMultiple} onClick={() => toggleSelectMultiple()} className='flex items-center gap-4'>
+						{!isSelectingMultiple && <Icon icon='mdi:folder-multiple-plus' />}
+						<span>Vybrat více poznávaček</span>
+					</button>
+					{isSelectingMultiple && (
+						<>
+							<button onClick={() => toggleSelectMultiple(false)}>
+								<Icon icon='mdi:close' />
+							</button>
+							<button className='sm:hidden' onClick={() => closeMenu()}>
+								<Icon icon='mdi:arrow-right' />
+							</button>
+						</>
+					)}
+				</div>
 			</div>
+
+			<div className='p-0!'>
+				<ModeMenu closeMenu={closeMenu} />
+			</div>
+			{!window.location.hostname.includes('test') && <div className='bg-base shadow p-1! rounded font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
 		</div>
 	);
 }

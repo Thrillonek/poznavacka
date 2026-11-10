@@ -35,7 +35,7 @@ function ModeMenu({ closeMenu }: { closeMenu?: () => void }) {
 	}
 
 	return (
-		<div className={'shadow-base mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>
+		<div className={'shadow-lg shadow-black/35 mode-menu' + (!files || files.length == 0 ? ' disabled' : '')}>
 			<button onClick={() => updateMode('quiz')} className={mode == 'quiz' && !isSettingsOpen ? 'active' : ''}>
 				<Icon icon='mdi:brain' />
 				<span>Kvíz</span>

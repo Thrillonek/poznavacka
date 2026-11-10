@@ -19,7 +19,8 @@ function FSButton({ folder }: { folder: Folder }) {
 
 	return (
 		<div className={'sidebar-option'}>
-			<button className='flex justify-between items-center' onClick={() => handleFolderChange(folder)} data-active={isActive || (poznavacka && getContent(poznavacka).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
+			<button className='flex items-center gap-x-4' onClick={() => handleFolderChange(folder)} data-active={isActive || (poznavacka && getContent(poznavacka).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
+				<Icon icon={includesObject ? 'mdi:folder-multiple' : 'mdi:folder-image'} />
 				<span>{capitalize(getFolderName(folder!))}</span>
 			</button>
 			{includesObject && (

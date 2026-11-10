@@ -3,7 +3,7 @@
 .mode-menu {
 	display: flex;
 	overflow: hidden;
-	border-radius: 1rem;
+	border-radius: 0.75rem;
 
 	&:not(.disabled) > button.active,
 	& > button[data-settings].active {
@@ -18,7 +18,7 @@
 
 	& > button {
 		@extend .center-content;
-		@include main.hover-bg(var(--bg-light));
+		@include main.hover-bg(var(--bg-base));
 
 		flex-direction: column;
 
