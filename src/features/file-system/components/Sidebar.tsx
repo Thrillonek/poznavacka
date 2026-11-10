@@ -34,7 +34,7 @@ export default function Sidebar() {
 	return (
 		<div className={clsx('sidebar-container', !isMenuOpened && 'hide')}>
 			<PathViewer />
-			<div className='flex flex-col gap-4 min-h-0 grow'>
+			<div className='flex flex-col gap-4 p-2 min-h-0 grow'>
 				<FSHeadBar />
 				<div className='flex flex-col gap-1 overflow-auto grow'>
 					{selectedFolder?.filter((content) => !isObject(content)).length > 0 && (
@@ -55,7 +55,7 @@ export default function Sidebar() {
 						})}
 				</div>
 			</div>
-			<div className='flex flex-col gap-1'>
+			<div className='flex flex-col gap-1 p-2'>
 				<FSSearch />
 				<div className='sidebar-option normal-styling'>
 					<button data-active={poznavacka && getContent(poznavacka) === completedFiles && getFolderName(poznavacka) === '*completed*'} onClick={() => showOnlyCompletedFiles()} className='flex items-center gap-4'>
@@ -81,9 +81,8 @@ export default function Sidebar() {
 				</div>
 			</div>
 
-			<div className='p-0!'>
-				<ModeMenu closeMenu={closeMenu} />
-			</div>
+			<ModeMenu closeMenu={closeMenu} />
+
 			{window.location.hostname.includes('test') && <div className='bg-base shadow p-1! rounded font-bold text-muted text-xs text-center'>NEJNOVĚJŠÍ (BETA) VERZE</div>}
 		</div>
 	);

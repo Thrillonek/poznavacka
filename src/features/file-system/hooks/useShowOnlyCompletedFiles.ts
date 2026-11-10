@@ -7,7 +7,7 @@ export function useShowOnlyCompletedFiles() {
 	const setPoznavacka = usePoznavackaStore((store) => store.setPoznavacka);
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 
-	const poznavackaWithCompletedFiles = { '*completed*': [...completedFiles] };
+	const poznavackaWithCompletedFiles = { '*completed*': completedFiles };
 
 	useEffect(() => {
 		console.log('a');
