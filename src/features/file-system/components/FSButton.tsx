@@ -19,7 +19,7 @@ function FSButton({ folder }: { folder: Folder }) {
 
 	return (
 		<div className={'sidebar-option'}>
-			<button className='flex gap-x-4' onClick={() => handleFolderChange(folder)} data-active={isActive || (poznavacka && getContent(poznavacka).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
+			<button className='flex gap-x-4 max-w-full overflow-hidden' onClick={() => handleFolderChange(folder)} data-active={isActive || (poznavacka && getContent(poznavacka).some((f: any) => extractedNestedContent.includes(f)) && includesObject)}>
 				{includesObject ? (
 					<svg className='shrink-0' xmlns='http://www.w3.org/2000/svg' width='1em' height='1.4em' viewBox='0 0 24 24'>
 						<path d='M0 0h24v24H0z' fill='none' />
@@ -31,7 +31,7 @@ function FSButton({ folder }: { folder: Folder }) {
 						<path fill='currentColor' d='m5 17l4.5-6l3.5 4.5l2.5-3L19 17m1-11h-8l-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2' />
 					</svg>
 				)}
-				<span>{capitalize(getFolderName(folder!))}</span>
+				<span className='min-w-0 overflow-hidden text-ellipsis grow'>{capitalize(getFolderName(folder!))}</span>
 			</button>
 			{includesObject && (
 				<button onClick={() => toggleFolderNesting(folder)} data-active={checkPoznavackaIncludes(extractedNestedContent, poznavacka!)}>

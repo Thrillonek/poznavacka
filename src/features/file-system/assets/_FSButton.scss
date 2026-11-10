@@ -3,7 +3,6 @@
 .sidebar-option {
 	display: flex;
 	column-gap: 0.25rem;
-	justify-content: space-between;
 
 	&:not(.normal-styling) > button {
 		&:first-of-type {
