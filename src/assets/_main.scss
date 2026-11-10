@@ -31,7 +31,7 @@
 	transition: #{$property} 150ms ease;
 
 	@include on-hover() {
-		#{$property}: oklch(from $color calc(l + 0.066) c h);
+		#{$property}: oklch(from $color calc(l + 0.05) c h);
 	}
 }
 

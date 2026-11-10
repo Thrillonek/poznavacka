@@ -2,7 +2,7 @@
 :root {
 	--text-main: oklch(0.9491 0 0);
 	--text-muted: oklch(0.8993 0 0);
-	--border: oklch(0.4017 0 0);
+	--border: oklch(0.4 0 0);
 	--bg-light: oklch(0.2603 0 0);
 	--bg-base: oklch(0.2178 0 0);
 	--bg-dark: oklch(0.1822 0 0);
@@ -10,7 +10,7 @@
 	--accent: oklch(0.6802 0.1606 278.08);
 	--accent-muted: oklch(0.3296 0.0529 280.15);
 
-	--shadow-opacity: 0.25;
+	--shadow-opacity: 0.1;
 
 	--danger: oklch(50% 0.19576 28.524);
 	--success: oklch(56.651% 0.19204 142.351);
@@ -46,6 +46,6 @@
 
 .shadow-base {
 	box-shadow:
-		0 5px 15px 0px rgba(0, 0, 0, var(--shadow-opacity)),
+		0 5px 10px 0px rgba(0, 0, 0, var(--shadow-opacity)),
 		0 2px 5px 0px rgba(0, 0, 0, var(--shadow-opacity));
 }
