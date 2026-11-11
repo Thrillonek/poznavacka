@@ -2,7 +2,7 @@ import { fileSystem } from 'src/data';
 import { slugify } from 'src/utils/slugify';
 
 export function searchFS(input: string) {
-	const matches: { path: string; content: unknown[] }[] = [];
+	const matches: { path: string; content: unknown[]; parentContent?: unknown[] }[] = [];
 
 	const walk = (nodes: unknown[], path: string[] = []) => {
 		for (const node of nodes) {
@@ -14,7 +14,7 @@ export function searchFS(input: string) {
 				const nextPath = [...path, folderName];
 
 				if (input && RegExp(`(^|\s|[(])${slugify(input)}`).test(slugify(folderName))) {
-					matches.push({ path: nextPath.join('/'), content: content as unknown[] });
+					matches.push({ path: nextPath.join('/'), content: content as unknown[], parentContent: nodes });
 				}
 
 				if (Array.isArray(content)) {

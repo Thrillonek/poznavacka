@@ -40,11 +40,19 @@ export default function FSSearch() {
 		}, 250);
 	}, [inputValue]);
 
-	function handleSetFolder(folderObject: { path: string; content: any[] }) {
-		setPath(folderObject.path.split('/'));
-		setFolderName(capitalize(folderObject.path.split('/').at(-1)!) ?? null);
-		setSelectedFolder(folderObject.content);
-		closeMenu();
+	function handleSetFolder(folderObject: { path: string; content: any[]; parentContent?: any[] }) {
+		const folderContainsOnlyImages = folderObject.content.every((item) => typeof item === 'string');
+
+		if (folderContainsOnlyImages) {
+			setPath(folderObject.path.split('/').slice(0, -1));
+			setFolderName(capitalize(folderObject.path.split('/').at(-2)!) ?? null);
+			setSelectedFolder(folderObject.parentContent ?? folderObject.content);
+			closeMenu();
+		} else {
+			setPath(folderObject.path.split('/'));
+			setFolderName(capitalize(folderObject.path.split('/').at(-1)!) ?? null);
+			setSelectedFolder(folderObject.content);
+		}
 
 		const folder = { [folderObject.path.split('/').at(-1)!]: folderObject.content } as any;
 
