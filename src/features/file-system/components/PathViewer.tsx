@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react';
+import clsx from 'clsx';
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
 import { capitalize, getContent, getFolderName, isObject } from 'src/utils';
@@ -20,7 +21,7 @@ function PathViewer() {
 	const getIsViewingFolder = (folderName?: string) => poznavacka && getFolderName(poznavacka) === (folderName || path.at(-1));
 
 	return (
-		<div className={'path-viewer-container ' + (isPVOpened ? '' : 'hide')}>
+		<div className={clsx('path-viewer-container', !isPVOpened && 'hide')}>
 			<div className='path-viewer'>
 				<div>
 					<div>
