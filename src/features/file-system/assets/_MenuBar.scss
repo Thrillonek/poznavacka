@@ -1,21 +1,45 @@
 @use 'src/assets/global';
 
-.menu-bar {
-	z-index: 40;
+.menu-container {
 	background: var(--bg-dark);
 	padding: 0.5rem;
-	padding-left: 1rem;
+	z-index: 40;
+
+	display: flex;
+	justify-content: flex-end;
+
+	height: 4rem;
+
+	transition-property: height, padding;
+	transition-duration: 200ms;
+	transition-timing-function: ease;
+
+	&[data-hidden='true'] {
+		height: 0;
+		padding: 0 0.5rem;
+
+		& > * {
+			transform: translateY(-100%);
+		}
+	}
+}
+
+.menu-bar {
+	width: 100%;
+	height: 3rem;
+
+	background: var(--bg-base);
+	padding: 0 1rem;
 	color: var(--text-muted);
 	position: relative;
+	border-radius: 0.5rem;
 
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	column-gap: 0.5rem;
 
-	&[data-hidden='true'] {
-		display: none;
-	}
+	transition: transform 200ms ease;
 
 	@media (min-width: 1024px) {
 		& > button {
