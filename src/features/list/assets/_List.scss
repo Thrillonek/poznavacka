@@ -17,8 +17,10 @@
 }
 
 .selected-file-container[data-visible='true'] ~ .list-container {
-	width: 350px;
-	flex-grow: 0;
+	@container main-content not (width <= 800px) {
+		width: 350px;
+		flex-grow: 0;
+	}
 }
 
 .go-up-button {

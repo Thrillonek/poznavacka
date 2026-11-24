@@ -6,6 +6,7 @@ export const useSelectedFileStore = create<SelectedFileStore>()((set) => ({
 	selectedFile: undefined,
 	isSet: false,
 	setSelectedFile: (file) => set({ selectedFile: file, isSet: file != null }),
+	hideSelectedFile: () => set({ isSet: false }),
 }));
 
 export const useListSearchStore = create<ListSearchStore>()((set) => ({

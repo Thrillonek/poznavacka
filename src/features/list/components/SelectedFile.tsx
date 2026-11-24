@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import SwitchInput from 'src/components/form/SwitchInput';
 import ImageFit from 'src/components/ui/ImageFit';
 import { useCompletedFilesStore, useSettingsStore } from 'src/data';
@@ -10,12 +10,31 @@ import '../assets/_SelectedFileLayout.scss';
 import { useListFilesStore, useSelectedFileStore } from '../data/stores';
 import { changeSelectedFile } from '../utils/changeSelectedFile';
 
+function handleKeyDown(e: KeyboardEvent) {
+	if (e.key == 'ArrowRight') {
+		changeSelectedFile('right');
+	} else if (e.key == 'ArrowLeft') {
+		changeSelectedFile('left');
+	}
+}
+
+function getItemAt(array: any[], index: number) {
+	if (index < array.length) {
+		return array.at(index);
+	} else return array[index % array.length];
+}
+
+function handleSwipe(e: CustomEvent) {
+	let direction = e.detail.direction;
+	if (direction == 'left') changeSelectedFile('right');
+	if (direction == 'right') changeSelectedFile('left');
+}
+
 function SelectedFile() {
-	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
-	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
+	const selectedFile = useSelectedFileStore((store) => store.selectedFile) as string;
+	const hideSelectedFile = useSelectedFileStore((store) => store.hideSelectedFile);
 	const isSelectedFileSet = useSelectedFileStore((store) => store.isSet);
 
-	// const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const settings = useSettingsStore((store) => store.settings);
 	const updateSettings = useSettingsStore((store) => store.updateSettings);
 
@@ -25,64 +44,45 @@ function SelectedFile() {
 
 	const listFiles = useListFilesStore((store) => store.files);
 
-	useAddEventListener('keydown', handleKeyDown);
-	function handleKeyDown(e: KeyboardEvent) {
-		if (e.key == 'ArrowRight') {
-			changeSelectedFile('right');
-		} else if (e.key == 'ArrowLeft') {
-			changeSelectedFile('left');
-		}
-	}
-
-	useAddEventListener('custom:swipe', handleSwipe);
-	function handleSwipe(e: CustomEvent) {
-		let direction = e.detail.direction;
-		if (direction == 'left') changeSelectedFile('right');
-		if (direction == 'right') changeSelectedFile('left');
-	}
-
-	const isSelectedFileDefined = typeof selectedFile == 'string';
-
-	function toggleCompletedFile() {
-		const isCompleted = completedFiles.includes(selectedFile!);
+	const toggleCompletedFile = useCallback(() => {
+		if (!selectedFile) return;
+		const isCompleted = completedFiles.includes(selectedFile);
 		if (isCompleted) {
-			removeFileFromCompleted(selectedFile!);
+			removeFileFromCompleted(selectedFile);
 		} else {
-			addFileToCompleted(selectedFile!);
+			addFileToCompleted(selectedFile);
 		}
 		sessionStorage.setItem('quiz-queue-reset', 'true');
-	}
+	}, [completedFiles, selectedFile, removeFileFromCompleted, addFileToCompleted]);
+
+	useAddEventListener('keydown', handleKeyDown);
+	useAddEventListener('custom:swipe', handleSwipe);
 
 	const files = getFiles();
 
-	function getItemAt(array: any[], index: number) {
-		if (index < array.length) {
-			return array.at(index);
-		} else return array[index % array.length];
-	}
-
-	const prevImage = useMemo(() => getItemAt(files, files.indexOf(selectedFile!) - 1).replaceAll(/\+/g, '%2B'), [files, selectedFile]);
-	const currentImage = useMemo(() => selectedFile!.replaceAll(/\+/g, '%2B'), [selectedFile]);
-	const nextImage = useMemo(() => getItemAt(files, files.indexOf(selectedFile!) + 1).replaceAll(/\+/g, '%2B'), [files, selectedFile]);
+	const prevImage = useMemo(() => getItemAt(files, files.indexOf(selectedFile) - 1).replaceAll(/\+/g, '%2B'), [files, selectedFile]);
+	const currentImage = useMemo(() => selectedFile.replaceAll(/\+/g, '%2B'), [selectedFile]);
+	const nextImage = useMemo(() => getItemAt(files, files.indexOf(selectedFile) + 1).replaceAll(/\+/g, '%2B'), [files, selectedFile]);
 
 	return (
 		<div data-visible={isSelectedFileSet} className='selected-file-container'>
-			<div className='flex flex-col gap-4 bg-base p-4 rounded-2xl w-full min-h-80'>
+			<div className='flex flex-col gap-4 bg-base p-4 rounded-2xl w-full h-[max(67%,20rem)]'>
 				<div className='selected-file-menu'>
-					{isSelectedFileDefined && <p>{parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1}</p>}
-					<button onClick={() => setSelectedFile(undefined)}>
+					{isSelectedFileSet && <p>{parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1}</p>}
+					<button onClick={() => hideSelectedFile()}>
 						<Icon icon='mdi:close' />
 					</button>
 				</div>
+
 				<div id='selected-file-carousel' className='selected-file-slider'>
 					<div className='opacity-0 scale-90 -translate-x-20'>
-						<ImageFit src={prevImage} important alt={'Zvětšený obrázek'} />
+						<ImageFit src={prevImage!} important alt={'Zvětšený obrázek'} />
 					</div>
 					<div className='z-10'>
-						<ImageFit calcFit src={currentImage} important alt={'Zvětšený obrázek'} />
+						<ImageFit src={currentImage!} important alt={'Zvětšený obrázek'} />
 					</div>
 					<div className='opacity-0 scale-90 translate-x-20'>
-						<ImageFit src={nextImage} important alt={'Zvětšený obrázek'} />
+						<ImageFit src={nextImage!} important alt={'Zvětšený obrázek'} />
 					</div>
 				</div>
 
@@ -102,7 +102,7 @@ function SelectedFile() {
 			</div>
 			<div className='flex flex-col gap-y-4'>
 				<div className='flex flex-col gap-4 grow'>
-					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={completedFiles.includes(selectedFile!)} onToggle={toggleCompletedFile} />
+					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={!!selectedFile && completedFiles.includes(selectedFile)} onToggle={toggleCompletedFile} />
 					<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
 				</div>
 			</div>

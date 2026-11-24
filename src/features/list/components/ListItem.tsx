@@ -1,6 +1,5 @@
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
-import { useMemo } from 'react';
 import { useCompletedFilesStore, usePoznavackaStore } from 'src/data';
 import { getFolderName, nameFromPath } from 'src/utils';
 import '../assets/_ListItem.scss';

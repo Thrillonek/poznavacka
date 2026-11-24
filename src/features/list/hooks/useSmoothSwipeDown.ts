@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelectedFileStore } from '../data/stores';
 
+//! UNUSED
 //NOT FINISHED - THE BASE OF A POTENTIAL SMOOTH SWIPE DOWN HOOK - SHOULD VISIBLY REACT TO EVERY TOUCH MOVE ON Y AXIS
 export function useSmoothSwipeDown() {
 	const selectedFile = useSelectedFileStore((store) => store.selectedFile);

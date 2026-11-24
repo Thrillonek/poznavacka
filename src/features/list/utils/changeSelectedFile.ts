@@ -7,15 +7,15 @@ import { scrollListToItem } from './scrollListToItem';
  * @param condition - Defines the direction that the carousel will move.
  */
 export function changeSelectedFile(condition: 'left' | 'right') {
-	const { selectedFile, setSelectedFile } = useSelectedFileStore.getState();
+	const { selectedFile, setSelectedFile, isSet: isSelectedFileSet } = useSelectedFileStore.getState();
 	const { settings } = useSettingsStore.getState();
 
 	const listFiles = useListFilesStore.getState().files;
 
-	if (!selectedFile) return;
+	if (!isSelectedFileSet) return;
 
 	let files = Object.values(listFiles);
-	let idx = files.indexOf(selectedFile);
+	let idx = files.indexOf(selectedFile!);
 
 	let carousel = document.getElementById('selected-file-carousel')!;
 	let previous = carousel.children[0] as HTMLElement;

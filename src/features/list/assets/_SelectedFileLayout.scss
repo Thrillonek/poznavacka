@@ -1,8 +1,8 @@
 @use 'src/assets/main';
 
 .selected-file-container {
-	display: grid;
-	grid-template-rows: 2fr 1fr;
+	display: flex;
+	flex-direction: column;
 	row-gap: 1rem;
 	flex: 1;
 
@@ -11,15 +11,10 @@
 	height: 100%;
 	padding: 1rem;
 
-	&:not([data-visible='true']) {
-		display: none;
-	}
-
 	@container main-content (width <= 800px) {
 		position: absolute;
 		inset: 0;
 		z-index: 40;
-		width: 100%;
 		transition:
 			opacity 200ms ease,
 			transform 200ms ease;
@@ -27,8 +22,13 @@
 		&:not([data-visible='true']) {
 			opacity: 0;
 			pointer-events: none;
-			display: flex;
-			transform: scale(0.9);
+			transform: translateY(1rem);
+		}
+	}
+
+	@container main-content not (width <= 800px) {
+		&:not([data-visible='true']) {
+			display: none;
 		}
 	}
 

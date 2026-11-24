@@ -7,6 +7,7 @@ export type SelectedFileStore = {
 	selectedFile?: string;
 	isSet: boolean;
 	setSelectedFile: (file?: string) => void;
+	hideSelectedFile: () => void;
 };
 
 export type ListSearchStore = {
