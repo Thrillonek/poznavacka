@@ -23,10 +23,10 @@
 	height: var(--height);
 	aspect-ratio: 1 / 1;
 
-	border-radius: 50%;
+	border-radius: 0.5rem;
 
 	& > * {
-		font-size: var(--height);
+		font-size: calc(var(--height) * 0.75);
 		position: absolute;
 	}
 }
