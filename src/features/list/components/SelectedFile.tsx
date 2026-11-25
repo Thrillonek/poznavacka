@@ -33,7 +33,7 @@ function handleSwipe(e: CustomEvent) {
 function SelectedFile() {
 	const selectedFile = useSelectedFileStore((store) => store.selectedFile) as string;
 	const hideSelectedFile = useSelectedFileStore((store) => store.hideSelectedFile);
-	const isSelectedFileSet = useSelectedFileStore((store) => store.isSet);
+	const isSelectedFileSet = useSelectedFileStore((store) => store.isShown);
 
 	const settings = useSettingsStore((store) => store.settings);
 	const updateSettings = useSettingsStore((store) => store.updateSettings);

@@ -4,9 +4,9 @@ import type { ListFilesStore, ListSearchStore, SelectedFileStore } from '../type
 
 export const useSelectedFileStore = create<SelectedFileStore>()((set) => ({
 	selectedFile: undefined,
-	isSet: false,
-	setSelectedFile: (file) => set({ selectedFile: file, isSet: file != null }),
-	hideSelectedFile: () => set({ isSet: false }),
+	isShown: false,
+	setSelectedFile: (file) => set({ selectedFile: file, isShown: file != null }),
+	hideSelectedFile: () => set({ isShown: false }),
 }));
 
 export const useListSearchStore = create<ListSearchStore>()((set) => ({

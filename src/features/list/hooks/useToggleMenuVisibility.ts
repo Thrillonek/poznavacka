@@ -5,7 +5,7 @@ import { useSelectedFileStore } from '../data/stores';
 export function useToggleMenuVisibility() {
 	const toggleHideMenu = useMenuElementStore((store) => store.toggleHideMenu);
 
-	const isSelectedFileSet = useSelectedFileStore((store) => store.isSet);
+	const isSelectedFileSet = useSelectedFileStore((store) => store.isShown);
 
 	useEffect(() => {
 		if (isSelectedFileSet) {

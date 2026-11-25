@@ -15,7 +15,7 @@
 	padding-left: 0.5rem;
 	cursor: default;
 
-	&[data-chosen='true'] {
+	&[data-selected='true'] {
 		.list-item-number,
 		.list-item-text {
 			color: var(--accent);

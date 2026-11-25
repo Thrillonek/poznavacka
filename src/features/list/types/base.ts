@@ -5,7 +5,7 @@ export type ListItemProps = {
 
 export type SelectedFileStore = {
 	selectedFile?: string;
-	isSet: boolean;
+	isShown: boolean;
 	setSelectedFile: (file?: string) => void;
 	hideSelectedFile: () => void;
 };

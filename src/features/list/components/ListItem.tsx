@@ -9,11 +9,12 @@ import type { ListItemProps } from '../types/base';
 function ListItem({ file, idx }: ListItemProps) {
 	const poznavacka = usePoznavackaStore((store) => store.poznavacka);
 	const setSelectedFile = useSelectedFileStore((store) => store.setSelectedFile);
+	const isSelectedFileShown = useSelectedFileStore((store) => store.isShown);
 	const completedFiles = useCompletedFilesStore((store) => store.completedFiles);
 	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
 
 	return (
-		<div onClick={() => setSelectedFile(file)} data-chosen={selectedFile === file} className='list-item-container'>
+		<div onClick={() => setSelectedFile(file)} data-selected={isSelectedFileShown && selectedFile === file} className='list-item-container'>
 			<div className='relative flex justify-start items-center gap-4'>
 				<div className='list-item-number'>
 					<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
