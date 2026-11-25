@@ -72,7 +72,7 @@ function Quiz(props: any) {
 				<div style={{ transform: !isSettingsVisible ? 'translateY(1rem)' : '' }} onClick={(e) => e.stopPropagation()} className='flex flex-col bg-dark rounded-xl w-full max-h-full overflow-hidden transition-transform'>
 					<div className='flex justify-between items-center border-b border-(--border) bg-base px-4 p-2'>
 						<h2 className='text-main'>Nastavení kvízu</h2>
-						<button onClick={() => toggleSettingsVisible(false)}>
+						<button className='effect:circular-hover' onClick={() => toggleSettingsVisible(false)}>
 							<Icon icon='mdi:close' className='text-muted text-lg' />
 						</button>
 					</div>
