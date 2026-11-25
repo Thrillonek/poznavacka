@@ -10,7 +10,7 @@ export default function MenuBar() {
 
 	return (
 		<div data-hidden={isMenuHidden} className='menu-container'>
-			<div data-visible-pc={Boolean(Element)} className='menu-bar'>
+			<div data-visible-pc={Boolean(Element)} className='shadow menu-bar'>
 				<button onClick={() => open()}>
 					<Icon icon='mdi:menu' />
 					<span className='text-lg'>Menu</span>
