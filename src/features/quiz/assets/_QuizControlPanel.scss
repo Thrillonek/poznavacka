@@ -41,3 +41,7 @@
 		grid-column: 3;
 	}
 }
+
+.bg-light-hover {
+	@include main.hover-bg(var(--bg-light));
+}
