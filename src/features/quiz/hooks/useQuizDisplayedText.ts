@@ -14,28 +14,20 @@ export function useQuizDisplayedText() {
 
 	// Updates display text according to the current state of the quiz
 	useEffect(() => {
-		let updatedDisplayedText = '';
-		let updatedDisplayedSubtext = '';
-
 		// The actual conditions that tell what the text should say
+
 		function updateDisplayedText() {
-			if (error) return (updatedDisplayedText = error);
-			if (!isFileLoaded) return (updatedDisplayedText = 'Načítání...');
+			if (error) return error;
+			if (!isFileLoaded) return 'Načítání...';
 
-			if (isFileNameRevealed) {
-				if (getFolderName(poznavacka!).toLowerCase() == 'hmyz') {
-					updatedDisplayedSubtext = 'Řád: ' + getGroupName(fileIndex! - 1, insectGroupNames);
-				}
-				return (updatedDisplayedText = nameFromPath(fileName!));
-			}
+			if (isFileNameRevealed) return nameFromPath(fileName!);
 
-			if (settings.quiz.devMode && fileIndex) return (updatedDisplayedText = fileIndex.toString());
+			if (settings.quiz.devMode && fileIndex) return fileIndex.toString();
 		}
 
-		updateDisplayedText();
+		let updatedDisplayedText = updateDisplayedText();
 
-		setDisplayedText(updatedDisplayedText);
-		setDisplayedSubtext(updatedDisplayedSubtext);
+		setDisplayedText(updatedDisplayedText ?? '');
 	}, [error, isFileLoaded, isFileNameRevealed, settings.quiz.devMode, fileName, poznavacka]);
 
 	return { displayedText, displayedSubtext };
