@@ -23,7 +23,9 @@ export function betterRNG(min: number, max: number) {
 
 	const nullFilter = (x: any) => x !== null;
 
-	let setLength = range - completedFiles.length;
+	const completedFilesInRangeCount = fileIndexList.main.concat(fileIndexList.recent).filter((x) => x === null).length;
+
+	let setLength = range - completedFilesInRangeCount;
 	let halfSetLength = Math.floor(setLength / 2);
 
 	fileIndexList.recent.push(result);
