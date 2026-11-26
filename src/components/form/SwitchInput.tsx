@@ -2,7 +2,7 @@ import classes from '../../assets/form/_SwitchInput.module.scss';
 
 type SwitchInputProps = {
 	title: string;
-	description: string;
+	description?: string;
 	active: boolean;
 	onToggle: () => void;
 };
@@ -15,7 +15,7 @@ function SwitchInput({ title, description, active, onToggle }: SwitchInputProps)
 			</div>
 			<div className={classes.content}>
 				<p className={classes.title}>{title}</p>
-				<p className={classes.description}>{description}</p>
+				{description && <p className={classes.description}>{description}</p>}
 			</div>
 		</button>
 	);

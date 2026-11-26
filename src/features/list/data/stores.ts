@@ -1,6 +1,6 @@
 import { getFiles } from 'src/utils';
 import { create } from 'zustand';
-import type { ListFilesStore, ListSearchStore, SelectedFileStore } from '../types/base';
+import type { HiddenNameStore, ListFilesStore, ListSearchStore, SelectedFileStore } from '../types/base';
 
 export const useSelectedFileStore = create<SelectedFileStore>()((set) => ({
 	selectedFile: undefined,
@@ -19,4 +19,9 @@ export const useListSearchStore = create<ListSearchStore>()((set) => ({
 export const useListFilesStore = create<ListFilesStore>()((set) => ({
 	files: Object.assign({}, getFiles()),
 	setFiles: (newFiles) => set({ files: newFiles }),
+}));
+
+export const useHiddenNameStore = create<HiddenNameStore>()((set) => ({
+	isHidden: false,
+	toggleHidden: (condition) => set((state) => ({ isHidden: condition ?? !state.isHidden })),
 }));

@@ -7,7 +7,7 @@ import { useAddEventListener } from 'src/hooks';
 import { getFiles, getKeyByValue, nameFromPath } from 'src/utils';
 import '../assets/_SelectedFileComponents.scss';
 import '../assets/_SelectedFileLayout.scss';
-import { useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { useHiddenNameStore, useListFilesStore, useSelectedFileStore } from '../data/stores';
 import { changeSelectedFile } from '../utils/changeSelectedFile';
 
 function handleKeyDown(e: KeyboardEvent) {
@@ -43,6 +43,9 @@ function SelectedFile() {
 	const removeFileFromCompleted = useCompletedFilesStore((store) => store.removeFileFromCompleted);
 
 	const listFiles = useListFilesStore((store) => store.files);
+
+	const isHiddenFileNames = useHiddenNameStore((store) => store.isHidden);
+	const toggleHiddenFileNames = useHiddenNameStore((store) => store.toggleHidden);
 
 	const toggleCompletedFile = useCallback(() => {
 		if (!selectedFile) return;
@@ -92,7 +95,7 @@ function SelectedFile() {
 							<path fill='currentColor' d='M15.41 16.58L10.83 12l4.58-4.59L14 6l-6 6l6 6z'></path>
 						</svg>
 					</button>
-					<p className='selected-file-name'>{selectedFile && nameFromPath(selectedFile)}</p>
+					{!isHiddenFileNames && <p className='selected-file-name'>{selectedFile && nameFromPath(selectedFile)}</p>}
 					<button className='selected-file-swapper' onClick={() => changeSelectedFile('right')}>
 						<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
 							<path fill='currentColor' d='M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z'></path>
@@ -104,6 +107,7 @@ function SelectedFile() {
 				<div className='flex flex-col gap-4 grow'>
 					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={!!selectedFile && completedFiles.includes(selectedFile)} onToggle={toggleCompletedFile} />
 					<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
+					<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
 				</div>
 			</div>
 		</div>

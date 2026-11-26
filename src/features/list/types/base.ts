@@ -21,3 +21,8 @@ export type ListFilesStore = {
 	files: Record<number, string>;
 	setFiles: (newFiles: Record<number, string>) => void;
 };
+
+export type HiddenNameStore = {
+	isHidden: boolean;
+	toggleHidden: (condition?: boolean) => void;
+};

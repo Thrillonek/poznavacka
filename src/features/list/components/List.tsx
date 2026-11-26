@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
-import { useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { useHiddenNameStore, useListFilesStore, useSelectedFileStore } from '../data/stores';
 import { useToggleMenuVisibility } from '../hooks/useToggleMenuVisibility';
 import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
@@ -17,6 +17,9 @@ export default function List(props: any) {
 	const selectedFile = useSelectedFileStore((store) => store.selectedFile);
 	const setElement = useMenuElementStore((store) => store.setElement);
 	const listFiles = useListFilesStore((store) => store.files);
+
+	const isHiddenFileNames = useHiddenNameStore((store) => store.isHidden);
+	const toggleHiddenFileNames = useHiddenNameStore((store) => store.toggleHidden);
 
 	const searchParams = useSearchParams();
 	const mode = useMemo(() => searchParams.get('mode'), [searchParams]);
@@ -90,10 +93,22 @@ export default function List(props: any) {
 				})}
 			</div>
 
-			{/* Scroll Up Button */}
-			<button data-visible={scrollY! > 100} onClick={scrollToTop} className='go-up-button'>
-				<i className='text-neutral-500 text-2xl fa-angles-up fa-solid'></i>
-			</button>
+			<div className='right-4 bottom-4 absolute flex flex-col gap-2'>
+				{/* Show file names button */}
+				<button data-visible={isHiddenFileNames} onClick={() => toggleHiddenFileNames(false)} className='go-up-button'>
+					<svg className='text-neutral-500 text-3xl' xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+						<path d='M0 0h24v24H0z' fill='none' />
+						<path fill='currentColor' d='M12 9c-1.7 0-3 1.3-3 3s1.3 3 3 3s3-1.3 3-3s-1.3-3-3-3m6 9.5l1.8-1.8c-.5-.4-1.1-.7-1.8-.7c-1.4 0-2.5 1.1-2.5 2.5S16.6 21 18 21c.8 0 1.5-.4 2-1h1.7c-.6 1.5-2 2.5-3.7 2.5c-2.2 0-4-1.8-4-4s1.8-4 4-4c1.1 0 2.1.4 2.8 1.2l1.2-1.2v4zm-5.9 1s-.1 0 0 0C7 19.5 2.7 16.4 1 12c1.7-4.4 6-7.5 11-7.5s9.3 3.1 11 7.5c-.2.4-.4.9-.6 1.3c-1.1-.8-2.4-1.3-3.9-1.3c-.5 0-1 .1-1.5.2V12c0-2.8-2.2-5-5-5s-5 2.2-5 5s2.2 5 5 5h.2c-.1.5-.2 1-.2 1.5c0 .3 0 .7.1 1' />
+					</svg>
+				</button>
+				{/* Scroll Up Button */}
+				<button data-visible={scrollY! > 100} onClick={scrollToTop} className='go-up-button'>
+					<svg className='text-neutral-500 text-3xl' xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+						<path d='M0 0h24v24H0z' fill='none' />
+						<path fill='currentColor' d='M7.41 18.41L6 17l6-6l6 6l-1.41 1.41L12 13.83zm0-6L6 11l6-6l6 6l-1.41 1.41L12 7.83z' />
+					</svg>
+				</button>
+			</div>
 		</div>
 	);
 }

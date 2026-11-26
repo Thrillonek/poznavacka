@@ -28,10 +28,6 @@
 	@extend .center-content;
 	@include main.hover-bg(var(--bg-dark));
 
-	position: absolute;
-	right: 1rem;
-	bottom: 1rem;
-
 	transition: opacity 250ms ease;
 
 	border: 1px solid var(--border);
