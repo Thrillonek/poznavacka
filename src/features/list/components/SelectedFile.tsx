@@ -69,9 +69,9 @@ function SelectedFile() {
 
 	return (
 		<div data-visible={isSelectedFileSet} className='selected-file-container'>
-			<div className='flex flex-col gap-4 bg-base p-4 rounded-2xl w-full h-[max(67%,20rem)]'>
+			<div className='flex flex-col gap-y-4 bg-base p-4 rounded-lg w-full h-[max(67%,20rem)]'>
 				<div className='selected-file-menu'>
-					{isSelectedFileSet && <p>{parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1}</p>}
+					{isSelectedFileSet && <p>{!isHiddenFileNames ? parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1 : '?'}</p>}
 					<button onClick={() => hideSelectedFile()}>
 						<Icon icon='mdi:close' />
 					</button>
@@ -103,12 +103,10 @@ function SelectedFile() {
 					</button>
 				</div>
 			</div>
-			<div className='flex flex-col gap-y-4'>
-				<div className='flex flex-col gap-4 grow'>
-					<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={!!selectedFile && completedFiles.includes(selectedFile)} onToggle={toggleCompletedFile} />
-					<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
-					<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
-				</div>
+			<div className='flex flex-col gap-y-2'>
+				<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={!!selectedFile && completedFiles.includes(selectedFile)} onToggle={toggleCompletedFile} />
+				<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
+				<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
 			</div>
 		</div>
 	);

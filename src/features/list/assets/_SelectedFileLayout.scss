@@ -9,7 +9,7 @@
 	overflow: auto;
 	background: var(--bg-dark);
 	height: 100%;
-	padding: 1rem;
+	padding: 0.5rem;
 
 	@container main-content (width <= 800px) {
 		position: absolute;

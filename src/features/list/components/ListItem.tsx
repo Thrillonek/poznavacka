@@ -18,10 +18,16 @@ function ListItem({ file, idx }: ListItemProps) {
 	return (
 		<div onClick={() => setSelectedFile(file)} data-selected={isSelectedFileShown && selectedFile === file} className='list-item-container'>
 			<div className='relative flex justify-start items-center gap-4'>
-				<div className='list-item-number'>
-					<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
-				</div>
-				{!isHiddenFileNames && <p className='list-item-text'>{nameFromPath(file)}</p>}
+				{!isHiddenFileNames ? (
+					<>
+						<div className='list-item-number'>
+							<p data-length={(idx + 1).toString().length}>{idx + 1}</p>
+						</div>
+						<p className='list-item-text'>{nameFromPath(file)}</p>
+					</>
+				) : (
+					<p className='ml-2 list-item-text'>???</p>
+				)}
 			</div>
 
 			<div className='flex items-center gap-4 shrink-0'>
