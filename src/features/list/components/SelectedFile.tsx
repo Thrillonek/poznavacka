@@ -112,7 +112,7 @@ function SelectedFile() {
 			</div>
 			<div className='flex flex-col gap-y-2'>
 				<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
-				<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
+				<SwitchInput title='Skrýt názvy obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
 			</div>
 			<div className='flex gap-2'>
 				<button onClick={() => shuffleListFiles()} className='bg-base-hover text-main btn'>
