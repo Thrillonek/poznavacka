@@ -1,10 +1,13 @@
 export function shuffleArray(array: any[]) {
+	let newArray = [...array];
 	let currentIndex = array.length;
 
 	while (currentIndex != 0) {
 		let randomIndex = Math.floor(Math.random() * currentIndex);
 		currentIndex--;
 
-		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+		[newArray[currentIndex], newArray[randomIndex]] = [newArray[randomIndex], newArray[currentIndex]];
 	}
+
+	return newArray;
 }
