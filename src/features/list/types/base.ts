@@ -18,8 +18,8 @@ export type ListSearchStore = {
 };
 
 export type ListFilesStore = {
-	files: Record<number, string>;
-	setFiles: (newFiles: Record<number, string>) => void;
+	files: Map<number, string>;
+	setFiles: (newFiles: ListFilesStore['files']) => void;
 };
 
 export type HiddenNameStore = {

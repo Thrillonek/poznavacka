@@ -17,7 +17,7 @@ export const useListSearchStore = create<ListSearchStore>()((set) => ({
 }));
 
 export const useListFilesStore = create<ListFilesStore>()((set) => ({
-	files: Object.assign({}, getFiles()),
+	files: new Map<number, string>(getFiles().map((file, idx) => [idx, file])),
 	setFiles: (newFiles) => set({ files: newFiles }),
 }));
 

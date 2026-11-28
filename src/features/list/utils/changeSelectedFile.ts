@@ -14,7 +14,7 @@ export function changeSelectedFile(condition: 'left' | 'right') {
 
 	if (!isSelectedFileSet) return;
 
-	let files = Object.values(listFiles);
+	let files = Array.from(listFiles.values());
 	let idx = files.indexOf(selectedFile!);
 
 	let carousel = document.getElementById('selected-file-carousel')!;

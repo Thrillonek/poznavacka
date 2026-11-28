@@ -5,8 +5,8 @@ import { useMenuElementStore, usePoznavackaStore } from 'src/data';
 import { getFolderName } from 'src/utils';
 import '../assets/_List.scss';
 import { useHiddenNameStore, useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { useSyncListFiles } from '../hooks/useSyncListFiles';
 import { useToggleMenuVisibility } from '../hooks/useToggleMenuVisibility';
-import { useUpdateFiles } from '../hooks/useUpdateFiles';
 import ListItem from './ListItem';
 import SearchForm from './SearchForm';
 import SelectedFile from './SelectedFile';
@@ -27,7 +27,7 @@ export default function List(props: any) {
 	const [scrollY, setScrollY] = useState<number>();
 	const [visibleItems, setVisibleItems] = useState<number[]>([]);
 
-	useUpdateFiles();
+	useSyncListFiles();
 
 	useEffect(() => {
 		if (mode == 'list') {
@@ -83,8 +83,8 @@ export default function List(props: any) {
 			{/* List */}
 
 			<div ref={listRef} id='list' onScroll={handleScroll} className='list-container'>
-				{Object.entries(listFiles).map(([idx, file]) => {
-					let props = { idx: parseInt(idx), file };
+				{Array.from(listFiles.entries()).map(([idx, file]) => {
+					let props = { idx, file };
 					return (
 						<div style={{ height: '3rem', flexShrink: 0, width: '100%' }} id={'list-item-' + (props.idx + 1).toString()} key={'list-item-' + getFolderName(poznavacka!) + idx}>
 							{visibleItems.includes(props.idx + 1) && <ListItem {...props} />}

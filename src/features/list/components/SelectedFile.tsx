@@ -1,3 +1,4 @@
+import imageRefreshIcon from '@iconify-icons/mdi';
 import { Icon } from '@iconify/react';
 import { useCallback, useMemo } from 'react';
 import SwitchInput from 'src/components/form/SwitchInput';
@@ -5,10 +6,13 @@ import ImageFit from 'src/components/ui/ImageFit';
 import { useCompletedFilesStore, useSettingsStore } from 'src/data';
 import { useAddEventListener } from 'src/hooks';
 import { getFiles, getKeyByValue, nameFromPath } from 'src/utils';
+import { shuffleArray } from 'src/utils/general/shuffleArray';
 import '../assets/_SelectedFileComponents.scss';
 import '../assets/_SelectedFileLayout.scss';
 import { useHiddenNameStore, useListFilesStore, useSelectedFileStore } from '../data/stores';
+import { syncListFiles } from '../hooks/useSyncListFiles';
 import { changeSelectedFile } from '../utils/changeSelectedFile';
+import { shuffleListFiles } from '../utils/shuffleListFiles';
 
 function handleKeyDown(e: KeyboardEvent) {
 	if (e.key == 'ArrowRight') {
@@ -71,7 +75,7 @@ function SelectedFile() {
 		<div data-visible={isSelectedFileSet} className='selected-file-container'>
 			<div className='flex flex-col gap-y-4 bg-base p-4 rounded-lg w-full h-[max(67%,20rem)]'>
 				<div className='selected-file-menu'>
-					{isSelectedFileSet && <p>{!isHiddenFileNames ? parseInt(getKeyByValue(listFiles, selectedFile) as string) + 1 : '?'}</p>}
+					{isSelectedFileSet && <p>{!isHiddenFileNames ? parseInt(getKeyByValue(Object.fromEntries(listFiles), selectedFile) ?? '?') + 1 : '?'}</p>}
 					<button onClick={() => hideSelectedFile()}>
 						<Icon icon='mdi:close' />
 					</button>
@@ -109,6 +113,16 @@ function SelectedFile() {
 			<div className='flex flex-col gap-y-2'>
 				<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
 				<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
+			</div>
+			<div className='flex gap-2'>
+				<button onClick={() => shuffleListFiles()} className='bg-base-hover text-main btn'>
+					<Icon icon='mdi:image-multiple'></Icon>
+					<span>Zamíchat obrázky</span>
+				</button>
+				<button onClick={() => syncListFiles(files)} className='bg-base-hover text-main btn'>
+					<Icon icon='mdi:image-sync'></Icon>
+					<span>Vrátit původní pořadí obrázků</span>
+				</button>
 			</div>
 		</div>
 	);
