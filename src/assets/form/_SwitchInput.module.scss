@@ -11,7 +11,9 @@
 	padding: 1rem;
 	border-radius: 1rem;
 
-	transition: background 200ms ease, color 200ms ease;
+	transition:
+		background 200ms ease,
+		color 200ms ease;
 
 	.switch {
 		display: flex;
@@ -34,7 +36,9 @@
 			border-radius: 50%;
 			background: var(--text-muted);
 
-			transition: left 200ms ease, background 200ms ease;
+			transition:
+				left 200ms ease,
+				background 200ms ease;
 		}
 	}
 
@@ -57,10 +61,10 @@
 	}
 
 	&[data-active='true'] {
-		background: var(--accent-muted);
+		background: oklch(from var(--active-color) l c h / 0.25);
 
 		.switch {
-			background: var(--accent);
+			background: var(--active-color);
 
 			& > div {
 				background: var(--text-main);

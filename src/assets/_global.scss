@@ -1,14 +1,14 @@
 //! Color values are defined in data/themes.ts.
 :root {
-	--text-main: oklch(0.9491 0 0);
-	--text-muted: oklch(0.8993 0 0);
-	--border: oklch(0.4 0 0);
-	--bg-light: oklch(0.2603 0 0);
-	--bg-base: oklch(0.2178 0 0);
-	--bg-dark: oklch(0.1822 0 0);
+	// --text-main: oklch(0.9491 0 0);
+	// --text-muted: oklch(0.8993 0 0);
+	// --border: oklch(0.4 0 0);
+	// --bg-light: oklch(0.2603 0 0);
+	// --bg-base: oklch(0.2178 0 0);
+	// --bg-dark: oklch(0.1822 0 0);
 
 	--accent: oklch(0.6802 0.1606 278.08);
-	--accent-muted: oklch(0.3296 0.0529 280.15);
+	--accent-muted: oklch(from var(--accent) l c h / 0.25);
 
 	--shadow-opacity: 0.1;
 
