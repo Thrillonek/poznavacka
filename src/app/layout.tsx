@@ -3,6 +3,7 @@ import Script from 'next/script';
 // Make sure to import your global CSS here
 import { Inter } from 'next/font/google';
 import 'src/assets/_global.scss';
+import 'src/assets/_util.scss';
 import 'src/assets/tailwindInit.css';
 
 const inter = Inter({ subsets: ['latin'] });

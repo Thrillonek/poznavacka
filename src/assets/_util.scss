@@ -1,3 +1,5 @@
+@use 'src/assets/main';
+
 .effect\:circular-hover {
 	position: relative;
 
@@ -16,4 +18,21 @@
 	&:hover::after {
 		opacity: 1;
 	}
+}
+
+.bg-base-hover {
+	@include main.hover-bg(var(--bg-base));
+}
+
+.bg-light-hover {
+	@include main.hover-bg(var(--bg-light));
+}
+
+.btn {
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	flex-wrap: nowrap;
 }
