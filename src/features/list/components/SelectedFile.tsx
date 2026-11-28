@@ -95,7 +95,7 @@ function SelectedFile() {
 							<path fill='currentColor' d='M15.41 16.58L10.83 12l4.58-4.59L14 6l-6 6l6 6z'></path>
 						</svg>
 					</button>
-					{!isHiddenFileNames && <p className='selected-file-name'>{selectedFile && nameFromPath(selectedFile)}</p>}
+					{<p className='selected-file-name'>{!isHiddenFileNames ? selectedFile && nameFromPath(selectedFile) : '???'}</p>}
 					<button className='selected-file-swapper' onClick={() => changeSelectedFile('right')}>
 						<svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
 							<path fill='currentColor' d='M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6z'></path>
