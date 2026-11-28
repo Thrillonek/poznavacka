@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useEffect, useRef, useState } from 'react';
 import { usePoznavackaStore } from 'src/data';
 import type { Folder } from 'src/types/variables';
-import { capitalize } from 'src/utils/formatting';
+import { capitalize } from 'src/utils/general/formatting';
 import '../assets/_FSSearch.scss';
 import { useFileSystemStore, useMenuStore, useSelectMultipleStore } from '../data/stores';
 import { searchFS } from '../utils/searchFS';

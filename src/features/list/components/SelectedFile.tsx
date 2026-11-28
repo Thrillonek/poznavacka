@@ -105,6 +105,8 @@ function SelectedFile() {
 			</div>
 			<div className='flex flex-col gap-y-2'>
 				<SwitchInput title='Naučeno' description='Obrázky označené jako naučené se nebudou ukazovat ve kvízu' active={!!selectedFile && completedFiles.includes(selectedFile)} onToggle={toggleCompletedFile} activeColor='#059000' />
+			</div>
+			<div className='flex flex-col gap-y-2'>
 				<SwitchInput title='Zapnout animace' description='Zapnout animaci při měnění obrázků' active={settings.list.showSelectedFileAnimations} onToggle={() => updateSettings('list', 'showSelectedFileAnimations', !settings.list.showSelectedFileAnimations)} />
 				<SwitchInput title='Skrýt jména obrázků' active={isHiddenFileNames} onToggle={() => toggleHiddenFileNames()} />
 			</div>

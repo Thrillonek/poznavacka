@@ -1,6 +1,6 @@
 import type { Folder } from 'src/types/variables';
+import { getFolderName } from './general/objectManipulation';
 import { getFiles } from './getFiles';
-import { getFolderName } from './objectManipulation';
 
 /**
  * Removes duplicate file names from the given file system object without respect to numbers.

@@ -1,6 +1,6 @@
 import { usePoznavackaStore } from 'src/data';
 import { useFileSystemStore } from 'src/features/file-system/data/stores';
-import { getFolderName } from './objectManipulation';
+import { getFolderName } from './general/objectManipulation';
 
 export function isFileInCurrentFolder(filePath: string) {
 	const path = useFileSystemStore.getState().path;

@@ -1,5 +1,5 @@
 import type { Folder } from 'src/types/variables';
-import { getContent } from './objectManipulation';
+import { getContent } from './general/objectManipulation';
 
 /**
  * Checks if the given array of strings is included in the `poznavacka` state

@@ -1,5 +1,5 @@
 import type { Folder } from 'src/types/variables';
-import { getContent, getFolderName } from './objectManipulation';
+import { getContent, getFolderName } from './general/objectManipulation';
 
 export function transformPathsToSystem(paths: string[]) {
 	const fileSystem: (Folder | string)[] = [];
